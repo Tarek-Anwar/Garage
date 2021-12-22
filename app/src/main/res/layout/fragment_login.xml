@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".sign.LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/join_us_TV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/join_us" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
+        android:layout_width="match_parent"
+        android:id="@+id/email_ET"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/join_us_TV"
+        app:layout_constraintStart_toStartOf="@id/join_us_TV"
+        android:hint="@string/enter_your_email_adress"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_TF"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+        android:layout_width="match_parent"
+        android:id="@+id/password_ET"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/email_ET"
+        app:layout_constraintStart_toStartOf="@id/email_ET"
+        android:hint="@string/enter_your_email_adress"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password_TF"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/login_BTN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_in"
+        app:layout_constraintTop_toBottomOf="@id/password_ET"
+        app:layout_constraintStart_toStartOf="@id/email_ET"
+        app:layout_constraintWidth_percent=".8"
+        android:paddingStart="10dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:id="@+id/forgetPass_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/login_BTN"
+        app:layout_constraintStart_toStartOf="@id/login_BTN"
+        android:text="@string/forgot_password"
+        />
+    <TextView
+        android:id="@+id/or_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/forgetPass_TV"
+        app:layout_constraintTop_toBottomOf="@id/forgetPass_TV"
+        android:text="@string/or"
+        android:textAllCaps="true"/>
+    <Button
+        android:id="@+id/creat_account_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/creat_new_account"
+        app:layout_constraintStart_toStartOf="@id/email_ET"
+        app:layout_constraintTop_toBottomOf="@id/or_TV"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
