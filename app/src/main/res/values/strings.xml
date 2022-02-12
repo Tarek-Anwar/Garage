@@ -10,5 +10,17 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="join_us">Join Us</string>
+    <string name="enter_your_email_adress">Enter Your Email Address</string>
+    <string name="enter_your_password">Enter Your PassWord</string>
+    <string name="log_in">LOG IN</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="or">or</string>
+    <string name="creat_new_account">Creat new account</string>
+    <string name="user_name">Name</string>
+    <string name="email_adress">email address</string>
+    <string name="password">password</string>
+    <string name="phone">phone</string>
+    <string name="register">register</string>
 </resources>
