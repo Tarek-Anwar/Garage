@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:itemCount="1"
         tools:listitem="@layout/offers_row_layout" />
@@ -42,25 +42,12 @@
 
     <TextView
         android:id="@+id/textView4"
+        style="@style/txt_home_fragment"
         android:layout_marginTop="24dp"
         android:text="@string/find_garage"
-        style="@style/txt_home_fragment"
         app:layout_constraintEnd_toEndOf="@+id/recycle_offers"
         app:layout_constraintStart_toStartOf="@+id/recycle_offers"
         app:layout_constraintTop_toBottomOf="@+id/recycle_offers" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_find"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:itemCount="1"
-        tools:listitem="@layout/find_garage_row_layout" />
 
     <TextView
         android:id="@+id/textView"
@@ -69,7 +56,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/last_oper"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_find" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_last"
@@ -81,5 +68,62 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:itemCount="1"
         tools:listitem="@layout/last_operations_row_layout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <LinearLayout
+            android:id="@+id/layout_near_find"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/teal_200"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_700"
+                tools:text="@string/nearest_garage" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/search_db_icon" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_all_find"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/teal_200"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_700"
+                tools:text="@string/find_in_all_garage" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/location_searching_icon" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
