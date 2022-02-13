@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //adding login fragment to layout
-        frameLayout=(FrameLayout) findViewById(R.id.framelayout);
+        frameLayout = findViewById(R.id.framelayout);
         loginFragment=new LoginFragment();
         getSupportFragmentManager().
                 beginTransaction().

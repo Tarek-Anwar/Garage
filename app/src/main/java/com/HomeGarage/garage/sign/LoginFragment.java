@@ -1,5 +1,8 @@
 package com.HomeGarage.garage.sign;
 
+
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,13 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.home.HomeFragment;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+
 
 
 public class LoginFragment extends Fragment {
@@ -35,6 +40,13 @@ public class LoginFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(frameLayout.getId(),signUpFragment,"creat new account")
                         .addToBackStack(null).commit();
+            }
+        });
+        loginBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
             }
         });
         return rootView;
