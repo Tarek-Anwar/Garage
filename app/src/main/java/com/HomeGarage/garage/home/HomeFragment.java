@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     ArrayList <OffersModels> offersModels = new ArrayList<>();
-    ArrayList <FindModels> findModelslist = new ArrayList<>();
     ArrayList <LastOperModels> lastOperModelsList = new ArrayList<>();
     RecyclerView recyclerOffers , recyclerFind , recyclerLast;
 
@@ -34,10 +33,6 @@ public class HomeFragment extends Fragment {
         offersModels.add(new OffersModels(R.drawable.ic_launcher_foreground));
         offersModels.add(new OffersModels(R.drawable.ic_launcher_background));
         offersModels.add(new OffersModels(R.drawable.ic_launcher_foreground));
-
-        // add item to Find
-        findModelslist.add(new FindModels(R.drawable.location_searching_icon, getString(R.string.find_in_all_garage)));
-        findModelslist.add(new FindModels(R.drawable.search_db_icon,getString(R.string.nearest_garage)));
 
         // add item to Operaitions
         lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
@@ -60,8 +55,6 @@ public class HomeFragment extends Fragment {
         //find element recyclerOffers
         recyclerOffers = root.findViewById(R.id.recycle_offers);
         //find element recyclerFind
-        recyclerFind = root.findViewById(R.id.recycler_find);
-        //find element recyclerFind
         recyclerLast = root.findViewById(R.id.recycler_last);
 
 
@@ -70,10 +63,6 @@ public class HomeFragment extends Fragment {
         //set adapter recyclerOffers
         recyclerOffers.setAdapter(new OffersAdpter(offersModels,getContext()));
 
-        //put LinearLayoutManager to recyclerFind
-        recyclerFind.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL , false));
-        //set adapter recyclerFind
-        recyclerFind.setAdapter(new FindAdpter(getContext(),findModelslist));
 
         //put LinearLayoutManager to recyclerFind
         recyclerLast.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.VERTICAL , false));
