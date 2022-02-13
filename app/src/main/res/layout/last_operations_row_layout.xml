@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@color/teal_200"
+    android:layout_weight="2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="6">
+
+        <TextView
+            android:id="@+id/text_type_oper"
+            style="@style/txt_last_oper"
+            android:layout_weight="1"
+            tools:text="type oper" />
+
+        <TextView
+            android:id="@+id/text_who_do"
+            style="@style/txt_last_oper"
+            android:layout_weight="2"
+            tools:text="who do" />
+
+        <TextView
+            android:id="@+id/text_who_to_do"
+            style="@style/txt_last_oper"
+            android:layout_weight="2"
+            tools:text="who to do" />
+
+        <TextView
+            android:id="@+id/text_time_oper"
+            style="@style/txt_last_oper"
+            android:layout_weight="1"
+            tools:text="time oper" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/text_place_oper"
+            style="@style/txt_last_oper"
+            android:layout_weight="1"
+            tools:text="place" />
+    </LinearLayout>
+
+</LinearLayout>
