@@ -10,6 +10,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
+
     <string name="join_us">Join Us</string>
     <string name="enter_your_email_adress">Enter Your Email Address</string>
     <string name="enter_your_password">Enter Your PassWord</string>
@@ -24,5 +25,9 @@
     <string name="phone">phone</string>
     <string name="register">register</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+
+    <!-- Strings related to home -->
+    <string name="new_offers">New Offers</string>
+
 </resources>

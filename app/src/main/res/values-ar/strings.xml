@@ -23,4 +23,6 @@
     <string name="password">كلمة السر</string>
     <string name="phone">الهاتف</string>
     <string name="register">تسجيل</string>
+    <string name="hello_blank_fragment">hello_blank_fragment</string>
+    <string name="new_offers">العروض الجديدة</string>
 </resources>
