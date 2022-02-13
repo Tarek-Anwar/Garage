@@ -1,4 +1,4 @@
-package com.HomeGarage.garage;
+package com.HomeGarage.garage.home;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.OffersModels;
 
 public class OffersFragment extends Fragment {
@@ -34,8 +35,6 @@ public class OffersFragment extends Fragment {
 
         View root =  inflater.inflate(R.layout.fragment_offers, container, false);
         initViews(root);
-
-
         return root;
     }
 

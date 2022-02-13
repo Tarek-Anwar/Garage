@@ -18,6 +18,16 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     ArrayList<LastOperModels> lastOperModelsList;
     Context context;
+    private int numViewOper=0;
+
+
+    public LastOperAdapter(ArrayList<LastOperModels> lastOperModelsList, Context context, int numViewOper) {
+        this.lastOperModelsList = lastOperModelsList;
+        this.context = context;
+        this.numViewOper = numViewOper;
+    }
+
+
 
     public LastOperAdapter(ArrayList<LastOperModels> lastOperModelsList, Context context) {
         this.lastOperModelsList = lastOperModelsList;
@@ -38,7 +48,11 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     @Override
     public int getItemCount() {
-        return lastOperModelsList.size();
+        if (numViewOper==0) {
+            return lastOperModelsList.size();
+        }
+        else {
+        return numViewOper;}
     }
 
     protected static final class LastOperViewHolder extends RecyclerView.ViewHolder{

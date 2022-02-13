@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:background="@color/teal_200"
     android:layout_weight="2"
+    android:layout_marginTop="2dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:weightSum="6">
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/text_type_oper"
             style="@style/txt_last_oper"
             android:layout_weight="1"
-            tools:text="type oper" />
+            tools:text="type" />
 
         <TextView
             android:id="@+id/text_who_do"
@@ -36,7 +35,7 @@
         <TextView
             android:id="@+id/text_time_oper"
             style="@style/txt_last_oper"
-            android:layout_weight="1"
+            android:layout_weight="2"
             tools:text="time oper" />
 
     </LinearLayout>

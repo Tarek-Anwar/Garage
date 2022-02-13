@@ -17,11 +17,13 @@ public class OffersAdpter extends RecyclerView.Adapter<OffersAdpter.OffersViewHo
     private Context context ;
     OfferListener offerListener;
 
+
     public OffersAdpter(ArrayList<OffersModels> modelsList, Context context , OfferListener offerListener) {
         this.modelsList = modelsList;
         this.context = context;
         this.offerListener = offerListener;
     }
+
 
     @NonNull
     @Override
