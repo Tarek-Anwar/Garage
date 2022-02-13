@@ -3,6 +3,8 @@ package com.HomeGarage.garage.sign;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,7 @@ public class LoginFragment extends Fragment {
      TextInputEditText emailEditText,passwordEditText;
      Button loginBTN,registerButton;
      TextView forgotPassTV;
-     FrameLayout frameLayout;
+    // FrameLayout frameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,11 +32,18 @@ public class LoginFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                frameLayout=(FrameLayout) getActivity().findViewById(R.id.framelayout);
+
+                /*frameLayout=getActivity().findViewById(R.id.framelayout);
                 SignUpFragment signUpFragment=new SignUpFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(frameLayout.getId(),signUpFragment,"creat new account")
-                        .addToBackStack(null).commit();
+                        .addToBackStack(null).commit();*/
+
+                SignUpFragment newFragment = new SignUpFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer_main, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -55,6 +64,6 @@ public class LoginFragment extends Fragment {
         loginBTN=rootView.findViewById(R.id.login_BTN);
         registerButton=rootView.findViewById(R.id.creat_account_btn);
         forgotPassTV= rootView.findViewById(R.id.forgetPass_TV);
-        frameLayout=rootView.findViewById(R.id.framelayout);
+       // frameLayout=rootView.findViewById(R.id.framelayout);
     }
 }
