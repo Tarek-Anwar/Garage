@@ -81,17 +81,12 @@
 
         <LinearLayout
             android:id="@+id/layout_near_find"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/teal_200"
-            android:orientation="vertical">
-
+            style="@style/icon_search">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/purple_700"
-                tools:text="@string/nearest_garage" />
+                android:text="@string/nearest_garage" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -103,17 +98,13 @@
 
         <LinearLayout
             android:id="@+id/layout_all_find"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/teal_200"
-            android:orientation="vertical">
+            style="@style/icon_search">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/purple_700"
-                tools:text="@string/find_in_all_garage" />
+                android:text="@string/find_in_all_garage" />
 
             <ImageView
                 android:layout_width="wrap_content"

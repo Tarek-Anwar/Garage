@@ -14,6 +14,7 @@ import com.HomeGarage.garage.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpFragment extends Fragment {
+
     TextInputEditText userNameET,emailET,phoneET,passwordET,confirmET;
     Button creatBTN;
     @Override
@@ -23,13 +24,14 @@ public class SignUpFragment extends Fragment {
         initViews(rootView);
         return rootView;
     }
+
     private void initViews(View rootView)
     {
-        userNameET=(TextInputEditText) rootView.findViewById(R.id.user_name_TF);
-        emailET=(TextInputEditText) rootView.findViewById(R.id.cemail_TF);
-        phoneET=(TextInputEditText) rootView.findViewById(R.id.phone_TF);
-        passwordET=(TextInputEditText) rootView.findViewById(R.id.cpassword_TF);
-        confirmET=(TextInputEditText) rootView.findViewById(R.id.Confirm_Password_TF);
-        creatBTN=(Button) rootView.findViewById(R.id.register_btn);
+        userNameET=rootView.findViewById(R.id.user_name_TF);
+        emailET=rootView.findViewById(R.id.cemail_TF);
+        phoneET=rootView.findViewById(R.id.phone_TF);
+        passwordET=rootView.findViewById(R.id.cpassword_TF);
+        confirmET=rootView.findViewById(R.id.Confirm_Password_TF);
+        creatBTN=rootView.findViewById(R.id.register_btn);
     }
 }
