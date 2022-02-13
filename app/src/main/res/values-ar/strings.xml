@@ -29,4 +29,7 @@
     <string name="find_garage">شوف جراشك</string>
     <string name="find_in_all_garage">ابحث عن جراشك</string>
     <string name="last_oper">اخر العمليات</string>
+    <string name="all_opertions">كل العمليات</string>
+    <string name="search_for_garage">اوجد افضل جراش لك</string>
+    <string name="see_all">المزيد</string>
 </resources>

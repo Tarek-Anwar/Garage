@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.HomeGarage.garage.OffersFragment;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.SearchFragment;
 import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
 import com.HomeGarage.garage.home.Adapter.*;
-import com.HomeGarage.garage.sign.SignUpFragment;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     ArrayList <LastOperModels> lastOperModelsList = new ArrayList<>();
     RecyclerView recyclerOffers , recyclerLast;
     LinearLayout layoutNearFind , layoutAllFind ;
-
+    View seeAllOper;
     public HomeFragment() { }
 
     @Override
@@ -39,6 +38,22 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         offersModels.add(new OffersModels(R.drawable.offer_new,"Cash back 10% when using the program daily for a week"));
 
         // add item to Operaitions
+        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
+                "15:3 AM 15-1", "Cairo , 15 Str"));
+        lastOperModelsList.add(new LastOperModels("Accpet", "Garger Owner", "Clien",
+                "00:5 AM 16-2", "Mahalla , 15 Str"));
+        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
+                "9:3 AM 30-3", "Mansora , 20 str"));
+        lastOperModelsList.add(new LastOperModels("cancel", "Clien", "Garger Owner",
+                "15:3 AM 15-1", "Cairo , 15 Str"));
+        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
+                "15:3 AM 15-1", "Cairo , 15 Str"));
+        lastOperModelsList.add(new LastOperModels("Accpet", "Garger Owner", "Clien",
+                "00:5 AM 16-2", "Mahalla , 15 Str"));
+        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
+                "9:3 AM 30-3", "Mansora , 20 str"));
+        lastOperModelsList.add(new LastOperModels("cancel", "Clien", "Garger Owner",
+                "15:3 AM 15-1", "Cairo , 15 Str"));
         lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
                 "15:3 AM 15-1", "Cairo , 15 Str"));
         lastOperModelsList.add(new LastOperModels("Accpet", "Garger Owner", "Clien",
@@ -66,9 +81,31 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         //put LinearLayoutManager to recyclerFind
         recyclerLast.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.VERTICAL , false));
         //set adapter recyclerFind
-        recyclerLast.setAdapter(new LastOperAdapter(lastOperModelsList,getContext()));
+        recyclerLast.setAdapter(new LastOperAdapter(lastOperModelsList,getContext(),3));
 
+        seeAllOper.setOnClickListener(v -> {
+                LastOperFragment newFragment = new LastOperFragment(lastOperModelsList);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainerView, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+        });
 
+        layoutAllFind.setOnClickListener(v -> {
+            SearchFragment newFragment = new SearchFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
+        layoutNearFind.setOnClickListener(v ->{
+            SearchFragment newFragment = new SearchFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
         return root;
 
     }
@@ -78,6 +115,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         recyclerLast = v.findViewById(R.id.recycler_last);
         layoutNearFind = v.findViewById(R.id.layout_near_find);
         layoutAllFind = v.findViewById(R.id.layout_all_find);
+        seeAllOper = v.findViewById(R.id.see_all_last_oper);
     }
 
     @Override
