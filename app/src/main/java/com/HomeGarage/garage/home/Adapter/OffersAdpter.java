@@ -13,12 +13,14 @@ import java.util.ArrayList;
 
 public class OffersAdpter extends RecyclerView.Adapter<OffersAdpter.OffersViewHolder> {
 
-    ArrayList<OffersModels> modelsList;
-    Context context ;
+    private ArrayList<OffersModels> modelsList;
+    private Context context ;
+    OfferListener offerListener;
 
-    public OffersAdpter(ArrayList<OffersModels> modelsList, Context context) {
+    public OffersAdpter(ArrayList<OffersModels> modelsList, Context context , OfferListener offerListener) {
         this.modelsList = modelsList;
         this.context = context;
+        this.offerListener = offerListener;
     }
 
     @NonNull
@@ -38,7 +40,7 @@ public class OffersAdpter extends RecyclerView.Adapter<OffersAdpter.OffersViewHo
         return modelsList.size();
     }
 
-    protected static final class OffersViewHolder extends RecyclerView.ViewHolder {
+    protected   class OffersViewHolder extends RecyclerView.ViewHolder {
 
         private  ImageView imageView;
         public OffersViewHolder(@NonNull View itemView) {
@@ -48,7 +50,16 @@ public class OffersAdpter extends RecyclerView.Adapter<OffersAdpter.OffersViewHo
 
         public void BulidUi(OffersModels offersModels){
             imageView.setImageResource(offersModels.getImg());
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    offerListener.OfferListener(offersModels);
+                }
+            });
         }
 
+    }
+    public interface OfferListener{
+        void OfferListener(OffersModels offersModels);
     }
 }
