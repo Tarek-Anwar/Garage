@@ -25,4 +25,7 @@
     <string name="register">تسجيل</string>
     <string name="hello_blank_fragment">hello_blank_fragment</string>
     <string name="new_offers">العروض الجديدة</string>
+    <string name="nearest_garage">اقرب جراش</string>
+    <string name="find_garage">شوف جراشك</string>
+    <string name="find_in_all_garage">ابحث عن جراشك</string>
 </resources>

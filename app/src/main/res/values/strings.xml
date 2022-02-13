@@ -29,5 +29,8 @@
 
     <!-- Strings related to home -->
     <string name="new_offers">New Offers</string>
+    <string name="nearest_garage">Nearest Garage</string>
+    <string name="find_garage">Find Garage</string>
+    <string name="find_in_all_garage">Search Garage</string>
 
 </resources>
