@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.FindModels;
 import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
 import com.HomeGarage.garage.home.Adapter.*;
@@ -85,7 +84,5 @@ public class HomeFragment extends Fragment {
         return root;
 
     }
-
-
 
 }
