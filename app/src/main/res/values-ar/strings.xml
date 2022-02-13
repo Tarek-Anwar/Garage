@@ -28,4 +28,5 @@
     <string name="nearest_garage">اقرب جراش</string>
     <string name="find_garage">شوف جراشك</string>
     <string name="find_in_all_garage">ابحث عن جراشك</string>
+    <string name="last_oper">اخر العمليات</string>
 </resources>

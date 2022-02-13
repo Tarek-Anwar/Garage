@@ -32,5 +32,6 @@
     <string name="nearest_garage">Nearest Garage</string>
     <string name="find_garage">Find Garage</string>
     <string name="find_in_all_garage">Search Garage</string>
+    <string name="last_oper">Last Operations</string>
 
 </resources>

@@ -33,24 +33,18 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/txt_home_fragment"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/new_offers"
-        android:textColor="#1A237E"
-        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/find_garage"
-        android:textColor="#1A237E"
-        android:textSize="20sp"
+        style="@style/txt_home_fragment"
         app:layout_constraintEnd_toEndOf="@+id/recycle_offers"
         app:layout_constraintStart_toStartOf="@+id/recycle_offers"
         app:layout_constraintTop_toBottomOf="@+id/recycle_offers" />
@@ -67,5 +61,25 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:itemCount="1"
         tools:listitem="@layout/find_garage_row_layout" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/txt_home_fragment"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/last_oper"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_find" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_last"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:itemCount="1"
+        tools:listitem="@layout/last_operations_row_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
