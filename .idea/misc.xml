@@ -6,10 +6,11 @@
         <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/activity_sign.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/fragment_home.xml" value="0.6" />
         <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/fragment_sign.xml" value="0.264" />
         <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/offers_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Tarek/Desktop/Garage/Garage/app/src/main/res/layout/offers_row_layout.xml" value="0.6" />
       </map>
     </option>
   </component>
