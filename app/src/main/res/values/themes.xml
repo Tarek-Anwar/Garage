@@ -28,4 +28,14 @@
         <item name="android:textColor">#1A237E</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="icon_search">
+        <item name="android:layout_width">125dp</item>
+        <item name="android:layout_height">85dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@color/teal_200</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 </resources>

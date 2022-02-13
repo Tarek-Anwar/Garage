@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
@@ -17,7 +19,8 @@ public class HomeFragment extends Fragment {
 
     ArrayList <OffersModels> offersModels = new ArrayList<>();
     ArrayList <LastOperModels> lastOperModelsList = new ArrayList<>();
-    RecyclerView recyclerOffers , recyclerFind , recyclerLast;
+    RecyclerView recyclerOffers , recyclerLast;
+    LinearLayout layoutNearFind , layoutAllFind ;
 
     public HomeFragment() { }
 
@@ -51,11 +54,8 @@ public class HomeFragment extends Fragment {
 
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
 
-
-        //find element recyclerOffers
-        recyclerOffers = root.findViewById(R.id.recycle_offers);
-        //find element recyclerFind
-        recyclerLast = root.findViewById(R.id.recycler_last);
+        //find element
+        initViews(root);
 
 
         //put LinearLayoutManager to recyclerOffers
@@ -69,9 +69,14 @@ public class HomeFragment extends Fragment {
         //set adapter recyclerFind
         recyclerLast.setAdapter(new LastOperAdapter(lastOperModelsList,getContext()));
 
-
         return root;
 
     }
 
+    private void initViews(View v){
+        recyclerOffers = v.findViewById(R.id.recycle_offers);
+        recyclerLast = v.findViewById(R.id.recycler_last);
+        layoutNearFind = v.findViewById(R.id.layout_near_find);
+        layoutAllFind = v.findViewById(R.id.layout_all_find);
+    }
 }
