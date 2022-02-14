@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     @Override
     public void LastOperListener(LastOperModels lastOperModels) {
 
-            SearchFragment newFragment = new SearchFragment();
+            OperationsFragment newFragment = new OperationsFragment(lastOperModels);
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
             transaction.addToBackStack(null);

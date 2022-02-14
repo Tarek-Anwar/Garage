@@ -44,7 +44,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     @Override
     public void LastOperListener(LastOperModels lastOperModels) {
 
-        SearchFragment newFragment = new SearchFragment();
+        OperationsFragment newFragment = new OperationsFragment(lastOperModels);
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, newFragment);
         transaction.addToBackStack(null);
