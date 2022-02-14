@@ -3,6 +3,7 @@ package com.HomeGarage.garage.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,6 +70,9 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
 
     @Override
     public void SearchListener(SearchModel searchModel) {
-        Toast.makeText(getContext(), searchModel.getNameGarage(), Toast.LENGTH_SHORT).show();
-    }
+        GarageViewFragment newFragment = new GarageViewFragment();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();    }
 }

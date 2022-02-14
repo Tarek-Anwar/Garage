@@ -42,7 +42,6 @@ public class OffersFragment extends Fragment {
 
         txtOfferDetils = root.findViewById(R.id.txt_offer_detils);
         txtOfferDetils.setText(offersModels.getTxtDetils());
-
         imageOffers = root.findViewById(R.id.image_offers_frggment);
         imageOffers.setImageResource(offersModels.getImg());
 

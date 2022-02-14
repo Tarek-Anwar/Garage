@@ -17,6 +17,7 @@ public class OperationsFragment extends Fragment {
 
     private TextView type , to , from , time , palce , price;
     LastOperModels lastOperModels;
+
     public OperationsFragment(LastOperModels lastOperModels) {
         this.lastOperModels = lastOperModels;   }
 
@@ -48,7 +49,6 @@ public class OperationsFragment extends Fragment {
         price = view.findViewById(R.id.price_oper_txt);
         palce = view.findViewById(R.id.place_oper_txt);
 
-
     }
 
     void setData(LastOperModels models){
@@ -58,7 +58,5 @@ public class OperationsFragment extends Fragment {
         time.setText(models.getTextTimeOper());
         price.setText(models.getTextPriceOper());
         palce.setText(models.getTextPlaceOper());
-        Log.i("operations",models.getTextPlaceOper());
-
     }
 }
