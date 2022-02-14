@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.OperationsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/txt_detils_oper"
+                android:text="@string/type_op" />
+
+            <TextView
+                android:id="@+id/type_oper_txt"
+                style="@style/txt_detils_oper"
+                tools:text="Accpet" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/txt_detils_oper"
+                android:text="@string/from" />
+
+            <TextView
+                android:id="@+id/from_oper_txt"
+                style="@style/txt_detils_oper"
+                android:text="@string/me"
+                tools:text="@string/me" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/txt_detils_oper"
+                android:text="@string/to" />
+
+            <TextView
+                android:id="@+id/to_oper_txt"
+                style="@style/txt_detils_oper"
+                android:text="@string/me"
+                tools:text="@string/app_name" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/txt_detils_oper"
+                android:text="@string/time" />
+
+            <TextView
+                android:id="@+id/time_oper_txt"
+                style="@style/txt_detils_oper"
+                android:text="@string/me"
+                tools:text="3:00 PM 15-1-2022" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/txt_detils_oper"
+                android:text="@string/place" />
+
+            <TextView
+                android:id="@+id/address_oper_txt"
+                style="@style/txt_detils_oper"
+                android:text="@string/me"
+                tools:text="15 str Cairo" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/txt_detils_oper"
+                android:text="@string/price" />
+
+            <TextView
+                android:id="@+id/price_oper_txt"
+                style="@style/txt_detils_oper"
+                android:text="@string/me"
+                tools:text="20.00 EG" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

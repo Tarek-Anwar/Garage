@@ -47,12 +47,9 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        loginBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        loginBTN.setOnClickListener(v-> {
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
-            }
         });
         return rootView;
     }
