@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.HomeGarage.garage.DB.AppDataBase;
 import com.HomeGarage.garage.DB.AppExcutor;
+import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {
 
+    AppDataBase dataBase;
     ArrayList <OffersModels> offersModels = new ArrayList<>();
     ArrayList <LastOperModels> lastOperModelsList = new ArrayList<>();
     RecyclerView recyclerOffers , recyclerLast;
@@ -35,6 +37,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        dataBase=AppDataBase.getInstance(getContext());
         // add item toOffers
         offersModels.add(new OffersModels(R.drawable.offer_crisimis, "Special offer 40% off on the occasion of New Year's Eve on all Cairo financier garages"));
         offersModels.add(new OffersModels(R.drawable.offer_special,"Special offer for the first time using the program"));
@@ -110,6 +113,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         });
 
         btn_db.setOnClickListener(V->{
+            insertData();
                 });
 
         return root;
@@ -145,5 +149,17 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
             transaction.commit();
     }
 
-
+    public void insertData()
+    {
+        AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
+            GrageInfo grageInfo=new GrageInfo("Name","GHarbia","Mahlla","Namra_ELBasel",
+                    "location",2.00,3.00,R.id.image);
+            @Override
+            public void run() {
+                for (int i = 0; i < 20; i++) {
+                    dataBase.grageDAO().insert(grageInfo);
+                }
+            }
+        });
+    }
 }

@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.HomeGarage.garage.DB.AppDataBase;
+import com.HomeGarage.garage.DB.AppExcutor;
+import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.sign.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     LoginFragment loginFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 add(frameLayout.getId(),loginFragment)
                 .commit();*/
 
+
     }
+
 }
