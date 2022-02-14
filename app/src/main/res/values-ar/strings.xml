@@ -32,4 +32,11 @@
     <string name="all_opertions">كل العمليات</string>
     <string name="search_for_garage">اوجد افضل جراش لك</string>
     <string name="see_all">المزيد</string>
+    <string name="type_op">نوع العملية</string>
+    <string name="from">من</string>
+    <string name="me">انا</string>
+    <string name="to">الي</string>
+    <string name="time">الوقت</string>
+    <string name="place">المكان</string>
+    <string name="price">السعر</string>
 </resources>

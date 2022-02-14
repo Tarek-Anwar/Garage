@@ -18,20 +18,14 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     ArrayList<LastOperModels> lastOperModelsList;
     Context context;
+    LastOperListener lastOperListener;
     private int numViewOper=0;
 
-
-    public LastOperAdapter(ArrayList<LastOperModels> lastOperModelsList, Context context, int numViewOper) {
+    public LastOperAdapter(ArrayList<LastOperModels> lastOperModelsList, Context context, LastOperListener lastOperListener, int numViewOper) {
         this.lastOperModelsList = lastOperModelsList;
         this.context = context;
         this.numViewOper = numViewOper;
-    }
-
-
-
-    public LastOperAdapter(ArrayList<LastOperModels> lastOperModelsList, Context context) {
-        this.lastOperModelsList = lastOperModelsList;
-        this.context = context;
+        this.lastOperListener=lastOperListener;
     }
 
     @NonNull
@@ -48,30 +42,42 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     @Override
     public int getItemCount() {
-        if (numViewOper==0) {
-            return lastOperModelsList.size();
-        }
-        else {
-        return numViewOper;}
+        if (numViewOper==0) { return lastOperModelsList.size(); }
+        else { return numViewOper;}
     }
 
-    protected static final class LastOperViewHolder extends RecyclerView.ViewHolder{
+    protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
 
-       private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper,textPlaceOper;
-        public LastOperViewHolder(@NonNull View itemView) {
+       private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper,textPriceOper ;
+       private View layoutLastOper;
+
+       public LastOperViewHolder(@NonNull View itemView) {
             super(itemView);
-            textPlaceOper = itemView.findViewById(R.id.text_place_oper);
+
             textTimeOper = itemView.findViewById(R.id.text_time_oper);
             textTypeOper = itemView.findViewById(R.id.text_type_oper);
             textWhoDoOper = itemView.findViewById(R.id.text_who_do);
             textWhoToDoOper = itemView.findViewById(R.id.text_who_to_do);
+            layoutLastOper = itemView.findViewById(R.id.layout_last_oper);
+            textPriceOper = itemView.findViewById(R.id.text_oper_price);
         }
+
         public void BulidUI(LastOperModels models){
+
             textWhoToDoOper.setText(models.getTextWhoToDoOper());
             textTypeOper.setText(models.getTextTypeOper());
             textTimeOper.setText(models.getTextTimeOper());
             textWhoDoOper.setText(models.getTextWhoDoOper());
-            textPlaceOper.setText(models.getTextPlaceOper());
+            textPriceOper.setText(models.getTextPriceOper());
+
+            layoutLastOper.setOnClickListener(v ->  {
+                lastOperListener.LastOperListener(models);
+            });
         }
+    }
+
+    public interface LastOperListener{
+        void LastOperListener(LastOperModels lastOperModels);
+
     }
 }
