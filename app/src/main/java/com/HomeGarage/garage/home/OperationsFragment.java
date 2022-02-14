@@ -2,6 +2,8 @@ package com.HomeGarage.garage.home;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,7 @@ public class OperationsFragment extends Fragment {
         time.setText(models.getTextTimeOper());
         price.setText(models.getTextPriceOper());
         palce.setText(models.getTextPlaceOper());
+        Log.i("operations",models.getTextPlaceOper());
 
     }
 }

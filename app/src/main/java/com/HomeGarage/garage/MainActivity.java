@@ -21,5 +21,6 @@ public class MainActivity extends AppCompatActivity {
                 beginTransaction().
                 add(frameLayout.getId(),loginFragment)
                 .commit();*/
+
     }
 }
