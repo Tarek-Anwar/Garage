@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.DB;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,21 +12,21 @@ import java.util.List;
 
 @Dao
 public interface GrageDAO {
+        @Query("SELECT * FROM entity")
+        LiveData<List<GrageInfo>> loadGrages();
 
-    @Query("SELECT * FROM entity")
-    List<GrageInfo> loadEntity();
+        @Insert
+        void insert(GrageInfo grageInfo);
 
-    @Insert
-    void insert(GrageInfo grageInfo);
+        @Update(onConflict = OnConflictStrategy.REPLACE)
+        void update(GrageInfo grageInfo);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void update(GrageInfo grageInfo);
 
-    @Delete
-    void delete(GrageInfo grageInfo);
+        @Delete
+        void delete(GrageInfo grageInfo);
 
-    @Query("SELECT * FROM ENTITY WHERE ID = :id")
-    GrageInfo loadGrageByID(int id);
+        @Query("Select * from entity where ID=:id ")
+        LiveData<GrageInfo> loadGrageByID(int id);
 
-}
+    }
 

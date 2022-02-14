@@ -1,32 +1,43 @@
 package com.HomeGarage.garage.DB;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Entity")
-public class GrageInfo {
+public class GrageInfo  {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String address,location ;
+    private String grageName,governoate,city,restOfAddress,location ;
     private double price , viewRate;
-
-    @Ignore
-    public GrageInfo(String address, String location, double price, double viewRate) {
-        this.address = address;
+    private int imgResourceId;
+     @Ignore
+    public GrageInfo(String grageName, String governoate, String city, String restOfAddress,
+                     String location, double price, double viewRate, int imgResourceId) {
+        this.grageName = grageName;
+        this.governoate = governoate;
+        this.city = city;
+        this.restOfAddress = restOfAddress;
         this.location = location;
         this.price = price;
         this.viewRate = viewRate;
+        this.imgResourceId = imgResourceId;
     }
-    public GrageInfo(int id, String address, String location, double price, double viewRate) {
+
+    public GrageInfo(int id, String grageName, String governoate, String city, String restOfAddress,
+                     String location, double price, double viewRate, int imgResourceId) {
         this.id = id;
-        this.address = address;
+        this.grageName = grageName;
+        this.governoate = governoate;
+        this.city = city;
+        this.restOfAddress = restOfAddress;
         this.location = location;
         this.price = price;
         this.viewRate = viewRate;
+        this.imgResourceId = imgResourceId;
     }
-
 
     public int getId() {
         return id;
@@ -36,12 +47,44 @@ public class GrageInfo {
         this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getGrageName() {
+        return grageName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setGrageName(String grageName) {
+        this.grageName = grageName;
+    }
+
+    public String getGovernoate() {
+        return governoate;
+    }
+
+    public void setGovernoate(String governoate) {
+        this.governoate = governoate;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getRestOfAddress() {
+        return restOfAddress;
+    }
+
+    public void setRestOfAddress(String restOfAddress) {
+        this.restOfAddress = restOfAddress;
+    }
+
+    public int getImgResourceId() {
+        return imgResourceId;
+    }
+
+    public void setImgResourceId(int imgResourceId) {
+        this.imgResourceId = imgResourceId;
     }
 
     public String getLocation() {
