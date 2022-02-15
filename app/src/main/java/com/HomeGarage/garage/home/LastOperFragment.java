@@ -24,11 +24,11 @@ import java.util.List;
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
 
     RecyclerView  recyclerAllOper;
-    List<Opreation> opreations;
+    List<Opreation> opreationList;
     AppDataBase dataBase;
     LastOperAdapter lastOperAdapter;
     public LastOperFragment( List<Opreation> opreations) {
-        this.opreations=opreations;
+        opreationList=opreations;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         super.onCreate(savedInstanceState);
 
         dataBase= AppDataBase.getInstance(getContext());
-        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
+        lastOperAdapter=new LastOperAdapter(opreationList,getContext(),this,0);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         opreations.observe(getViewLifecycleOwner(), new Observer<List<Opreation>>() {
             @Override
             public void onChanged(List<Opreation> opreations) {
-                lastOperAdapter.setLastOpereations(opreations);
+                opreationList=opreations;
             }
         });
     }

@@ -1,5 +1,4 @@
 package com.HomeGarage.garage.home;
-
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,6 +29,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {
 
+    List<Opreation> opreationList;
+
     AppDataBase dataBase;
     ArrayList <OffersModels> offersModels = new ArrayList<>();
     RecyclerView recyclerOffers , recyclerLast;
@@ -42,15 +43,16 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setUpViewModel();
         dataBase= AppDataBase.getInstance(getContext());
-        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
+        lastOperAdapter=new LastOperAdapter(opreationList,getContext(),this,3);
         // add item toOffers
         offersModels.add(new OffersModels(R.drawable.offer_crisimis, "Special offer 40% off on the occasion of New Year's Eve on all Cairo financier garages"));
         offersModels.add(new OffersModels(R.drawable.offer_special,"Special offer for the first time using the program"));
         offersModels.add(new OffersModels(R.drawable.offer_get,"Use the program in two payments and get a free process"));
         offersModels.add(new OffersModels(R.drawable.offer_weekend, "Half the price when using the Mall of Arabia garage on the weekends"));
         offersModels.add(new OffersModels(R.drawable.offer_new,"Cash back 10% when using the program daily for a week"));
+
 
     }
 
@@ -101,7 +103,6 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
             insertGrageData();
             insertLastOpreationData();
                 });
-
 
         return root;
 
@@ -164,5 +165,16 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         });
     }
 
+    public void setUpViewModel()
+    {
+        DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
+        final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
+        opreations.observe(this, new Observer<List<Opreation>>() {
+            @Override
+            public void onChanged(List<Opreation> opreations) {
+                opreationList=opreations;
+            }
+        });
+    }
 
 }
