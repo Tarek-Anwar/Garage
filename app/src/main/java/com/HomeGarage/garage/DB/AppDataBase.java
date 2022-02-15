@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {GrageInfo.class},version = 1,exportSchema = false)
+@Database(entities = {GrageInfo.class,Opreation.class},version = 2,exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {
     private static final String LOG_TAG=AppDataBase.class.getSimpleName();
     private static final Object LOCK=new Object();
@@ -19,11 +19,12 @@ public abstract class AppDataBase extends RoomDatabase {
         {
             synchronized (LOCK)
             {
-                sInstance= Room.databaseBuilder(context.getApplicationContext(),AppDataBase.class,AppDataBase.DATABASE_NAME).allowMainThreadQueries()
+                sInstance= Room.databaseBuilder(context.getApplicationContext(),AppDataBase.class,AppDataBase.DATABASE_NAME)
+                        .fallbackToDestructiveMigration()
                         .build();
             }
         }
         return sInstance;
     }
-    public abstract GrageDAO grageDAO();
+    public abstract DAO grageDAO();
 }

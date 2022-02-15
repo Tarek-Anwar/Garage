@@ -9,23 +9,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.LastOperModels;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
-    ArrayList<LastOperModels> lastOperModelsList;
+    List<Opreation> lastOpereations;
     Context context;
     LastOperListener lastOperListener;
     private int numViewOper=0;
 
-    public LastOperAdapter(ArrayList<LastOperModels> lastOperModelsList, Context context, LastOperListener lastOperListener, int numViewOper) {
-        this.lastOperModelsList = lastOperModelsList;
+    public LastOperAdapter( Context context, LastOperListener lastOperListener, int numViewOper) {
         this.context = context;
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
+    }
+
+    public void setLastOpereations(List<Opreation> lastOpereations) {
+        this.lastOpereations = lastOpereations;
+    }
+
+    public List<Opreation> getLastOpereations() {
+        return lastOpereations;
     }
 
     @NonNull
@@ -37,14 +45,23 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     @Override
     public void onBindViewHolder(@NonNull LastOperViewHolder holder, int position) {
-        holder.BulidUI(lastOperModelsList.get(position));
+        holder.BulidUI(lastOpereations.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if (numViewOper==0) { return lastOperModelsList.size(); }
+        if(lastOpereations==null)
+            return 0;
+        return lastOpereations.size();
+    }
+
+   /* @Override
+    public int getItemCount() {
+        if (numViewOper==0) { return lastOpereations.size(); }
         else { return numViewOper;}
     }
+
+    */
 
     protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
 
@@ -62,22 +79,22 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
             textPriceOper = itemView.findViewById(R.id.text_oper_price);
         }
 
-        public void BulidUI(LastOperModels models){
+        public void BulidUI(Opreation opreation){
 
-            textWhoToDoOper.setText(models.getTextWhoToDoOper());
-            textTypeOper.setText(models.getTextTypeOper());
-            textTimeOper.setText(models.getTextTimeOper());
-            textWhoDoOper.setText(models.getTextWhoDoOper());
-            textPriceOper.setText(models.getTextPriceOper());
+            textWhoToDoOper.setText(opreation.getDecisionRecipient());
+            textTypeOper.setText(opreation.getState());
+            textTimeOper.setText(opreation.getDate());
+            textWhoDoOper.setText(opreation.getDecisionMaker());
+            textPriceOper.setText(opreation.getPrice()+"");
 
             layoutLastOper.setOnClickListener(v ->  {
-                lastOperListener.LastOperListener(models);
+                lastOperListener.LastOperListener(opreation);
             });
         }
     }
 
     public interface LastOperListener{
-        void LastOperListener(LastOperModels lastOperModels);
+        void LastOperListener(Opreation opreation);
 
     }
 }

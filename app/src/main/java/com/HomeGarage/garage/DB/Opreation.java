@@ -11,25 +11,35 @@ public class Opreation {
 
     @PrimaryKey(autoGenerate = true)
     int id;
-    String state,decisionMaker,decisionRecipient,address;
-    Date date;
+    String state,decisionMaker,decisionRecipient,address,date;
+    double price;
 
-    public Opreation(int id, String state, String decisionMaker, String decisionRecipient, String address, Date date) {
+    public Opreation(int id, String state, String decisionMaker, String decisionRecipient, String address, String date,double price) {
         this.id = id;
         this.state = state;
         this.decisionMaker = decisionMaker;
         this.decisionRecipient = decisionRecipient;
         this.address = address;
         this.date = date;
+        this.price=price;
     }
 
     @Ignore
-    public Opreation( String state, String decisionMaker, String decisionRecipient, String address, Date date) {
+    public Opreation( String state, String decisionMaker, String decisionRecipient, String address, String date,double price) {
         this.state = state;
         this.decisionMaker = decisionMaker;
         this.decisionRecipient = decisionRecipient;
         this.address = address;
         this.date = date;
+        this.price=price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getId() {
@@ -72,11 +82,11 @@ public class Opreation {
         this.address = address;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
