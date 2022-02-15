@@ -7,14 +7,14 @@ public class LastOperModels {
     private String textWhoToDoOper;
     private String textTimeOper;
     private String textPlaceOper;
-    private String textPriceOper;
+    private String textTotalPriceOper;
 
     public String getTextPriceOper() {
-        return textPriceOper;
+        return textTotalPriceOper;
     }
 
-    public void setTextPriceOper(String textPriceOper) {
-        this.textPriceOper = textPriceOper;
+    public void setTextPriceOper(String textTotalPriceOper) {
+        this.textTotalPriceOper = textTotalPriceOper;
     }
 
     public String getTextTypeOper() {
@@ -57,12 +57,12 @@ public class LastOperModels {
         this.textPlaceOper = textPlaceOper;
     }
 
-    public LastOperModels(String textTypeOper, String textWhoDoOper, String textWhoToDoOper, String textTimeOper, String textPlaceOper , String textPriceOper) {
+    public LastOperModels(String textTypeOper, String textWhoDoOper, String textWhoToDoOper, String textTimeOper, String textPlaceOper , String textTotalPriceOper) {
         this.textTypeOper = textTypeOper;
         this.textWhoDoOper = textWhoDoOper;
         this.textWhoToDoOper = textWhoToDoOper;
         this.textTimeOper = textTimeOper;
         this.textPlaceOper = textPlaceOper;
-        this.textPlaceOper =  textPriceOper;
+        this.textTotalPriceOper =  textTotalPriceOper;
     }
 }

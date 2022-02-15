@@ -20,11 +20,13 @@
 
             <TextView
                 style="@style/txt_detils_oper"
-                android:text="@string/type_op" />
+                android:text="@string/type_op"
+                android:textColor="#004D40" />
 
             <TextView
                 android:id="@+id/type_oper_txt"
                 style="@style/txt_detils_oper"
+                android:textColor="#004D40"
                 tools:text="Accpet" />
 
         </LinearLayout>
@@ -36,12 +38,14 @@
 
             <TextView
                 style="@style/txt_detils_oper"
-                android:text="@string/from" />
+                android:text="@string/from"
+                android:textColor="#004D40" />
 
             <TextView
                 android:id="@+id/from_oper_txt"
                 style="@style/txt_detils_oper"
                 android:text="@string/me"
+                android:textColor="#004D40"
                 tools:text="@string/me" />
 
         </LinearLayout>
@@ -53,12 +57,14 @@
 
             <TextView
                 style="@style/txt_detils_oper"
-                android:text="@string/to" />
+                android:text="@string/to"
+                android:textColor="#004D40" />
 
             <TextView
                 android:id="@+id/to_oper_txt"
                 style="@style/txt_detils_oper"
                 android:text="@string/me"
+                android:textColor="#004D40"
                 tools:text="@string/app_name" />
 
         </LinearLayout>
@@ -70,12 +76,14 @@
 
             <TextView
                 style="@style/txt_detils_oper"
-                android:text="@string/time" />
+                android:text="@string/time"
+                android:textColor="#004D40" />
 
             <TextView
                 android:id="@+id/time_oper_txt"
                 style="@style/txt_detils_oper"
                 android:text="@string/me"
+                android:textColor="#004D40"
                 tools:text="3:00 PM 15-1-2022" />
 
 
@@ -88,12 +96,14 @@
 
             <TextView
                 style="@style/txt_detils_oper"
-                android:text="@string/place" />
+                android:text="@string/place"
+                android:textColor="#004D40" />
 
             <TextView
                 android:id="@+id/place_oper_txt"
                 style="@style/txt_detils_oper"
                 android:text="@string/me"
+                android:textColor="#004D40"
                 tools:text="15 str Cairo" />
 
 
@@ -106,12 +116,14 @@
 
             <TextView
                 style="@style/txt_detils_oper"
-                android:text="@string/price" />
+                android:text="@string/price"
+                android:textColor="#004D40" />
 
             <TextView
                 android:id="@+id/price_oper_txt"
                 style="@style/txt_detils_oper"
                 android:text="@string/me"
+                android:textColor="#004D40"
                 tools:text="20.00 EG" />
 
 

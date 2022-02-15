@@ -43,6 +43,9 @@
     <string name="time">Time</string>
     <string name="place">Place</string>
     <string name="price">Price</string>
+    <string name="price_for_hour">Price For Hour</string>
+    <string name="reservation">Reservation</string>
+    <string name="go_garage">"Go Garage "</string>
 
 
 </resources>

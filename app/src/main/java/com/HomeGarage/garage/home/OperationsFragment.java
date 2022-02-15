@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.SearchModel;
@@ -15,10 +14,9 @@ import com.HomeGarage.garage.home.models.SearchModel;
 public class OperationsFragment extends Fragment {
 
     private TextView type , to , from , time , palce , price;
-    Opreation opreation;
-    public OperationsFragment(Opreation opreation) {
-        this.opreation=opreation;
-    }
+    LastOperModels lastOperModels;
+    public OperationsFragment(LastOperModels lastOperModels) {
+        this.lastOperModels = lastOperModels;   }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,7 @@ public class OperationsFragment extends Fragment {
         View  view =  inflater.inflate(R.layout.fragment_operations, container, false);
 
         intiView(view);
-        setData(opreation);
+        setData(lastOperModels);
 
         return  view;
     }
@@ -51,13 +49,13 @@ public class OperationsFragment extends Fragment {
 
     }
 
-    void setData(Opreation opreation){
-        type.setText(opreation.getState());
-        to.setText(opreation.getDecisionRecipient());
-        from.setText(opreation.getDecisionMaker());
-        time.setText(opreation.getDate());
-        price.setText(opreation.getPrice()+"");
-        palce.setText(opreation.getAddress());
+    void setData(LastOperModels models){
+        type.setText(models.getTextTimeOper());
+        to.setText(models.getTextWhoDoOper());
+        from.setText(models.getTextWhoToDoOper());
+        time.setText(models.getTextTimeOper());
+        price.setText(models.getTextPriceOper());
+        palce.setText(models.getTextPlaceOper());
 
     }
 }
