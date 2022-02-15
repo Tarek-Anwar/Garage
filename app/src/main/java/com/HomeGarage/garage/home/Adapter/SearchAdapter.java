@@ -9,21 +9,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.SearchModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    ArrayList<SearchModel>  searchModelList;
+    List<GrageInfo> grageInfos;
     Context context;
     SearchListener searchListener;
 
-    public SearchAdapter(ArrayList<SearchModel> searchModelList, Context context, SearchListener searchListener) {
-        this.searchModelList = searchModelList;
+    public SearchAdapter(Context context, SearchListener searchListener) {
         this.context = context;
         this.searchListener = searchListener;
+    }
+
+    public void setGrageInfos(List<GrageInfo> grageInfos) {
+        this.grageInfos= grageInfos;
     }
 
     @NonNull
@@ -35,12 +40,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
-        holder.BulidUI(searchModelList.get(position));
+        holder.BulidUI(grageInfos.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return searchModelList.size();
+        if(grageInfos==null)
+            return 0;
+        return grageInfos.size();
     }
 
     protected class SearchViewHolder extends RecyclerView.ViewHolder {
@@ -55,16 +62,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             layouthListener = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
-        public void BulidUI(SearchModel model){
-            nameGarage.setText(model.getNameGarage());
-            addressGarage.setText(model.getAddressGarage());
+        public void BulidUI(GrageInfo grageInfo){
+            nameGarage.setText(grageInfo.getGrageName());
+            addressGarage.setText(grageInfo.getGovernoate()+" "+grageInfo.getCity()+"\n"+grageInfo.getRestOfAddress());
 
             layouthListener.setOnClickListener(V-> {
-                searchListener.SearchListener(model);
+                searchListener.SearchListener(grageInfo);
             });
         }
     }
     public interface SearchListener{
-        void  SearchListener(SearchModel searchModel);
+        void  SearchListener(GrageInfo grageInfo);
     }
 }

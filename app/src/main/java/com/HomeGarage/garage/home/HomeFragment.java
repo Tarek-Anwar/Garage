@@ -3,6 +3,9 @@ package com.HomeGarage.garage.home;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,28 +16,35 @@ import android.widget.LinearLayout;
 
 import com.HomeGarage.garage.DB.AppDataBase;
 import com.HomeGarage.garage.DB.AppExcutor;
+import com.HomeGarage.garage.DB.DBViewModel;
+import com.HomeGarage.garage.DB.GrageInfo;
+import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
 import com.HomeGarage.garage.home.Adapter.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {
 
+    AppDataBase dataBase;
     ArrayList <OffersModels> offersModels = new ArrayList<>();
-    ArrayList <LastOperModels> lastOperModelsList = new ArrayList<>();
     RecyclerView recyclerOffers , recyclerLast;
     LinearLayout layoutNearFind , layoutAllFind ;
     Button btn_db;
     View seeAllOper;
-
+    LastOperAdapter lastOperAdapter;
     public HomeFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        dataBase= AppDataBase.getInstance(getContext());
+        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
         // add item toOffers
         offersModels.add(new OffersModels(R.drawable.offer_crisimis, "Special offer 40% off on the occasion of New Year's Eve on all Cairo financier garages"));
         offersModels.add(new OffersModels(R.drawable.offer_special,"Special offer for the first time using the program"));
@@ -42,27 +52,6 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         offersModels.add(new OffersModels(R.drawable.offer_weekend, "Half the price when using the Mall of Arabia garage on the weekends"));
         offersModels.add(new OffersModels(R.drawable.offer_new,"Cash back 10% when using the program daily for a week"));
 
-        // add item to Operaitions
-        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
-                "15:3 AM 15-1", "Cairo , 15 Str","80.00 EG"));
-        lastOperModelsList.add(new LastOperModels("Accpet", "Garger Owner", "Clien",
-                "00:5 AM 16-2", "Mahalla , 15 Str","20.00 EG"));
-        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
-                "15:3 AM 15-1", "Cairo , 15 Str","18.00 EG"));
-        lastOperModelsList.add(new LastOperModels("Accpet", "Garger Owner", "Clien",
-                "00:5 AM 16-2", "Mahalla , 15 Str","30.00 EG"));
-        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
-                "9:3 AM 30-3", "Mansora , 20 str","26.60 EG"));
-        lastOperModelsList.add(new LastOperModels("cancel", "Clien", "Garger Owner",
-                "15:3 AM 15-1", "Cairo , 15 Str","50.00 EG"));
-        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
-                "15:3 AM 15-1", "Cairo , 15 Str","20.00 EG"));
-        lastOperModelsList.add(new LastOperModels("Accpet", "Garger Owner", "Clien",
-                "00:5 AM 16-2", "Mahalla , 15 Str","16.50 EG"));
-        lastOperModelsList.add(new LastOperModels("Push", "Clien", "Garger Owner",
-                "9:3 AM 30-3", "Mansora , 20 str","10.00 EG"));
-        lastOperModelsList.add(new LastOperModels("cancel", "Clien", "Garger Owner",
-                "15:3 AM 15-1", "Cairo , 15 Str","20.00 EG"));
     }
 
     @Override
@@ -81,12 +70,11 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
 
         //put LinearLayoutManager to recyclerFind
         recyclerLast.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.VERTICAL , false));
-        //set adapter recyclerFind
-        recyclerLast.setAdapter(new LastOperAdapter(lastOperModelsList,getContext(),this,3));
+        recyclerLast.setAdapter(lastOperAdapter);
 
         seeAllOper.setOnClickListener(v -> {
 
-                LastOperFragment newFragment = new LastOperFragment(lastOperModelsList);
+                LastOperFragment newFragment = new LastOperFragment(lastOperAdapter.getLastOpereations());
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, newFragment);
                 transaction.addToBackStack(null);
@@ -110,7 +98,10 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         });
 
         btn_db.setOnClickListener(V->{
+            insertGrageData();
+            insertLastOpreationData();
                 });
+
 
         return root;
 
@@ -136,13 +127,41 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     }
 
     @Override
-    public void LastOperListener(LastOperModels lastOperModels) {
+    public void LastOperListener(Opreation opreation) {
 
-            OperationsFragment newFragment = new OperationsFragment(lastOperModels);
+            OperationsFragment newFragment = new OperationsFragment(opreation);
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+    }
+
+    public void insertGrageData()
+    {
+        GrageInfo grageInfo=new GrageInfo("Name","GHarbia","Mahlla","Namra_ELBasel",
+                    "location",2.00,3.00,R.id.image);
+     AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
+         @Override
+         public void run() {
+             for (int i = 0; i < 20; i++) {
+                 dataBase.grageDAO().insertGrage(grageInfo);
+             }
+         }
+     });
+
+    }
+    public void insertLastOpreationData()
+    {
+        Opreation opreation=new Opreation("accept","grage owner","client","mansora", "15 feb 2022",3.00);
+        AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+               for (int i=0;i<15;i++)
+               {
+                   dataBase.grageDAO().insertOpreation(opreation);
+               }
+            }
+        });
     }
 
 
