@@ -4,17 +4,18 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity(tableName = "opEntity")
 public class Opreation {
 
     @PrimaryKey(autoGenerate = true)
     int id;
-    String state,decisionMaker,decisionRecipient,address,date;
+    String state,decisionMaker,decisionRecipient,address;
     double price;
+    Date date;
 
-    public Opreation(int id, String state, String decisionMaker, String decisionRecipient, String address, String date,double price) {
+    public Opreation(int id, String state, String decisionMaker, String decisionRecipient, String address,Date date,double price) {
         this.id = id;
         this.state = state;
         this.decisionMaker = decisionMaker;
@@ -25,7 +26,7 @@ public class Opreation {
     }
 
     @Ignore
-    public Opreation( String state, String decisionMaker, String decisionRecipient, String address, String date,double price) {
+    public Opreation( String state, String decisionMaker, String decisionRecipient, String address, Date date,double price) {
         this.state = state;
         this.decisionMaker = decisionMaker;
         this.decisionRecipient = decisionRecipient;
@@ -82,11 +83,11 @@ public class Opreation {
         this.address = address;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
