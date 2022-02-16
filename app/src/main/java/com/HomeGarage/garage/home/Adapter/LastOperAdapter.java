@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.LastOperModels;
+
 
 import java.util.List;
 
@@ -22,7 +22,8 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     LastOperListener lastOperListener;
     private int numViewOper=0;
 
-    public LastOperAdapter( Context context, LastOperListener lastOperListener, int numViewOper) {
+    public LastOperAdapter(List<Opreation> lastOpereations, Context context, LastOperListener lastOperListener, int numViewOper) {
+        this.lastOpereations=lastOpereations;
         this.context = context;
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
@@ -48,21 +49,19 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
         holder.BulidUI(lastOpereations.get(position));
     }
 
-    @Override
+   @Override
     public int getItemCount() {
         if(lastOpereations==null)
             return 0;
         return lastOpereations.size();
     }
-
-   /* @Override
+/*
+    @Override
     public int getItemCount() {
         if (numViewOper==0) { return lastOpereations.size(); }
         else { return numViewOper;}
     }
-
-    */
-
+*/
     protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
 
        private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper,textPriceOper ;
