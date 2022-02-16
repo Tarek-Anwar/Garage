@@ -81,6 +81,7 @@
         app:layout_constraintTop_toBottomOf="@id/forgetPass_TV"
         android:text="@string/or"
         android:textAllCaps="true"/>
+
     <Button
         android:id="@+id/creat_account_btn"
         android:layout_width="match_parent"

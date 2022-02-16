@@ -26,7 +26,7 @@ import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
 import com.HomeGarage.garage.home.Adapter.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,10 +155,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     }
     public void insertLastOpreationData()
     {
-
-        Date date=new Date();
-
-        Opreation opreation=new Opreation("accept","grage owner","client","mansora",date,3.00);
+        Opreation opreation=new Opreation("accept","grage owner","client","mansora", "15 feb 2022",3.00);
         AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {

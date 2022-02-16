@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.HomeGarage.garage.DB.AppDataBase;
 import com.HomeGarage.garage.DB.DBViewModel;
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
-import com.HomeGarage.garage.home.models.LastOperModels;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
@@ -27,7 +24,8 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     List<Opreation> opreationList;
     AppDataBase dataBase;
     LastOperAdapter lastOperAdapter;
-    public LastOperFragment( List<Opreation> opreations) {
+
+    public LastOperFragment(List<Opreation> opreations) {
         opreationList=opreations;
     }
 
@@ -38,7 +36,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         dataBase= AppDataBase.getInstance(getContext());
         lastOperAdapter=new LastOperAdapter(getContext(),this,0);
 
-
     }
 
     @Override
@@ -48,9 +45,12 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
 
         recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
+
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
         recyclerAllOper.setAdapter(lastOperAdapter);
+
         setUpViewModel();
+
         return root;
     }
 
