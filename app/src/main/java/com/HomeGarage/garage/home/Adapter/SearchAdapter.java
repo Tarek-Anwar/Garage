@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.SearchModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
