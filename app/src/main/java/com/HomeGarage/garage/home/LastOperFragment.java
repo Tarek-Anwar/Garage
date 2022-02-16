@@ -36,7 +36,9 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         super.onCreate(savedInstanceState);
 
         dataBase= AppDataBase.getInstance(getContext());
-        lastOperAdapter=new LastOperAdapter(opreationList,getContext(),this,0);
+        lastOperAdapter=new LastOperAdapter(getContext(),this,0);
+
+
     }
 
     @Override
@@ -47,7 +49,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
 
         recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
-
+        recyclerAllOper.setAdapter(lastOperAdapter);
         setUpViewModel();
         return root;
     }
@@ -70,7 +72,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         opreations.observe(getViewLifecycleOwner(), new Observer<List<Opreation>>() {
             @Override
             public void onChanged(List<Opreation> opreations) {
-                opreationList=opreations;
+                lastOperAdapter.setLastOpereations(opreations);
             }
         });
     }

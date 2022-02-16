@@ -17,11 +17,5 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /*framehome = findViewById(R.id.framehome);
-        homeFragment =new HomeFragment();
-        getSupportFragmentManager().
-                beginTransaction().
-                add(framehome.getId(),homeFragment)
-                .commit();*/
-    }
+        }
 }
