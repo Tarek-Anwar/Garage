@@ -2,11 +2,14 @@ package com.HomeGarage.garage.home;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {
+    private  final String TAG="ttt";
 
-    List<Opreation> opreationList;
 
     AppDataBase dataBase;
     ArrayList <OffersModels> offersModels = new ArrayList<>();
@@ -43,9 +46,8 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUpViewModel();
         dataBase= AppDataBase.getInstance(getContext());
-        lastOperAdapter=new LastOperAdapter(opreationList,getContext(),this,3);
+        lastOperAdapter=new LastOperAdapter(getContext(),HomeFragment.this,3);
         // add item toOffers
         offersModels.add(new OffersModels(R.drawable.offer_crisimis, "Special offer 40% off on the occasion of New Year's Eve on all Cairo financier garages"));
         offersModels.add(new OffersModels(R.drawable.offer_special,"Special offer for the first time using the program"));
@@ -54,6 +56,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         offersModels.add(new OffersModels(R.drawable.offer_new,"Cash back 10% when using the program daily for a week"));
 
 
+        setUpViewModel();
     }
 
     @Override
@@ -64,7 +67,6 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
 
         //find element
         initViews(root);
-
         //put LinearLayoutManager to recyclerOffers
         recyclerOffers.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL , false));
         //set adapter recyclerOffers
@@ -165,15 +167,18 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         });
     }
 
-    public void setUpViewModel()
+    public  void setUpViewModel()
     {
         DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
         final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
-        opreations.observe(this, new Observer<List<Opreation>>() {
+        opreations.observeForever( new Observer<List<Opreation>>() {
             @Override
             public void onChanged(List<Opreation> opreations) {
-                opreationList=opreations;
+                Log.d(TAG,opreations.size()+"");
+                lastOperAdapter.setLastOpereations(opreations);
+                Log.d(TAG,lastOperAdapter.getLastOpereations().size()+"");
             }
+
         });
     }
 
