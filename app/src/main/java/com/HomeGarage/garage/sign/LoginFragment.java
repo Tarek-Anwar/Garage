@@ -20,7 +20,6 @@ public class LoginFragment extends Fragment {
      TextInputEditText emailEditText,passwordEditText;
      Button loginBTN,registerButton;
      TextView forgotPassTV;
-    // FrameLayout frameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,22 +28,13 @@ public class LoginFragment extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_login, container, false);
         initViews(rootView);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                /*frameLayout=getActivity().findViewById(R.id.framelayout);
-                SignUpFragment signUpFragment=new SignUpFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(frameLayout.getId(),signUpFragment,"creat new account")
-                        .addToBackStack(null).commit();*/
+        registerButton.setOnClickListener(V-> {
 
                 SignUpFragment newFragment = new SignUpFragment();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer_main, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-            }
         });
 
         loginBTN.setOnClickListener(v-> {
@@ -61,6 +51,5 @@ public class LoginFragment extends Fragment {
         loginBTN=rootView.findViewById(R.id.login_BTN);
         registerButton=rootView.findViewById(R.id.creat_account_btn);
         forgotPassTV= rootView.findViewById(R.id.forgetPass_TV);
-       // frameLayout=rootView.findViewById(R.id.framelayout);
     }
 }
