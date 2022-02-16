@@ -39,4 +39,11 @@
     <string name="time">الوقت</string>
     <string name="place">المكان</string>
     <string name="price">السعر</string>
+    <string name="price_for_hour">سعر الساعة</string>
+    <string name="reservation">احجز</string>
+    <string name="go_garage">ازهب للجراش</string>
+    <string name="open_menu">افتح</string>
+    <string name="close_menu">اغلق</string>
+    <string name="setting">الاعدادات</string>
+    <string name="log_out">تسجيل خروج</string>
 </resources>

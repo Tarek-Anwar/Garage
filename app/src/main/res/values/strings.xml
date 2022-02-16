@@ -45,7 +45,11 @@
     <string name="price">Price</string>
     <string name="price_for_hour">Price For Hour</string>
     <string name="reservation">Reservation</string>
-    <string name="go_garage">"Go Garage "</string>
+    <string name="go_garage">"Go Garage"</string>
 
+    <string name="open_menu">Open</string>
+    <string name="close_menu">Close</string>
+    <string name="setting">Setting</string>
+    <string name="log_out">Log out</string>
 
 </resources>

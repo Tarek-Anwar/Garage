@@ -8,9 +8,12 @@
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".MainActivity">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer_main"
         android:name="com.HomeGarage.garage.sign.LoginFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
+
 </LinearLayout>
