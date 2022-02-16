@@ -11,24 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.HomeGarage.garage.DB.AppDataBase;
 import com.HomeGarage.garage.DB.DBViewModel;
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
-import com.HomeGarage.garage.home.models.LastOperModels;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
 
     RecyclerView  recyclerAllOper;
-    List<Opreation> opreations;
+    List<Opreation> opreationList;
     AppDataBase dataBase;
     LastOperAdapter lastOperAdapter;
-    public LastOperFragment( List<Opreation> opreations) {
-        this.opreations=opreations;
+
+    public LastOperFragment(List<Opreation> opreations) {
+        opreationList=opreations;
     }
 
     @Override
@@ -36,7 +34,8 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         super.onCreate(savedInstanceState);
 
         dataBase= AppDataBase.getInstance(getContext());
-        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
+        lastOperAdapter=new LastOperAdapter(getContext(),this,0);
+
     }
 
     @Override
@@ -46,9 +45,12 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
 
         recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
+
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
+        recyclerAllOper.setAdapter(lastOperAdapter);
 
         setUpViewModel();
+
         return root;
     }
 
@@ -67,7 +69,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     {
         DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
         final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
-        opreations.observe(getViewLifecycleOwner(), new Observer<List<Opreation>>() {
+        opreations.observeForever( new Observer<List<Opreation>>() {
             @Override
             public void onChanged(List<Opreation> opreations) {
                 lastOperAdapter.setLastOpereations(opreations);

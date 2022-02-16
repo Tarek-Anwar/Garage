@@ -24,7 +24,6 @@ public interface DAO {
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateGrage(GrageInfo grageInfo);
 
-
         @Delete
         void deleteGrage(GrageInfo grageInfo);
 

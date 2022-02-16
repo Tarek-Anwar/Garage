@@ -3,42 +3,48 @@ package com.HomeGarage.garage.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
+import com.HomeGarage.garage.DB.*;
 import com.HomeGarage.garage.R;
 
 public class GarageViewFragment extends Fragment {
 
+    GrageInfo grageInfo;
     private TextView nameGarage , totalAddressGarage;
     private Button  orderGarage , showLocationGarage;
-    private RatingBar ratingGarage;
-    public GarageViewFragment() {
-        // Required empty public constructor
+    private RatingBar ratingGarage ;
+
+
+    public GarageViewFragment(GrageInfo grageInfo) {
+       this.grageInfo = grageInfo;
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_garage_view, container, false);
+
         initView(root);
-        ratingGarage.setRating(1.5F);
+
+        ratingGarage.setRating(grageInfo.getViewRate());
         ratingGarage.setEnabled(false);
-        nameGarage.setText("El Waha Garage");
-        totalAddressGarage.setText("15 str Geham ,El Mansora , El Dokhlya");
+
+        nameGarage.setText(grageInfo.getGrageName());
+        totalAddressGarage.setText(grageInfo.getGovernoate()+" "+grageInfo.getCity()+" "+grageInfo.getRestOfAddress());
+
         return root;
     }
 

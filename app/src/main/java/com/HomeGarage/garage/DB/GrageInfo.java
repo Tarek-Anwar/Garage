@@ -11,11 +11,11 @@ public class GrageInfo  {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String grageName,governoate,city,restOfAddress,location ;
-    private double price , viewRate;
+    private float price , viewRate;
     private int imgResourceId;
      @Ignore
     public GrageInfo(String grageName, String governoate, String city, String restOfAddress,
-                     String location, double price, double viewRate, int imgResourceId) {
+                     String location, float price, float viewRate, int imgResourceId) {
         this.grageName = grageName;
         this.governoate = governoate;
         this.city = city;
@@ -27,7 +27,7 @@ public class GrageInfo  {
     }
 
     public GrageInfo(int id, String grageName, String governoate, String city, String restOfAddress,
-                     String location, double price, double viewRate, int imgResourceId) {
+                     String location, float price, float viewRate, int imgResourceId) {
         this.id = id;
         this.grageName = grageName;
         this.governoate = governoate;
@@ -95,19 +95,19 @@ public class GrageInfo  {
         this.location = location;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public double getViewRate() {
+    public float getViewRate() {
         return viewRate;
     }
 
-    public void setViewRate(double viewRate) {
+    public void setViewRate(float viewRate) {
         this.viewRate = viewRate;
     }
 }

@@ -1,21 +1,21 @@
 package com.HomeGarage.garage.home.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.LastOperModels;
-
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
+
+    public static final String TAG="mmm";
 
     List<Opreation> lastOpereations;
     Context context;
@@ -30,6 +30,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     public void setLastOpereations(List<Opreation> lastOpereations) {
         this.lastOpereations = lastOpereations;
+        notifyDataSetChanged();
     }
 
     public List<Opreation> getLastOpereations() {
@@ -45,24 +46,23 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     @Override
     public void onBindViewHolder(@NonNull LastOperViewHolder holder, int position) {
-        holder.BulidUI(lastOpereations.get(position));
+        try {
+            holder.BulidUI(lastOpereations.get(position));
+            Log.d(TAG, lastOpereations.size() + "");
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            Log.e(TAG,"error");
+        }
     }
 
-    @Override
+   @Override
     public int getItemCount() {
-        if(lastOpereations==null)
-            return 0;
-        return lastOpereations.size();
+        if(lastOpereations==null){
+            return 0;}
+        else if (numViewOper==0) { return lastOpereations.size(); }
+       else { return numViewOper;}
     }
-
-   /* @Override
-    public int getItemCount() {
-        if (numViewOper==0) { return lastOpereations.size(); }
-        else { return numViewOper;}
-    }
-
-    */
-
     protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
 
        private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper,textPriceOper ;
@@ -83,7 +83,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
             textWhoToDoOper.setText(opreation.getDecisionRecipient());
             textTypeOper.setText(opreation.getState());
-            textTimeOper.setText(opreation.getDate());
+            textTimeOper.setText(new SimpleDateFormat("EEE, MMM d, yyyy").format(opreation.getDate()));
             textWhoDoOper.setText(opreation.getDecisionMaker());
             textPriceOper.setText(opreation.getPrice()+"");
 
@@ -95,6 +95,5 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     public interface LastOperListener{
         void LastOperListener(Opreation opreation);
-
     }
 }

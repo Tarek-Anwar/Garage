@@ -1,5 +1,4 @@
 package com.HomeGarage.garage.home;
-
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -8,6 +7,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,16 @@ import com.HomeGarage.garage.DB.DBViewModel;
 import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
 import com.HomeGarage.garage.home.Adapter.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {
+    private  final String TAG="ttt";
+
 
     AppDataBase dataBase;
     ArrayList <OffersModels> offersModels = new ArrayList<>();
@@ -44,7 +46,8 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         super.onCreate(savedInstanceState);
 
         dataBase= AppDataBase.getInstance(getContext());
-        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
+        lastOperAdapter=new LastOperAdapter(getContext(),HomeFragment.this,3);
+
         // add item toOffers
         offersModels.add(new OffersModels(R.drawable.offer_crisimis, "Special offer 40% off on the occasion of New Year's Eve on all Cairo financier garages"));
         offersModels.add(new OffersModels(R.drawable.offer_special,"Special offer for the first time using the program"));
@@ -52,6 +55,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         offersModels.add(new OffersModels(R.drawable.offer_weekend, "Half the price when using the Mall of Arabia garage on the weekends"));
         offersModels.add(new OffersModels(R.drawable.offer_new,"Cash back 10% when using the program daily for a week"));
 
+        setUpViewModel();
     }
 
     @Override
@@ -62,7 +66,6 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
 
         //find element
         initViews(root);
-
         //put LinearLayoutManager to recyclerOffers
         recyclerOffers.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL , false));
         //set adapter recyclerOffers
@@ -102,7 +105,6 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
             insertLastOpreationData();
                 });
 
-
         return root;
 
     }
@@ -139,7 +141,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     public void insertGrageData()
     {
         GrageInfo grageInfo=new GrageInfo("Name","GHarbia","Mahlla","Namra_ELBasel",
-                    "location",2.00,3.00,R.id.image);
+                    "location",2.00f,3.00f,R.id.image);
      AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
          @Override
          public void run() {
@@ -152,7 +154,10 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     }
     public void insertLastOpreationData()
     {
-        Opreation opreation=new Opreation("accept","grage owner","client","mansora", "15 feb 2022",3.00);
+
+        Date date=new Date();
+
+        Opreation opreation=new Opreation("accept","grage owner","client","mansora",date,3.00);
         AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -164,5 +169,19 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         });
     }
 
+    public  void setUpViewModel()
+    {
+        DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
+        final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
+        opreations.observeForever( new Observer<List<Opreation>>() {
+            @Override
+            public void onChanged(List<Opreation> opreations) {
+                Log.d(TAG,opreations.size()+"");
+                lastOperAdapter.setLastOpereations(opreations);
+                Log.d(TAG,lastOperAdapter.getLastOpereations().size()+"");
+            }
+
+        });
+    }
 
 }
