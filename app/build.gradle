@@ -53,4 +53,11 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     //view model
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    // navigation
+
+    implementation "androidx.navigation:navigation-fragment:2.4.1"
+    implementation "androidx.navigation:navigation-ui:2.4.1"
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
 }
