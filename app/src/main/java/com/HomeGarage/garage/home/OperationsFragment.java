@@ -55,7 +55,7 @@ public class OperationsFragment extends Fragment {
         type.setText(opreation.getState());
         to.setText(opreation.getDecisionRecipient());
         from.setText(opreation.getDecisionMaker());
-        time.setText(opreation.getDate());
+        time.setText(opreation.getDate()+"");
         price.setText(opreation.getPrice()+"");
         palce.setText(opreation.getAddress());
 

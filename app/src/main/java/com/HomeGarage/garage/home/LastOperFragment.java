@@ -69,7 +69,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     {
         DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
         final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
-        opreations.observe(getViewLifecycleOwner(), new Observer<List<Opreation>>() {
+        opreations.observeForever( new Observer<List<Opreation>>() {
             @Override
             public void onChanged(List<Opreation> opreations) {
                 lastOperAdapter.setLastOpereations(opreations);
