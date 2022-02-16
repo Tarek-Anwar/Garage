@@ -17,7 +17,7 @@ public class GarageViewFragment extends Fragment {
     GrageInfo grageInfo;
     private TextView nameGarage , totalAddressGarage;
     private Button  orderGarage , showLocationGarage;
-    private RatingBar ratingGarage;
+    private RatingBar ratingGarage ;
 
 
     public GarageViewFragment(GrageInfo grageInfo) {
@@ -39,7 +39,7 @@ public class GarageViewFragment extends Fragment {
 
         initView(root);
 
-        ratingGarage.setRating(2.5F);
+        ratingGarage.setRating(grageInfo.getViewRate());
         ratingGarage.setEnabled(false);
 
         nameGarage.setText(grageInfo.getGrageName());

@@ -6,20 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
-
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
     public static final String TAG="mmm";
+
     List<Opreation> lastOpereations;
     Context context;
     LastOperListener lastOperListener;
@@ -61,9 +58,9 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
    @Override
     public int getItemCount() {
-        if(lastOpereations==null)
-            return 0;
-       if (numViewOper==0) { return lastOpereations.size(); }
+        if(lastOpereations==null){
+            return 0;}
+        else if (numViewOper==0) { return lastOpereations.size(); }
        else { return numViewOper;}
     }
     protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
@@ -98,6 +95,5 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     public interface LastOperListener{
         void LastOperListener(Opreation opreation);
-
     }
 }

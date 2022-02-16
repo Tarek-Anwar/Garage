@@ -2,7 +2,6 @@ package com.HomeGarage.garage.home;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,11 +21,10 @@ import com.HomeGarage.garage.DB.DBViewModel;
 import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.LastOperModels;
 import com.HomeGarage.garage.home.models.OffersModels;
 import com.HomeGarage.garage.home.Adapter.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,15 +44,16 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         dataBase= AppDataBase.getInstance(getContext());
         lastOperAdapter=new LastOperAdapter(getContext(),HomeFragment.this,3);
+
         // add item toOffers
         offersModels.add(new OffersModels(R.drawable.offer_crisimis, "Special offer 40% off on the occasion of New Year's Eve on all Cairo financier garages"));
         offersModels.add(new OffersModels(R.drawable.offer_special,"Special offer for the first time using the program"));
         offersModels.add(new OffersModels(R.drawable.offer_get,"Use the program in two payments and get a free process"));
         offersModels.add(new OffersModels(R.drawable.offer_weekend, "Half the price when using the Mall of Arabia garage on the weekends"));
         offersModels.add(new OffersModels(R.drawable.offer_new,"Cash back 10% when using the program daily for a week"));
-
 
         setUpViewModel();
     }
@@ -142,7 +141,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     public void insertGrageData()
     {
         GrageInfo grageInfo=new GrageInfo("Name","GHarbia","Mahlla","Namra_ELBasel",
-                    "location",2.00,3.00,R.id.image);
+                    "location",2.00f,3.00f,R.id.image);
      AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
          @Override
          public void run() {
@@ -155,7 +154,10 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     }
     public void insertLastOpreationData()
     {
-        Opreation opreation=new Opreation("accept","grage owner","client","mansora", "15 feb 2022",3.00);
+
+        Date date=new Date();
+
+        Opreation opreation=new Opreation("accept","grage owner","client","mansora",date,3.00);
         AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
