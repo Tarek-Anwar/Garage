@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     Button btn_db;
     View seeAllOper;
     LastOperAdapter lastOperAdapter;
+
     public HomeFragment() { }
 
     @Override

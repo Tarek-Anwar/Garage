@@ -2,9 +2,11 @@ package com.HomeGarage.garage.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,9 +15,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.sign.SignUpFragment;
+import com.HomeGarage.garage.sign.UserInfoFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     private  View v;
     ActionBarDrawerToggle actionBarDrawerToggle;
     TextView name , address ,email , phone;
+    ImageView img_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +49,21 @@ public class HomeActivity extends AppCompatActivity {
             phone.setText(preferences.getString(SignUpFragment.PHONE, "No Phone yet"));
             email.setText(preferences.getString(SignUpFragment.EMAIL, "No Email yet"));
         }
-
-
+        if(preferences.getString(UserInfoFragment.IMAGE_PRFILE,null)!= null){
+            img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoFragment.IMAGE_PRFILE,null))));
+        }
+        img_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();
+                UserInfoFragment newFragment = new UserInfoFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainerView, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
         actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,6 +95,7 @@ public class HomeActivity extends AppCompatActivity {
         address = v.findViewById(R.id.user_address_nav);
         email = v.findViewById(R.id.user_email_nav);
         phone = v.findViewById(R.id.user_phone_nav);
+        img_profile = v.findViewById(R.id.img_profile);
     }
 
 }
