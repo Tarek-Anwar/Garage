@@ -1,5 +1,13 @@
 package com.HomeGarage.garage.home;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
@@ -8,24 +16,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-
 import com.HomeGarage.garage.DB.AppDataBase;
 import com.HomeGarage.garage.DB.AppExcutor;
 import com.HomeGarage.garage.DB.DBViewModel;
 import com.HomeGarage.garage.DB.GrageInfo;
 import com.HomeGarage.garage.DB.Opreation;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
+import com.HomeGarage.garage.home.Adapter.OffersAdpter;
 import com.HomeGarage.garage.home.models.OffersModels;
-import com.HomeGarage.garage.home.Adapter.*;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {

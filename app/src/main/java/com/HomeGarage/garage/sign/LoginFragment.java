@@ -2,15 +2,13 @@ package com.HomeGarage.garage.sign;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class LoginFragment extends Fragment {
 
      TextInputEditText emailEditText,passwordEditText;
-     Button loginBTN,registerButton;
+     Button loginBTN,registerButton ;
      TextView forgotPassTV;
 
     @Override
@@ -41,6 +39,7 @@ public class LoginFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
         });
+
         return rootView;
     }
 
@@ -51,5 +50,6 @@ public class LoginFragment extends Fragment {
         loginBTN=rootView.findViewById(R.id.login_BTN);
         registerButton=rootView.findViewById(R.id.creat_account_btn);
         forgotPassTV= rootView.findViewById(R.id.forgetPass_TV);
+
     }
 }

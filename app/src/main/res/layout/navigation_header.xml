@@ -11,30 +11,30 @@
         android:id="@+id/img_profile"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_gravity="center"
         android:scaleType="centerCrop"
         android:src="@drawable/profile_icon"
         app:riv_border_color="@color/white"
         app:riv_border_width="4dp"
-        android:layout_gravity="center"
         app:riv_oval="true" />
 
     <TextView
         android:id="@+id/user_name_nav"
-        android:text="User Name"
-        style="@style/txt_nav_txt"/>
+        style="@style/txt_nav_txt"
+        android:text="User Name" />
 
     <TextView
         android:id="@+id/user_address_nav"
-        android:text="address"
-        style="@style/txt_nav_txt" />
+        style="@style/txt_nav_txt"
+        android:text="address" />
 
     <TextView
         android:id="@+id/user_phone_nav"
-        android:text="@string/phone"
-        style="@style/txt_nav_txt"/>
+        style="@style/txt_nav_txt"
+        android:text="@string/phone" />
 
     <TextView
         android:id="@+id/user_email_nav"
-        android:text="@string/email_adress"
-        style="@style/txt_nav_txt"/>
+        style="@style/txt_nav_txt"
+        android:text="@string/email_adress" />
 </LinearLayout>
