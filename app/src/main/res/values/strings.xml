@@ -56,5 +56,6 @@
     <string name="newpassword">Add New Password ?</string>
     <string name="edit_address">Edit Address</string>
     <string name="edit_info">Edit Information</string>
+    <string name="save">Save</string>
 
 </resources>

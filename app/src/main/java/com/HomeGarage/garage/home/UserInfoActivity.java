@@ -18,6 +18,8 @@ import com.HomeGarage.garage.sign.SignUpFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.Objects;
+
 public class UserInfoActivity extends AppCompatActivity {
 
     public static final String IMAGE_PROFILE = "IMAGE_PROFILE";
@@ -71,6 +73,15 @@ public class UserInfoActivity extends AppCompatActivity {
             binding.editEmail.setEnabled(true);
             binding.editUserName.setEnabled(true);
             binding.editPhone.setEnabled(true);
+        });
+
+        binding.btnSave.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(SignUpFragment.USER_NAME, Objects.requireNonNull(binding.editUserName.getText()).toString());
+            editor.putString(SignUpFragment.EMAIL, Objects.requireNonNull(binding.editEmail.getText()).toString());
+            editor.putString(SignUpFragment.PHONE, Objects.requireNonNull(binding.editPhone.getText()).toString());
+            Toast.makeText(getApplicationContext(), "Susses", Toast.LENGTH_SHORT).show();
+            editor.apply();
         });
         binding.profileImage.setOnClickListener(v->launcher.launch(null));
     }
