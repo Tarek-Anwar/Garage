@@ -51,5 +51,7 @@
     <string name="close_menu">Close</string>
     <string name="setting">Setting</string>
     <string name="log_out">Log out</string>
+    <string name="file_info_user">FileInfoUser</string>
+    <string name="edit">edit_icon</string>
 
 </resources>

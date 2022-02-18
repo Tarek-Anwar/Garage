@@ -46,4 +46,5 @@
     <string name="close_menu">اغلق</string>
     <string name="setting">الاعدادات</string>
     <string name="log_out">تسجيل خروج</string>
+    <string name="file_info_user">FileInfoUser</string>
 </resources>
