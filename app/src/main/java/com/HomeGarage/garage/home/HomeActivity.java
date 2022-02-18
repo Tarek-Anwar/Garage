@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.sign.SignUpFragment;
@@ -38,11 +39,12 @@ public class HomeActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.main_nave_view);
+
         v = navigationView.getHeaderView(0);
 
         intiHeader(v);
-
         SharedPreferences preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
+
         if (preferences.getString(SignUpFragment.USER_NAME,null)!= null) {
             name.setText(preferences.getString(SignUpFragment.USER_NAME, "New User"));
             address.setText(preferences.getString(SignUpFragment.ADDRESS, "NO Address yet"));
@@ -52,10 +54,10 @@ public class HomeActivity extends AppCompatActivity {
         if(preferences.getString(UserInfoFragment.IMAGE_PRFILE,null)!= null){
             img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoFragment.IMAGE_PRFILE,null))));
         }
+
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "profile", Toast.LENGTH_SHORT).show();
                 UserInfoFragment newFragment = new UserInfoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -64,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,7 +83,8 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 }
             });
-        }
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

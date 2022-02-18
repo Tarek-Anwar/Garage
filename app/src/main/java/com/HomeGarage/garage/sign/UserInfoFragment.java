@@ -15,10 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentUserInfoBinding;
+import com.google.android.material.navigation.NavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -78,8 +80,12 @@ public class UserInfoFragment extends Fragment {
             binding.imgProfileUpdate.setImageURI(Uri.parse(preferences.getString(IMAGE_PRFILE,null)));
         }
         binding.imgProfileUpdate.setOnClickListener(v->launcher.launch(null));
-
         return binding.getRoot();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }
