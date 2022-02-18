@@ -39,7 +39,7 @@
         tools:text="20 str El Baher , El Mahlla , El Garbya" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/textVeee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -59,7 +59,7 @@
         android:layout_marginEnd="32dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintStart_toEndOf="@+id/textVeee"
         app:layout_constraintTop_toBottomOf="@+id/total_address_garage_txt"
         tools:text="10 EG/H" />
 
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/textVeee" />
 
     <Button
         android:id="@+id/btn_order_garage"

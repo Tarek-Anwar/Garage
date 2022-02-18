@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".home.HomeFragment">
 
 
@@ -86,11 +86,12 @@
         <LinearLayout
             android:id="@+id/layout_near_find"
             style="@style/icon_search">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/purple_700"
-                android:text="@string/nearest_garage" />
+                android:text="@string/nearest_garage"
+                android:textColor="@color/purple_700" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -107,8 +108,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/purple_700"
-                android:text="@string/find_in_all_garage" />
+                android:text="@string/find_in_all_garage"
+                android:textColor="@color/purple_700" />
 
             <ImageView
                 android:layout_width="wrap_content"

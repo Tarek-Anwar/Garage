@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.OffersModels;
+
 import java.util.ArrayList;
 
 public class OffersAdpter extends RecyclerView.Adapter<OffersAdpter.OffersViewHolder> {
