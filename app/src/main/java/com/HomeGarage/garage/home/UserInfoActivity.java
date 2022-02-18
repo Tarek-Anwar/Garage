@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityUserInfoBinding;
+import com.HomeGarage.garage.sign.SignUpFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -32,7 +33,6 @@ public class UserInfoActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         // define file preferences
         preferences = getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
-
 
         ActivityResultContract<Object, Uri> contract = new ActivityResultContract<Object, Uri>() {
             @NonNull
@@ -65,9 +65,24 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
 
-        if(preferences.getString(IMAGE_PROFILE,null)!=null){
-            binding.profileImage.setImageURI(Uri.parse(preferences.getString(IMAGE_PROFILE,null)));
-        }
+        setInfo(preferences);
+
+        binding.layoutEditInfo.setOnClickListener(v->{
+            binding.editEmail.setEnabled(true);
+            binding.editUserName.setEnabled(true);
+            binding.editPhone.setEnabled(true);
+        });
         binding.profileImage.setOnClickListener(v->launcher.launch(null));
+    }
+
+    void setInfo(SharedPreferences preferences) {
+        if (preferences.getString(SignUpFragment.USER_NAME, null) != null) {
+            binding.editUserName.setText(preferences.getString(SignUpFragment.USER_NAME, "New User"));
+            binding.editPhone.setText(preferences.getString(SignUpFragment.PHONE, "No Phone yet"));
+            binding.editEmail.setText(preferences.getString(SignUpFragment.EMAIL, "No Email yet"));
+        }
+        if (preferences.getString(UserInfoActivity.IMAGE_PROFILE, null) != null) {
+            binding.profileImage.setImageURI(Uri.parse((preferences.getString(UserInfoActivity.IMAGE_PROFILE, null))));
+        }
     }
 }

@@ -53,5 +53,8 @@
     <string name="log_out">Log out</string>
     <string name="file_info_user">FileInfoUser</string>
     <string name="edit">edit_icon</string>
+    <string name="newpassword">Add New Password ?</string>
+    <string name="edit_address">Edit Address</string>
+    <string name="edit_info">Edit Information</string>
 
 </resources>
