@@ -52,8 +52,8 @@ public class SignUpFragment extends Fragment {
     private void initViews(View rootView)
     {
         userNameET=rootView.findViewById(R.id.user_name_TF);
-        emailET=rootView.findViewById(R.id.cemail_TF);
-        phoneET=rootView.findViewById(R.id.phone_TF);
+        emailET=rootView.findViewById(R.id.edit_email);
+        phoneET=rootView.findViewById(R.id.edit_phone);
         passwordET=rootView.findViewById(R.id.password_TF);
         confirmET=rootView.findViewById(R.id.Confirm_Password_TF);
         creatBTN=rootView.findViewById(R.id.register_btn);
