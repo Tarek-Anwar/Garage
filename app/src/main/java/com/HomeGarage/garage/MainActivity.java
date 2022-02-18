@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.HomeGarage.garage.databinding.ActivityMainBinding;
-
 public class MainActivity extends AppCompatActivity {
 
 

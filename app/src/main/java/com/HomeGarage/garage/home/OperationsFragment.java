@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class OperationsFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     void setData(Opreation opreation){
         type.setText(opreation.getState());
         to.setText(opreation.getDecisionRecipient());

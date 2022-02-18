@@ -31,19 +31,16 @@ public class OffersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View root =  inflater.inflate(R.layout.fragment_offers, container, false);
         initViews(root);
         return root;
     }
 
     private void initViews(View root) {
-
         txtOfferDetils = root.findViewById(R.id.txt_offer_detils);
         txtOfferDetils.setText(offersModels.getTxtDetils());
         imageOffers = root.findViewById(R.id.image_offers_frggment);
         imageOffers.setImageResource(offersModels.getImg());
-
     }
 
 }

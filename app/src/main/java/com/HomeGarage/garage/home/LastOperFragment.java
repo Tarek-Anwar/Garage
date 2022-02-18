@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +19,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
 
@@ -61,7 +61,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     public void LastOperListener(Opreation opreation) {
 
         OperationsFragment newFragment = new OperationsFragment(opreation);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -72,11 +72,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     {
         DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
         final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
-        opreations.observeForever( new Observer<List<Opreation>>() {
-            @Override
-            public void onChanged(List<Opreation> opreations) {
-                lastOperAdapter.setLastOpereations(opreations);
-            }
-        });
+        opreations.observeForever(opreations1 -> lastOperAdapter.setLastOpereations(opreations1));
     }
 }

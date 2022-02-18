@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ public class GarageViewFragment extends Fragment {
 
     GrageInfo grageInfo;
     private TextView nameGarage , totalAddressGarage;
-    private Button  orderGarage , showLocationGarage;
     private RatingBar ratingGarage ;
 
 
@@ -31,6 +31,7 @@ public class GarageViewFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,8 +53,8 @@ public class GarageViewFragment extends Fragment {
     void initView (View view){
         nameGarage = view.findViewById(R.id.name_garage_txt);
         totalAddressGarage = view.findViewById(R.id.total_address_garage_txt);
-        orderGarage = view.findViewById(R.id.btn_order_garage);
-        showLocationGarage = view.findViewById(R.id.btn_show_loca_garage);
+        Button orderGarage = view.findViewById(R.id.btn_order_garage);
+        Button showLocationGarage = view.findViewById(R.id.btn_show_loca_garage);
         ratingGarage = view.findViewById(R.id.rating_garage);
     }
 }

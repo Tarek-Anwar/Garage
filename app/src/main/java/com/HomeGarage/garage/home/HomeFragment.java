@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +28,7 @@ import com.HomeGarage.garage.home.models.OffersModels;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment implements OffersAdpter.OfferListener , LastOperAdapter.LastOperListener {
     private  final String TAG="ttt";
@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         seeAllOper.setOnClickListener(v -> {
 
                 LastOperFragment newFragment = new LastOperFragment(lastOperAdapter.getLastOpereations());
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
 
         layoutAllFind.setOnClickListener(v -> {
             SearchFragment newFragment = new SearchFragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
 
         layoutNearFind.setOnClickListener(v ->{
             SearchFragment newFragment = new SearchFragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     public void OfferListener(OffersModels offersModels) {
 
         OffersFragment newFragment = new OffersFragment(offersModels);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     public void LastOperListener(Opreation opreation) {
 
             OperationsFragment newFragment = new OperationsFragment(opreation);
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -145,12 +145,9 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     {
         GrageInfo grageInfo=new GrageInfo("Name","GHarbia","Mahlla","Namra_ELBasel",
                     "location",2.00f,3.00f,R.id.image);
-     AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
-         @Override
-         public void run() {
-             for (int i = 0; i < 20; i++) {
-                 dataBase.grageDAO().insertGrage(grageInfo);
-             }
+     AppExcutor.getInstance().getDiskIO().execute(() -> {
+         for (int i = 0; i < 20; i++) {
+             dataBase.grageDAO().insertGrage(grageInfo);
          }
      });
 
@@ -161,14 +158,11 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         Date date=new Date();
 
         Opreation opreation=new Opreation("accept","grage owner","client","mansora",date,3.00);
-        AppExcutor.getInstance().getDiskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-               for (int i=0;i<15;i++)
-               {
-                   dataBase.grageDAO().insertOpreation(opreation);
-               }
-            }
+        AppExcutor.getInstance().getDiskIO().execute(() -> {
+           for (int i=0;i<15;i++)
+           {
+               dataBase.grageDAO().insertOpreation(opreation);
+           }
         });
     }
 
@@ -176,14 +170,10 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     {
         DBViewModel viewModel=new ViewModelProvider(this).get(DBViewModel.class);
         final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
-        opreations.observeForever( new Observer<List<Opreation>>() {
-            @Override
-            public void onChanged(List<Opreation> opreations) {
-                Log.d(TAG,opreations.size()+"");
-                lastOperAdapter.setLastOpereations(opreations);
-                Log.d(TAG,lastOperAdapter.getLastOpereations().size()+"");
-            }
-
+        opreations.observeForever(opreations1 -> {
+            Log.d(TAG, opreations1.size()+"");
+            lastOperAdapter.setLastOpereations(opreations1);
+            Log.d(TAG,lastOperAdapter.getLastOpereations().size()+"");
         });
     }
 

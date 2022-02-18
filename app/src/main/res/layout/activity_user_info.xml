@@ -2,14 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sign.UserInfoFragment">
+    tools:context=".home.UserInfoActivity">
 
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/img_profile_update"
+        android:id="@+id/profile_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
@@ -24,16 +23,18 @@
         app:riv_oval="true" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageEdit"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_profile_update"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.639"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/img_profile_update"
+        app:layout_constraintTop_toTopOf="@+id/profile_image"
         app:layout_constraintVertical_bias="0.91"
-        app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
+        android:contentDescription="@string/edit" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

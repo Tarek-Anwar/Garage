@@ -13,6 +13,8 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
 public class LoginFragment extends Fragment {
 
      TextInputEditText emailEditText,passwordEditText;
@@ -27,9 +29,8 @@ public class LoginFragment extends Fragment {
         initViews(rootView);
 
         registerButton.setOnClickListener(V-> {
-
                 SignUpFragment newFragment = new SignUpFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer_main, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();

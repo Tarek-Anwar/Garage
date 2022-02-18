@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Garage">
         <activity
+            android:name=".home.UserInfoActivity"
+            android:exported="true" />
+        <activity
             android:name=".home.HomeActivity"
             android:exported="true" />
         <activity

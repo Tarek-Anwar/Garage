@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,75 +16,59 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.sign.SignUpFragment;
-import com.HomeGarage.garage.sign.UserInfoFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private NavigationView  navigationView;
-    private  View v;
     ActionBarDrawerToggle actionBarDrawerToggle;
     TextView name , address ,email , phone;
     ImageView img_profile;
+    SharedPreferences preferences ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        //find element
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.main_nave_view);
-
-        v = navigationView.getHeaderView(0);
-
+        NavigationView navigationView = findViewById(R.id.main_nave_view);
+        //find header Navigation
+        View v = navigationView.getHeaderView(0);
         intiHeader(v);
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
 
-        if (preferences.getString(SignUpFragment.USER_NAME,null)!= null) {
-            name.setText(preferences.getString(SignUpFragment.USER_NAME, "New User"));
-            address.setText(preferences.getString(SignUpFragment.ADDRESS, "NO Address yet"));
-            phone.setText(preferences.getString(SignUpFragment.PHONE, "No Phone yet"));
-            email.setText(preferences.getString(SignUpFragment.EMAIL, "No Email yet"));
-        }
-        if(preferences.getString(UserInfoFragment.IMAGE_PRFILE,null)!= null){
-            img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoFragment.IMAGE_PRFILE,null))));
-        }
+        // defined  file preferences and mode
+        preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
 
-        img_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserInfoFragment newFragment = new UserInfoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+        //set usr information if their
+        setHeaderNav(preferences);
+
+        //go to edit User information
+        img_profile.setOnClickListener( V->{
+                Intent intent = new Intent(HomeActivity.this,UserInfoActivity.class);
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
-            }
         });
 
+        // set action Bar to Navigation
         actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
         actionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.log_out_nav:
-                        Toast.makeText(getApplicationContext(), "Log Out .... ", Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-                    }
-                    return true;
-                }
+        // set listener to item in navigation
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.log_out_nav) {
+                Toast.makeText(getApplicationContext(), "Log Out .... ", Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+                return true;
             });
-
     }
 
     @Override
@@ -94,6 +79,13 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // check any change date in Header after edit
+        setHeaderNav(preferences);
+    }
+
     void intiHeader(View v){
         name = v.findViewById(R.id.user_name_nav);
         address = v.findViewById(R.id.user_address_nav);
@@ -102,4 +94,15 @@ public class HomeActivity extends AppCompatActivity {
         img_profile = v.findViewById(R.id.img_profile);
     }
 
+    void setHeaderNav(SharedPreferences preferences){
+        if (preferences.getString(SignUpFragment.USER_NAME,null)!= null) {
+            name.setText(preferences.getString(SignUpFragment.USER_NAME, "New User"));
+            address.setText(preferences.getString(SignUpFragment.ADDRESS, "NO Address yet"));
+            phone.setText(preferences.getString(SignUpFragment.PHONE, "No Phone yet"));
+            email.setText(preferences.getString(SignUpFragment.EMAIL, "No Email yet"));
+        }
+        if(preferences.getString(UserInfoActivity.IMAGE_PROFILE,null)!= null){
+            img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoActivity.IMAGE_PROFILE,null))));
+        }
+    }
 }

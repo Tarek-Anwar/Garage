@@ -14,10 +14,12 @@ import androidx.fragment.app.Fragment;
 import com.HomeGarage.garage.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
 public class SignUpFragment extends Fragment {
 
     public static final String USER_NAME = "user name";
-    public static final String EMAIL = "emaiil";
+    public static final String EMAIL = "email";
     public static final String PHONE = "phone";
     public static final String ADDRESS = "address";
 
@@ -33,15 +35,15 @@ public class SignUpFragment extends Fragment {
 
         creatBTN.setOnClickListener(v-> {
 
-            SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
+            SharedPreferences preferences = Objects.requireNonNull(getActivity()).getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
 
-            editor.putString(USER_NAME,userNameET.getText().toString());
-            editor.putString(EMAIL,emailET.getText().toString());
-            editor.putString(PHONE,phoneET.getText().toString());
-            editor.putString(ADDRESS,addressET.getText().toString());
-            Toast.makeText(getContext(), "Sussess", Toast.LENGTH_SHORT).show();
-            editor.commit();
+            editor.putString(USER_NAME, Objects.requireNonNull(userNameET.getText()).toString());
+            editor.putString(EMAIL, Objects.requireNonNull(emailET.getText()).toString());
+            editor.putString(PHONE, Objects.requireNonNull(phoneET.getText()).toString());
+            editor.putString(ADDRESS, Objects.requireNonNull(addressET.getText()).toString());
+            Toast.makeText(getContext(), "Susses", Toast.LENGTH_SHORT).show();
+            editor.apply();
         });
 
         return rootView;
