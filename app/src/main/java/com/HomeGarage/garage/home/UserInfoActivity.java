@@ -54,7 +54,6 @@ public class UserInfoActivity extends AppCompatActivity {
                     return null;
                 }
             }
-
         };
 
         launcher=registerForActivityResult(contract,uri->{
