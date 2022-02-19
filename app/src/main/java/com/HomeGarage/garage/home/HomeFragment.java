@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
     LastOperAdapter lastOperAdapter;
     ImageView notFind;
 
+    private boolean check = false;
     public HomeFragment(){}
 
     @Override
@@ -112,6 +113,16 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
             insertGrageData();
             insertLastOpreationData();
                 });
+
+        if(check==true){
+            if(lastOperAdapter.getLastOpereations().isEmpty()){
+                notFind.setVisibility(View.VISIBLE);
+                layoutlast.setVisibility(View.GONE);
+            }else {
+                layoutlast.setVisibility(View.VISIBLE);
+                notFind.setVisibility(View.GONE);
+            }
+        }
         return root;
     }
 
@@ -175,15 +186,26 @@ public class HomeFragment extends Fragment implements OffersAdpter.OfferListener
         final LiveData<List<Opreation>> opreations=viewModel.getOpreations();
         opreations.observeForever(opreations1 -> {
             lastOperAdapter.setLastOpereations(opreations1);
-
-            if(opreations1.isEmpty()){
-                layoutlast.setVisibility(View.GONE);
-                notFind.setVisibility(View.VISIBLE);
-            }else {
-                layoutlast.setVisibility(View.VISIBLE);
-                notFind.setVisibility(View.GONE);
-            }
-
+            checkFindData(opreations1.isEmpty());
         });
+    }
+
+    void checkFindData(Boolean b){
+        if(b){
+            notFind.setVisibility(View.VISIBLE);
+            layoutlast.setVisibility(View.GONE);
+        }else {
+            layoutlast.setVisibility(View.VISIBLE);
+            notFind.setVisibility(View.GONE);
+        }
+    }
+
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG,"onDestroyView");
+        check=true;
     }
 }
