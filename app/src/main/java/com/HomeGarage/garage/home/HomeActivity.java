@@ -105,4 +105,5 @@ public class HomeActivity extends AppCompatActivity {
             img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoActivity.IMAGE_PROFILE,null))));
         }
     }
+
 }

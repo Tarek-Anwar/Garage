@@ -26,7 +26,7 @@ public class Opreation {
     }
 
     @Ignore
-    public Opreation( String state, String decisionMaker, String decisionRecipient, String address, Date date,double price) {
+    public Opreation(String state, String decisionMaker, String decisionRecipient, String address, Date date,double price) {
         this.state = state;
         this.decisionMaker = decisionMaker;
         this.decisionRecipient = decisionRecipient;

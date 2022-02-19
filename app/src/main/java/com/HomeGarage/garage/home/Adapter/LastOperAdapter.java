@@ -25,12 +25,15 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     LastOperListener lastOperListener;
     private int numViewOper=0;
 
-    public LastOperAdapter( Context context, LastOperListener lastOperListener, int numViewOper) {
+    public LastOperAdapter(Context context, LastOperListener lastOperListener, int numViewOper ) {
         this.context = context;
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
     }
-
+    public LastOperAdapter(Context context, int numViewOper) {
+        this.context = context;
+        this.numViewOper = numViewOper;
+    }
     public void setLastOpereations(List<Opreation> lastOpereations) {
         this.lastOpereations = lastOpereations;
         notifyDataSetChanged();

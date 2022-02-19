@@ -19,11 +19,11 @@ public class DBViewModel extends AndroidViewModel {
         AppDataBase dataBase=AppDataBase.getInstance(this.getApplication());
 
         grages=dataBase.grageDAO().loadGrages();
-
         opreations=dataBase.grageDAO().loadLastOptreations();
     }
 
     public LiveData<List<GrageInfo>> getGrages(){return grages;}
-
     public LiveData<List<Opreation>> getOpreations(){return  opreations;}
+
+
 }

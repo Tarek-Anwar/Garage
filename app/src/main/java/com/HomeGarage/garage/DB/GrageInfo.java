@@ -13,7 +13,8 @@ public class GrageInfo  {
     private String grageName,governoate,city,restOfAddress,location ;
     private float price , viewRate;
     private int imgResourceId;
-     @Ignore
+
+    @Ignore
     public GrageInfo(String grageName, String governoate, String city, String restOfAddress,
                      String location, float price, float viewRate, int imgResourceId) {
         this.grageName = grageName;
