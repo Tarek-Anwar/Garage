@@ -10,36 +10,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.DB.Opreation;
+import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
     public static final String TAG="mmm";
 
-    List<Opreation> lastOpereations;
+    ArrayList<Opreation> lastOpereations;
     Context context;
     LastOperListener lastOperListener;
     private int numViewOper=0;
 
-    public LastOperAdapter(Context context, LastOperListener lastOperListener, int numViewOper ) {
+    public LastOperAdapter( Context context, LastOperListener lastOperListener, int numViewOper) {
         this.context = context;
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
     }
-    public LastOperAdapter(Context context, int numViewOper) {
-        this.context = context;
-        this.numViewOper = numViewOper;
-    }
-    public void setLastOpereations(List<Opreation> lastOpereations) {
+
+    public void setLastOpereations(ArrayList<Opreation> lastOpereations) {
         this.lastOpereations = lastOpereations;
         notifyDataSetChanged();
     }
 
-    public List<Opreation> getLastOpereations() {
+    public ArrayList<Opreation> getLastOpereations() {
         return lastOpereations;
     }
 

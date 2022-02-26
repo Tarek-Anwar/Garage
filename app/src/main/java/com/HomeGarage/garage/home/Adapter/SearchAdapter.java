@@ -9,14 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.DB.GrageInfo;
+import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    List<GrageInfo> grageInfos;
+    ArrayList<GrageInfo> grageInfos;
     Context context;
     SearchListener searchListener;
 
@@ -25,7 +26,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         this.searchListener = searchListener;
     }
 
-    public void setGrageInfos(List<GrageInfo> grageInfos) {
+    public void setGrageInfos(ArrayList<GrageInfo> grageInfos) {
         this.grageInfos= grageInfos;
         notifyDataSetChanged();
     }

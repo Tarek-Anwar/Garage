@@ -1,20 +1,14 @@
-package com.HomeGarage.garage.DB;
+package com.HomeGarage.garage.home.models;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Entity")
 public class GrageInfo  {
 
-    @PrimaryKey(autoGenerate = true)
     private int id;
     private String grageName,governoate,city,restOfAddress,location ;
     private float price , viewRate;
     private int imgResourceId;
 
-    @Ignore
+
     public GrageInfo(String grageName, String governoate, String city, String restOfAddress,
                      String location, float price, float viewRate, int imgResourceId) {
         this.grageName = grageName;

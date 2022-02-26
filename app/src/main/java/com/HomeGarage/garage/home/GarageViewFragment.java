@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.HomeGarage.garage.DB.GrageInfo;
+import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
 
 public class GarageViewFragment extends Fragment {

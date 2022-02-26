@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,21 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.DB.AppDataBase;
-import com.HomeGarage.garage.DB.Opreation;
+import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
 
     RecyclerView  recyclerAllOper;
-    List<Opreation> opreations;
+    ArrayList<Opreation> opreations=new ArrayList<>();
     LastOperAdapter lastOperAdapter;
+    ImageView notFind;
 
-    public LastOperFragment(List<Opreation> opreations) {
+    public LastOperFragment(ArrayList<Opreation> opreations) {
         this.opreations=opreations;
     }
 
@@ -43,11 +44,11 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
 
-        recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
 
-        recyclerAllOper.setVisibility(View.VISIBLE);
+        recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
         recyclerAllOper.setAdapter(lastOperAdapter);
+
 
         return root;
     }

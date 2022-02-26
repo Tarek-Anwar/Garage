@@ -1,15 +1,12 @@
-package com.HomeGarage.garage.DB;
+package com.HomeGarage.garage.home.models;
 
-import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
+
 
 import java.util.Date;
 
-@Entity(tableName = "opEntity")
-public class Opreation {
 
-    @PrimaryKey(autoGenerate = true)
+public class Opreation {
     int id;
     String state,decisionMaker,decisionRecipient,address;
     double price;
@@ -24,8 +21,6 @@ public class Opreation {
         this.date = date;
         this.price=price;
     }
-
-    @Ignore
     public Opreation(String state, String decisionMaker, String decisionRecipient, String address, Date date,double price) {
         this.state = state;
         this.decisionMaker = decisionMaker;
@@ -67,9 +62,6 @@ public class Opreation {
         this.decisionMaker = decisionMaker;
     }
 
-    public String getDecisionRecipient() {
-        return decisionRecipient;
-    }
 
     public void setDecisionRecipient(String decisionRecipient) {
         this.decisionRecipient = decisionRecipient;
@@ -91,4 +83,7 @@ public class Opreation {
         this.date = date;
     }
 
+    public String getDecisionRecipient() {
+        return decisionRecipient;
+    }
 }
