@@ -24,7 +24,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     RecyclerView  recyclerAllOper;
     ArrayList<Opreation> opreations=new ArrayList<>();
     LastOperAdapter lastOperAdapter;
-    ImageView notFind;
 
     public LastOperFragment(ArrayList<Opreation> opreations) {
         this.opreations=opreations;
@@ -43,7 +42,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
-
 
         recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));

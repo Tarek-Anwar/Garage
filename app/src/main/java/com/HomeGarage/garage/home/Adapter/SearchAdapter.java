@@ -63,8 +63,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         }
 
         public void BulidUI(GrageInfo grageInfo){
-            nameGarage.setText(grageInfo.getGrageName());
-            addressGarage.setText(grageInfo.getGovernoate()+" "+grageInfo.getCity()+"\n"+grageInfo.getRestOfAddress());
+            nameGarage.setText(grageInfo.getNameEn());
+            addressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN());
 
             layouthListener.setOnClickListener(V-> {
                 searchListener.SearchListener(grageInfo);

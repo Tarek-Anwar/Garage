@@ -41,11 +41,11 @@ public class GarageViewFragment extends Fragment {
 
         initView(root);
 
-        ratingGarage.setRating(grageInfo.getViewRate());
+        ratingGarage.setRating(grageInfo.getPriceForHour());
         ratingGarage.setEnabled(false);
 
-        nameGarage.setText(grageInfo.getGrageName());
-        totalAddressGarage.setText(grageInfo.getGovernoate()+" "+grageInfo.getCity()+" "+grageInfo.getRestOfAddress());
+        nameGarage.setText(grageInfo.getNameEn());
+        totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());
 
         return root;
     }

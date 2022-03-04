@@ -7,19 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
      TextInputEditText emailEditText,passwordEditText;
      Button loginBTN,registerButton ;
      TextView forgotPassTV;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,15 +39,45 @@ public class LoginFragment extends Fragment {
 
         registerButton.setOnClickListener(V-> {
                 SignUpFragment newFragment = new SignUpFragment();
-                FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer_main, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
         });
 
         loginBTN.setOnClickListener(v-> {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
+            String email=emailEditText.getText().toString();
+            String pass=passwordEditText.getText().toString();
+            if(!email.isEmpty()&&!pass.isEmpty())
+            {
+                if (!(pass.length()<6))
+                {
+                    FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
+                    firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(getContext(),"Welcom!",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "password should be 6 digits or more" , Toast.LENGTH_SHORT).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getContext(), "please insert email and password", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return rootView;

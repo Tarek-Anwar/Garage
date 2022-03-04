@@ -26,9 +26,8 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     public static   final String TAG="rrr";
 
     ArrayList<Opreation> opreationArrayList=new ArrayList<>();
-    RecyclerView recyclerOffers , recyclerLast;
+    RecyclerView  recyclerLast;
     LinearLayout layoutNearFind , layoutAllFind,layoutlast;
-    Button btn_db;
     View seeAllOper;
     LastOperAdapter lastOperAdapter;
     ImageView notFind;
@@ -40,7 +39,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
+        lastOperAdapter=new LastOperAdapter(getContext(),this,6);
         insertLastOpreationData();
     }
 
@@ -59,7 +58,6 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         //put LinearLayoutManager to recyclerFind
 
         seeAllOper.setOnClickListener(v -> {
-            Log.i("tttt",opreationArrayList.size()+"");
                 LastOperFragment newFragment = new LastOperFragment(lastOperAdapter.getLastOpereations());
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -99,7 +97,6 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         layoutNearFind = v.findViewById(R.id.layout_near_find);
         layoutAllFind = v.findViewById(R.id.layout_all_find);
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
-        btn_db = v.findViewById(R.id.btn_add_db);
         layoutlast = v.findViewById(R.id.layout_last);
         notFind = v.findViewById(R.id.not_find_img);
     }
@@ -111,14 +108,6 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
             transaction.addToBackStack(null);
             transaction.commit();
     }
-
-    public void insertGrageData() {
-        GrageInfo grageInfo=new GrageInfo("Name","GHarbia","Mahlla","Namra_ELBasel",
-                    "location",2.00f,3.00f,R.id.image);
-        for (int i = 0; i < 20; i++) {
-        }
-    }
-
     public void insertLastOpreationData() {
 
         Date date=new Date();

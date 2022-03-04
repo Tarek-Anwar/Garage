@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/user_Name_ET"
@@ -16,9 +18,6 @@
         android:hint="@string/user_name"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_baseline_person_24"
         tools:ignore="RtlSymmetry">
 
@@ -39,10 +38,6 @@
         android:hint="@string/email_adress"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/user_Name_ET"
-        app:layout_constraintTop_toBottomOf="@id/user_Name_ET"
-        app:layout_constraintWidth_percent=".8"
         app:startIconDrawable="@drawable/ic_baseline_email_24"
         tools:ignore="RtlSymmetry">
 
@@ -63,11 +58,6 @@
         android:hint="@string/phone"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="@id/user_Name_ET"
-        app:layout_constraintTop_toBottomOf="@id/cemail"
-        app:layout_constraintWidth_percent=".8"
         app:startIconDrawable="@drawable/ic_baseline_local_phone_24"
         tools:ignore="RtlSymmetry">
 
@@ -77,30 +67,6 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/address"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:hint="address"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="@id/user_Name_ET"
-        app:layout_constraintTop_toBottomOf="@+id/cphone"
-        app:layout_constraintWidth_percent=".8"
-        app:startIconDrawable="@drawable/ic_baseline_home_24"
-        tools:ignore="RtlSymmetry">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/address_TF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cPassword_ET"
@@ -115,10 +81,6 @@
         android:paddingBottom="10dp"
         android:password="true"
         app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address"
-        app:layout_constraintWidth_percent=".8"
         app:startIconDrawable="@drawable/ic_baseline_lock_24"
         tools:ignore="Deprecated,RtlSymmetry">
 
@@ -141,11 +103,6 @@
         android:paddingBottom="10dp"
         android:password="true"
         app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/cPassword_ET"
-        app:layout_constraintTop_toBottomOf="@id/cPassword_ET"
-        app:layout_constraintWidth_percent=".8"
         app:startIconDrawable="@drawable/ic_baseline_lock_24"
         tools:ignore="Deprecated,RtlSymmetry">
 
@@ -160,6 +117,7 @@
         android:id="@+id/register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
@@ -167,9 +125,5 @@
         android:paddingBottom="10dp"
         android:text="@string/register"
         android:textAllCaps="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Confirm_Password_ET"
-        app:layout_constraintWidth_percent=".8"
         tools:ignore="RtlSymmetry" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

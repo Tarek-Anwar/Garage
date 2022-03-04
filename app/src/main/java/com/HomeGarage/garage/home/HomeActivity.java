@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.sign.SignUpFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
@@ -27,10 +33,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    TextView name , address ,email , phone;
+    TextView name ,email , phone;
     ImageView img_profile;
     SharedPreferences preferences ;
-
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,9 @@ public class HomeActivity extends AppCompatActivity {
         //find header Navigation
         View v = navigationView.getHeaderView(0);
         intiHeader(v);
+
+        //init auth
+        auth=FirebaseUtil.firebaseAuth;
 
         // defined  file preferences and mode
         preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
@@ -64,8 +73,16 @@ public class HomeActivity extends AppCompatActivity {
         // set listener to item in navigation
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
-                Toast.makeText(getApplicationContext(), "Log Out .... ", Toast.LENGTH_SHORT).show();
-                drawerLayout.closeDrawer(GravityCompat.START);
+
+                Toast.makeText(getApplicationContext(), "Logging Out .... ", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        auth.signOut();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    }
+                }, 2000);
             }
                 return true;
             });
@@ -88,7 +105,6 @@ public class HomeActivity extends AppCompatActivity {
 
     void intiHeader(View v){
         name = v.findViewById(R.id.user_name_nav);
-        address = v.findViewById(R.id.user_address_nav);
         email = v.findViewById(R.id.user_email_nav);
         phone = v.findViewById(R.id.user_phone_nav);
         img_profile = v.findViewById(R.id.img_profile);
@@ -97,7 +113,6 @@ public class HomeActivity extends AppCompatActivity {
     void setHeaderNav(SharedPreferences preferences){
         if (preferences.getString(SignUpFragment.USER_NAME,null)!= null) {
             name.setText(preferences.getString(SignUpFragment.USER_NAME, "New User"));
-            address.setText(preferences.getString(SignUpFragment.ADDRESS, "NO Address yet"));
             phone.setText(preferences.getString(SignUpFragment.PHONE, "No Phone yet"));
             email.setText(preferences.getString(SignUpFragment.EMAIL, "No Email yet"));
         }
