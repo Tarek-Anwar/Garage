@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lastOperAdapter=new LastOperAdapter(getContext(),this,6);
+        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
         insertLastOpreationData();
     }
 
@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         //put LinearLayoutManager to recyclerFind
 
         seeAllOper.setOnClickListener(v -> {
+            Log.i("tttt",opreationArrayList.size()+"");
                 LastOperFragment newFragment = new LastOperFragment(lastOperAdapter.getLastOpereations());
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -108,6 +109,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
             transaction.addToBackStack(null);
             transaction.commit();
     }
+
     public void insertLastOpreationData() {
 
         Date date=new Date();

@@ -1,6 +1,8 @@
 package com.HomeGarage.garage.home.models;
 
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class GrageInfo  {
         private String id;
         private String nameEn , nameAr;
@@ -14,6 +16,11 @@ public class GrageInfo  {
         private float priceForHour;
         private String imageGarage;
 
+        public LatLng getLatLngGarage (){
+            String [] loc = getLocation().split(",");
+            return  new LatLng(Double.parseDouble(loc[0]),Double.parseDouble(loc[1]));
+
+        }
         public float getPriceForHour() {
             return priceForHour;
         }
@@ -38,7 +45,15 @@ public class GrageInfo  {
             this.id = id;
         }
 
-        public GrageInfo(String id, String nameEn, String nameAr, String phone,
+       public GrageInfo(String nameEn, String governoateEn, String cityEn, String restOfAddressEN,  String location) {
+        this.nameEn = nameEn;
+        this.governoateEn = governoateEn;
+        this.cityEn = cityEn;
+        this.restOfAddressEN = restOfAddressEN;
+        this.location = location;
+    }
+
+    public GrageInfo(String id, String nameEn, String nameAr, String phone,
                                    String email, String password, String governoateEn,
                                    String governoateAR, String cityEn, String cityAr,
                                    String restOfAddressEN, String restOfAddressAr, String location) {

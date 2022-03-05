@@ -44,6 +44,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         .setCropShape(CropImageView.CropShape.OVAL)
                         .setAspectRatio(1,1)
                         .getIntent(getApplicationContext());
+
             }
 
             @Override

@@ -37,4 +37,5 @@
         android:id="@+id/user_email_nav"
         style="@style/txt_nav_txt"
         android:text="@string/email_adress" />
+
 </LinearLayout>
