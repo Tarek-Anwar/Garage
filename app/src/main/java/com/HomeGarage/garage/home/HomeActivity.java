@@ -6,15 +6,18 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -23,10 +26,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.sign.SignUpFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
@@ -37,9 +50,12 @@ public class HomeActivity extends AppCompatActivity {
     ImageView img_profile;
     SharedPreferences preferences ;
     FirebaseAuth auth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         //find element
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -120,5 +136,74 @@ public class HomeActivity extends AppCompatActivity {
             img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoActivity.IMAGE_PROFILE,null))));
         }
     }
+/*
+    private void getAllGarage() {
+        grageInfos = FirebaseUtil.allGarage;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        GrageInfo info = item.getValue(GrageInfo.class);
+                        grageInfos.add(info);
+                    }
+                    grageInfos.notifyAll();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void getGarags(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("sdfsdfd",snapshot.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getGarageAll(){
+        grageInfos = FirebaseUtil.allGarage;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                GrageInfo model = snapshot.getValue(GrageInfo.class);
+                model.setId(snapshot.getKey());
+                grageInfos.add(model);
+                Log.i("sdfsdfsdf" , model.getLocation());
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }*/
 
 }

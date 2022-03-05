@@ -38,7 +38,8 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
     FirebaseDatabase database;
     DatabaseReference reference;
 
-    RadioGroup group;SearchView searchView;
+    RadioGroup group;
+    SearchView searchView;
 
     RecyclerView recyclerSearch;
     SearchAdapter searchAdapter;
@@ -63,7 +64,6 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
         // set adapter
         recyclerSearch.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         recyclerSearch.setAdapter(searchAdapter);
-
 
         getChecked();
         return root;

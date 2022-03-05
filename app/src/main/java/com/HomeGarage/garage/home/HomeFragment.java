@@ -9,15 +9,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,14 +42,16 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     ImageView notFind;
 
     private boolean check = false;
-    public HomeFragment(){}
+
+    public HomeFragment(){
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         lastOperAdapter=new LastOperAdapter(getContext(),this,3);
         insertLastOpreationData();
+
     }
 
     @Override
@@ -50,7 +61,6 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
         //find element
         initViews(root);
-
 
         recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerLast.setAdapter(lastOperAdapter);
@@ -127,4 +137,5 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         Log.i(TAG,"onDestroyView");
         check=true;
     }
+
 }

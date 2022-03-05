@@ -128,7 +128,7 @@
         android:id="@+id/fragmentContainerView2"
         android:name="com.HomeGarage.garage.home.MapsFragment"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
