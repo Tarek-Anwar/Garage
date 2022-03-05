@@ -2,12 +2,14 @@ package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -28,7 +30,6 @@ public class GarageViewFragment extends Fragment {
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,15 +55,12 @@ public class GarageViewFragment extends Fragment {
         nameGarage.setText(grageInfo.getNameEn());
         totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());
 
-        orderGarage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        "/topics/"+grageInfo.getEmail() ,"From " + user.getEmail()
-                        ,"To Garage "+ grageInfo.getNameEn() , getContext(),getActivity());
-
+        orderGarage.setOnClickListener(v -> {
+            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                    grageInfo.getId(),"From " + user.getEmail()
+                    ,"To Garage "+ grageInfo.getNameEn(), getContext(),getActivity());
+            Log.i("sdfsdfsd" , grageInfo.getEmail());
                 notificationsSender.SendNotifications();
-            }
         });
         return root;
     }
