@@ -46,7 +46,6 @@
     <string name="price_for_hour">Price For Hour</string>
     <string name="reservation">Reservation</string>
     <string name="go_garage">"Go Garage"</string>
-
     <string name="open_menu">Open</string>
     <string name="close_menu">Close</string>
     <string name="setting">Setting</string>
@@ -59,5 +58,8 @@
     <string name="save">Save</string>
     <string name="time_start">Time Start Reservation</string>
     <string name="time_end">Expected time to finish</string>
+    <string name="expected_price">Expected Price</string>
+    <string name="reservation_now">Reservation Now</string>
+    <string name="expected_hour">Hour to Reservation</string>
 
 </resources>

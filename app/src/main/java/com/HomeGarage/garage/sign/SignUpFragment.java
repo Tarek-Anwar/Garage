@@ -83,7 +83,7 @@ public class SignUpFragment extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 DatabaseReference databaseReference = FirebaseUtil.databaseReference;
-                                firebaseUser=task.getResult().getUser();
+                                firebaseUser = task.getResult().getUser();
                                 DatabaseReference reference=databaseReference.child(firebaseUser.getUid());
                                 reference.child("Full Name").setValue(userName);
                                 reference.child("Password").setValue(userPass);

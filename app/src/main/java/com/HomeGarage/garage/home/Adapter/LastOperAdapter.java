@@ -69,7 +69,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     }
     protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
 
-       private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper,textPriceOper ;
+       private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper ;
        private View layoutLastOper;
 
        public LastOperViewHolder(@NonNull View itemView) {
@@ -80,17 +80,14 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
             textWhoDoOper = itemView.findViewById(R.id.text_who_do);
             textWhoToDoOper = itemView.findViewById(R.id.text_who_to_do);
             layoutLastOper = itemView.findViewById(R.id.layout_last_oper);
-            textPriceOper = itemView.findViewById(R.id.text_oper_price);
         }
 
         public void BulidUI(Opreation opreation){
 
-            textWhoToDoOper.setText(opreation.getDecisionRecipient());
+            textWhoToDoOper.setText(opreation.getToName());
             textTypeOper.setText(opreation.getState());
-            textTimeOper.setText(new SimpleDateFormat("EEE, MMM d, yyyy").format(opreation.getDate()));
-            textWhoDoOper.setText(opreation.getDecisionMaker());
-            textPriceOper.setText(opreation.getPrice()+"");
-
+            textTimeOper.setText(opreation.getDate());
+            textWhoDoOper.setText(opreation.getFromName());
             layoutLastOper.setOnClickListener(v ->  {
                 lastOperListener.LastOperListener(opreation);
             });

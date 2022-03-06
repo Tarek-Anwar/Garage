@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/text_time_oper"
@@ -48,11 +48,6 @@
             tools:text="3:20 PM 15-1-2022" />
 
 
-        <TextView
-            android:id="@+id/text_oper_price"
-            style="@style/txt_last_oper"
-            android:layout_weight="1"
-            tools:text="15.00 EG" />
     </LinearLayout>
 
 </LinearLayout>

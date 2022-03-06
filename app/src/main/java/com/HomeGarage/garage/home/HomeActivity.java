@@ -51,8 +51,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //init auth
         auth=FirebaseUtil.firebaseAuth;
-        //FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.currentUser.getUid());
-        //Log.i("dfdsff",FirebaseUtil.currentUser.getUid());
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.currentUser.getUid());
 
         // defined  file preferences and mode
         preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);

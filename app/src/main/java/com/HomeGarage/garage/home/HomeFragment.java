@@ -127,8 +127,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
 
     public void insertLastOpreationData() {
 
-        Date date=new Date();
-        Opreation opreation=new Opreation("accept","grage owner","client","mansora",date,3.00);
+        Opreation opreation=new Opreation("accept","grage owner","client","15/10/2022 5:30 PM", 3.00f);
         for (int i=0;i<15;i++)
         {
             opreationArrayList.add(opreation);

@@ -54,4 +54,7 @@
     <string name="save">حفظ</string>
     <string name="time_start">وقت بداية الحجز</string>
     <string name="time_end">الوقت المتوقع للانتهاء</string>
+    <string name="expected_price">السعر المتوقع</string>
+    <string name="reservation_now">احجز الان</string>
+    <string name="expected_hour">عدد الساعات للحجز</string>
 </resources>

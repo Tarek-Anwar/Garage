@@ -59,14 +59,11 @@ public class GarageViewFragment extends Fragment {
         orderGarage.setOnClickListener(v -> {
 
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment());
+            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(grageInfo));
             transaction.addToBackStack(null);
             transaction.commit();
 
-           /* FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                    grageInfo.getId(),"From " + user.getEmail()
-                    ,"To Garage "+ grageInfo.getNameEn(), getContext(),getActivity());
-                notificationsSender.SendNotifications();*/
+
         });
         return root;
     }
