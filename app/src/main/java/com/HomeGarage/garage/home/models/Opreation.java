@@ -1,8 +1,5 @@
 package com.HomeGarage.garage.home.models;
 
-import androidx.room.Ignore;
-
-
 import java.util.Date;
 
 

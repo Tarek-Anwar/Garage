@@ -15,9 +15,10 @@ import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 
 import com.HomeGarage.garage.home.HomeActivity;
+import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     NotificationManager mNotificationManager;
 
@@ -26,9 +27,18 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+       String title = remoteMessage.getNotification().getTitle();
+        String body = remoteMessage.getNotification().getBody();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RESIRVE");
+        builder.setContentTitle(title);
+        builder.setContentText(body);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(123, builder.build());
+
 
         // playing audio and vibration when user se reques
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+     /*  Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -44,10 +54,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "REFISTER");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            builder.setSmallIcon(R.drawable.icontrans);
+        //builder.setSmallIcon(R.drawable.icontrans);
             builder.setSmallIcon(resourceImage);
         } else {
-//            builder.setSmallIcon(R.drawable.icon_kritikar);
+        // builder.setSmallIcon(R.drawable.icon_kritikar);
             builder.setSmallIcon(resourceImage);
         }
 
@@ -77,8 +87,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
 
-// notificationId is a unique int for each notification that you must define
-        mNotificationManager.notify(100, builder.build());
+        // notificationId is a unique int for each notification that you must define
+        mNotificationManager.notify(100, builder.build());*/
 
 
     }

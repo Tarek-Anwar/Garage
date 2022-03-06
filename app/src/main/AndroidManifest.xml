@@ -39,8 +39,9 @@
             android:theme="@style/Base.Theme.AppCompat" />
 
         <service
-            android:name=".service.FirebaseMessagingService"
-            android:exported="true">
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="false"
+            android:directBootAware="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

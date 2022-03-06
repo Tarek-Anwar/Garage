@@ -12,10 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.reservation.ConfarmResrerFragment;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -25,7 +27,7 @@ public class GarageViewFragment extends Fragment {
     GrageInfo grageInfo;
     private TextView nameGarage , totalAddressGarage;
     private RatingBar ratingGarage ;
-    Button orderGarage , showLocationGarage;
+    Button orderGarage;
 
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
@@ -55,10 +57,16 @@ public class GarageViewFragment extends Fragment {
         totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());
 
         orderGarage.setOnClickListener(v -> {
-            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+           /* FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                     grageInfo.getId(),"From " + user.getEmail()
                     ,"To Garage "+ grageInfo.getNameEn(), getContext(),getActivity());
-                notificationsSender.SendNotifications();
+                notificationsSender.SendNotifications();*/
         });
         return root;
     }
@@ -67,7 +75,7 @@ public class GarageViewFragment extends Fragment {
         nameGarage = view.findViewById(R.id.name_garage_txt);
         totalAddressGarage = view.findViewById(R.id.total_address_garage_txt);
         orderGarage = view.findViewById(R.id.btn_order_garage);
-        showLocationGarage = view.findViewById(R.id.btn_show_loca_garage);
+
         ratingGarage = view.findViewById(R.id.rating_garage);
     }
 }

@@ -6,18 +6,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -26,20 +21,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.sign.SignUpFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
@@ -65,8 +51,9 @@ public class HomeActivity extends AppCompatActivity {
 
         //init auth
         auth=FirebaseUtil.firebaseAuth;
-        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.currentUser.getUid());
-        Log.i("dfdsff",FirebaseUtil.currentUser.getUid());
+        //FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.currentUser.getUid());
+        //Log.i("dfdsff",FirebaseUtil.currentUser.getUid());
+
         // defined  file preferences and mode
         preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
 
@@ -89,16 +76,12 @@ public class HomeActivity extends AppCompatActivity {
         // set listener to item in navigation
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
-
                 Toast.makeText(getApplicationContext(), "Logging Out .... ", Toast.LENGTH_SHORT).show();
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseUtil.currentUser.getUid());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        auth.signOut();
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    }
+               // FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseUtil.currentUser.getUid());
+                new Handler().postDelayed(() -> {
+                    auth.signOut();
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }, 2000);
             }
                 return true;
@@ -137,7 +120,8 @@ public class HomeActivity extends AppCompatActivity {
             img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoActivity.IMAGE_PROFILE,null))));
         }
     }
-/*
+
+    /*
     private void getAllGarage() {
         grageInfos = FirebaseUtil.allGarage;
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");

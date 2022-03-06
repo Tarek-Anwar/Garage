@@ -57,5 +57,7 @@
     <string name="edit_address">Edit Address</string>
     <string name="edit_info">Edit Information</string>
     <string name="save">Save</string>
+    <string name="time_start">Time Start Reservation</string>
+    <string name="time_end">Expected time to finish</string>
 
 </resources>

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseUtil.getInstence("CarOnwerInfo");
+        FirebaseUtil.getInstence("CarOnwerInfo" , "Operation");
 
         auth = FirebaseAuth.getInstance();
 

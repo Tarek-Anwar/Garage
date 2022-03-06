@@ -47,4 +47,11 @@
     <string name="setting">الاعدادات</string>
     <string name="log_out">تسجيل خروج</string>
     <string name="file_info_user">FileInfoUser</string>
+    <string name="edit">edit_icon</string>
+    <string name="newpassword">اضافة رقم سري جديد ؟</string>
+    <string name="edit_address">تعديل العنوان</string>
+    <string name="edit_info">تعديل البيانات</string>
+    <string name="save">حفظ</string>
+    <string name="time_start">وقت بداية الحجز</string>
+    <string name="time_end">الوقت المتوقع للانتهاء</string>
 </resources>
