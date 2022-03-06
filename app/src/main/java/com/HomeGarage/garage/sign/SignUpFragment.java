@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.HomeActivity;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
@@ -59,6 +60,7 @@ public class SignUpFragment extends Fragment {
         initViews(rootView);
         validatET();
         creatBTN.setOnClickListener(v-> {
+
             String userName=userNameET.getEditText().getText().toString();
             String userEmail=emailET.getEditText().getText().toString();
             String userPhone=phoneET.getEditText().getText().toString();
@@ -74,24 +76,22 @@ public class SignUpFragment extends Fragment {
             editor.apply();
 
 
-            if( validation.validate())
-            {
+            if( validation.validate()) {
                 FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
                     firebaseAuth.createUserWithEmailAndPassword(userEmail,userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-
                                 DatabaseReference databaseReference = FirebaseUtil.databaseReference;
                                 firebaseUser=task.getResult().getUser();
                                 DatabaseReference reference=databaseReference.child(firebaseUser.getUid());
-
                                 reference.child("Full Name").setValue(userName);
                                 reference.child("Password").setValue(userPass);
                                 reference.child("Email").setValue(userEmail);
-                                reference.child("Confirm Password").setValue(confirmPass);
                                 reference.child("Phone").setValue(userPhone);
-
+                                reference.child("id").setValue(firebaseUser.getUid());
+                                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                startActivity(intent);
                                 Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
                             }
                             else
@@ -110,8 +110,7 @@ public class SignUpFragment extends Fragment {
         return rootView;
     }
 
-    private void initViews(View rootView)
-    {
+    private void initViews(View rootView) {
         userNameET=rootView.findViewById(R.id.user_Name_ET);
         emailET=rootView.findViewById(R.id.cemail);
         phoneET=rootView.findViewById(R.id.cphone);
@@ -119,8 +118,8 @@ public class SignUpFragment extends Fragment {
         confirmET=rootView.findViewById(R.id.Confirm_Password_ET);
         creatBTN=rootView.findViewById(R.id.register_btn);
     }
-    private void validatET()
-    {
+
+    private void validatET() {
         validation.addValidation(userNameET, RegexTemplate.NOT_EMPTY,"enter your name");
         validation.addValidation(emailET, Patterns.EMAIL_ADDRESS,"invalid e-mail");
         validation.addValidation(phoneET,"^01[0125][0-9]{8}$","invalid phone number");

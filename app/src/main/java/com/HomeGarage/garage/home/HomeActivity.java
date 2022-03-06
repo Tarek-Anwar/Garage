@@ -51,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences preferences ;
     FirebaseAuth auth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +65,8 @@ public class HomeActivity extends AppCompatActivity {
 
         //init auth
         auth=FirebaseUtil.firebaseAuth;
-
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.currentUser.getUid());
+        Log.i("dfdsff",FirebaseUtil.currentUser.getUid());
         // defined  file preferences and mode
         preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
 
@@ -91,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.log_out_nav) {
 
                 Toast.makeText(getApplicationContext(), "Logging Out .... ", Toast.LENGTH_SHORT).show();
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseUtil.currentUser.getUid());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

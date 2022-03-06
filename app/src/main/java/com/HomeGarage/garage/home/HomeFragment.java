@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,9 +42,9 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     View seeAllOper;
     LastOperAdapter lastOperAdapter;
     ImageView notFind;
-
     private boolean check = false;
 
+    ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
     public HomeFragment(){
     }
 
@@ -51,7 +53,9 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         super.onCreate(savedInstanceState);
         lastOperAdapter=new LastOperAdapter(getContext(),this,3);
         insertLastOpreationData();
-
+        if(savedInstanceState==null){
+            getAllGarage();
+        }
     }
 
     @Override
@@ -111,6 +115,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         layoutlast = v.findViewById(R.id.layout_last);
         notFind = v.findViewById(R.id.not_find_img);
     }
+
     @Override
     public void LastOperListener(Opreation opreation) {
             OperationsFragment newFragment = new OperationsFragment(opreation);
@@ -136,6 +141,52 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         super.onDestroyView();
         Log.i(TAG,"onDestroyView");
         check=true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+
+    private void getAllGarage() {
+        grageInfos = FirebaseUtil.allGarage;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        GrageInfo info = item.getValue(GrageInfo.class);
+                        grageInfos.add(info);
+                    }
+                    MapsFragment mapsFragment =new MapsFragment();
+                    FragmentTransaction newTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    newTransaction.add(R.id.fragmentContainerMap,mapsFragment,"newFragmnet");
+                    newTransaction.commit();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void getGarags(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("sdfsdfd",snapshot.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

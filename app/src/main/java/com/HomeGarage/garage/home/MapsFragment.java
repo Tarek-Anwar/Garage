@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.HomeGarage.garage.FirebaseUtil;
@@ -37,7 +38,6 @@ public class MapsFragment extends Fragment {
 
     ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
     List<Marker> markers = new ArrayList<>();
-
     public MapsFragment(){ }
 
     private OnMapReadyCallback callback = googleMap -> {
@@ -57,6 +57,7 @@ public class MapsFragment extends Fragment {
            transaction.replace(R.id.fragmentContainerView, newFragment);
            transaction.addToBackStack(null);
            transaction.commit();
+
            return false;
 
        });
@@ -73,20 +74,12 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_maps, container, false);
-
-        grageInfos.add(new GrageInfo("Mahalla 1","Garbia","Mahalla","Str 21" ,"30.973617,31.1700415"));
-        grageInfos.add(new GrageInfo("Mahalla 2","Garbia","Mahalla","Str 50" ,"30.9758634,31.1598116"));
-        grageInfos.add(new GrageInfo("Mahalla 3","Garbia","Mahalla","Str 21" ,"30.9820509,31.1652127"));
-        grageInfos.add(new GrageInfo("Mahalla 4","Garbia","Mahalla","Str 21" ,"30.974715,31.1644506"));
-        //getGarageAll();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        Log.i("sdfsdfsd" , "onViewCreated");
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);

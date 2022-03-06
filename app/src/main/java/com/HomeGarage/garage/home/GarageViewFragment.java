@@ -26,7 +26,7 @@ public class GarageViewFragment extends Fragment {
     private TextView nameGarage , totalAddressGarage;
     private RatingBar ratingGarage ;
     Button orderGarage , showLocationGarage;
-    FirebaseUser user;
+
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
     }
@@ -49,8 +49,7 @@ public class GarageViewFragment extends Fragment {
         ratingGarage.setRating(grageInfo.getPriceForHour());
         ratingGarage.setEnabled(false);
 
-        user = FirebaseUtil.firebaseAuth.getCurrentUser();
-        FirebaseMessaging.getInstance().subscribeToTopic(user.getEmail());
+        FirebaseUser user = FirebaseUtil.currentUser;
 
         nameGarage.setText(grageInfo.getNameEn());
         totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());
@@ -59,7 +58,6 @@ public class GarageViewFragment extends Fragment {
             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                     grageInfo.getId(),"From " + user.getEmail()
                     ,"To Garage "+ grageInfo.getNameEn(), getContext(),getActivity());
-            Log.i("sdfsdfsd" , grageInfo.getEmail());
                 notificationsSender.SendNotifications();
         });
         return root;

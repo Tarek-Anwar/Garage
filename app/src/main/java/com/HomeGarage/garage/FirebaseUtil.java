@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,12 +20,15 @@ public class FirebaseUtil {
     private static FirebaseUtil firebaseUtil;
     public static ArrayList<GrageInfo> allGarage;
     public static FirebaseAuth.AuthStateListener listener;
+    public static FirebaseUser currentUser;
 
     public static void getInstence(String ref) {
         if (firebaseUtil == null) {
             firebaseUtil=new FirebaseUtil();
             firebaseDatabase=FirebaseDatabase.getInstance();
             firebaseAuth=FirebaseAuth.getInstance();
+            currentUser = firebaseAuth.getCurrentUser();
+
             listener=new FirebaseAuth.AuthStateListener(){
 
                 @Override
