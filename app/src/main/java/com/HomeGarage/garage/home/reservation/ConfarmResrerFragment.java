@@ -54,6 +54,7 @@ public class ConfarmResrerFragment extends Fragment {
 
     SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+
     Date date = new Date(System.currentTimeMillis());
 
     DatabaseReference reference;
@@ -126,7 +127,7 @@ public class ConfarmResrerFragment extends Fragment {
             model.setTo(grageInfo.getId());
             model.setToName(grageInfo.getNameEn());
             model.setId(reference.push().getKey());
-
+            Log.i("SDfsdfsdrwe",grageInfo.getId());
             reference.child(model.getId()).setValue(model);
             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                     grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
@@ -166,6 +167,5 @@ public class ConfarmResrerFragment extends Fragment {
 
         return  diffMinets * f / 60;
     }
-
 
 }
