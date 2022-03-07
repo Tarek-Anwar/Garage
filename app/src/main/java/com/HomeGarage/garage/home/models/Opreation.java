@@ -9,35 +9,12 @@ public class Opreation {
     float price;
 
     public  Opreation(){}
+
     public Opreation(String type, String fromName, String toName, String date, float price) {
         this.type = type;
         this.fromName = fromName;
         this.toName = toName;
         this.date = date;
-        this.price = price;
-    }
-
-    public Opreation(String state, String type, String fromName, String toName, String from, String to, String date) {
-        this.state = state;
-        this.type = type;
-        this.fromName = fromName;
-        this.toName = toName;
-        this.from = from;
-        this.to = to;
-        this.date = date;
-    }
-
-    public Opreation(String state, String type, String fromName,
-                     String toName, String from, String to,
-                     String date, String expectData, float price) {
-        this.state = state;
-        this.type = type;
-        this.fromName = fromName;
-        this.toName = toName;
-        this.from = from;
-        this.to = to;
-        this.date = date;
-        this.expectData = expectData;
         this.price = price;
     }
 

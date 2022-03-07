@@ -1,7 +1,5 @@
 package com.HomeGarage.garage.sign;
 
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,35 +11,33 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.home.models.CarInfo;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment {
 
     public static final String USER_NAME = "user name";
     public static final String EMAIL = "email";
     public static final String PHONE = "phone";
-    FirebaseUser firebaseUser;
+    public static final String ID_USER = "ID_USER";
+    public static final String BALANCE = "BALANCE";
     AwesomeValidation validation;
+
+    CarInfo model = new CarInfo();
 
     TextInputLayout userNameET,emailET,phoneET,passwordET,confirmET ;
     Button creatBTN;
@@ -49,7 +45,6 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         validation=new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
     }
 
@@ -58,46 +53,49 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_sign, container, false);
         initViews(rootView);
+
         validatET();
+        SharedPreferences preferences = requireActivity().getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
         creatBTN.setOnClickListener(v-> {
 
-            String userName=userNameET.getEditText().getText().toString();
-            String userEmail=emailET.getEditText().getText().toString();
-            String userPhone=phoneET.getEditText().getText().toString();
+            model.setName(userNameET.getEditText().getText().toString());
+            model.setEmail(emailET.getEditText().getText().toString());
+            model.setPhone(phoneET.getEditText().getText().toString());
+
             String userPass=passwordET.getEditText().getText().toString();
-            String confirmPass=confirmET.getEditText().getText().toString();
 
-            SharedPreferences preferences = requireActivity().getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-
-            editor.putString(USER_NAME, Objects.requireNonNull(userName));
-            editor.putString(EMAIL, Objects.requireNonNull(userEmail));
-            editor.putString(PHONE, Objects.requireNonNull(userPhone));
+            editor.putString(USER_NAME, model.getName());
+            editor.putString(EMAIL, model.getEmail());
+            editor.putString(PHONE, model.getPhone());
             editor.apply();
 
-
-            if( validation.validate()) {
+            if(validation.validate()) {
                 FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
-                    firebaseAuth.createUserWithEmailAndPassword(userEmail,userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                DatabaseReference databaseReference = FirebaseUtil.databaseReference;
-                                firebaseUser = task.getResult().getUser();
-                                DatabaseReference reference=databaseReference.child(firebaseUser.getUid());
-                                reference.child("Full Name").setValue(userName);
-                                reference.child("Password").setValue(userPass);
-                                reference.child("Email").setValue(userEmail);
-                                reference.child("Phone").setValue(userPhone);
-                                reference.child("id").setValue(firebaseUser.getUid());
-                                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
-                                Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                            }
+                 firebaseAuth.createUserWithEmailAndPassword(model.getEmail(),userPass).addOnCompleteListener(task -> {
+                     if (task.isSuccessful()) {
+                            DatabaseReference databaseReference = FirebaseUtil.databaseReference;
+                            FirebaseUser firebaseUser = task.getResult().getUser();
+                            DatabaseReference reference =databaseReference.child(firebaseUser.getUid());
+
+                            model.setId(firebaseUser.getUid());
+                            model.setBalance(0.0f);
+
+                            editor.putString(ID_USER, model.getId());
+                            editor.putFloat(BALANCE , model.getBalance());
+                            editor.commit();
+
+                            reference.setValue(model);
+                            Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

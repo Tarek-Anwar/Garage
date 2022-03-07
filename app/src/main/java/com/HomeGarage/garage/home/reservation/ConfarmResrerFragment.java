@@ -55,7 +55,6 @@ public class ConfarmResrerFragment extends Fragment {
     SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
 
-    Date date = new Date(System.currentTimeMillis());
 
     DatabaseReference reference;
 
@@ -78,7 +77,7 @@ public class ConfarmResrerFragment extends Fragment {
 
         startTime.setOnClickListener(v -> {
             TimePickerDialog dialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
-
+                Date date = new Date(System.currentTimeMillis());
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(0,0,0,hourOfDay,minute);
                 String time = (String) DateFormat.format("hh:mm aa" , calendar);
@@ -93,7 +92,7 @@ public class ConfarmResrerFragment extends Fragment {
 
         endTime.setOnClickListener(v -> {
             TimePickerDialog dialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
-
+                Date date = new Date(System.currentTimeMillis());
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(0,0,0,hourOfDay,minute);
 
@@ -109,9 +108,7 @@ public class ConfarmResrerFragment extends Fragment {
         });
 
         calcPrice.setOnClickListener(v -> {
-            if(s_time != null && e_time != null){
-                txtPriec.setText(calPriceExpect(grageInfo.getPriceForHour())+" EG");
-            }
+            if(s_time != null && e_time != null){ txtPriec.setText(calPriceExpect(grageInfo.getPriceForHour())+" EG"); }
 
         });
 
@@ -119,24 +116,27 @@ public class ConfarmResrerFragment extends Fragment {
 
         btnRecerNow.setOnClickListener(v -> {
             Opreation model = new Opreation();
+            Date date = new Date(System.currentTimeMillis());
             String dataModel = formatterLong.format(date);
             model.setDate(dataModel);
-            model.setType("active");
-            model.setState("Reqest");
+            model.setType("Reqest");
+            model.setState("Active");
             model.setFrom(FirebaseUtil.firebaseAuth.getUid());
             model.setTo(grageInfo.getId());
             model.setToName(grageInfo.getNameEn());
             model.setId(reference.push().getKey());
             Log.i("SDfsdfsdrwe",grageInfo.getId());
             reference.child(model.getId()).setValue(model);
+
             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                     grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
-                    ,"I'w Reservation Garage "+ model.getDate() , getContext(),getActivity());
+                    ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext(),getActivity());
                 notificationsSender.SendNotifications();
         });
 
         btnRecer.setOnClickListener(v -> {
-
+            Date timeNow = new Date();
+            Log.i("sdfsdfsdfsdfsdcxv", timeNow.getTime()+"");
         });
         return root;
     }

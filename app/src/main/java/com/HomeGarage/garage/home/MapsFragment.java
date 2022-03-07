@@ -38,12 +38,12 @@ public class MapsFragment extends Fragment {
 
     ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
     List<Marker> markers = new ArrayList<>();
-    public MapsFragment(){ }
+    public MapsFragment(){
+    }
 
     private OnMapReadyCallback callback = googleMap -> {
         if(!grageInfos.isEmpty()) {
             for (int i = 0; i < grageInfos.size(); i++) {
-                Log.i("sdfsdfsd", "onMap " + grageInfos.get(i).getCityAr());
                 Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
                 marker.setTag(i);
                 markers.add(marker);

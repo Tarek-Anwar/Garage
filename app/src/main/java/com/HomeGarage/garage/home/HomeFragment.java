@@ -44,7 +44,8 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     ImageView notFind;
     private boolean check = false;
 
-    ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
+    ArrayList<GrageInfo> grageInfos;
+
     public HomeFragment(){
     }
 
@@ -54,7 +55,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         lastOperAdapter=new LastOperAdapter(getContext(),this,3);
         insertLastOpreationData();
         if(savedInstanceState==null){
-            getAllGarage();
+           getAllGarage();
         }
     }
 
@@ -126,7 +127,6 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     }
 
     public void insertLastOpreationData() {
-
         Opreation opreation=new Opreation("accept","grage owner","client","15/10/2022 5:30 PM", 3.00f);
         for (int i=0;i<15;i++)
         {
@@ -160,9 +160,8 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
                         GrageInfo info = item.getValue(GrageInfo.class);
                         grageInfos.add(info);
                     }
-                    MapsFragment mapsFragment =new MapsFragment();
                     FragmentTransaction newTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    newTransaction.add(R.id.fragmentContainerMap,mapsFragment,"newFragmnet");
+                    newTransaction.add(R.id.fragmentContainerMap,new MapsFragment(),"newFragmnet");
                     newTransaction.commit();
                 }
             }
@@ -178,7 +177,10 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.i("sdfsdfd",snapshot.toString());
+                for (DataSnapshot item : snapshot.getChildren()) {
+                   // GrageInfo info = item.getValue(GrageInfo.class);
+                    Log.i("sdfsdfsdf" , item.toString());
+                }
             }
 
             @Override
