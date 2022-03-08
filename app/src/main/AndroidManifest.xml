@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.HomeGarage.garage">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -40,8 +41,10 @@
 
         <service
             android:name=".service.MyFirebaseMessagingService"
+            android:directBootAware="true"
             android:exported="false"
-            android:directBootAware="true">
+            android:permission="TODO"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

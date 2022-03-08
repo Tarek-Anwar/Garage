@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         lastOperAdapter=new LastOperAdapter(getContext(),this,3);
         insertLastOpreationData();
         if(savedInstanceState==null){
-           getAllGarage();
+           //getAllGarage();
         }
     }
 

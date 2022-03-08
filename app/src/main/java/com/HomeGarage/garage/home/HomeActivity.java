@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -26,6 +29,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
@@ -37,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences preferences ;
     FirebaseAuth auth;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +57,8 @@ public class HomeActivity extends AppCompatActivity {
 
         //init auth
         auth=FirebaseUtil.firebaseAuth;
-        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.currentUser.getUid());
+        //FirebaseUtil.getInstence("CarInfo" , "Operation");
+        FirebaseMessaging.getInstance().subscribeToTopic(auth.getUid());
 
         // defined  file preferences and mode
         preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
@@ -75,13 +82,17 @@ public class HomeActivity extends AppCompatActivity {
         // set listener to item in navigation
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
-                Toast.makeText(getApplicationContext(), "Logging Out .... ", Toast.LENGTH_SHORT).show();
-               // FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseUtil.currentUser.getUid());
-                new Handler().postDelayed(() -> {
-                    auth.signOut();
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                }, 2000);
+
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(auth.getUid());
+                Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
+                auth.signOut();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+               /* new Handler().postDelayed(() -> {
+                }, 2000);*/
             }
                 return true;
             });

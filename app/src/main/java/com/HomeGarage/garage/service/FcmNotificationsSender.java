@@ -23,6 +23,7 @@ public class FcmNotificationsSender  {
     String userFcmToken;
     String title;
     String body;
+    String id_reser;
     Context mContext;
     Activity mActivity;
 
@@ -31,30 +32,32 @@ public class FcmNotificationsSender  {
     private final String postUrl = "https://fcm.googleapis.com/fcm/send";
     private final String fcmServerKey ="AAAAyqSchTQ:APA91bGjkuA9FNg2MZKjq2u4SN3mtkQMGzqTQ93AmTGCXPS-FGmpKVxHPnoHNJAuV9bNCMNs9YH9uJ8UaOcrmFI_FgcGIGrx2qMy2tInT9FJdHVjVkG4czCDKi30uv4dUxLsnb1V2ttg";
 
-    public FcmNotificationsSender(String userFcmToken, String title, String body, Context mContext, Activity mActivity) {
+    public FcmNotificationsSender(String userFcmToken, String title, String body,String id_reser, Context mContext, Activity mActivity) {
         this.userFcmToken = userFcmToken;
         this.title = title;
         this.body = body;
+        this.id_reser = id_reser;
         this.mContext = mContext;
         this.mActivity = mActivity;
     }
 
     public void SendNotifications() {
 
-        requestQueue = Volley.newRequestQueue(mActivity);
+        requestQueue = Volley.newRequestQueue(mContext);
         JSONObject mainObj = new JSONObject();
         try {
             mainObj.put("to","/topics/"+userFcmToken);
             JSONObject notiObject = new JSONObject();
             notiObject.put("title", title);
             notiObject.put("body", body);
+            notiObject.put("tag" , id_reser);
             mainObj.put("notification", notiObject);
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
             }, error -> {
             }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
+                public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<>();
                     header.put("content-type", "application/json");
                     header.put("authorization", "key=" + fcmServerKey);

@@ -61,5 +61,12 @@
     <string name="expected_price">Expected Price</string>
     <string name="reservation_now">Reservation Now</string>
     <string name="expected_hour">Hour to Reservation</string>
+    <string name="waiting_requst">Waiting</string>
+    <string name="active_requst">Active</string>
+    <string name="finshed_requst">Finshed</string>
+    <string name="requst_type">Requst</string>
+    <string name="accpet_type">Accpet</string>
+    <string name="refusal_type">Refusal</string>
+    <string name="pay_type">Pay</string>
 
 </resources>

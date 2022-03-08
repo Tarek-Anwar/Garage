@@ -57,4 +57,11 @@
     <string name="expected_price">السعر المتوقع</string>
     <string name="reservation_now">احجز الان</string>
     <string name="expected_hour">عدد الساعات للحجز</string>
+    <string name="waiting_requst">في الانتظار</string>
+    <string name="active_requst">جاري الان</string>
+    <string name="finshed_requst">منتهي</string>
+    <string name="requst_type">طلب</string>
+    <string name="accpet_type">مقبول</string>
+    <string name="refusal_type">مرفوض</string>
+    <string name="pay_type">دفع</string>
 </resources>

@@ -37,6 +37,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class ConfarmResrerFragment extends Fragment {
@@ -52,8 +53,8 @@ public class ConfarmResrerFragment extends Fragment {
     final int nowHour = calendar.get(Calendar.HOUR);
     final int nowMinute = calendar.get(Calendar.MINUTE);
 
-    SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+    SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy",new Locale("en"));
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
 
     DatabaseReference reference;
@@ -98,7 +99,6 @@ public class ConfarmResrerFragment extends Fragment {
 
                 String time = (String) DateFormat.format("hh:mm aa" , calendar);
                 txtTimeEnd.setText(time);
-
                 e_time = formatter.format(date) + " " + time;
 
             },12,0,false
@@ -119,15 +119,14 @@ public class ConfarmResrerFragment extends Fragment {
             Date date = new Date(System.currentTimeMillis());
             String dataModel = formatterLong.format(date);
             model.setDate(dataModel);
-            model.setType("Reqest");
-            model.setState("Active");
+            model.setType("1");
+            model.setState("1");
             model.setFrom(FirebaseUtil.firebaseAuth.getUid());
             model.setTo(grageInfo.getId());
             model.setToName(grageInfo.getNameEn());
             model.setId(reference.push().getKey());
-            Log.i("SDfsdfsdrwe",grageInfo.getId());
-            reference.child(model.getId()).setValue(model);
 
+            reference.child(model.getId()).setValue(model);
             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                     grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
                     ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext(),getActivity());

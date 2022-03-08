@@ -38,6 +38,7 @@ public class MapsFragment extends Fragment {
 
     ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
     List<Marker> markers = new ArrayList<>();
+
     public MapsFragment(){
     }
 
@@ -81,12 +82,15 @@ public class MapsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
+            getAllGarage(grageInfos -> mapFragment.getMapAsync(callback));
+
         }
     }
+
+    public interface OnDataReceiveCallback {
+        void onDataReceived(ArrayList<GrageInfo> grageInfos);}
 
     private void getGarageAll(){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
@@ -120,4 +124,26 @@ public class MapsFragment extends Fragment {
         });
     }
 
+    private void getAllGarage(OnDataReceiveCallback callback) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        GrageInfo info = item.getValue(GrageInfo.class);
+                        grageInfos.add(info);
+                    }
+                    callback.onDataReceived(grageInfos);
+                   /* FragmentTransaction newTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    newTransaction.add(R.id.fragmentContainerMap,new MapsFragment(),"newFragmnet");
+                    newTransaction.commit();*/
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
 }
