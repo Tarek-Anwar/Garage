@@ -35,10 +35,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperListener {
+public class HomeFragment extends Fragment {
 
     ArrayList<Opreation> lastOperList = FirebaseUtil.opreationEndList;
-    LastOperAdapter lastOperAdapter;
 
     RecyclerView  recyclerLast , recyclerReqsut;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
@@ -52,10 +51,8 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       lastOperAdapter=new LastOperAdapter(lastOperList,this,3);
-        if(savedInstanceState == null){
-            getRequst();
-        }
+
+
     }
 
     @Override
@@ -69,9 +66,19 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
         recyclerReqsut.setAdapter(new OperRequstAdapter());
 
-        recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        recyclerLast.setAdapter(lastOperAdapter);
+        getRequst(last -> {
+            LastOperAdapter lastOperAdapter = new LastOperAdapter(lastOperList, opreation -> {
+                    OperationsFragment newFragment = new OperationsFragment(opreation);
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
+            }, 3);
+
+            recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+            recyclerLast.setAdapter(lastOperAdapter);
+        });
         seeAllOper.setOnClickListener(v -> {
                 LastOperFragment newFragment = new LastOperFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -113,7 +120,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         super.onDestroyView();
         check=true; }
 
-    public  void getRequst(){
+    public  void getRequst(OnDataChangeCallback callback){
         ArrayList<Opreation> opreationsReq = FirebaseUtil.opreationRequstList;
         ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
         DatabaseReference reference = FirebaseUtil.referenceOperattion;
@@ -133,7 +140,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
                             Log.i("sryuivxcvxc" , "State 1 , 2  :  " + opreation .getId());
                         }
                     }
-
+                callback.OnDataChange(opreationsEnd);
                 }
             }
 
@@ -144,15 +151,10 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         });
     }
 
-
-    @Override
-    public void LastOperListener(Opreation opreation) {
-        OperationsFragment newFragment = new OperationsFragment(opreation);
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+    private interface OnDataChangeCallback{
+        void OnDataChange(ArrayList<Opreation> last);
     }
+
 
     private void initViews(View v){
         recyclerLast = v.findViewById(R.id.recycler_last);

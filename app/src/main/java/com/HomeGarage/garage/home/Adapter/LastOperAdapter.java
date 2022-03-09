@@ -32,7 +32,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     public LastOperAdapter(ArrayList<Opreation> lastOpereations, LastOperListener lastOperListener, int numViewOper) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
-
+        this.lastOpereations = lastOpereations;
       /*  lastOpereations  = FirebaseUtil.opreationEndList;
         DatabaseReference reference = FirebaseUtil.referenceOperattion;
         Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
