@@ -38,7 +38,8 @@ import java.util.Date;
 
 public class HomeFragment extends Fragment {
 
-    ArrayList<Opreation> opreationsEnd , opreationsReq ;
+    ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
+    ArrayList<Opreation>  opreationsReq  = FirebaseUtil.opreationRequstList;
     DatabaseReference reference;
     Query query ;
 
@@ -59,10 +60,12 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState == null) {
+            opreationsReq.clear();
+            opreationsEnd.clear();
             getRequst(new OnDataChangeCallback() {
                 @Override
                 public void OnOpreationsEndChange(ArrayList<Opreation> last) {
-                    lastOperAdapter = new LastOperAdapter(last, opreation -> {
+                    lastOperAdapter = new LastOperAdapter(opreationsEnd, opreation -> {
                         OperationsFragment newFragment = new OperationsFragment(opreation);
                         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -75,7 +78,7 @@ public class HomeFragment extends Fragment {
 
                 @Override
                 public void OnopreationsReqChange(ArrayList<Opreation> last) {
-                    operRequstAdapter = new OperRequstAdapter(last);
+                    operRequstAdapter = new OperRequstAdapter(opreationsReq);
                     recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
                     recyclerReqsut.setAdapter(operRequstAdapter);
                 }
@@ -139,14 +142,14 @@ public class HomeFragment extends Fragment {
         check=true; }
 
     public  void getRequst(OnDataChangeCallback callback){
-       opreationsReq = FirebaseUtil.opreationRequstList;
-       opreationsEnd = FirebaseUtil.opreationEndList;
        reference = FirebaseUtil.referenceOperattion;
        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
        query.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
                if(snapshot.exists()) {
+                   opreationsEnd.clear();
+                   opreationsReq.clear();
                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                        Opreation opreation = snapshot1.getValue(Opreation.class);
                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
