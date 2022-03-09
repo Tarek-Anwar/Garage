@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,22 +38,49 @@ import java.util.Date;
 
 public class HomeFragment extends Fragment {
 
-    ArrayList<Opreation> lastOperList = FirebaseUtil.opreationEndList;
+    ArrayList<Opreation> opreationsEnd , opreationsReq ;
+    DatabaseReference reference;
+    Query query ;
 
     RecyclerView  recyclerLast , recyclerReqsut;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
     View seeAllOper;
     ImageView notFind;
 
+    LastOperAdapter lastOperAdapter;
+    OperRequstAdapter operRequstAdapter;
+
     private boolean check = false;
-    public HomeFragment(){
-    }
+
+    public HomeFragment(){ }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(savedInstanceState == null) {
+            getRequst(new OnDataChangeCallback() {
+                @Override
+                public void OnOpreationsEndChange(ArrayList<Opreation> last) {
+                    lastOperAdapter = new LastOperAdapter(last, opreation -> {
+                        OperationsFragment newFragment = new OperationsFragment(opreation);
+                        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }, 3);
+                    recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+                    recyclerLast.setAdapter(lastOperAdapter);
+                }
 
+                @Override
+                public void OnopreationsReqChange(ArrayList<Opreation> last) {
+                    operRequstAdapter = new OperRequstAdapter(last);
+                    recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
+                    recyclerReqsut.setAdapter(operRequstAdapter);
+                }
+            });
+        }
     }
 
     @Override
@@ -64,21 +92,11 @@ public class HomeFragment extends Fragment {
         initViews(root);
 
         recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
-        recyclerReqsut.setAdapter(new OperRequstAdapter());
+        recyclerReqsut.setAdapter(operRequstAdapter);
 
-        getRequst(last -> {
-            LastOperAdapter lastOperAdapter = new LastOperAdapter(lastOperList, opreation -> {
-                    OperationsFragment newFragment = new OperationsFragment(opreation);
-                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainerView, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+        recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        recyclerLast.setAdapter(lastOperAdapter);
 
-            }, 3);
-
-            recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            recyclerLast.setAdapter(lastOperAdapter);
-        });
         seeAllOper.setOnClickListener(v -> {
                 LastOperFragment newFragment = new LastOperFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -103,7 +121,7 @@ public class HomeFragment extends Fragment {
             transaction.commit();
         });
         if(check==true){
-            if(lastOperList.isEmpty()){
+            if(opreationsEnd.isEmpty()){
                 notFind.setVisibility(View.VISIBLE);
                 layoutlast.setVisibility(View.GONE);
             }else {
@@ -121,40 +139,36 @@ public class HomeFragment extends Fragment {
         check=true; }
 
     public  void getRequst(OnDataChangeCallback callback){
-        ArrayList<Opreation> opreationsReq = FirebaseUtil.opreationRequstList;
-        ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
-        DatabaseReference reference = FirebaseUtil.referenceOperattion;
-        Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
+       opreationsReq = FirebaseUtil.opreationRequstList;
+       opreationsEnd = FirebaseUtil.opreationEndList;
+       reference = FirebaseUtil.referenceOperattion;
+       query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+       query.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               if(snapshot.exists()) {
+                   for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                       Opreation opreation = snapshot1.getValue(Opreation.class);
+                       if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
                             opreationsEnd.add(opreation);
-                            Log.i("sryuivxcvxc" , "State 3  :  " + opreation .getId());
                         }
-                        else{
-                            opreationsReq.add(opreation);
-                            Log.i("sryuivxcvxc" , "State 1 , 2  :  " + opreation .getId());
-                        }
-                    }
-                callback.OnDataChange(opreationsEnd);
-                }
-            }
-
+                       else{
+                           opreationsReq.add(opreation);
+                       }
+                   }
+                   callback.OnOpreationsEndChange(opreationsEnd);
+                   callback.OnopreationsReqChange(opreationsReq);
+               }
+           }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
     private interface OnDataChangeCallback{
-        void OnDataChange(ArrayList<Opreation> last);
+        void OnOpreationsEndChange(ArrayList<Opreation> last);
+        void OnopreationsReqChange(ArrayList<Opreation> last);
     }
-
 
     private void initViews(View v){
         recyclerLast = v.findViewById(R.id.recycler_last);

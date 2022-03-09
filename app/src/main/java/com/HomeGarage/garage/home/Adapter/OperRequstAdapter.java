@@ -22,10 +22,11 @@ import java.util.ArrayList;
 
 public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.OperRequstViewHoler> {
 
-    ArrayList<Opreation> opreationList;
+    ArrayList<Opreation> opreationList = FirebaseUtil.opreationRequstList;
 
-    public OperRequstAdapter() {
-        opreationList = FirebaseUtil.opreationRequstList;
+    public OperRequstAdapter( ArrayList<Opreation> opreationList) {
+        //this.opreationList = opreationList;
+        /*opreationList = FirebaseUtil.opreationRequstList;
         DatabaseReference reference = FirebaseUtil.referenceOperattion;
         reference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -59,7 +60,7 @@ public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.Op
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
     }
 
     @NonNull

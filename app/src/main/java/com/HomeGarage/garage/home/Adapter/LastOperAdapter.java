@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,17 +27,20 @@ import java.util.List;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
-    ArrayList<Opreation> lastOpereations;
+    ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
     LastOperListener lastOperListener;
+    DatabaseReference reference;
+    Query query;
     private int numViewOper=0;
 
     public LastOperAdapter(ArrayList<Opreation> lastOpereations, LastOperListener lastOperListener, int numViewOper) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
-        this.lastOpereations = lastOpereations;
-      /*  lastOpereations  = FirebaseUtil.opreationEndList;
-        DatabaseReference reference = FirebaseUtil.referenceOperattion;
-        Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+     //   this.lastOpereations = lastOpereations;
+
+       /* lastOpereations  = FirebaseUtil.opreationEndList;
+        reference = FirebaseUtil.referenceOperattion;
+        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -55,7 +60,9 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
+        });
+*/
+
     }
 
 

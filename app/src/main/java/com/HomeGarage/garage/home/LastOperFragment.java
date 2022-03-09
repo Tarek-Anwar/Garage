@@ -46,7 +46,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
         recyclerAllOper.setAdapter(lastOperAdapter);
 
-
         return root;
     }
 
@@ -55,7 +54,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         OperationsFragment newFragment = new OperationsFragment(opreation);
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, newFragment);
-        transaction.addToBackStack(null);
+       transaction.addToBackStack(null);
         transaction.commit();
     }
 
