@@ -29,40 +29,11 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
     LastOperListener lastOperListener;
-    DatabaseReference reference;
-    Query query;
     private int numViewOper=0;
 
-    public LastOperAdapter(ArrayList<Opreation> lastOpereations, LastOperListener lastOperListener, int numViewOper) {
+    public LastOperAdapter( LastOperListener lastOperListener, int numViewOper) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
-     //   this.lastOpereations = lastOpereations;
-
-       /* lastOpereations  = FirebaseUtil.opreationEndList;
-        reference = FirebaseUtil.referenceOperattion;
-        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
-                            lastOpereations.add(opreation);
-                            notifyItemChanged(lastOpereations.size()-1);
-                        }
-                    }
-                    notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-*/
-
     }
 
 
@@ -80,7 +51,14 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
    @Override
     public int getItemCount() {
-        return lastOpereations.size();
+        if(numViewOper==0){
+            return lastOpereations.size();
+        }else {
+             if(lastOpereations.size() < 3){
+                 return lastOpereations.size();
+             }
+             return 3;
+        }
     }
 
     protected  class LastOperViewHolder extends RecyclerView.ViewHolder{

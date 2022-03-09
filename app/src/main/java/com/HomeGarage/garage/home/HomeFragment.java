@@ -1,6 +1,8 @@
 package com.HomeGarage.garage.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,6 +55,10 @@ public class HomeFragment extends Fragment {
     LastOperAdapter lastOperAdapter;
     OperRequstAdapter operRequstAdapter;
 
+
+    ProgressBar  progressBar;
+    TextView txtProgressBar;
+    int countProgress = 0;
     private boolean check = false;
 
     public HomeFragment(){ }
@@ -60,12 +68,11 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(savedInstanceState == null) {
-            opreationsReq.clear();
-            opreationsEnd.clear();
+
             getRequst(new OnDataChangeCallback() {
                 @Override
                 public void OnOpreationsEndChange(ArrayList<Opreation> last) {
-                    lastOperAdapter = new LastOperAdapter(opreationsEnd, opreation -> {
+                    lastOperAdapter = new LastOperAdapter(opreation -> {
                         OperationsFragment newFragment = new OperationsFragment(opreation);
                         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragmentContainerView, newFragment);
@@ -78,7 +85,7 @@ public class HomeFragment extends Fragment {
 
                 @Override
                 public void OnopreationsReqChange(ArrayList<Opreation> last) {
-                    operRequstAdapter = new OperRequstAdapter(opreationsReq);
+                    operRequstAdapter  = new OperRequstAdapter();
                     recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
                     recyclerReqsut.setAdapter(operRequstAdapter);
                 }
@@ -133,6 +140,21 @@ public class HomeFragment extends Fragment {
             }
         }
 
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(countProgress<=100){
+                    txtProgressBar.setText(countProgress+"");
+                    progressBar.setProgress(countProgress);
+                    countProgress++;
+                    handler.postDelayed(this,200);}
+                else {
+                    handler.removeCallbacks(this);
+                }
+            }
+        },200);
+
         return root;
     }
 
@@ -181,6 +203,8 @@ public class HomeFragment extends Fragment {
         layoutlast = v.findViewById(R.id.layout_last);
         notFind = v.findViewById(R.id.not_find_img);
         recyclerReqsut = v.findViewById(R.id.recycle_requst);
+        progressBar= v.findViewById(R.id.progress_bar_test);
+        txtProgressBar = v.findViewById(R.id.progress_bar_txt);
     }
 
 }

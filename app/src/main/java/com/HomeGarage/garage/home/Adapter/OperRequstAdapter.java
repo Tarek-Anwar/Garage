@@ -1,9 +1,11 @@
 package com.HomeGarage.garage.home.Adapter;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,49 +20,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.OperRequstViewHoler> {
 
     ArrayList<Opreation> opreationList = FirebaseUtil.opreationRequstList;
-
-    public OperRequstAdapter( ArrayList<Opreation> opreationList) {
-        //this.opreationList = opreationList;
-        /*opreationList = FirebaseUtil.opreationRequstList;
-        DatabaseReference reference = FirebaseUtil.referenceOperattion;
-        reference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Opreation opreation = snapshot.getValue(Opreation.class);
-                if( ( opreation.getState().equals("1") || opreation.getState().equals("2") )
-                        && (opreation.getType().equals("1") || opreation.getType().equals("2")))
-                {
-                    opreationList.add(opreation);
-                    notifyItemChanged(opreationList.size()-1);
-                }
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+    public OperRequstAdapter() {
     }
 
     @NonNull
@@ -83,19 +53,37 @@ public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.Op
     public class OperRequstViewHoler extends RecyclerView.ViewHolder {
 
         TextView state , type , name , date;
+        Chronometer chronometer;
         public OperRequstViewHoler(@NonNull View itemView) {
             super(itemView);
             state = itemView.findViewById(R.id.txt_requst_state_home);
             type = itemView.findViewById(R.id.txt_requst_type_home);
             name = itemView.findViewById(R.id.txt_garage_name);
             date = itemView.findViewById(R.id.txt_date);
+            chronometer = itemView.findViewById(R.id.chronomet_test);
         }
 
         private void bulidUI(Opreation opreation){
+            Date start = null;
+            try {
+                start = formatterLong.parse(opreation.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             state.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
             type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
             date.setText(opreation.getDate());
             name.setText(opreation.getToName());
+
+            Long diff = System.currentTimeMillis() - start.getTime();
+            Log.i("porutncv" , diff + "");
+
+
+            chronometer.setBase(SystemClock.elapsedRealtime() - diff);
+            chronometer.start();
+
+
         }
     }
 }
