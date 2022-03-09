@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
@@ -22,19 +23,17 @@ import java.util.List;
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
 
     RecyclerView  recyclerAllOper;
-    ArrayList<Opreation> opreations=new ArrayList<>();
+    ArrayList<Opreation> opreations =  FirebaseUtil.opreationEndList;
     LastOperAdapter lastOperAdapter;
 
-    public LastOperFragment(ArrayList<Opreation> opreations) {
-        this.opreations=opreations;
+    public LastOperFragment() {
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        lastOperAdapter=new LastOperAdapter(getContext(),this,0);
-        lastOperAdapter.setLastOpereations(opreations);
+        lastOperAdapter=new LastOperAdapter(opreations,this,0);
     }
 
     @Override

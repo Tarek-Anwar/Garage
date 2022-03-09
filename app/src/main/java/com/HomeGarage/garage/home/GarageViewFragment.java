@@ -72,7 +72,6 @@ public class GarageViewFragment extends Fragment {
         nameGarage = view.findViewById(R.id.name_garage_txt);
         totalAddressGarage = view.findViewById(R.id.total_address_garage_txt);
         orderGarage = view.findViewById(R.id.btn_order_garage);
-
         ratingGarage = view.findViewById(R.id.rating_garage);
     }
 }

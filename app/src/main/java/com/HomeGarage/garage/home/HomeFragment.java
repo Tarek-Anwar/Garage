@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.home.Adapter.OperRequstAdapter;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
@@ -28,34 +29,32 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperListener {
-    public static   final String TAG="rrr";
 
-    ArrayList<Opreation> opreationArrayList=new ArrayList<>();
-    RecyclerView  recyclerLast;
-    LinearLayout layoutNearFind , layoutAllFind,layoutlast;
-    View seeAllOper;
+    ArrayList<Opreation> lastOperList = FirebaseUtil.opreationEndList;
     LastOperAdapter lastOperAdapter;
+
+    RecyclerView  recyclerLast , recyclerReqsut;
+    LinearLayout layoutNearFind , layoutAllFind , layoutlast;
+    View seeAllOper;
     ImageView notFind;
+
     private boolean check = false;
-
-    ArrayList<GrageInfo> grageInfos;
-
     public HomeFragment(){
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lastOperAdapter=new LastOperAdapter(getContext(),this,3);
-        insertLastOpreationData();
-        if(savedInstanceState==null){
-           //getAllGarage();
+       lastOperAdapter=new LastOperAdapter(lastOperList,this,3);
+        if(savedInstanceState == null){
+            getRequst();
         }
     }
 
@@ -67,14 +66,14 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         //find element
         initViews(root);
 
+        recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
+        recyclerReqsut.setAdapter(new OperRequstAdapter());
+
         recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerLast.setAdapter(lastOperAdapter);
 
-        //put LinearLayoutManager to recyclerFind
-
         seeAllOper.setOnClickListener(v -> {
-            Log.i("tttt",opreationArrayList.size()+"");
-                LastOperFragment newFragment = new LastOperFragment(lastOperAdapter.getLastOpereations());
+                LastOperFragment newFragment = new LastOperFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainerView, newFragment);
                 transaction.addToBackStack(null);
@@ -97,7 +96,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
             transaction.commit();
         });
         if(check==true){
-            if(lastOperAdapter.getLastOpereations().isEmpty()){
+            if(lastOperList.isEmpty()){
                 notFind.setVisibility(View.VISIBLE);
                 layoutlast.setVisibility(View.GONE);
             }else {
@@ -105,7 +104,54 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
                 notFind.setVisibility(View.GONE);
             }
         }
+
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        check=true; }
+
+    public  void getRequst(){
+        ArrayList<Opreation> opreationsReq = FirebaseUtil.opreationRequstList;
+        ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
+        DatabaseReference reference = FirebaseUtil.referenceOperattion;
+        Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        Opreation opreation = snapshot1.getValue(Opreation.class);
+                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
+                            opreationsEnd.add(opreation);
+                            Log.i("sryuivxcvxc" , "State 3  :  " + opreation .getId());
+                        }
+                        else{
+                            opreationsReq.add(opreation);
+                            Log.i("sryuivxcvxc" , "State 1 , 2  :  " + opreation .getId());
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    @Override
+    public void LastOperListener(Opreation opreation) {
+        OperationsFragment newFragment = new OperationsFragment(opreation);
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void initViews(View v){
@@ -115,79 +161,7 @@ public class HomeFragment extends Fragment implements  LastOperAdapter.LastOperL
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
         layoutlast = v.findViewById(R.id.layout_last);
         notFind = v.findViewById(R.id.not_find_img);
-    }
-
-    @Override
-    public void LastOperListener(Opreation opreation) {
-            OperationsFragment newFragment = new OperationsFragment(opreation);
-            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-    }
-
-    public void insertLastOpreationData() {
-        Opreation opreation=new Opreation("accept","grage owner","client","15/10/2022 5:30 PM", 3.00f);
-        for (int i=0;i<15;i++)
-        {
-            opreationArrayList.add(opreation);
-        }
-        lastOperAdapter.setLastOpereations(opreationArrayList);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.i(TAG,"onDestroyView");
-        check=true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-
-    private void getAllGarage() {
-        grageInfos = FirebaseUtil.allGarage;
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        GrageInfo info = item.getValue(GrageInfo.class);
-                        grageInfos.add(info);
-                    }
-                    FragmentTransaction newTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    newTransaction.add(R.id.fragmentContainerMap,new MapsFragment(),"newFragmnet");
-                    newTransaction.commit();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
-    private void getGarags(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()) {
-                   // GrageInfo info = item.getValue(GrageInfo.class);
-                    Log.i("sdfsdfsdf" , item.toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        recyclerReqsut = v.findViewById(R.id.recycle_requst);
     }
 
 }

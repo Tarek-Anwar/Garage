@@ -68,5 +68,9 @@
     <string name="accpet_type">Accpet</string>
     <string name="refusal_type">Refusal</string>
     <string name="pay_type">Pay</string>
+    <string name="state_requst">State Requst</string>
+    <string name="type_requst">Type Requst</string>
+    <string name="garage_name">Garage Name</string>
+    <string name="date">Date</string>
 
 </resources>

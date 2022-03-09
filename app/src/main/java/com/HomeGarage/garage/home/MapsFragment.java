@@ -39,8 +39,7 @@ public class MapsFragment extends Fragment {
     ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
     List<Marker> markers = new ArrayList<>();
 
-    public MapsFragment(){
-    }
+    public MapsFragment(){ }
 
     private OnMapReadyCallback callback = googleMap -> {
         if(!grageInfos.isEmpty()) {
@@ -50,6 +49,7 @@ public class MapsFragment extends Fragment {
                 markers.add(marker);
             }
         }
+
        googleMap.setOnMarkerClickListener(marker -> {
            GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
            grageInfo.setPriceForHour(4f);
@@ -60,7 +60,6 @@ public class MapsFragment extends Fragment {
            transaction.commit();
 
            return false;
-
        });
 
         for (Marker m : markers){
@@ -73,7 +72,6 @@ public class MapsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view =  inflater.inflate(R.layout.fragment_maps, container, false);
         return view;
     }
@@ -85,44 +83,11 @@ public class MapsFragment extends Fragment {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             getAllGarage(grageInfos -> mapFragment.getMapAsync(callback));
-
         }
     }
 
     public interface OnDataReceiveCallback {
         void onDataReceived(ArrayList<GrageInfo> grageInfos);}
-
-    private void getGarageAll(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                GrageInfo model = snapshot.getValue(GrageInfo.class);
-                model.setId(snapshot.getKey());
-                grageInfos.add(model);
-                Log.i("sdfsdfsd",model.getLocation());
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     private void getAllGarage(OnDataReceiveCallback callback) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
@@ -135,9 +100,6 @@ public class MapsFragment extends Fragment {
                         grageInfos.add(info);
                     }
                     callback.onDataReceived(grageInfos);
-                   /* FragmentTransaction newTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    newTransaction.add(R.id.fragmentContainerMap,new MapsFragment(),"newFragmnet");
-                    newTransaction.commit();*/
                 }
             }
 

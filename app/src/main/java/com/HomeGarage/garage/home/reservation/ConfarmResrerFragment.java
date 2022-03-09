@@ -56,7 +56,6 @@ public class ConfarmResrerFragment extends Fragment {
     SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy",new Locale("en"));
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
-
     DatabaseReference reference;
 
     GrageInfo grageInfo ;
@@ -115,6 +114,7 @@ public class ConfarmResrerFragment extends Fragment {
         reference = FirebaseUtil.referenceOperattion;
 
         btnRecerNow.setOnClickListener(v -> {
+
             Opreation model = new Opreation();
             Date date = new Date(System.currentTimeMillis());
             String dataModel = formatterLong.format(date);

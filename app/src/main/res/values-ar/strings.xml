@@ -64,4 +64,8 @@
     <string name="accpet_type">مقبول</string>
     <string name="refusal_type">مرفوض</string>
     <string name="pay_type">دفع</string>
+    <string name="state_requst">حالة الطلب</string>
+    <string name="type_requst">نوع الطلب</string>
+    <string name="garage_name">اسم الجراش</string>
+    <string name="date">التااريخ</string>
 </resources>
