@@ -23,7 +23,6 @@ import java.util.List;
 public class LastOperFragment extends Fragment implements LastOperAdapter.LastOperListener {
 
     RecyclerView  recyclerAllOper;
-    ArrayList<Opreation> opreations =  FirebaseUtil.opreationEndList;
     LastOperAdapter lastOperAdapter;
 
     public LastOperFragment() {
@@ -33,7 +32,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lastOperAdapter=new LastOperAdapter(opreations,this,0);
+        lastOperAdapter=new LastOperAdapter(this,0);
     }
 
     @Override
@@ -46,7 +45,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
         recyclerAllOper.setAdapter(lastOperAdapter);
 
-
         return root;
     }
 
@@ -55,7 +53,7 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         OperationsFragment newFragment = new OperationsFragment(opreation);
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, newFragment);
-        transaction.addToBackStack(null);
+       transaction.addToBackStack(null);
         transaction.commit();
     }
 

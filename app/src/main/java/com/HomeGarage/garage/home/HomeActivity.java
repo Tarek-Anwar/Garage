@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
@@ -54,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         //find header Navigation
         View v = navigationView.getHeaderView(0);
         intiHeader(v);
+
 
         //init auth
         auth=FirebaseUtil.firebaseAuth;
