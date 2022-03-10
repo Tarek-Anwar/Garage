@@ -56,9 +56,7 @@ public class HomeFragment extends Fragment {
     OperRequstAdapter operRequstAdapter;
 
 
-    ProgressBar  progressBar;
-    TextView txtProgressBar;
-    int countProgress = 0;
+
     private boolean check = false;
 
     public HomeFragment(){ }
@@ -140,20 +138,6 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(countProgress<=100){
-                    txtProgressBar.setText(countProgress+"");
-                    progressBar.setProgress(countProgress);
-                    countProgress++;
-                    handler.postDelayed(this,200);}
-                else {
-                    handler.removeCallbacks(this);
-                }
-            }
-        },200);
 
         return root;
     }
@@ -203,8 +187,7 @@ public class HomeFragment extends Fragment {
         layoutlast = v.findViewById(R.id.layout_last);
         notFind = v.findViewById(R.id.not_find_img);
         recyclerReqsut = v.findViewById(R.id.recycle_requst);
-        progressBar= v.findViewById(R.id.progress_bar_test);
-        txtProgressBar = v.findViewById(R.id.progress_bar_txt);
+
     }
 
 }

@@ -1,15 +1,19 @@
 package com.HomeGarage.garage.home.Adapter;
 
+import android.os.Build;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
@@ -40,6 +44,7 @@ public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.Op
         return new OperRequstViewHoler(root);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull OperRequstViewHoler holder, int position) {
         holder.bulidUI(opreationList.get(position));
@@ -54,15 +59,20 @@ public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.Op
 
         TextView state , type , name , date;
         Chronometer chronometer;
+        ProgressBar progressBar;
+
+        int countProgress ;
         public OperRequstViewHoler(@NonNull View itemView) {
             super(itemView);
             state = itemView.findViewById(R.id.txt_requst_state_home);
             type = itemView.findViewById(R.id.txt_requst_type_home);
             name = itemView.findViewById(R.id.txt_garage_name);
             date = itemView.findViewById(R.id.txt_date);
-            chronometer = itemView.findViewById(R.id.chronomet_test);
+            chronometer = itemView.findViewById(R.id.progress_bar_txt);
+            progressBar = itemView.findViewById(R.id.progress_bar_test);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         private void bulidUI(Opreation opreation){
             Date start = null;
             try {
@@ -77,11 +87,26 @@ public class OperRequstAdapter extends RecyclerView.Adapter<OperRequstAdapter.Op
             name.setText(opreation.getToName());
 
             Long diff = System.currentTimeMillis() - start.getTime();
-            Log.i("porutncv" , diff + "");
 
-
+            countProgress = (int) (diff / 10000);
             chronometer.setBase(SystemClock.elapsedRealtime() - diff);
             chronometer.start();
+
+            progressBar.setMin(0);
+            progressBar.setMax(1100);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(countProgress<=1100){
+                        progressBar.setProgress(countProgress);
+                        countProgress++;
+                        handler.postDelayed(this,10000);}
+                    else {
+                        handler.removeCallbacks(this);
+                    }
+                }
+            },1000);
 
 
         }
