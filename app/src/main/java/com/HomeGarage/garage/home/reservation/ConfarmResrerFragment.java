@@ -135,7 +135,6 @@ public class ConfarmResrerFragment extends Fragment {
 
         btnRecer.setOnClickListener(v -> {
             Date timeNow = new Date();
-            Log.i("sdfsdfsdfsdfsdcxv", timeNow.getTime()+"");
         });
         return root;
     }
