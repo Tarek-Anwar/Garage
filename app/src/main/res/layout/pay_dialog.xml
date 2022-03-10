@@ -13,35 +13,19 @@
     >
 
 
-        <TextView
-            android:id="@+id/balanceTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:text="your balance is : "
-            android:textColor="@color/purple_500"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/hoursET"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/hoursET"
-        android:layout_width="100dp"
+    <TextView
+        android:id="@+id/balanceTV"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:hint="hours"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="52dp"
+        android:text="your balance is : "
+        android:textColor="@color/purple_500"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/clacbtn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/clacbtn"
@@ -50,7 +34,10 @@
             android:layout_marginEnd="24dp"
             android:text="calculate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/hoursET" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <TextView
             android:id="@+id/cost"
@@ -61,7 +48,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/payBtnDialog"
-            app:layout_constraintTop_toBottomOf="@id/hoursET"
+            app:layout_constraintTop_toBottomOf="@id/clacbtn"
             android:visibility="gone"
             />
     <Button
