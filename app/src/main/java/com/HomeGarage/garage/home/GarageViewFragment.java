@@ -27,7 +27,7 @@ public class GarageViewFragment extends Fragment {
     GrageInfo grageInfo;
     private TextView nameGarage , totalAddressGarage;
     private RatingBar ratingGarage ;
-    Button orderGarage;
+    Button orderGarage,pay;
 
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
@@ -65,6 +65,13 @@ public class GarageViewFragment extends Fragment {
 
 
         });
+        pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog=new Dialog(grageInfo);
+                dialog.show(getParentFragmentManager(),"My Dialog");
+            }
+        });
         return root;
     }
 
@@ -72,6 +79,7 @@ public class GarageViewFragment extends Fragment {
         nameGarage = view.findViewById(R.id.name_garage_txt);
         totalAddressGarage = view.findViewById(R.id.total_address_garage_txt);
         orderGarage = view.findViewById(R.id.btn_order_garage);
+        pay=(Button) view.findViewById(R.id.btn_pay);
         ratingGarage = view.findViewById(R.id.rating_garage);
     }
 }
