@@ -41,18 +41,15 @@ public class HomeFragment extends Fragment {
     RecyclerView  recyclerLast ;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
     View seeAllOper;
-    ImageView notFind;
-    Chronometer chronometer;
-    ProgressBar progressBar;
+
     LastOperAdapter lastOperAdapter;
-    int countProgress ;
+
 
     public HomeFragment(){ }
 
     @Override
     public void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-
        /* if(savedInstanceState == null) {
             if (reference != null) {
                 getRequst(last -> {
@@ -102,39 +99,6 @@ public class HomeFragment extends Fragment {
             replaceFragment(new SearchFragment());
         });
 
-        /*Date start = null;
-            try {
-                start = formatterLong.parse(opreation.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Long diff = System.currentTimeMillis() - start.getTime();
-
-            countProgress = (int) (diff / 10000);
-            chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-            chronometer.start();
-*/
-        countProgress = 1;
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
-
-        progressBar.setMin(0);
-        progressBar.setMax(200);
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(countProgress<=200){
-                    progressBar.setProgress(countProgress);
-                    countProgress++;
-                    handler.postDelayed(this,1000);}
-                else {
-                    handler.removeCallbacks(this);
-                }
-            }
-        },1000);
-
-
         return root;
     }
 
@@ -169,8 +133,6 @@ public class HomeFragment extends Fragment {
         layoutAllFind = v.findViewById(R.id.layout_all_find);
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
         layoutlast = v.findViewById(R.id.layout_last);
-        progressBar = v.findViewById(R.id.progress_bar_test);
-        chronometer = v.findViewById(R.id.progress_bar_txt);
     }
 
     private void replaceFragment(Fragment fragment){

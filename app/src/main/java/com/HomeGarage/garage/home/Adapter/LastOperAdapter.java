@@ -1,28 +1,23 @@
 package com.HomeGarage.garage.home.Adapter;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.models.Opreation;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
@@ -96,7 +91,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
             layoutLastOper = itemView.findViewById(R.id.layout_last_oper);
         }
 
-        public void BulidUI(Opreation opreation){
+        public void BulidUI(@NonNull Opreation opreation){
             textWhoToDoOper.setText(opreation.getToName());
             textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
             textTimeOper.setText(opreation.getDate());

@@ -72,5 +72,8 @@
     <string name="type_requst">Type Requst</string>
     <string name="garage_name">Garage Name</string>
     <string name="date">Date</string>
+    <string name="cancel">Cancel</string>
+    <string name="finshed">Finshed</string>
+    <string name="pay">Pay</string>
 
 </resources>
