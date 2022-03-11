@@ -6,7 +6,6 @@ plugins {
 
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId "com.HomeGarage.garage"
         minSdk 21
@@ -56,14 +55,13 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:2.4.1"
     implementation "androidx.navigation:navigation-ui:2.4.1"
 
-    // image insart and croup
+    // image insert and croup
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     //validation
     implementation 'com.basgeekball:awesome-validation:4.3'
-
     // map
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 }

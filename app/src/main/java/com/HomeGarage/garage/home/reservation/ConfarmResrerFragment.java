@@ -42,9 +42,9 @@ import java.util.Locale;
 
 public class ConfarmResrerFragment extends Fragment {
 
-    ImageView startTime , endTime;
-    TextView txtTimeStart , txtTimeEnd ,txtPriec;
-    Button calcPrice , btnRecer ,btnRecerNow ;
+    ImageView startTime ;
+    TextView txtTimeStart;
+    Button   btnRecer ,btnRecerNow ;
 
     String s_time = null;
     String e_time = null;
@@ -57,9 +57,9 @@ public class ConfarmResrerFragment extends Fragment {
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
     DatabaseReference reference;
-
     GrageInfo grageInfo ;
-    public ConfarmResrerFragment(GrageInfo grageInfo ) {
+
+    public ConfarmResrerFragment(GrageInfo grageInfo) {
         this.grageInfo = grageInfo;
     }
 
@@ -90,37 +90,18 @@ public class ConfarmResrerFragment extends Fragment {
             dialog.show();
         });
 
-        endTime.setOnClickListener(v -> {
-            TimePickerDialog dialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
-                Date date = new Date(System.currentTimeMillis());
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(0,0,0,hourOfDay,minute);
 
-                String time = (String) DateFormat.format("hh:mm aa" , calendar);
-                txtTimeEnd.setText(time);
-                e_time = formatter.format(date) + " " + time;
-
-            },12,0,false
-            );
-            dialog.updateTime(nowHour+1,nowMinute);
-            dialog.show();
-        });
-
-        calcPrice.setOnClickListener(v -> {
-            if(s_time != null && e_time != null){ txtPriec.setText(calPriceExpect(grageInfo.getPriceForHour())+" EG"); }
-
-        });
 
         reference = FirebaseUtil.referenceOperattion;
 
         btnRecerNow.setOnClickListener(v -> {
-
             Opreation model = new Opreation();
             Date date = new Date(System.currentTimeMillis());
             String dataModel = formatterLong.format(date);
             model.setDate(dataModel);
             model.setType("1");
             model.setState("1");
+            model.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
             model.setFrom(FirebaseUtil.firebaseAuth.getUid());
             model.setTo(grageInfo.getId());
             model.setToName(grageInfo.getNameEn());
@@ -129,7 +110,7 @@ public class ConfarmResrerFragment extends Fragment {
             reference.child(model.getId()).setValue(model);
             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                     grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
-                    ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext(),getActivity());
+                    ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext());
                 notificationsSender.SendNotifications();
         });
 
@@ -141,17 +122,12 @@ public class ConfarmResrerFragment extends Fragment {
 
     private void initUI(View root) {
         startTime = root.findViewById(R.id.time_start);
-        endTime = root.findViewById(R.id.time_end);
         txtTimeStart = root.findViewById(R.id.text_time_start);
-        txtTimeEnd = root.findViewById(R.id.text_time_end);
-        txtPriec = root.findViewById(R.id.text_expected_price);
-        calcPrice = root.findViewById(R.id.calc_price);
         btnRecer = root.findViewById(R.id.btn_reser_time);
         btnRecerNow = root.findViewById(R.id.btn_reser_now);
     }
 
     private float calPriceExpect(Float f){
-
         Date d1 = null;
         Date d2 = null;
         try {

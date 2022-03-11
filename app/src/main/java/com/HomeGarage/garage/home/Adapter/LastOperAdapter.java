@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,11 +28,33 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
     LastOperListener lastOperListener;
+    DatabaseReference reference =  FirebaseUtil.referenceOperattion;
+    Query query ;
+
     private int numViewOper=0;
 
     public LastOperAdapter( LastOperListener lastOperListener, int numViewOper) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
+        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    lastOpereations.clear();
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        Opreation opreation = snapshot1.getValue(Opreation.class);
+                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
+                            lastOpereations.add(opreation);
+                            notifyItemChanged(lastOpereations.size()-1);
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
     }
 
 
@@ -77,7 +98,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
         public void BulidUI(Opreation opreation){
             textWhoToDoOper.setText(opreation.getToName());
-            textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getState())-1));
+            textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
             textTimeOper.setText(opreation.getDate());
             textWhoDoOper.setText(opreation.getFromName());
             layoutLastOper.setOnClickListener(v ->  {

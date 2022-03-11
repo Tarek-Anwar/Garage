@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,13 +20,12 @@ public class FirebaseUtil {
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
     public static FirebaseAuth firebaseAuth;
-    private static FirebaseUtil firebaseUtil;
+    public static FirebaseUtil firebaseUtil;
     public static FirebaseAuth.AuthStateListener listener;
-    public static FirebaseUser currentUser;
     public static DatabaseReference referenceOperattion;
 
+    public static ArrayList<CarInfo> carInfoLogin;
     public static ArrayList<GrageInfo> allGarage;
-    public static ArrayList<Opreation> opreationRequstList;
     public static ArrayList<Opreation> opreationEndList;
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;
@@ -35,7 +35,6 @@ public class FirebaseUtil {
             firebaseUtil=new FirebaseUtil();
             firebaseDatabase=FirebaseDatabase.getInstance();
             firebaseAuth=FirebaseAuth.getInstance();
-            currentUser = firebaseAuth.getCurrentUser();
             listener= firebaseAuth -> {
                 if(firebaseAuth.getCurrentUser()!=null)
                 { Log.i(TAG,"user is in "); }
@@ -55,8 +54,8 @@ public class FirebaseUtil {
         typeList.add(R.string.refusal_type);
         typeList.add(R.string.pay_type);
 
+        carInfoLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
-        opreationRequstList = new ArrayList<>();
         opreationEndList = new ArrayList<>();
         databaseReference = firebaseDatabase.getReference().child(ref);
         referenceOperattion = firebaseDatabase.getReference().child(refOperattion);

@@ -51,7 +51,7 @@ public class GarageViewFragment extends Fragment {
         ratingGarage.setRating(grageInfo.getPriceForHour());
         ratingGarage.setEnabled(false);
 
-        FirebaseUser user = FirebaseUtil.currentUser;
+        FirebaseUser user = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         nameGarage.setText(grageInfo.getNameEn());
         totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());

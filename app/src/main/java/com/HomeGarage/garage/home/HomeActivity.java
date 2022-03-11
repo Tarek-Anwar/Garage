@@ -1,12 +1,9 @@
 package com.HomeGarage.garage.home;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,53 +17,49 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.sign.SignUpFragment;
+import com.HomeGarage.garage.databinding.ActivityHomeBinding;
+import com.HomeGarage.garage.home.models.CarInfo;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    TextView name ,email , phone;
-    ImageView img_profile;
-    SharedPreferences preferences ;
-    FirebaseAuth auth;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private TextView name ,email , phone , balance;
+    private ImageView img_profile;
+    ArrayList<CarInfo> carInfoUtil ;
+    private FirebaseUser  user;
+    ActivityHomeBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_home);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         //find element
+        FirebaseUtil.getInstence("CarInfo" , "Operation");
+        user = FirebaseUtil.firebaseAuth.getCurrentUser();
+
+
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
         //find header Navigation
         View v = navigationView.getHeaderView(0);
         intiHeader(v);
-
-
-        //init auth
-        auth=FirebaseUtil.firebaseAuth;
-        //FirebaseUtil.getInstence("CarInfo" , "Operation");
-        FirebaseMessaging.getInstance().subscribeToTopic(auth.getUid());
-
-        // defined  file preferences and mode
-        preferences = getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
-
-        //set usr information if their
-        setHeaderNav(preferences);
 
         //go to edit User information
         img_profile.setOnClickListener( V->{
@@ -84,20 +77,29 @@ public class HomeActivity extends AppCompatActivity {
         // set listener to item in navigation
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.log_out_nav) {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
+                FirebaseUtil.firebaseAuth.signOut();
 
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(auth.getUid());
                 Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
-                auth.signOut();
                 drawerLayout.closeDrawer(GravityCompat.START);
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
-               /* new Handler().postDelayed(() -> {
-                }, 2000);*/
+                finish();
             }
                 return true;
             });
+
+        checkLogin();
+    }
+
+    void intiHeader(View v){
+        name = v.findViewById(R.id.user_name_nav);
+        email = v.findViewById(R.id.user_email_nav);
+        phone = v.findViewById(R.id.user_phone_nav);
+        balance = v.findViewById(R.id.user_balance_nav);
+        img_profile = v.findViewById(R.id.img_profile);
     }
 
     @Override
@@ -108,30 +110,57 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SetTextI18n")
+    void setHeaderNav(CarInfo carInfo){
+        if (carInfo != null) {
+            name.setText(carInfo.getName());
+            phone.setText(carInfo.getPhone());
+            email.setText(carInfo.getEmail());
+            balance.setText("balance " +carInfo.getBalance() + " EG");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLogin();
+        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
         // check any change date in Header after edit
-        setHeaderNav(preferences);
+        setHeaderNav(carInfoUtil.get(0));
     }
 
-    void intiHeader(View v){
-        name = v.findViewById(R.id.user_name_nav);
-        email = v.findViewById(R.id.user_email_nav);
-        phone = v.findViewById(R.id.user_phone_nav);
-        img_profile = v.findViewById(R.id.img_profile);
+
+    private  void checkLogin() {
+        if (user == null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            carInfoUtil = FirebaseUtil.carInfoLogin;
+            DatabaseReference ref = FirebaseUtil.databaseReference.child(user.getUid());
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    CarInfo carInfo = snapshot.getValue(CarInfo.class);
+                    carInfoUtil.add(carInfo);
+                    setHeaderNav(carInfo);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
     }
 
-    void setHeaderNav(SharedPreferences preferences){
-        if (preferences.getString(SignUpFragment.USER_NAME,null)!= null) {
-            name.setText(preferences.getString(SignUpFragment.USER_NAME, "New User"));
-            phone.setText(preferences.getString(SignUpFragment.PHONE, "No Phone yet"));
-            email.setText(preferences.getString(SignUpFragment.EMAIL, "No Email yet"));
-        }
-        if(preferences.getString(UserInfoActivity.IMAGE_PROFILE,null)!= null){
-            img_profile.setImageURI(Uri.parse((preferences.getString(UserInfoActivity.IMAGE_PROFILE,null))));
-        }
-    }
 
 
 }

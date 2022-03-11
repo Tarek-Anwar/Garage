@@ -44,7 +44,6 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
         recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
         recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
         recyclerAllOper.setAdapter(lastOperAdapter);
-
         return root;
     }
 

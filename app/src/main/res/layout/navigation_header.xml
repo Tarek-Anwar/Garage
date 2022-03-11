@@ -24,9 +24,9 @@
         android:text="User Name" />
 
     <TextView
-        android:id="@+id/user_address_nav"
+        android:id="@+id/user_balance_nav"
         style="@style/txt_nav_txt"
-        android:text="address" />
+        android:text="balance" />
 
     <TextView
         android:id="@+id/user_phone_nav"

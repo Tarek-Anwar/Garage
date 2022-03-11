@@ -92,4 +92,16 @@ public class LoginFragment extends Fragment {
         forgotPassTV= rootView.findViewById(R.id.forgetPass_TV);
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseUtil.attachListner();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        FirebaseUtil.detachListner();
+    }
 }

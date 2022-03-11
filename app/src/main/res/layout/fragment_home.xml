@@ -73,71 +73,17 @@
 
     </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/txt_home_fragment"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerMap"
+            android:name="com.HomeGarage.garage.home.MapsFragment"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/last_oper"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_state_requst" />
-
-    <LinearLayout
-        android:id="@+id/layout_last"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_last"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:itemCount="1"
-            tools:listitem="@layout/last_operations_row_layout" />
-
-        <TextView
-            android:id="@+id/see_all_last_oper"
-            style="@style/txt_last_oper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:text="@string/see_all" />
-
-    </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/not_find_img"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/notfind"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerMap"
-        android:name="com.HomeGarage.garage.home.MapsFragment"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
         <LinearLayout
             android:id="@+id/layout_state_requst"
@@ -152,14 +98,195 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragmentContainerMap">
 
+            <LinearLayout
+                android:id="@+id/layout_requst"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/RelativeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ProgressBar
+                            android:id="@+id/progress_bar_test"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="@drawable/circle_shape"
+                            android:progressDrawable="@drawable/cricle_progress_bar"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Chronometer
+                            android:id="@+id/progress_bar_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:shadowColor="@color/white"
+                            android:text="@string/state_requst"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txt_requst_state_home"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:textColor="@color/white"
+                            tools:text="@string/waiting_requst" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:shadowColor="@color/white"
+                            android:text="@string/type_requst"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txt_requst_type_home"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:textColor="@color/white"
+                            tools:text="@string/requst_type" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:shadowColor="@color/white"
+                            android:text="@string/garage_name"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txt_garage_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:textColor="@color/white"
+                            tools:text="Garage El Mahalla" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:shadowColor="@color/white"
+                            android:text="@string/date"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txt_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:textColor="@color/white"
+                            tools:text="15/10/2022 12:30 PM" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/txt_home_fragment"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/last_oper"
+            app:layout_constraintTop_toBottomOf="@+id/layout_state_requst"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <LinearLayout
+            android:id="@+id/layout_last"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycle_requst"
+                android:id="@+id/recycler_last"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:itemCount="1"
-                tools:listitem="@layout/opreation_requst_row">
+                tools:listitem="@layout/last_operations_row_layout" />
 
-            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/see_all_last_oper"
+                style="@style/txt_last_oper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/teal_700"
+                android:text="@string/see_all" />
 
         </LinearLayout>
 

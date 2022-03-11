@@ -1,75 +1,61 @@
 package com.HomeGarage.garage.home;
 
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainer;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.home.Adapter.OperRequstAdapter;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
-import com.google.firebase.database.ChildEventListener;
+import com.HomeGarage.garage.home.models.Opreation;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class HomeFragment extends Fragment {
 
     ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
-    ArrayList<Opreation>  opreationsReq  = FirebaseUtil.opreationRequstList;
-    DatabaseReference reference;
+    DatabaseReference reference =  FirebaseUtil.referenceOperattion;
     Query query ;
 
-    RecyclerView  recyclerLast , recyclerReqsut;
+    RecyclerView  recyclerLast ;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
     View seeAllOper;
     ImageView notFind;
-
+    Chronometer chronometer;
+    ProgressBar progressBar;
     LastOperAdapter lastOperAdapter;
-    OperRequstAdapter operRequstAdapter;
-
-
-
-    private boolean check = false;
+    int countProgress ;
 
     public HomeFragment(){ }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState == null) {
-
-            getRequst(new OnDataChangeCallback() {
-                @Override
-                public void OnOpreationsEndChange(ArrayList<Opreation> last) {
+       /* if(savedInstanceState == null) {
+            if (reference != null) {
+                getRequst(last -> {
                     lastOperAdapter = new LastOperAdapter(opreation -> {
                         OperationsFragment newFragment = new OperationsFragment(opreation);
                         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -79,18 +65,12 @@ public class HomeFragment extends Fragment {
                     }, 3);
                     recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
                     recyclerLast.setAdapter(lastOperAdapter);
-                }
-
-                @Override
-                public void OnopreationsReqChange(ArrayList<Opreation> last) {
-                    operRequstAdapter  = new OperRequstAdapter();
-                    recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
-                    recyclerReqsut.setAdapter(operRequstAdapter);
-                }
-            });
-        }
+                });
+            }
+        }*/
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,74 +79,79 @@ public class HomeFragment extends Fragment {
         //find element
         initViews(root);
 
-        recyclerReqsut.setLayoutManager(new LinearLayoutManager(getContext() , RecyclerView.HORIZONTAL,false));
-        recyclerReqsut.setAdapter(operRequstAdapter);
+        lastOperAdapter = new LastOperAdapter(opreation -> {
+            OperationsFragment newFragment = new OperationsFragment(opreation);
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }, 3);
 
         recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerLast.setAdapter(lastOperAdapter);
 
         seeAllOper.setOnClickListener(v -> {
-                LastOperFragment newFragment = new LastOperFragment();
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                replaceFragment(new LastOperFragment());
             });
 
         layoutAllFind.setOnClickListener(v -> {
-            SearchFragment newFragment = new SearchFragment();
-            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            replaceFragment(new SearchFragment());
         });
 
         layoutNearFind.setOnClickListener(v ->{
-            SearchFragment newFragment = new SearchFragment();
-            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            replaceFragment(new SearchFragment());
         });
-        if(check==true){
-            if(opreationsEnd.isEmpty()){
-                notFind.setVisibility(View.VISIBLE);
-                layoutlast.setVisibility(View.GONE);
-            }else {
-                layoutlast.setVisibility(View.VISIBLE);
-                notFind.setVisibility(View.GONE);
+
+        /*Date start = null;
+            try {
+                start = formatterLong.parse(opreation.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        }
+            Long diff = System.currentTimeMillis() - start.getTime();
+
+            countProgress = (int) (diff / 10000);
+            chronometer.setBase(SystemClock.elapsedRealtime() - diff);
+            chronometer.start();
+*/
+        countProgress = 1;
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
+
+        progressBar.setMin(0);
+        progressBar.setMax(200);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(countProgress<=200){
+                    progressBar.setProgress(countProgress);
+                    countProgress++;
+                    handler.postDelayed(this,1000);}
+                else {
+                    handler.removeCallbacks(this);
+                }
+            }
+        },1000);
 
 
         return root;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        check=true; }
-
     public  void getRequst(OnDataChangeCallback callback){
-       reference = FirebaseUtil.referenceOperattion;
        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
        query.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot snapshot) {
                if(snapshot.exists()) {
                    opreationsEnd.clear();
-                   opreationsReq.clear();
                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                        Opreation opreation = snapshot1.getValue(Opreation.class);
                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
                             opreationsEnd.add(opreation);
-                        }
-                       else{
-                           opreationsReq.add(opreation);
                        }
                    }
                    callback.OnOpreationsEndChange(opreationsEnd);
-                   callback.OnopreationsReqChange(opreationsReq);
                }
            }
             @Override
@@ -176,7 +161,6 @@ public class HomeFragment extends Fragment {
 
     private interface OnDataChangeCallback{
         void OnOpreationsEndChange(ArrayList<Opreation> last);
-        void OnopreationsReqChange(ArrayList<Opreation> last);
     }
 
     private void initViews(View v){
@@ -185,9 +169,16 @@ public class HomeFragment extends Fragment {
         layoutAllFind = v.findViewById(R.id.layout_all_find);
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
         layoutlast = v.findViewById(R.id.layout_last);
-        notFind = v.findViewById(R.id.not_find_img);
-        recyclerReqsut = v.findViewById(R.id.recycle_requst);
-
+        progressBar = v.findViewById(R.id.progress_bar_test);
+        chronometer = v.findViewById(R.id.progress_bar_txt);
     }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 
 }

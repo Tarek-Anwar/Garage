@@ -14,8 +14,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,12 +55,12 @@ public class Dialog extends DialogFragment {
         String costTxt = cost.getText().toString();
 
         //get current user balance
-        DatabaseReference reference = FirebaseUtil.databaseReference.child(FirebaseUtil.currentUser.getUid());
-        reference.child("Balance").setValue(5000);
+        DatabaseReference reference = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long result = (long) snapshot.child("Balance").getValue();
+                CarInfo carInfo = snapshot.getValue(CarInfo.class);
+                float result =  carInfo.getBalance();
                 balance.setText(txt + "" + result);
 
                 calc.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +68,8 @@ public class Dialog extends DialogFragment {
                     public void onClick(View view) {
                         //calc price
                         long hoursIN = 6;
-                        long priceForHour = (long) grageInfo.getPriceForHour();
-                        long costIN = hoursIN * priceForHour;
+                        float priceForHour = grageInfo.getPriceForHour();
+                        float costIN = hoursIN * priceForHour;
                         if (costIN < result) {
                             cost.setVisibility(View.VISIBLE);
                             pay.setVisibility(View.VISIBLE);
@@ -76,18 +79,19 @@ public class Dialog extends DialogFragment {
                                 public void onClick(View view) {
 
                                     //update car owner balance
-                                    long newBalance = result - costIN;
-                                    reference.child("Balance").setValue(newBalance);
+                                    float newBalance = result - costIN;
+                                    reference.child("balance").setValue(newBalance);
+
                                     balance.setText(txt + "" + (newBalance));
 
                                     //calc app and grage balance
-                                    long appBalance = (long) (costIN * .1);
-                                    long grageBalance = costIN - appBalance;
+                                    float appBalance = (float) (costIN * .1);
+                                    float grageBalance = costIN - appBalance;
 
                                     //update balance for grage owner
                                     grageInfo.setBalance(grageInfo.getBalance() + grageBalance);
                                     DatabaseReference garageReference = FirebaseDatabase.getInstance().getReference().child("GaragerOnwerInfo");
-                                    garageReference.child(grageInfo.getId()).child("Balance").setValue(grageBalance);
+                                    garageReference.child(grageInfo.getId()).child("balance").setValue(grageBalance);
 
                                     //update app balance
                                     DatabaseReference appReference = FirebaseDatabase.getInstance().getReference().child("App");
@@ -102,13 +106,13 @@ public class Dialog extends DialogFragment {
                                     opreation.setType("4");
                                     opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
                                     opreation.setTo(grageInfo.getId());
-                                    opreation.setFromName(snapshot.child("Full Name").getValue(String.class));
+                                    opreation.setPrice(costIN);
+                                    opreation.setFromName(snapshot.child("name").getValue(String.class));
                                     opreation.setToName(grageInfo.getNameEn());
                                     opreation.setId(referenceOperattion.push().getKey());
                                     referenceOperattion.child(opreation.getId()).setValue(opreation);
 
                                     opreations.add(opreation);
-
 
                                     Toast.makeText(getContext(), "thanks", Toast.LENGTH_SHORT).show();
                                 }
