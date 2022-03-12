@@ -5,14 +5,16 @@
 
 <shape android:innerRadiusRatio="2.5"
     android:shape="ring"
-    android:thickness="3dp"
+    android:thickness="10dp"
     android:useLevel="true">
 
     <gradient
         android:angle="5"
-        android:endColor="#FFE65100"
-        android:startColor="#FFE65100"
+        android:endColor="#FF043177"
+        android:startColor="#FF033133"
         android:type="sweep"
+        android:centerColor="#FFB71C1C"
+        android:gradientRadius="2.5"
         android:useLevel="true"/>
 
 </shape>

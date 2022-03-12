@@ -1,7 +1,7 @@
 package com.HomeGarage.garage.home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +18,6 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,11 +59,11 @@ public class Dialog extends DialogFragment {
         View root = inflater.inflate(R.layout.pay_dialog, container, false);
         initViews(root);
 
-
         String txt = balance.getText().toString();
         String costTxt = cost.getText().toString();
 
         getCarInfo(new OnBalanceReciveCallback() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void OnBalanceRecive(CarInfo carInfo) {
                 calc.setOnClickListener(v -> {
@@ -81,46 +79,44 @@ public class Dialog extends DialogFragment {
                 });
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void OnBalanceAppRecive(Float balanceApp) {
-                pay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //update car owner balance
-                       carInfo.setBalance(carInfo.getBalance() - costIN);
+                pay.setOnClickListener(v -> {
+                    //update car owner balance
+                    carInfo.setBalance(carInfo.getBalance() - costIN);
 
-                        reference.child("balance").setValue(carInfo.getBalance());
-                        balance.setText(txt + "" + carInfo.getBalance());
+                    reference.child("balance").setValue(carInfo.getBalance());
+                    balance.setText(txt + "" + carInfo.getBalance());
 
-                        //calc app and grage balance
-                        float appBalance = (float) (costIN * .1);
-                        float grageBalance = costIN - appBalance;
+                    //calc app and grage balance
+                    float appBalance = (float) (costIN * .1);
+                    float grageBalance = costIN - appBalance;
 
-                        //update balance for grage owner
-                        grageInfo.setBalance(grageInfo.getBalance() + grageBalance);
-                        garageReference.child(grageInfo.getId()).child("balance").setValue(grageInfo.getBalance());
+                    //update balance for grage owner
+                    grageInfo.setBalance(grageInfo.getBalance() + grageBalance);
+                    garageReference.child(grageInfo.getId()).child("balance").setValue(grageInfo.getBalance());
 
-                        //update app balance
-                        appReference.child("Balance").setValue(appBalance+balanceApp);
+                    //update app balance
+                    appReference.child("Balance").setValue(appBalance+balanceApp);
 
-                        //creat opreation and save to last opreation list
-                        Opreation opreation = new Opreation();
-                        Date date = new Date(System.currentTimeMillis());
-                        String dateOpreation = formatterLong.format(date);
-                        opreation.setDate(dateOpreation);
-                        opreation.setState("3");
-                        opreation.setType("4");
-                        opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
-                        opreation.setTo(grageInfo.getId());
-                        opreation.setPrice(costIN);
-                        opreation.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
-                        opreation.setToName(grageInfo.getNameEn());
-                        opreation.setId(referenceOperattion.push().getKey());
-                        referenceOperattion.child(opreation.getId()).setValue(opreation);
+                    //creat opreation and save to last opreation list
+                    Opreation opreation = new Opreation();
+                    Date date = new Date(System.currentTimeMillis());
+                    String dateOpreation = formatterLong.format(date);
+                    opreation.setDate(dateOpreation);
+                    opreation.setState("3");
+                    opreation.setType("4");
+                    opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
+                    opreation.setTo(grageInfo.getId());
+                    opreation.setPrice(costIN);
+                    opreation.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
+                    opreation.setToName(grageInfo.getNameEn());
+                    opreation.setId(referenceOperattion.push().getKey());
+                    referenceOperattion.child(opreation.getId()).setValue(opreation);
 
-                        opreations.add(opreation);
-                        Toast.makeText(getContext(), "thanks", Toast.LENGTH_SHORT).show();
-                    }
+                    opreations.add(opreation);
+                    Toast.makeText(getContext(), "thanks", Toast.LENGTH_SHORT).show();
                 });
 
             }

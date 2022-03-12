@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/layout_type">
 
         <ProgressBar
-            android:id="@+id/progress_bar_test"
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,7 +85,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Chronometer
-            android:id="@+id/progress_bar_txt"
+            android:id="@+id/chronometer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
