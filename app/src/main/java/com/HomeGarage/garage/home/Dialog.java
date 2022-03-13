@@ -2,6 +2,7 @@ package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -122,12 +123,8 @@ public class Dialog extends DialogFragment {
                     referenceOperattion.child(opreation.getId()).setValue(opreation);
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
                     toast.show();
-
-                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainerView, new HomeFragment());
-                    transaction.commit();
-
                     dismiss();
+
                 });
             }
         });

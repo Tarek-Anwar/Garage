@@ -129,6 +129,13 @@ public class RequstActiveFragment extends Fragment {
                     binding.btnPayReser.setVisibility(View.VISIBLE);
                 }
             }
+
+            @Override
+            public void onBalaceChange(Opreation opreation) {
+                if(opreation.getPrice()>0){
+                    replaceFragment(new HomeFragment());
+                }
+            }
         });
 
         if(opreation.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
@@ -193,12 +200,24 @@ public class RequstActiveFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+        refOperation.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Opreation opreation = snapshot.getValue(Opreation.class);
+              callback.onBalaceChange(opreation);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
     private interface OnGrageReciveCallback{
         void OnGrageRecive(GrageInfo  grageInfo);
-
+        void onBalaceChange(Opreation opreation);
     }
 
     private float calPriceExpect(Float f , String s_time , String e_time){
@@ -222,6 +241,5 @@ public class RequstActiveFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 
 }
