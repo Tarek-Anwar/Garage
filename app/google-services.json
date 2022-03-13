@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "870345114932",
+    "firebase_url": "https://garage-d7938-default-rtdb.firebaseio.com",
+    "project_id": "garage-d7938",
+    "storage_bucket": "garage-d7938.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870345114932:android:4daa09cf0c828ac93a5161",
+        "android_client_info": {
+          "package_name": "com.HomeGarage.garage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870345114932-u5sfj0q5vlf3g5ka5gm0e2islaia24ll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvuqRGk85P-4THpGRPiAC5anTAd7VvgPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870345114932-u5sfj0q5vlf3g5ka5gm0e2islaia24ll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870345114932:android:5cad08610fdc0f1d3a5161",
+        "android_client_info": {
+          "package_name": "com.homegarage.garageowner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870345114932-v3ou0jo9l1ge4j3861ms3pd7d5vpf2n6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homegarage.garageowner",
+            "certificate_hash": "8f1067b104ffffb0613eca2b8d0d38533ab4cfc6"
+          }
+        },
+        {
+          "client_id": "870345114932-u5sfj0q5vlf3g5ka5gm0e2islaia24ll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvuqRGk85P-4THpGRPiAC5anTAd7VvgPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870345114932-u5sfj0q5vlf3g5ka5gm0e2islaia24ll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.HomeGarage.garage.DB.Opreation;
+import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 
 public class OperationsFragment extends Fragment {
@@ -46,17 +46,15 @@ public class OperationsFragment extends Fragment {
         from = view.findViewById(R.id.from_oper_txt);
         time = view.findViewById(R.id.time_oper_txt);
         price = view.findViewById(R.id.price_oper_txt);
-        palce = view.findViewById(R.id.place_oper_txt);
 
     }
 
     @SuppressLint("SetTextI18n")
     void setData(Opreation opreation){
         type.setText(opreation.getState());
-        to.setText(opreation.getDecisionRecipient());
-        from.setText(opreation.getDecisionMaker());
+        to.setText(opreation.getToName());
+        from.setText(opreation.getFrom());
         time.setText(opreation.getDate()+"");
-        price.setText(opreation.getPrice()+"");
-        palce.setText(opreation.getAddress());
+
     }
 }

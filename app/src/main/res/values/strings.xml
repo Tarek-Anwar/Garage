@@ -46,7 +46,6 @@
     <string name="price_for_hour">Price For Hour</string>
     <string name="reservation">Reservation</string>
     <string name="go_garage">"Go Garage"</string>
-
     <string name="open_menu">Open</string>
     <string name="close_menu">Close</string>
     <string name="setting">Setting</string>
@@ -57,5 +56,24 @@
     <string name="edit_address">Edit Address</string>
     <string name="edit_info">Edit Information</string>
     <string name="save">Save</string>
+    <string name="time_start">Time Start Reservation</string>
+    <string name="time_end">Expected time to finish</string>
+    <string name="expected_price">Expected Price</string>
+    <string name="reservation_now">Reservation Now</string>
+    <string name="expected_hour">Hour to Reservation</string>
+    <string name="waiting_requst">Waiting</string>
+    <string name="active_requst">Active</string>
+    <string name="finshed_requst">Finshed</string>
+    <string name="requst_type">Requst</string>
+    <string name="accpet_type">Accpet</string>
+    <string name="refusal_type">Refusal</string>
+    <string name="pay_type">Pay</string>
+    <string name="state_requst">State Requst</string>
+    <string name="type_requst">Type Requst</string>
+    <string name="garage_name">Garage Name</string>
+    <string name="date">Date</string>
+    <string name="cancel">Cancel</string>
+    <string name="finshed">Finshed</string>
+    <string name="done">Done</string>
 
 </resources>

@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/setting_nav"
         android:title="@string/setting" />
-
-
     <item android:id="@+id/log_out_nav"
         android:title="@string/log_out"/>
 
