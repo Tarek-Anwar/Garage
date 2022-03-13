@@ -2,6 +2,8 @@ package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
@@ -31,24 +34,25 @@ import java.util.Locale;
 
 public class Dialog extends DialogFragment {
 
-    TextView balance, cost;
-    Button calc, pay;
-    GrageInfo grageInfo;
-    DatabaseReference referenceOperattion = FirebaseUtil.referenceOperattion;
-    ArrayList<Opreation> opreations = FirebaseUtil.opreationEndList;
+    TextView balance, cost , enough_txt;
+    Button pay;
+    Toast toast;
 
     SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm aa", new Locale("en"));
 
     DatabaseReference reference;
-    DatabaseReference garageReference = FirebaseDatabase.getInstance().getReference().child("GaragerOnwerInfo");
+    DatabaseReference referenceOperattion = FirebaseUtil.referenceOperattion;
+    DatabaseReference garageReference;
     DatabaseReference appReference = FirebaseDatabase.getInstance().getReference().child("App");
 
     float  costIN;
-    CarInfo carInfo;
-
-
-    public Dialog(GrageInfo grageInfo) {
+    CarInfo carInfoListener;
+    GrageInfo grageInfo;
+    String idLastOper;
+    public Dialog(GrageInfo grageInfo ,float  costIN ,String idLastOper) {
         this.grageInfo = grageInfo;
+        this.costIN =costIN;
+        this.idLastOper = idLastOper;
     }
 
     @Nullable
@@ -58,25 +62,27 @@ public class Dialog extends DialogFragment {
         //init views
         View root = inflater.inflate(R.layout.pay_dialog, container, false);
         initViews(root);
-
-        String txt = balance.getText().toString();
-        String costTxt = cost.getText().toString();
+        garageReference = FirebaseDatabase.getInstance().getReference().child("GaragerOnwerInfo").child(grageInfo.getId());
+        //custom toast
+        LayoutInflater li = getLayoutInflater();
+        View view = li.inflate(R.layout.castom_toast_layout,root.findViewById(R.id.custom_toast_thank_you));
+        toast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.setView(view);
 
         getCarInfo(new OnBalanceReciveCallback() {
             @SuppressLint("SetTextI18n")
             @Override
             public void OnBalanceRecive(CarInfo carInfo) {
-                calc.setOnClickListener(v -> {
-                    //calc price
-                    costIN = 6 * grageInfo.getPriceForHour();
-
-                    if (costIN < carInfo.getBalance()) {
-                        balance.setText(txt + "" + carInfo.getBalance());
-                        cost.setVisibility(View.VISIBLE);
-                        pay.setVisibility(View.VISIBLE);
-                        cost.setText(costTxt + " " + costIN);
-                    }
-                });
+                balance.setText("Your Balance is : " + carInfoListener.getBalance()+ " E.G.");
+                cost.setText("Cost Reservation "+ costIN +" E.G.");
+                if (costIN < carInfoListener.getBalance()) {
+                    pay.setVisibility(View.VISIBLE);
+                    enough_txt.setVisibility(View.GONE);
+                }else {
+                    enough_txt.setVisibility(View.VISIBLE);
+                    pay.setVisibility(View.GONE);
+                }
             }
 
             @SuppressLint("SetTextI18n")
@@ -84,10 +90,10 @@ public class Dialog extends DialogFragment {
             public void OnBalanceAppRecive(Float balanceApp) {
                 pay.setOnClickListener(v -> {
                     //update car owner balance
-                    carInfo.setBalance(carInfo.getBalance() - costIN);
+                    carInfoListener.setBalance(carInfoListener.getBalance() - costIN);
 
-                    reference.child("balance").setValue(carInfo.getBalance());
-                    balance.setText(txt + "" + carInfo.getBalance());
+                    reference.child("balance").setValue(carInfoListener.getBalance());
+                    balance.setText("Your Balance is : " + carInfoListener.getBalance() + " E.G.");
 
                     //calc app and grage balance
                     float appBalance = (float) (costIN * .1);
@@ -95,7 +101,7 @@ public class Dialog extends DialogFragment {
 
                     //update balance for grage owner
                     grageInfo.setBalance(grageInfo.getBalance() + grageBalance);
-                    garageReference.child(grageInfo.getId()).child("balance").setValue(grageInfo.getBalance());
+                    garageReference.child("Balance").setValue(grageInfo.getBalance());
 
                     //update app balance
                     appReference.child("Balance").setValue(appBalance+balanceApp);
@@ -108,17 +114,21 @@ public class Dialog extends DialogFragment {
                     opreation.setState("3");
                     opreation.setType("4");
                     opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
-                    opreation.setTo(grageInfo.getId());
+                    opreation.setTo(carInfoListener.getId());
                     opreation.setPrice(costIN);
                     opreation.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
                     opreation.setToName(grageInfo.getNameEn());
                     opreation.setId(referenceOperattion.push().getKey());
                     referenceOperattion.child(opreation.getId()).setValue(opreation);
+                    referenceOperattion.child(idLastOper).child("price").setValue(costIN);
+                    toast.show();
 
-                    opreations.add(opreation);
-                    Toast.makeText(getContext(), "thanks", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView, new HomeFragment());
+                    transaction.commit();
+
+                    dismiss();
                 });
-
             }
         });
 
@@ -128,31 +138,35 @@ public class Dialog extends DialogFragment {
     private void initViews(View root) {
         balance = root.findViewById(R.id.balanceTV);
         cost = root.findViewById(R.id.cost);
-        calc = root.findViewById(R.id.clacbtn);
         pay = root.findViewById(R.id.payBtnDialog);
+        enough_txt = root.findViewById(R.id.not_enough_txt);
+
     }
 
     void getCarInfo(OnBalanceReciveCallback callback){
+
         appReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 float balance  = snapshot.child("Balance").getValue(Float.class);
                 callback.OnBalanceAppRecive(balance);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
 
         reference = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                carInfo = snapshot.getValue(CarInfo.class);
-                callback.OnBalanceRecive(carInfo);
+                carInfoListener = snapshot.getValue(CarInfo.class);
+                callback.OnBalanceRecive(carInfoListener);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+
     }
 
     private interface OnBalanceReciveCallback{

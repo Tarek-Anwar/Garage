@@ -40,7 +40,6 @@ public class ConfarmResrerFragment extends Fragment {
 
     String s_time = null;
     String e_time = null;
-
     Calendar calendar = Calendar.getInstance();
 
     SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy",new Locale("en"));
@@ -101,7 +100,6 @@ public class ConfarmResrerFragment extends Fragment {
         reference = FirebaseUtil.referenceOperattion;
 
         btnRecerNow.setOnClickListener(v -> {
-
             Opreation model = new Opreation();
             Date date = new Date(System.currentTimeMillis());
             String dataModel = formatterLong.format(date);
@@ -168,21 +166,6 @@ public class ConfarmResrerFragment extends Fragment {
         btnRecer = root.findViewById(R.id.btn_reser_time);
         btnRecerNow = root.findViewById(R.id.btn_reser_now);
         startDate = root.findViewById(R.id.start_date);
-    }
-
-    private float calPriceExpect(Float f){
-        Date d1 = null;
-        Date d2 = null;
-        try {
-            d1 = formatterLong.parse(s_time);
-            d2 = formatterLong.parse(e_time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Long diff = d2.getTime() - d1.getTime();
-        Long diffMinets = diff / (60 *1000) ;
-
-        return  diffMinets * f / 60;
     }
 
     private void statResetvaion(Opreation opreation){

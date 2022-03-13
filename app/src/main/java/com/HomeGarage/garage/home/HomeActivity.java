@@ -172,8 +172,11 @@ public class HomeActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if ((opreation.getState().equals("1") || opreation.getState().equals("2"))
-                                && (opreation.getType().equals("1") || opreation.getType().equals("2"))) {
+                        if (  ((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
+                                (opreation.getType().equals("1") || opreation.getType().equals("2") ))
+                                ||
+                                opreation.getPrice() < 0
+                        ) {
                             callback.onCheckResetvation(opreation);
                         }
                     }

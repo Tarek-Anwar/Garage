@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/circle_shape"
-            android:progressDrawable="@drawable/cricle_progress_bar"
+            android:progressDrawable="@drawable/cricle_tow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -166,18 +166,34 @@
         android:id="@+id/btn_finshed_reser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="@string/finshed"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cancel_reser" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_date" />
 
     <Button
         android:id="@+id/btn_pay_reser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pay"
+        android:layout_marginTop="32dp"
+        android:text="@string/pay_type"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_date" />
+
+    <TextView
+        android:id="@+id/dues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="Please pay the dues"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_finshed_reser" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

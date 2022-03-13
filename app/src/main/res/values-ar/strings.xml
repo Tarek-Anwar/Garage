@@ -68,4 +68,6 @@
     <string name="type_requst">نوع الطلب</string>
     <string name="garage_name">اسم الجراش</string>
     <string name="date">التااريخ</string>
+    <string name="cancel">إلغاء</string>
+    <string name="finshed">انهاء</string>
 </resources>
