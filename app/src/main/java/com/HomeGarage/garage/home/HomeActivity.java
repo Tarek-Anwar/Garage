@@ -17,17 +17,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
 import com.HomeGarage.garage.home.models.CarInfo;
+import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -53,6 +57,12 @@ public class HomeActivity extends AppCompatActivity {
         //find element
         FirebaseUtil.getInstence("CarInfo" , "Operation");
         user = FirebaseUtil.firebaseAuth.getCurrentUser();
+
+        checkResetvation(opreation -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation));
+            transaction.commit();
+        });
 
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -127,14 +137,6 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        // check any change date in Header after edit
-        setHeaderNav(carInfoUtil.get(0));
-    }
-
-
     private  void checkLogin() {
         if (user == null) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -161,6 +163,35 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    private void checkResetvation(checkResetvationCallback callback) {
+        DatabaseReference reference = FirebaseUtil.referenceOperattion;
+        Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        Opreation opreation = snapshot1.getValue(Opreation.class);
+                        if (  ((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
+                                (opreation.getType().equals("1") || opreation.getType().equals("2") ))
+                                ||
+                                opreation.getPrice() < 0
+                        ) {
+                            callback.onCheckResetvation(opreation);
+                        }
+                    }
 
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private interface checkResetvationCallback{
+        void onCheckResetvation(Opreation opreation);
+    }
 }

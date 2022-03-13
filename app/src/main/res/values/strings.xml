@@ -74,6 +74,6 @@
     <string name="date">Date</string>
     <string name="cancel">Cancel</string>
     <string name="finshed">Finshed</string>
-    <string name="pay">Pay</string>
+    <string name="done">Done</string>
 
 </resources>

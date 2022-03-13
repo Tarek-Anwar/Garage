@@ -15,8 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class FirebaseUtil {
-    public static final String TAG="grage tag";
 
+    public static final String TAG="grage tag";
     public static FirebaseDatabase firebaseDatabase;
     public static DatabaseReference databaseReference;
     public static FirebaseAuth firebaseAuth;
@@ -53,6 +53,8 @@ public class FirebaseUtil {
         typeList.add(R.string.accpet_type);
         typeList.add(R.string.refusal_type);
         typeList.add(R.string.pay_type);
+        typeList.add(R.string.cancel);
+        typeList.add(R.string.done);
 
         carInfoLogin = new ArrayList<>();
         allGarage = new ArrayList<>();

@@ -1,40 +1,32 @@
 package com.HomeGarage.garage.home.reservation;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.SuccessContinuation;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
-
-import android.text.format.DateFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -42,22 +34,23 @@ import java.util.Locale;
 
 public class ConfarmResrerFragment extends Fragment {
 
-    ImageView startTime ;
+    ImageView startTime , startDate ;
     TextView txtTimeStart;
     Button   btnRecer ,btnRecerNow ;
 
     String s_time = null;
     String e_time = null;
-
     Calendar calendar = Calendar.getInstance();
-    final int nowHour = calendar.get(Calendar.HOUR);
-    final int nowMinute = calendar.get(Calendar.MINUTE);
 
     SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy",new Locale("en"));
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
     DatabaseReference reference;
     GrageInfo grageInfo ;
+
+    String timeResr =null;
+    String dateResr = null;
+    String allDate= null;
 
     public ConfarmResrerFragment(GrageInfo grageInfo) {
         this.grageInfo = grageInfo;
@@ -77,20 +70,32 @@ public class ConfarmResrerFragment extends Fragment {
 
         startTime.setOnClickListener(v -> {
             TimePickerDialog dialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
-                Date date = new Date(System.currentTimeMillis());
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(0,0,0,hourOfDay,minute);
-                String time = (String) DateFormat.format("hh:mm aa" , calendar);
-                txtTimeStart.setText(time);
-                s_time = formatter.format(date) + " " + time;
-
-            },12,0,false
+                timeResr = (String) DateFormat.format("hh:mm aa" , calendar);
+                if(dateResr != null) {
+                    allDate = dateResr +" " +timeResr;
+                    txtTimeStart.setText(allDate
+                    );
+                }
+            },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true
             );
-            dialog.updateTime(nowHour,nowMinute);
             dialog.show();
         });
 
-
+        startDate.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year,month,dayOfMonth,0,0);
+                dateResr = (String) DateFormat.format("dd/MM/yyyy" , calendar);
+                if(timeResr!=null) {
+                    allDate = dateResr +" " +timeResr;
+                    txtTimeStart.setText(allDate);
+                }
+            },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+            datePickerDialog.show();
+        });
 
         reference = FirebaseUtil.referenceOperattion;
 
@@ -112,11 +117,46 @@ public class ConfarmResrerFragment extends Fragment {
                     grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
                     ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext());
                 notificationsSender.SendNotifications();
+
+            statResetvaion(model);
         });
 
         btnRecer.setOnClickListener(v -> {
-            Date timeNow = new Date();
+
+            if(allDate != null) {
+                Date d1 = null;
+                try {
+                    d1 = formatterLong.parse(allDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (d1.getTime()>System.currentTimeMillis()){
+
+                    Opreation model = new Opreation();
+                    model.setDate(allDate);
+                    model.setType("1");
+                    model.setState("1");
+                    model.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
+                    model.setFrom(FirebaseUtil.firebaseAuth.getUid());
+                    model.setTo(grageInfo.getId());
+                    model.setToName(grageInfo.getNameEn());
+                    model.setId(reference.push().getKey());
+                    reference.child(model.getId()).setValue(model);
+
+                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                            grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
+                            ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext());
+                    notificationsSender.SendNotifications();
+
+                    statResetvaion(model);
+                }
+                else{
+                    Toast.makeText(getContext(), "Time in paist", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         });
+
         return root;
     }
 
@@ -125,21 +165,18 @@ public class ConfarmResrerFragment extends Fragment {
         txtTimeStart = root.findViewById(R.id.text_time_start);
         btnRecer = root.findViewById(R.id.btn_reser_time);
         btnRecerNow = root.findViewById(R.id.btn_reser_now);
+        startDate = root.findViewById(R.id.start_date);
     }
 
-    private float calPriceExpect(Float f){
-        Date d1 = null;
-        Date d2 = null;
-        try {
-            d1 = formatterLong.parse(s_time);
-            d2 = formatterLong.parse(e_time);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    private void statResetvaion(Opreation opreation){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
         }
-        Long diff = d2.getTime() - d1.getTime();
-        Long diffMinets = diff / (60 *1000) ;
-
-        return  diffMinets * f / 60;
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation));
+        transaction.commit();
     }
+
 
 }

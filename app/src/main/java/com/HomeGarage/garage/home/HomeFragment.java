@@ -12,6 +12,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -24,6 +25,7 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
+
        /* if(savedInstanceState == null) {
             if (reference != null) {
                 getRequst(last -> {
@@ -75,6 +78,7 @@ public class HomeFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
         //find element
         initViews(root);
+
 
         lastOperAdapter = new LastOperAdapter(opreation -> {
             OperationsFragment newFragment = new OperationsFragment(opreation);
