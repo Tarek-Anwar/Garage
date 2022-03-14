@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -21,7 +20,9 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
+import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.home.search.SearchFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -81,9 +82,14 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         layoutNearFind.setOnClickListener(v -> replaceFragment(new SearchFragment()));
 
+        search("Al Basatin");
         return root;
     }
 
+
+    private void search(String s) {
+
+    }
 
     @Override
     public void onGoverListener(int pos) {
@@ -97,14 +103,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
 
-    private void initViews(View v){
-        recyclerLast = v.findViewById(R.id.recycler_last);
-        layoutNearFind = v.findViewById(R.id.layout_near_find);
-        layoutAllFind = v.findViewById(R.id.layout_all_find);
-        seeAllOper = v.findViewById(R.id.see_all_last_oper);
-        layoutlast = v.findViewById(R.id.layout_last);
-        recyclerGover = v.findViewById(R.id.recycle_gover);
-    }
 
     private void replaceFragment(Fragment fragment){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -134,4 +132,12 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         });
     }
 
+    private void initViews(View v){
+        recyclerLast = v.findViewById(R.id.recycler_last);
+        layoutNearFind = v.findViewById(R.id.layout_near_find);
+        layoutAllFind = v.findViewById(R.id.layout_all_find);
+        seeAllOper = v.findViewById(R.id.see_all_last_oper);
+        layoutlast = v.findViewById(R.id.layout_last);
+        recyclerGover = v.findViewById(R.id.recycle_gover);
+    }
 }

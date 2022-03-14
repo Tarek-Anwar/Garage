@@ -3,6 +3,7 @@ package com.HomeGarage.garage.home.location;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,9 @@ public class GoverGarageFragment extends Fragment implements CityAdapter.CityLis
 
     @Override
     public void onCityListener(String s) {
-        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s));
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

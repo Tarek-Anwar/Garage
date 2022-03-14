@@ -17,12 +17,15 @@ import java.util.ArrayList;
 public class FirebaseUtil {
 
     public static final String TAG="grage tag";
-    public static FirebaseDatabase firebaseDatabase;
+
     public static DatabaseReference databaseReference;
+    public static DatabaseReference referenceOperattion;
+    public static DatabaseReference referenceGarage;
+
+    public static FirebaseDatabase firebaseDatabase;
     public static FirebaseAuth firebaseAuth;
     public static FirebaseUtil firebaseUtil;
     public static FirebaseAuth.AuthStateListener listener;
-    public static DatabaseReference referenceOperattion;
 
     public static ArrayList<CarInfo> carInfoLogin;
     public static ArrayList<GrageInfo> allGarage;
@@ -30,7 +33,7 @@ public class FirebaseUtil {
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;
 
-    public static void getInstence(String ref , String refOperattion) {
+    public static void getInstence(String ref , String refOperattion , String garage) {
         if (firebaseUtil == null) {
             firebaseUtil=new FirebaseUtil();
             firebaseDatabase=FirebaseDatabase.getInstance();
@@ -61,6 +64,7 @@ public class FirebaseUtil {
         opreationEndList = new ArrayList<>();
         databaseReference = firebaseDatabase.getReference().child(ref);
         referenceOperattion = firebaseDatabase.getReference().child(refOperattion);
+        referenceGarage = firebaseDatabase.getReference().child(garage);
     }
 
     public static void attachListner()

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layoutDescription="@xml/fragment_search_scene"
-    tools:context=".home.SearchFragment">
+    tools:context=".home.search.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchGrages"
