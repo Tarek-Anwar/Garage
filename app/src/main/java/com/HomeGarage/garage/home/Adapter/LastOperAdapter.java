@@ -77,7 +77,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
         }
     }
 
-    protected  class LastOperViewHolder extends RecyclerView.ViewHolder{
+    protected class LastOperViewHolder extends RecyclerView.ViewHolder{
 
        private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper ;
        private View layoutLastOper;
