@@ -74,16 +74,15 @@
         </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerMap"
-                android:name="com.HomeGarage.garage.home.MapsFragment"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            android:id="@+id/fragmentContainerMap"
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_gover"
@@ -99,7 +98,7 @@
             tools:listitem="@layout/layout_governorate_row" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txt_title_last_oper"
             style="@style/txt_home_fragment"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -119,7 +118,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/txt_title_last_oper">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_last"
@@ -137,6 +136,16 @@
                 android:text="@string/see_all" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/find_locatin"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_my_location"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerMap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

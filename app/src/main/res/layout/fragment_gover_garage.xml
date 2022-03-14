@@ -9,7 +9,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map_gover"
-        android:name="com.HomeGarage.garage.home.MapsFragment"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginStart="16dp"

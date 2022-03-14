@@ -71,12 +71,12 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
 
         public void BulidUI(String s){
             nameGaver.setText(s);
-            layouGover.setOnClickListener(v -> goverListener.onGoverListener(getAdapterPosition()));
+            layouGover.setOnClickListener(v -> goverListener.onGoverListener(getAdapterPosition() , s));
         }
 
     }
 
     public interface GoverListener{
-        void onGoverListener(int pos);
+        void onGoverListener(int pos , String s);
     }
 }

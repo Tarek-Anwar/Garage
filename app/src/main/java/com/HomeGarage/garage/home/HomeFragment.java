@@ -1,15 +1,15 @@
 package com.HomeGarage.garage.home;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,13 +20,14 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
+import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.home.search.SearchFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -34,17 +35,21 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener {
 
+    ArrayList<GrageInfo> grageInfos ;
     ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
-    private ArrayList<String> listGoverEn;
     DatabaseReference reference =  FirebaseUtil.referenceOperattion;
     Query query ;
 
     RecyclerView  recyclerLast , recyclerGover ;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
     View seeAllOper;
+    ImageView find_location;
 
     LastOperAdapter lastOperAdapter;
     GovernorateAdapter governorateAdapter;
+    public static LatLng curentLocation = null;
+    public static String curentGover = null;
+
     public HomeFragment(){ }
 
     @Override
@@ -52,14 +57,19 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         super.onCreate(savedInstanceState);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
-        //find element
         initViews(root);
+
+        getAllGarage(grageInfos -> {
+            FragmentTransaction transaction2 = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction2.add(R.id.fragmentContainerMap,new MapsFragment(grageInfos,curentLocation ,null));
+            transaction2.commit();
+
+        });
 
         lastOperAdapter = new LastOperAdapter(opreation -> {
             OperationsFragment newFragment = new OperationsFragment(opreation);
@@ -82,27 +92,25 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         layoutNearFind.setOnClickListener(v -> replaceFragment(new SearchFragment()));
 
-        search("Al Basatin");
+
+        if(curentLocation!=null){
+            find_location.setVisibility(View.GONE);
+        }
+        find_location.setOnClickListener(v -> replaceFragment(new LocationGetFragment()));
+
         return root;
     }
 
 
-    private void search(String s) {
-
-    }
-
     @Override
-    public void onGoverListener(int pos) {
-        GoverGarageFragment fragment = new GoverGarageFragment(pos);
+    public void onGoverListener(int pos , String s) {
+        GoverGarageFragment fragment = new GoverGarageFragment(pos , s);
         replaceFragment(fragment);
     }
-
 
     private interface OnDataChangeCallback{
         void OnOpreationsEndChange(ArrayList<Opreation> last);
     }
-
-
 
     private void replaceFragment(Fragment fragment){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -112,6 +120,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
     public  void getRequst(OnDataChangeCallback callback){
+        DatabaseReference reference = FirebaseUtil.referenceGarage;
         query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,5 +148,33 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
         layoutlast = v.findViewById(R.id.layout_last);
         recyclerGover = v.findViewById(R.id.recycle_gover);
+        find_location  = v.findViewById(R.id.find_locatin);
     }
+
+    public interface OnDataReceiveCallback {
+        void onDataReceived(ArrayList<GrageInfo> grageInfos);}
+
+    private void getAllGarage(OnDataReceiveCallback callback) {
+        grageInfos = FirebaseUtil.allGarage;
+        DatabaseReference ref = FirebaseUtil.referenceGarage;
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    grageInfos.clear();
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        GrageInfo info = item.getValue(GrageInfo.class);
+                        Log.i("dfsdfsdfd" , info.getId());
+                        Log.i("dfsdfsdfd" , grageInfos.size()+"");
+                        grageInfos.add(info);
+                    }
+                    callback.onDataReceived(grageInfos);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
 }
