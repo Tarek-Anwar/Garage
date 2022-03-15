@@ -78,8 +78,7 @@ public class ConfarmResrerFragment extends Fragment {
                 timeResr = (String) DateFormat.format("hh:mm aa" , calendar);
                 if(dateResr != null) {
                     allDate = dateResr +" " +timeResr;
-                    txtTimeStart.setText(allDate
-                    );
+                    txtTimeStart.setText(allDate);
                 }
             },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true
             );

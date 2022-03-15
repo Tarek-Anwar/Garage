@@ -46,42 +46,42 @@ public class MapsFragment extends Fragment {
 
     private OnMapReadyCallback callback = googleMap -> {
 
-        if (locationMe!=null){
+        if (locationMe!=null) {
+            Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title("Me"));
+            me.setTag(-1);
+            markers.add(me);
+        }
         if (grageInfos != null) {
             for (int i = 0; i < grageInfos.size(); i++) {
-                Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(grageInfos.get(i).getLatLngGarage())
+                        .title(grageInfos.get(i).getNameEn())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 marker.setTag(i);
                 markers.add(marker);
             }
         }
-        } else if(gover!=null){
-            if (grageInfos != null) {
-                for (int i = 0; i < grageInfos.size(); i++) {
-                    Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
-                    marker.setTag(i);
-                    markers.add(marker);
-                }
-            }
-        }
 
        googleMap.setOnMarkerClickListener(marker -> {
-           GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
-           grageInfo.setPriceForHour(4f);
-           GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-           FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-           transaction.replace(R.id.fragmentContainerView, newFragment);
-           transaction.addToBackStack(null);
-           transaction.commit();
+           if(Integer.parseInt(marker.getTag().toString()) == -1){
+               Toast.makeText(getContext(), "ME", Toast.LENGTH_SHORT).show();
+           }else {
+               GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
+
+               if (grageInfo != null) {
+                   GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+                   FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                   transaction.replace(R.id.fragmentContainerView, newFragment);
+                   transaction.addToBackStack(null);
+                   transaction.commit();
+               }
+           }
            return false;
        });
 
         if (locationMe != null) {
-            for (Marker m : markers) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
-            }
-            googleMap.addMarker(new MarkerOptions().position(locationMe).title("ME")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
+
         }else if(gover!=null){
             for(Marker m : markers) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
@@ -96,6 +96,8 @@ public class MapsFragment extends Fragment {
     public void setLocationMe(LatLng locationMe){
         this.locationMe = locationMe;
     }
+    public void setGover(String gover){this.gover=gover;}
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -46,14 +46,18 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     public static String curentGover = null;
 
     MapsFragment mapsFragment;
-    FragmentTransaction transaction2;
 
     public HomeFragment(){ }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        if(savedInstanceState==null){
+            mapsFragment = new MapsFragment();
+            FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction2.replace(R.id.fragmentContainerMap,mapsFragment);
+            transaction2.commit();
+        }
     }
 
     @Override
@@ -63,12 +67,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
         initViews(root);
 
-        if(savedInstanceState==null){
-            mapsFragment = new MapsFragment();
-            FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction2.replace(R.id.fragmentContainerMap,mapsFragment);
-            transaction2.commit();
-        }
 
         getAllGarage(grageInfos -> {
             if(curentLocation!=null){

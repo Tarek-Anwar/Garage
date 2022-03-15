@@ -33,6 +33,9 @@ public class GoverGarageFragment extends Fragment implements CityAdapter.CityLis
 
     int pos;
     String gover;
+    MapsFragment mapsFragment;
+
+
     public GoverGarageFragment(int pos , String gover) {
         this.pos = pos;
         this.gover = gover;
@@ -48,8 +51,18 @@ public class GoverGarageFragment extends Fragment implements CityAdapter.CityLis
                              Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_gover_garage, container, false);
 
-        getAllGarage(grageInfos -> {
+        if(savedInstanceState==null){
+            mapsFragment = new MapsFragment();
+            FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction2.replace(R.id.map_gover,mapsFragment);
+            transaction2.commit();
+        }
 
+        getAllGarage(grageInfos -> {
+            if(gover!=null){
+                mapsFragment.setGover(gover);
+            }
+            mapsFragment.setMarkers(grageInfos);
         });
 
 
