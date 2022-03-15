@@ -65,10 +65,9 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         initViews(root);
 
         getAllGarage(grageInfos -> {
-            FragmentTransaction transaction2 = requireActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
             transaction2.add(R.id.fragmentContainerMap,new MapsFragment(grageInfos,curentLocation ,null));
             transaction2.commit();
-
         });
 
         lastOperAdapter = new LastOperAdapter(opreation -> {
@@ -108,9 +107,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         replaceFragment(fragment);
     }
 
-    private interface OnDataChangeCallback{
-        void OnOpreationsEndChange(ArrayList<Opreation> last);
-    }
 
     private void replaceFragment(Fragment fragment){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -119,27 +115,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         transaction.commit();
     }
 
-    public  void getRequst(OnDataChangeCallback callback){
-        DatabaseReference reference = FirebaseUtil.referenceGarage;
-        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    opreationsEnd.clear();
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
-                            opreationsEnd.add(opreation);
-                        }
-                    }
-                    callback.OnOpreationsEndChange(opreationsEnd);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
-    }
 
     private void initViews(View v){
         recyclerLast = v.findViewById(R.id.recycler_last);
@@ -164,8 +139,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
                     grageInfos.clear();
                     for (DataSnapshot item : snapshot.getChildren()) {
                         GrageInfo info = item.getValue(GrageInfo.class);
-                        Log.i("dfsdfsdfd" , info.getId());
-                        Log.i("dfsdfsdfd" , grageInfos.size()+"");
                         grageInfos.add(info);
                     }
                     callback.onDataReceived(grageInfos);
