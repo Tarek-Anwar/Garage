@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,20 +37,35 @@ import java.util.List;
 
 public class MapsFragment extends Fragment {
 
-    ArrayList<GrageInfo> grageInfos = FirebaseUtil.allGarage;
+    ArrayList<GrageInfo> grageInfos ;
+    LatLng locationMe = null;
+    String gover = null;
     List<Marker> markers = new ArrayList<>();
 
-    public MapsFragment(){ }
+    public MapsFragment(ArrayList<GrageInfo> grageInfos , LatLng locationMe ,String gover ){
+        this.grageInfos=grageInfos;
+        this.locationMe = locationMe;
+        this.gover = gover;
+    }
 
     private OnMapReadyCallback callback = googleMap -> {
-        if(!grageInfos.isEmpty()) {
-            for (int i = 0; i < grageInfos.size(); i++) {
-                Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
-                marker.setTag(i);
-                markers.add(marker);
+        if(locationMe!=null) {
+            if (grageInfos != null) {
+                for (int i = 0; i < grageInfos.size(); i++) {
+                    Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
+                    marker.setTag(i);
+                    markers.add(marker);
+                }
+            }
+        }else  if(gover!=null){
+            if (grageInfos != null) {
+                for (int i = 0; i < grageInfos.size(); i++) {
+                    Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
+                    marker.setTag(i);
+                    markers.add(marker);
+                }
             }
         }
-
        googleMap.setOnMarkerClickListener(marker -> {
            GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
            grageInfo.setPriceForHour(4f);
@@ -61,18 +77,25 @@ public class MapsFragment extends Fragment {
 
            return false;
        });
-
-        for (Marker m : markers){
-           /* LatLng latLng = new LatLng(m.getPosition().latitude,m.getPosition().longitude);
-            googleMap.addMarker(new MarkerOptions().position(latLng));*/
-           googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(),11.5f));
+        if (locationMe != null) {
+            for(Marker m : markers) {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
+            }
+             googleMap.addMarker(new MarkerOptions().position(locationMe).title("ME")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
+        }else  if(gover!=null){
+            for(Marker m : markers) {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
+            }
         }
+
     };
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view =  inflater.inflate(R.layout.fragment_maps, container, false);
+        View view =  inflater.inflate(R.layout.fragment_maps, container, false);
         return view;
     }
 
@@ -82,30 +105,8 @@ public class MapsFragment extends Fragment {
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
-            getAllGarage(grageInfos -> mapFragment.getMapAsync(callback));
+             mapFragment.getMapAsync(callback);
         }
     }
 
-    public interface OnDataReceiveCallback {
-        void onDataReceived(ArrayList<GrageInfo> grageInfos);}
-
-    private void getAllGarage(OnDataReceiveCallback callback) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("GaragerOnwerInfo");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        GrageInfo info = item.getValue(GrageInfo.class);
-                        grageInfos.add(info);
-                    }
-                    callback.onDataReceived(grageInfos);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
 }

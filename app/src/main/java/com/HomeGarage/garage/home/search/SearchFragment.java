@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home;
+package com.HomeGarage.garage.home.search;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.home.GarageViewFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.SearchAdapter;
@@ -44,6 +45,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
     RecyclerView recyclerSearch;
     SearchAdapter searchAdapter;
     ArrayList<GrageInfo> grageInfos=new ArrayList<>();
+
     public SearchFragment() { }
 
     @Override

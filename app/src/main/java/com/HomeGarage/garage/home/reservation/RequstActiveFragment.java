@@ -4,13 +4,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -20,7 +16,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
-import com.HomeGarage.garage.home.Dialog;
 import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
@@ -129,6 +124,13 @@ public class RequstActiveFragment extends Fragment {
                     binding.btnPayReser.setVisibility(View.VISIBLE);
                 }
             }
+
+            @Override
+            public void onBalaceChange(Opreation opreation) {
+                if(opreation.getPrice()>0){
+                    replaceFragment(new HomeFragment());
+                }
+            }
         });
 
         if(opreation.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
@@ -193,12 +195,24 @@ public class RequstActiveFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+        refOperation.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Opreation opreation = snapshot.getValue(Opreation.class);
+              callback.onBalaceChange(opreation);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
     private interface OnGrageReciveCallback{
         void OnGrageRecive(GrageInfo  grageInfo);
-
+        void onBalaceChange(Opreation opreation);
     }
 
     private float calPriceExpect(Float f , String s_time , String e_time){
@@ -222,6 +236,5 @@ public class RequstActiveFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 
 }

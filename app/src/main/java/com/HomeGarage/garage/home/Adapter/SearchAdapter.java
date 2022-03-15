@@ -71,6 +71,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             });
         }
     }
+
     public interface SearchListener{
         void  SearchListener(GrageInfo grageInfo);
     }
