@@ -17,6 +17,24 @@ public class GrageInfo {
     private String location;
     private float priceForHour;
     private String imageGarage;
+    private float rate;
+    private int numOfRatings;
+
+    public int getNumOfRatings() {
+        return numOfRatings;
+    }
+
+    public void setNumOfRatings(int numOfRatings) {
+        this.numOfRatings = numOfRatings;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
 
     public LatLng getLatLngGarage() {
         String[] loc = getLocation().split(",");
