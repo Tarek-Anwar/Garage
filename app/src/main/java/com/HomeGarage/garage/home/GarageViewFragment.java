@@ -59,7 +59,7 @@ public class GarageViewFragment extends Fragment {
         orderGarage.setOnClickListener(v -> {
 
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(grageInfo));
+            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(grageInfo,getActivity()));
             transaction.addToBackStack(null);
             transaction.commit();
 

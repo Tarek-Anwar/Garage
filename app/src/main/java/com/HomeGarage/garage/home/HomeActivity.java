@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +23,7 @@ import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
 import com.HomeGarage.garage.home.models.CarInfo;
+import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -38,7 +38,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity  {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -60,10 +60,9 @@ public class HomeActivity extends AppCompatActivity {
 
         checkResetvation(opreation -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation));
+            transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation ,this));
             transaction.commit();
         });
-
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
@@ -159,7 +158,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
             });
-
         }
     }
 
@@ -180,7 +178,6 @@ public class HomeActivity extends AppCompatActivity {
                             callback.onCheckResetvation(opreation);
                         }
                     }
-
                 }
             }
 
@@ -190,6 +187,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private interface checkResetvationCallback{
         void onCheckResetvation(Opreation opreation);

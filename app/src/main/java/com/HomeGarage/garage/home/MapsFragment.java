@@ -42,22 +42,19 @@ public class MapsFragment extends Fragment {
     String gover = null;
     List<Marker> markers = new ArrayList<>();
 
-    public MapsFragment(ArrayList<GrageInfo> grageInfos , LatLng locationMe ,String gover ){
-        this.grageInfos=grageInfos;
-        this.locationMe = locationMe;
-        this.gover = gover;
-    }
+    public MapsFragment( ){ }
 
     private OnMapReadyCallback callback = googleMap -> {
-        if(locationMe!=null) {
-            if (grageInfos != null) {
-                for (int i = 0; i < grageInfos.size(); i++) {
-                    Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
-                    marker.setTag(i);
-                    markers.add(marker);
-                }
+
+        if (locationMe!=null){
+        if (grageInfos != null) {
+            for (int i = 0; i < grageInfos.size(); i++) {
+                Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
+                marker.setTag(i);
+                markers.add(marker);
             }
-        }else  if(gover!=null){
+        }
+        } else if(gover!=null){
             if (grageInfos != null) {
                 for (int i = 0; i < grageInfos.size(); i++) {
                     Marker marker = googleMap.addMarker(new MarkerOptions().position(grageInfos.get(i).getLatLngGarage()).title(grageInfos.get(i).getNameEn()));
@@ -66,6 +63,7 @@ public class MapsFragment extends Fragment {
                 }
             }
         }
+
        googleMap.setOnMarkerClickListener(marker -> {
            GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
            grageInfo.setPriceForHour(4f);
@@ -74,17 +72,17 @@ public class MapsFragment extends Fragment {
            transaction.replace(R.id.fragmentContainerView, newFragment);
            transaction.addToBackStack(null);
            transaction.commit();
-
            return false;
        });
+
         if (locationMe != null) {
-            for(Marker m : markers) {
+            for (Marker m : markers) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
             }
-             googleMap.addMarker(new MarkerOptions().position(locationMe).title("ME")
+            googleMap.addMarker(new MarkerOptions().position(locationMe).title("ME")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
-        }else  if(gover!=null){
+        }else if(gover!=null){
             for(Marker m : markers) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
             }
@@ -92,6 +90,12 @@ public class MapsFragment extends Fragment {
 
     };
 
+    public void setMarkers(ArrayList<GrageInfo> grageInfos){
+        this.grageInfos=grageInfos;
+    }
+    public void setLocationMe(LatLng locationMe){
+        this.locationMe = locationMe;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

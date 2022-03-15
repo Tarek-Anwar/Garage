@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.home.reservation;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
@@ -38,15 +40,16 @@ public class RequstActiveFragment extends Fragment {
     FragmentRequstActiveBinding binding;
     Opreation opreation;
     GrageInfo grageInfo;
-
+    FragmentActivity activity;
     DatabaseReference refOperation;
     Date start = null;
     volatile boolean con;
     int countProgress ;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
-    public RequstActiveFragment(Opreation opreation) {
+    public RequstActiveFragment(Opreation opreation , FragmentActivity activity) {
         this.opreation = opreation;
+        this.activity = activity;
     }
 
     @Override
@@ -231,9 +234,8 @@ public class RequstActiveFragment extends Fragment {
     }
 
     private void replaceFragment(Fragment fragment){
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 

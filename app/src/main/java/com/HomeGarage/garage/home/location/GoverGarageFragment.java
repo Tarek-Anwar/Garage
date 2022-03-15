@@ -49,9 +49,7 @@ public class GoverGarageFragment extends Fragment implements CityAdapter.CityLis
         View root =  inflater.inflate(R.layout.fragment_gover_garage, container, false);
 
         getAllGarage(grageInfos -> {
-            FragmentTransaction transaction2 = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction2.add(R.id.map_gover,new MapsFragment(grageInfos,null , gover));
-            transaction2.commit();
+
         });
 
 

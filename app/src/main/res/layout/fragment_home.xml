@@ -75,6 +75,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerMap"
+            android:name="com.HomeGarage.garage.home.MapsFragment"
             android:layout_width="0dp"
             android:layout_height="220dp"
             android:layout_marginStart="16dp"

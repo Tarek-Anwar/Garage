@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -51,9 +52,11 @@ public class ConfarmResrerFragment extends Fragment {
     String timeResr =null;
     String dateResr = null;
     String allDate= null;
+    FragmentActivity activity;
 
-    public ConfarmResrerFragment(GrageInfo grageInfo) {
+    public ConfarmResrerFragment(GrageInfo grageInfo ,  FragmentActivity activity) {
         this.grageInfo = grageInfo;
+        this.activity = activity;
     }
 
     @Override
@@ -169,12 +172,14 @@ public class ConfarmResrerFragment extends Fragment {
     }
 
     private void statResetvaion(Opreation opreation){
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
+
+       FragmentManager fm = activity.getSupportFragmentManager();
+        while (fm.getBackStackEntryCount() != 0) {
+            fm.popBackStackImmediate();
         }
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation));
+
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation,activity));
         transaction.commit();
     }
 

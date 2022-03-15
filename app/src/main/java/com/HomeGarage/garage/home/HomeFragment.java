@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.home;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,24 +23,18 @@ import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
 import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.home.search.SearchFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener {
+public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener  {
 
     ArrayList<GrageInfo> grageInfos ;
-    ArrayList<Opreation> opreationsEnd = FirebaseUtil.opreationEndList;
-    DatabaseReference reference =  FirebaseUtil.referenceOperattion;
-    Query query ;
-
     RecyclerView  recyclerLast , recyclerGover ;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
     View seeAllOper;
@@ -50,11 +45,15 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     public static LatLng curentLocation = null;
     public static String curentGover = null;
 
+    MapsFragment mapsFragment;
+    FragmentTransaction transaction2;
+
     public HomeFragment(){ }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)  {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
@@ -64,11 +63,20 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
         initViews(root);
 
-        getAllGarage(grageInfos -> {
+        if(savedInstanceState==null){
+            mapsFragment = new MapsFragment();
             FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction2.add(R.id.fragmentContainerMap,new MapsFragment(grageInfos,curentLocation ,null));
+            transaction2.replace(R.id.fragmentContainerMap,mapsFragment);
             transaction2.commit();
+        }
+
+        getAllGarage(grageInfos -> {
+            if(curentLocation!=null){
+                mapsFragment.setLocationMe(curentLocation);
+            }
+            mapsFragment.setMarkers(grageInfos);
         });
+
 
         lastOperAdapter = new LastOperAdapter(opreation -> {
             OperationsFragment newFragment = new OperationsFragment(opreation);
@@ -90,7 +98,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         layoutAllFind.setOnClickListener(v -> replaceFragment(new SearchFragment()));
 
         layoutNearFind.setOnClickListener(v -> replaceFragment(new SearchFragment()));
-
 
         if(curentLocation!=null){
             find_location.setVisibility(View.GONE);
@@ -127,21 +134,23 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
     public interface OnDataReceiveCallback {
-        void onDataReceived(ArrayList<GrageInfo> grageInfos);}
+        void onDataReceived(ArrayList<GrageInfo> grageInfos);
+    }
 
     private void getAllGarage(OnDataReceiveCallback callback) {
-        grageInfos = FirebaseUtil.allGarage;
+        ArrayList <GrageInfo> grageInfos = new ArrayList<>();
         DatabaseReference ref = FirebaseUtil.referenceGarage;
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    grageInfos.clear();
                     for (DataSnapshot item : snapshot.getChildren()) {
                         GrageInfo info = item.getValue(GrageInfo.class);
                         grageInfos.add(info);
+                        Log.i("dasdasd", info.getId());
                     }
                     callback.onDataReceived(grageInfos);
+
                 }
             }
             @Override
