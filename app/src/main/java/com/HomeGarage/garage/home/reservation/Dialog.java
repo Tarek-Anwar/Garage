@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.RateDialog;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
@@ -119,7 +120,10 @@ public class Dialog extends DialogFragment {
                     opreation.setId(referenceOperattion.push().getKey());
                     referenceOperattion.child(opreation.getId()).setValue(opreation);
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
-                    toast.show();
+                    RateDialog rateDialog=new RateDialog(grageInfo,opreation,referenceOperattion.child(idLastOper));
+                    rateDialog.show(getParentFragmentManager(),"Rate");
+
+                    //toast.show();
                     dismiss();
 
                 });

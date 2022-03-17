@@ -6,7 +6,7 @@ import java.util.Date;
 public class Opreation {
 
     String id , state , type , fromName ,toName , from , to , date , dataEnd;
-    float price;
+    float price,rate;
 
     public  Opreation(){}
 
@@ -24,6 +24,14 @@ public class Opreation {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 
     public String getType() {
