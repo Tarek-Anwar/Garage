@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.R;
 import com.braintreepayments.cardform.view.CardForm;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -37,6 +38,7 @@ public class PayFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_pay, container, false);
         initUI(root);
+
         LayoutInflater li = getLayoutInflater();
         View view = li.inflate(R.layout.castom_toast_layout,root.findViewById(R.id.custom_toast_thank_you));
         toast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
@@ -49,7 +51,6 @@ public class PayFragment extends Fragment {
                 .cardholderName(CardForm.FIELD_REQUIRED)
                 .postalCodeRequired(true)
                 .mobileNumberRequired(true)
-                .mobileNumberExplanation("SMS is required on this number")
                 .actionLabel("Purchase")
                 .setup(getActivity());
 
@@ -58,7 +59,7 @@ public class PayFragment extends Fragment {
         btn_pay.setOnClickListener(v -> {
             if(cardForm.isValid()){
                 builder= new AlertDialog.Builder(getContext());
-                builder.setTitle("Confim before puchass");
+                builder.setTitle("Confirm puchass");
                 builder.setMessage("Card number "+ cardForm.getCardNumber() +"\n"+
                         "Card expiry date : " + Objects.requireNonNull(cardForm.getCardEditText().getText()) +"\n"+
                         "Card CVV : " + cardForm.getCvv() + "\n" +

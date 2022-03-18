@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +25,8 @@ import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
 import com.HomeGarage.garage.home.models.CarInfo;
-import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.home.navfragment.PayFragment;
 import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -46,7 +47,7 @@ public class HomeActivity extends AppCompatActivity  {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView name ,email , phone , balance;
-    private ImageView img_profile , visa_pay;
+    private ImageView img_profile , visa_pay , logout , info;
     ArrayList<CarInfo> carInfoUtil ;
     private FirebaseUser  user;
     ActivityHomeBinding binding;
@@ -69,12 +70,9 @@ public class HomeActivity extends AppCompatActivity  {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.main_nave_view);
-        //find header Navigation
         View v = navigationView.getHeaderView(0);
         intiHeader(v);
 
-
-        //go to edit User information
         img_profile.setOnClickListener( V->{
                 Intent intent = new Intent(HomeActivity.this,UserInfoActivity.class);
                 startActivity(intent);
@@ -90,34 +88,28 @@ public class HomeActivity extends AppCompatActivity  {
 
         });
         // set action Bar to Navigation
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
-        actionBarDrawerToggle.syncState();
+       // actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
+        //actionBarDrawerToggle.syncState();
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        // set listener to item in navigation
-        navigationView.setNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.log_out_nav) {
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
-                FirebaseUtil.firebaseAuth.signOut();
+        logout.setOnClickListener(v12 -> {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
+            FirebaseUtil.firebaseAuth.signOut();
 
-                Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
-                drawerLayout.closeDrawer(GravityCompat.START);
+            Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
+            drawerLayout.closeDrawer(GravityCompat.START);
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-                return true;
-            });
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
 
-        checkLogin(new OnInfoArriveCallbacl() {
-            @Override
-            public void infoArriveCallback(CarInfo carInfo) {
-                setHeaderNav(carInfo);
-                showImage(carInfo.getImageUrl());
-            }
+
+        checkLogin(carInfo -> {
+            setHeaderNav(carInfo);
+            showImage(carInfo.getImageUrl());
         });
 
     }
@@ -129,17 +121,19 @@ public class HomeActivity extends AppCompatActivity  {
         balance = v.findViewById(R.id.user_balance_nav);
         img_profile = v.findViewById(R.id.img_profile);
         visa_pay = v.findViewById(R.id.visa_pay);
+        logout = v.findViewById(R.id.img_logout);
+        info = v.findViewById(R.id.img_info);
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @SuppressLint("SetTextI18n")
+*/
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     void setHeaderNav(CarInfo carInfo){
         if (carInfo != null) {
             name.setText(carInfo.getName());
@@ -152,12 +146,9 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        checkLogin(new OnInfoArriveCallbacl() {
-            @Override
-            public void infoArriveCallback(CarInfo carInfo) {
-                setHeaderNav(carInfo);
-                showImage(carInfo.getImageUrl());
-            }
+        checkLogin(carInfo -> {
+            setHeaderNav(carInfo);
+            showImage(carInfo.getImageUrl());
         });
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
     }
@@ -196,6 +187,7 @@ public class HomeActivity extends AppCompatActivity  {
                 if (snapshot.exists()) {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         Opreation opreation = snapshot1.getValue(Opreation.class);
+                        assert opreation != null;
                         if (  ((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
                                 (opreation.getType().equals("1") || opreation.getType().equals("2") ))
                                 ||
@@ -224,7 +216,7 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
     private void showImage(String url) {
-        if (url != null && url.isEmpty() == false) {
+        if (url != null && !url.isEmpty()) {
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
             Picasso.get().load(url).resize(width, width)
                     .centerCrop()

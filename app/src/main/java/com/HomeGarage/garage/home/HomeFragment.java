@@ -3,14 +3,20 @@ package com.HomeGarage.garage.home;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +29,10 @@ import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
 import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
+import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.home.search.SearchFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,12 +42,12 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener  {
 
-    ArrayList<GrageInfo> grageInfos ;
+    DrawerLayout drawerLayout;
     RecyclerView  recyclerLast , recyclerGover ;
     LinearLayout layoutNearFind , layoutAllFind , layoutlast;
     View seeAllOper;
     ImageView find_location;
-
+    ActionBarDrawerToggle actionBarDrawerToggle;
     LastOperAdapter lastOperAdapter;
     GovernorateAdapter governorateAdapter;
     public static LatLng curentLocation = null;
@@ -66,7 +74,13 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
         initViews(root);
+        drawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
+        root.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeRight() {
+                drawerLayout.open();
+            }
+        });
 
         getAllGarage(grageInfos -> {
             if(curentLocation!=null){
