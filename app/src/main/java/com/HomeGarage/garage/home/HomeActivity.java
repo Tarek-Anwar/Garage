@@ -26,6 +26,7 @@ import com.HomeGarage.garage.databinding.ActivityHomeBinding;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.home.navfragment.PayFragment;
 import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,7 +46,7 @@ public class HomeActivity extends AppCompatActivity  {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView name ,email , phone , balance;
-    private ImageView img_profile;
+    private ImageView img_profile , visa_pay;
     ArrayList<CarInfo> carInfoUtil ;
     private FirebaseUser  user;
     ActivityHomeBinding binding;
@@ -80,6 +81,14 @@ public class HomeActivity extends AppCompatActivity  {
                 drawerLayout.closeDrawer(GravityCompat.START);
         });
 
+        visa_pay.setOnClickListener(v1 -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, new PayFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+        });
         // set action Bar to Navigation
         actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
         actionBarDrawerToggle.syncState();
@@ -119,6 +128,7 @@ public class HomeActivity extends AppCompatActivity  {
         phone = v.findViewById(R.id.user_phone_nav);
         balance = v.findViewById(R.id.user_balance_nav);
         img_profile = v.findViewById(R.id.img_profile);
+        visa_pay = v.findViewById(R.id.visa_pay);
     }
 
     @Override
@@ -135,7 +145,7 @@ public class HomeActivity extends AppCompatActivity  {
             name.setText(carInfo.getName());
             phone.setText(carInfo.getPhone());
             email.setText(carInfo.getEmail());
-            balance.setText("balance " +carInfo.getBalance() + " EG");
+            balance.setText(String.format("%.2f",carInfo.getBalance()) + " E.G.");
         }
     }
 

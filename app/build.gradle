@@ -66,4 +66,7 @@ dependencies {
     implementation 'com.basgeekball:awesome-validation:4.3'
     // map
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    //card
+    implementation 'com.braintreepayments:card-form:5.3.0'
+
 }

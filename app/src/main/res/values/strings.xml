@@ -75,5 +75,8 @@
     <string name="cancel">Cancel</string>
     <string name="finshed">Finshed</string>
     <string name="done">Done</string>
+    <string name="mobil">Mobil</string>
+    <string name="balance">Balance</string>
+    <string name="payment">Payment</string>
 
 </resources>
