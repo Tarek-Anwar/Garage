@@ -1,39 +1,29 @@
 package com.HomeGarage.garage.home;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MapsFragment extends Fragment {
 
@@ -44,10 +34,11 @@ public class MapsFragment extends Fragment {
 
     public MapsFragment( ){ }
 
-    private OnMapReadyCallback callback = googleMap -> {
+    private final OnMapReadyCallback callback = googleMap -> {
 
         if (locationMe!=null) {
             Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title("Me"));
+            assert me != null;
             me.setTag(-1);
             markers.add(me);
         }
@@ -57,13 +48,14 @@ public class MapsFragment extends Fragment {
                         .position(grageInfos.get(i).getLatLngGarage())
                         .title(grageInfos.get(i).getNameEn())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                assert marker != null;
                 marker.setTag(i);
                 markers.add(marker);
             }
         }
 
        googleMap.setOnMarkerClickListener(marker -> {
-           if(Integer.parseInt(marker.getTag().toString()) == -1){
+           if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
                Toast.makeText(getContext(), "ME", Toast.LENGTH_SHORT).show();
            }else {
                GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
@@ -101,8 +93,7 @@ public class MapsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_maps, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
     @Override

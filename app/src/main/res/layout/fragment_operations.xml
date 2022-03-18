@@ -89,25 +89,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/place"
-            android:textColor="#004D40" />
-
-        <TextView
-            android:id="@+id/place_oper_txt"
-            style="@style/txt_detils_oper"
-            android:text="@string/me"
-            android:textColor="#004D40"
-            tools:text="15 str Cairo" />
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

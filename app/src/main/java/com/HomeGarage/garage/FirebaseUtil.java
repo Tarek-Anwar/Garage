@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -21,11 +23,14 @@ public class FirebaseUtil {
     public static DatabaseReference databaseReference;
     public static DatabaseReference referenceOperattion;
     public static DatabaseReference referenceGarage;
+    public static StorageReference storageReference;
 
     public static FirebaseDatabase firebaseDatabase;
     public static FirebaseAuth firebaseAuth;
     public static FirebaseUtil firebaseUtil;
     public static FirebaseAuth.AuthStateListener listener;
+    public static FirebaseStorage firebaseStorage;
+
 
     public static ArrayList<CarInfo> carInfoLogin;
     public static ArrayList<GrageInfo> allGarage;
@@ -44,6 +49,7 @@ public class FirebaseUtil {
                 else
                 { Log.i(TAG,"no user in "); }
             };
+            connectStorage();
         }
 
         stateList = new ArrayList<>();
@@ -72,4 +78,11 @@ public class FirebaseUtil {
         firebaseAuth.addAuthStateListener(listener);
     }
     public static void detachListner() { firebaseAuth.removeAuthStateListener(listener); }
+
+
+    public static void connectStorage(){
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference().child("car_ower_image");
+
+    }
 }

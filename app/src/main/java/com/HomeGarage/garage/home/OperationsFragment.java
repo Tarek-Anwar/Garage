@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.R;
 
 public class OperationsFragment extends Fragment {
 
-    private TextView type , to , from , time , palce , price;
+    private TextView type , to , from , time  , price;
     Opreation opreation;
     public OperationsFragment(Opreation opreation) {
         this.opreation=opreation;
@@ -29,10 +30,7 @@ public class OperationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View  view =  inflater.inflate(R.layout.fragment_operations, container, false);
-
         intiView(view);
         setData(opreation);
 
@@ -51,10 +49,10 @@ public class OperationsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     void setData(Opreation opreation){
-        type.setText(opreation.getState());
+        type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getState())-1));
         to.setText(opreation.getToName());
-        from.setText(opreation.getFrom());
+        from.setText(opreation.getFromName());
         time.setText(opreation.getDate()+"");
-
+        price.setText(opreation.getPrice()+" E.G.");
     }
 }

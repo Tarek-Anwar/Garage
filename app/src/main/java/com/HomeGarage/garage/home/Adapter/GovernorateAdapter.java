@@ -1,26 +1,31 @@
 package com.HomeGarage.garage.home.Adapter;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.models.GoverModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.GovernorateViewHolder> {
 
-    ArrayList<String> listGoverEn = new ArrayList<>();
+    ArrayList<GoverModel> listGoverEn = new ArrayList<>();
     GoverListener goverListener;
 
     public GovernorateAdapter(GoverListener goverListener){
@@ -32,7 +37,8 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
-                        listGoverEn.add(item.child("governorate_name_en").getValue(String.class));
+                        GoverModel model = item.getValue(GoverModel.class);
+                        listGoverEn.add(model);
                         notifyItemChanged(listGoverEn.size()-1);
                     }
                     notifyDataSetChanged();
@@ -62,16 +68,30 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
 
     protected class GovernorateViewHolder extends RecyclerView.ViewHolder {
         TextView nameGaver;
+        ImageView imageView;
         View layouGover;
         public GovernorateViewHolder(@NonNull View itemView) {
             super(itemView);
             nameGaver = itemView.findViewById(R.id.txt_name_gover);
             layouGover = itemView.findViewById(R.id.layout_gover_listener);
+            imageView  = itemView.findViewById(R.id.image_gover);
         }
 
-        public void BulidUI(String s){
-            nameGaver.setText(s);
-            layouGover.setOnClickListener(v -> goverListener.onGoverListener(getAdapterPosition() , s));
+        public void BulidUI(GoverModel model){
+            nameGaver.setText(model.getGovernorate_name_en());
+            layouGover.setOnClickListener(v -> goverListener.onGoverListener(getAdapterPosition() , model.getGovernorate_name_en()));
+            if(model.getImage_url()!=null){
+                showImage(model.getImage_url());
+            }
+        }
+
+        private void showImage(String url) {
+            if (url != null && url.isEmpty() == false) {
+                int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+                Picasso.get().load(url).resize(width, width)
+                        .centerCrop()
+                        .into(imageView);
+            }
         }
 
     }

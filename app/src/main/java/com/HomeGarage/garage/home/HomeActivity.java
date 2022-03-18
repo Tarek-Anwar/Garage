@@ -2,6 +2,7 @@ package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -70,6 +72,7 @@ public class HomeActivity extends AppCompatActivity  {
         View v = navigationView.getHeaderView(0);
         intiHeader(v);
 
+
         //go to edit User information
         img_profile.setOnClickListener( V->{
                 Intent intent = new Intent(HomeActivity.this,UserInfoActivity.class);
@@ -100,7 +103,14 @@ public class HomeActivity extends AppCompatActivity  {
                 return true;
             });
 
-        checkLogin();
+        checkLogin(new OnInfoArriveCallbacl() {
+            @Override
+            public void infoArriveCallback(CarInfo carInfo) {
+                setHeaderNav(carInfo);
+                showImage(carInfo.getImageUrl());
+            }
+        });
+
     }
 
     void intiHeader(View v){
@@ -132,11 +142,17 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        checkLogin();
+        checkLogin(new OnInfoArriveCallbacl() {
+            @Override
+            public void infoArriveCallback(CarInfo carInfo) {
+                setHeaderNav(carInfo);
+                showImage(carInfo.getImageUrl());
+            }
+        });
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
     }
 
-    private  void checkLogin() {
+    private  void checkLogin(OnInfoArriveCallbacl callback) {
         if (user == null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -150,7 +166,7 @@ public class HomeActivity extends AppCompatActivity  {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     CarInfo carInfo = snapshot.getValue(CarInfo.class);
                     carInfoUtil.add(carInfo);
-                    setHeaderNav(carInfo);
+                    callback.infoArriveCallback(carInfo);
                 }
 
                 @Override
@@ -191,5 +207,18 @@ public class HomeActivity extends AppCompatActivity  {
 
     private interface checkResetvationCallback{
         void onCheckResetvation(Opreation opreation);
+    }
+
+    private interface OnInfoArriveCallbacl{
+        void infoArriveCallback(CarInfo carInfo);
+    }
+
+    private void showImage(String url) {
+        if (url != null && url.isEmpty() == false) {
+            int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+            Picasso.get().load(url).resize(width, width)
+                    .centerCrop()
+                    .into(img_profile);
+        }
     }
 }
