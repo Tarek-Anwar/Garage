@@ -127,13 +127,9 @@ public class ConfarmResrerFragment extends Fragment {
 
             if(allDate != null) {
                 Date d1 = null;
-                try {
-                    d1 = formatterLong.parse(allDate);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                try { d1 = formatterLong.parse(allDate);
+                } catch (ParseException e) { e.printStackTrace(); }
                 if (d1.getTime()>System.currentTimeMillis()){
-
                     Opreation model = new Opreation();
                     model.setDate(allDate);
                     model.setType("1");

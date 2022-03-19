@@ -149,7 +149,7 @@ public class RequstActiveFragment extends Fragment {
                     opreation.setDataEnd(formatterLong.format(date));
                 }
                 opreation.setState("3");
-                opreation.setType("5");
+                opreation.setType("4");
                 refOperation.setValue(opreation);
 
                 binding.chronometer.stop();
@@ -176,7 +176,7 @@ public class RequstActiveFragment extends Fragment {
                 }
                 opreation.setPrice(-1 * calPriceExpect(grageInfo.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
                 opreation.setState("3");
-                opreation.setType("6");
+                opreation.setType("5");
                 refOperation.setValue(opreation);
                 binding.chronometer.stop();
 

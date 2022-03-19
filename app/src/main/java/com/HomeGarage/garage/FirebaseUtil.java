@@ -63,7 +63,6 @@ public class FirebaseUtil {
         typeList.add(R.string.requst_type);
         typeList.add(R.string.accpet_type);
         typeList.add(R.string.refusal_type);
-        typeList.add(R.string.pay_type);
         typeList.add(R.string.cancel);
         typeList.add(R.string.done);
 

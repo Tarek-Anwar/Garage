@@ -75,6 +75,10 @@
     <string name="balance">الرصيد</string>
     <string name="payment">الدفع</string>
     <string name="balance_is_not_enough">الرصيد غير كافي</string>
-    <string name="Purchase">شراء</string>
+    <string name="Purchase">اشحن</string>
     <string name="amount">المبلغ</string>
+    <string name="purchase_now">اشحن الان</string>
+    <string name="balance_details">اعرف تفاصيل رصيد</string>
+    <string name="eg">جنية</string>
+    <string name="current_balance">الرصيد الحالي هو</string>
 </resources>

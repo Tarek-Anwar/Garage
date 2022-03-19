@@ -81,5 +81,9 @@
     <string name="balance_is_not_enough">Balance is not enough</string>
     <string name="Purchase">Purchase</string>
     <string name="amount">The Amount</string>
+    <string name="purchase_now">Purchase Now</string>
+    <string name="balance_details">Know your balance details</string>
+    <string name="eg">E.G</string>
+    <string name="current_balance">The current balance is</string>
 
 </resources>

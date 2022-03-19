@@ -27,6 +27,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.home.navfragment.BalanceFragment;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.home.navfragment.PayFragment;
 import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
@@ -52,6 +53,7 @@ public class HomeActivity extends AppCompatActivity  {
     ArrayList<CarInfo> carInfoUtil ;
     private FirebaseUser  user;
     ActivityHomeBinding binding;
+    float currnetBalance;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -89,6 +91,13 @@ public class HomeActivity extends AppCompatActivity  {
 
         });
 
+        infoBalance.setOnClickListener(v13 -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, new BalanceFragment(currnetBalance));
+            transaction.addToBackStack(null);
+            transaction.commit();
+            drawerLayout.closeDrawer(GravityCompat.START);
+        });
         logout.setOnClickListener(v12 -> {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
             FirebaseUtil.firebaseAuth.signOut();
@@ -150,6 +159,7 @@ public class HomeActivity extends AppCompatActivity  {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     CarInfo carInfo = snapshot.getValue(CarInfo.class);
                     carInfoUtil.add(carInfo);
+                    currnetBalance = carInfo.getBalance();
                     callback.infoArriveCallback(carInfo);
                 }
                 @Override
