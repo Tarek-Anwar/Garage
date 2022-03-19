@@ -2,6 +2,7 @@ package com.HomeGarage.garage.home.navfragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,13 +20,14 @@ import com.HomeGarage.garage.home.Adapter.BalanceAdapter;
 
 public class BalanceFragment extends Fragment {
 
-
+    RecyclerView recyclerView;
+    TextView balanceTxt;
+    Button button;
     float balance;
-
+    public BalanceFragment(){}
     public BalanceFragment(float balance) {
         this.balance = balance;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,14 +39,21 @@ public class BalanceFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_balance, container, false);
-        RecyclerView recyclerView = root.findViewById(R.id.recycle_pay);
+
+        recyclerView = root.findViewById(R.id.recycle_pay);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         recyclerView.setAdapter(new BalanceAdapter(getContext()));
 
-        TextView balanceTxt = root.findViewById(R.id.currnet_balace_pay);
+        balanceTxt = root.findViewById(R.id.currnet_balace_pay);
+        if(savedInstanceState==null){
+            balanceTxt.setText("");
+        }else {
+            balance = savedInstanceState.getFloat("saveBalance");
+        }
         balanceTxt.setText(String.format("%.2f",balance)+" " + getString(R.string.eg));
 
-         root.findViewById(R.id.btn_purchase_now).setOnClickListener(new View.OnClickListener() {
+        button =  root.findViewById(R.id.btn_purchase_now);
+        button.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -54,5 +63,11 @@ public class BalanceFragment extends Fragment {
              }
          });
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putFloat("saveBalance" , balance);
     }
 }

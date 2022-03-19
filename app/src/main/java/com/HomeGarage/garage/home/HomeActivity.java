@@ -55,10 +55,11 @@ public class HomeActivity extends AppCompatActivity  {
     ActivityHomeBinding binding;
     float currnetBalance;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //find element

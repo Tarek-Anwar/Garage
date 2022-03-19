@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -27,7 +28,7 @@ import java.util.Objects;
 
 public class MapsFragment extends Fragment {
 
-    ArrayList<GrageInfo> grageInfos ;
+    ArrayList<GrageInfo> grageInfos = null;
     LatLng locationMe = null;
     String gover = null;
     List<Marker> markers = new ArrayList<>();
@@ -41,17 +42,9 @@ public class MapsFragment extends Fragment {
             assert me != null;
             me.setTag(-1);
             markers.add(me);
-        }
-        if (grageInfos != null) {
-            for (int i = 0; i < grageInfos.size(); i++) {
-                Marker marker = googleMap.addMarker(new MarkerOptions()
-                        .position(grageInfos.get(i).getLatLngGarage())
-                        .title(grageInfos.get(i).getNameEn())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                assert marker != null;
-                marker.setTag(i);
-                markers.add(marker);
-            }
+            setMarkersOnMap(googleMap);
+        }else if(gover!=null){
+            setMarkersOnMap(googleMap);
         }
 
        googleMap.setOnMarkerClickListener(marker -> {
@@ -59,7 +52,6 @@ public class MapsFragment extends Fragment {
                Toast.makeText(getContext(), "ME", Toast.LENGTH_SHORT).show();
            }else {
                GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
-
                if (grageInfo != null) {
                    GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -105,5 +97,18 @@ public class MapsFragment extends Fragment {
              mapFragment.getMapAsync(callback);
         }
     }
+    void setMarkersOnMap(GoogleMap googleMap){
+        if (grageInfos != null) {
+            for (int i = 0; i < grageInfos.size(); i++) {
+                Marker marker = googleMap.addMarker(new MarkerOptions()
+                        .position(grageInfos.get(i).getLatLngGarage())
+                        .title(grageInfos.get(i).getNameEn())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                assert marker != null;
+                marker.setTag(i);
+                markers.add(marker);
+            }
+        }
 
+    }
 }
