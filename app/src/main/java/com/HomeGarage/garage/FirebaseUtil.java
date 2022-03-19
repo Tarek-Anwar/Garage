@@ -24,6 +24,7 @@ public class FirebaseUtil {
     public static DatabaseReference referenceOperattion;
     public static DatabaseReference referenceGarage;
     public static StorageReference storageReference;
+    public static DatabaseReference referencePurchase;
 
     public static FirebaseDatabase firebaseDatabase;
     public static FirebaseAuth firebaseAuth;
@@ -37,8 +38,9 @@ public class FirebaseUtil {
     public static ArrayList<Opreation> opreationEndList;
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;
+    public static ArrayList<Integer> paylist;
 
-    public static void getInstence(String ref , String refOperattion , String garage) {
+    public static void getInstence(String ref , String refOperattion , String garage ) {
         if (firebaseUtil == null) {
             firebaseUtil=new FirebaseUtil();
             firebaseDatabase=FirebaseDatabase.getInstance();
@@ -65,12 +67,17 @@ public class FirebaseUtil {
         typeList.add(R.string.cancel);
         typeList.add(R.string.done);
 
+        paylist = new ArrayList<>();
+        paylist.add(R.string.pay_type);
+        paylist.add(R.string.Purchase);
+
         carInfoLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
         opreationEndList = new ArrayList<>();
         databaseReference = firebaseDatabase.getReference().child(ref);
         referenceOperattion = firebaseDatabase.getReference().child(refOperattion);
         referenceGarage = firebaseDatabase.getReference().child(garage);
+        referencePurchase = firebaseDatabase.getReference().child("Purchase");
     }
 
     public static void attachListner()

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +46,9 @@ import java.util.Objects;
 public class HomeActivity extends AppCompatActivity  {
 
     private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView name ,email , phone , balance;
-    private ImageView img_profile , visa_pay , logout , info;
+    private ImageView img_profile , logout , info;
+    private LinearLayout payment , infoBalance;
     ArrayList<CarInfo> carInfoUtil ;
     private FirebaseUser  user;
     ActivityHomeBinding binding;
@@ -79,7 +80,7 @@ public class HomeActivity extends AppCompatActivity  {
                 drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-        visa_pay.setOnClickListener(v1 -> {
+        payment.setOnClickListener(v1 -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new PayFragment());
             transaction.addToBackStack(null);
@@ -87,31 +88,21 @@ public class HomeActivity extends AppCompatActivity  {
             drawerLayout.closeDrawer(GravityCompat.START);
 
         });
-        // set action Bar to Navigation
-       // actionBarDrawerToggle = new ActionBarDrawerToggle(this ,drawerLayout,R.string.open_menu,R.string.close_menu);
-        //actionBarDrawerToggle.syncState();
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         logout.setOnClickListener(v12 -> {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
             FirebaseUtil.firebaseAuth.signOut();
-
             Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
             drawerLayout.closeDrawer(GravityCompat.START);
-
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });
 
-
         checkLogin(carInfo -> {
             setHeaderNav(carInfo);
-            showImage(carInfo.getImageUrl());
-        });
-
+            showImage(carInfo.getImageUrl()); });
     }
 
     void intiHeader(View v){
@@ -120,19 +111,12 @@ public class HomeActivity extends AppCompatActivity  {
         phone = v.findViewById(R.id.user_phone_nav);
         balance = v.findViewById(R.id.user_balance_nav);
         img_profile = v.findViewById(R.id.img_profile);
-        visa_pay = v.findViewById(R.id.visa_pay);
         logout = v.findViewById(R.id.img_logout);
         info = v.findViewById(R.id.img_info);
+        payment = v.findViewById(R.id.layout_payment_head);
+        infoBalance = v.findViewById(R.id.layout_balance_head);
     }
 
-   /* @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     void setHeaderNav(CarInfo carInfo){
         if (carInfo != null) {
@@ -148,8 +132,7 @@ public class HomeActivity extends AppCompatActivity  {
         super.onResume();
         checkLogin(carInfo -> {
             setHeaderNav(carInfo);
-            showImage(carInfo.getImageUrl());
-        });
+            showImage(carInfo.getImageUrl()); });
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
     }
 
@@ -159,7 +142,7 @@ public class HomeActivity extends AppCompatActivity  {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-        } else {
+        }else {
             carInfoUtil = FirebaseUtil.carInfoLogin;
             DatabaseReference ref = FirebaseUtil.databaseReference.child(user.getUid());
             ref.addValueEventListener(new ValueEventListener() {
@@ -169,11 +152,8 @@ public class HomeActivity extends AppCompatActivity  {
                     carInfoUtil.add(carInfo);
                     callback.infoArriveCallback(carInfo);
                 }
-
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) { }
             });
         }
     }
@@ -190,37 +170,20 @@ public class HomeActivity extends AppCompatActivity  {
                         assert opreation != null;
                         if (  ((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
                                 (opreation.getType().equals("1") || opreation.getType().equals("2") ))
-                                ||
-                                opreation.getPrice() < 0
-                        ) {
-                            callback.onCheckResetvation(opreation);
-                        }
-                    }
-                }
-            }
-
+                                || opreation.getPrice() < 0) {
+                            callback.onCheckResetvation(opreation); } } } }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
 
-    private interface checkResetvationCallback{
-        void onCheckResetvation(Opreation opreation);
-    }
+    private interface checkResetvationCallback{ void onCheckResetvation(Opreation opreation);}
 
-    private interface OnInfoArriveCallbacl{
-        void infoArriveCallback(CarInfo carInfo);
-    }
+    private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
 
     private void showImage(String url) {
         if (url != null && !url.isEmpty()) {
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-            Picasso.get().load(url).resize(width, width)
-                    .centerCrop()
-                    .into(img_profile);
-        }
-    }
+            Picasso.get().load(url).resize(width, width).centerCrop().into(img_profile); } }
 }

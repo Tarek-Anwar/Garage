@@ -23,19 +23,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class RateDialog extends DialogFragment {
-    Opreation opreation;
+
     GrageInfo grageInfo;
     RatingBar ratingBar;
     Button rateBtn;
-    float grageRate;
+    float currnt_rate;
     float rateSum;
 
-    DatabaseReference garageReference,opreationReference ;
-    public RateDialog(GrageInfo grageInfo,Opreation opreation,DatabaseReference opreationReference)
-    {
+    DatabaseReference garageReference,opreationReference;
+
+    public RateDialog(GrageInfo grageInfo,DatabaseReference opreationReference) {
         this.grageInfo = grageInfo;
-        this.opreation=opreation;
         this.opreationReference=opreationReference;
+        garageReference = FirebaseUtil.referenceGarage.child(grageInfo.getId());
     }
 
     @Nullable
@@ -45,37 +45,18 @@ public class RateDialog extends DialogFragment {
         View view =inflater.inflate(R.layout.rate_dialog,container,false);
         initViews(view);
 
-        garageReference = FirebaseDatabase.getInstance().getReference().child("GaragerOnwerInfo").child(grageInfo.getId());
+        ratingBar.setOnRatingBarChangeListener((ratingBar, v, b) -> currnt_rate = v);
 
-
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                opreation.setRate(v);
-            }
-        });
-
-            addRate(new Rate() {
-                @Override
-                public void getRateAndNum(float rate,int num) {
-                    rateBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            rateSum=rate+opreation.getRate();
-                            grageInfo.setRate(rateSum);
-                            grageInfo.setNumOfRatings(num+1);
-                            garageReference.child("rate").setValue(rateSum);
-                            garageReference.child("numOfRatings").setValue(num+1);
-                            opreationReference.child("rate").setValue(opreation.getRate());
-                            Toast.makeText(getContext(), rateSum+"", Toast.LENGTH_SHORT).show();
-                            dismiss();
-                        }
-                    });
-                }
-            });
-
-
-
+        addRate((rate, num) -> rateBtn.setOnClickListener(view1 -> {
+            rateSum=rate+currnt_rate;
+            grageInfo.setRate(rateSum);
+            grageInfo.setNumOfRatings(num+1);
+            garageReference.child("rate").setValue(rateSum);
+            garageReference.child("numOfRatings").setValue(num+1);
+            opreationReference.child("rate").setValue(currnt_rate);
+            Toast.makeText(getContext(), rateSum+"", Toast.LENGTH_SHORT).show();
+            dismiss();
+        }));
 
         return view;
     }
@@ -85,8 +66,7 @@ public class RateDialog extends DialogFragment {
         rateBtn=(Button) view.findViewById(R.id.addRate);
     }
 
-    void addRate(Rate rateOBJ)
-    {
+    void addRate(Rate rateOBJ) {
         garageReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -94,18 +74,10 @@ public class RateDialog extends DialogFragment {
                 int num=snapshot.child("numOfRatings").getValue(Integer.class);
                 rateOBJ.getRateAndNum(rateValue,num);
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
-
     }
 
-    public interface Rate
-    {
-        void getRateAndNum(float rate,int num);
-    }
-
+    public interface Rate { void getRateAndNum(float rate,int num);}
 }
