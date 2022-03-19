@@ -70,4 +70,11 @@
     <string name="date">التااريخ</string>
     <string name="cancel">إلغاء</string>
     <string name="finshed">انهاء</string>
+    <string name="done">مكتمله</string>
+    <string name="mobil">الهاتف</string>
+    <string name="balance">الرصيد</string>
+    <string name="payment">الدفع</string>
+    <string name="balance_is_not_enough">الرصيد غير كافي</string>
+    <string name="Purchase">شراء</string>
+    <string name="amount">المبلغ</string>
 </resources>

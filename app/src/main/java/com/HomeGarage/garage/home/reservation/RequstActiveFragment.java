@@ -1,6 +1,5 @@
 package com.HomeGarage.garage.home.reservation;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +42,8 @@ public class RequstActiveFragment extends Fragment {
     FragmentActivity activity;
     DatabaseReference refOperation;
     Date start = null;
+    Date end = null;
+    Long diff;
     volatile boolean con;
     int countProgress ;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
@@ -69,12 +70,16 @@ public class RequstActiveFragment extends Fragment {
         binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
         binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
 
-
-
         try { start = formatterLong.parse(opreation.getDate());
         } catch (ParseException e) { e.printStackTrace(); }
 
-        Long diff = System.currentTimeMillis() - start.getTime();
+        if(opreation.getDataEnd()==null) {
+          diff = System.currentTimeMillis() - start.getTime();
+        }else {
+            try { end = formatterLong.parse(opreation.getDataEnd());
+            } catch (ParseException e) { e.printStackTrace(); }
+             diff = end.getTime() - start.getTime();
+        }
 
         if(diff<0){
             con = false;
@@ -140,11 +145,15 @@ public class RequstActiveFragment extends Fragment {
             binding.btnCancelReser.setVisibility(View.VISIBLE);
             binding.btnCancelReser.setOnClickListener(v -> {
                 Date date = new Date(System.currentTimeMillis());
-                opreation.setDataEnd(formatterLong.format(date));
+                if(opreation.getDataEnd()==null){
+                    opreation.setDataEnd(formatterLong.format(date));
+                }
                 opreation.setState("3");
                 opreation.setType("5");
-                binding.chronometer.stop();
                 refOperation.setValue(opreation);
+
+                binding.chronometer.stop();
+
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                         grageInfo.getId(), "From " + opreation.getFromName()
                         , "sorry " + opreation.getToName() + ", i'm can't come in reservation " + opreation.getDate(), opreation.getId(), getContext());
@@ -162,12 +171,15 @@ public class RequstActiveFragment extends Fragment {
             binding.btnFinshedReser.setOnClickListener(v -> {
 
                 Date date = new Date(System.currentTimeMillis());
-                opreation.setDataEnd(formatterLong.format(date));
+                if (opreation.getDataEnd()==null){
+                    opreation.setDataEnd(formatterLong.format(date));
+                }
                 opreation.setPrice(-1 * calPriceExpect(grageInfo.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
                 opreation.setState("3");
                 opreation.setType("6");
                 refOperation.setValue(opreation);
                 binding.chronometer.stop();
+
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                         grageInfo.getId(), "From " + opreation.getFromName()
                         , "reservation to is finshed check pay" + opreation.getDate(), opreation.getId(), getContext());
@@ -178,8 +190,8 @@ public class RequstActiveFragment extends Fragment {
         }
 
         binding.btnPayReser.setOnClickListener(v -> {
-            Dialog dialog = new Dialog(grageInfo, -1 * opreation.getPrice(), opreation.getId());
-            dialog.show(getParentFragmentManager(), "Pay");
+            DialogPay dialogPay = new DialogPay(grageInfo, -1 * opreation.getPrice(), opreation.getId());
+            dialogPay.show(getParentFragmentManager(), "Pay");
 
         });
 

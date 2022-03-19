@@ -29,6 +29,7 @@ import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
 import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
+import com.HomeGarage.garage.home.navfragment.DialogPurchase;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.home.search.SearchFragment;
 import com.google.android.gms.maps.model.LatLng;

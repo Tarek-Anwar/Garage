@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_icon"
+        android:src="@drawable/car_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -202,7 +202,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="@+id/imageView8"
-        app:srcCompat="@drawable/icvisa" />
+        app:srcCompat="@drawable/ic_visa" />
 
     <TextView
         android:id="@+id/textView7"

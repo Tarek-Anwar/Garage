@@ -20,10 +20,10 @@
     <string name="or">or</string>
     <string name="creat_new_account">Creat new account</string>
     <string name="user_name">Name</string>
-    <string name="email_adress">email address</string>
-    <string name="password">password</string>
-    <string name="phone">phone</string>
-    <string name="register">register</string>
+    <string name="email_adress">Email address</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">hello_blank_fragment</string>
 
@@ -78,5 +78,8 @@
     <string name="mobil">Mobil</string>
     <string name="balance">Balance</string>
     <string name="payment">Payment</string>
+    <string name="balance_is_not_enough">Balance is not enough</string>
+    <string name="Purchase">Purchase</string>
+    <string name="amount">The Amount</string>
 
 </resources>

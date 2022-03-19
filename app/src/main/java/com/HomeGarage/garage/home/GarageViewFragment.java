@@ -2,38 +2,32 @@ package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.reservation.ConfarmResrerFragment;
-import com.HomeGarage.garage.service.FcmNotificationsSender;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 public class GarageViewFragment extends Fragment {
 
     GrageInfo grageInfo;
     private TextView nameGarage , totalAddressGarage;
     private RatingBar ratingGarage ;
-    Button orderGarage,pay;
+    Button orderGarage,rate;
     DatabaseReference garageReference ;
 
     public GarageViewFragment(GrageInfo grageInfo) {
@@ -71,7 +65,6 @@ public class GarageViewFragment extends Fragment {
         ratingGarage.setEnabled(false);
 
 
-        FirebaseUser user = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         nameGarage.setText(grageInfo.getNameEn());
         totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());
@@ -92,7 +85,6 @@ public class GarageViewFragment extends Fragment {
         nameGarage = view.findViewById(R.id.name_garage_txt);
         totalAddressGarage = view.findViewById(R.id.total_address_garage_txt);
         orderGarage = view.findViewById(R.id.btn_order_garage);
-
         ratingGarage = view.findViewById(R.id.rating_garage);
     }
     void getRate(Rate rate)
@@ -103,7 +95,6 @@ public class GarageViewFragment extends Fragment {
                 float rateValue=snapshot.child("rate").getValue(Float.class);
                 int num=snapshot.child("numOfRatings").getValue(Integer.class);
                 rate.getRate(rateValue,num);
-
             }
 
             @Override

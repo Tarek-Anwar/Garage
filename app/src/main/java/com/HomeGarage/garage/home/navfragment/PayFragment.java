@@ -59,19 +59,8 @@ public class PayFragment extends Fragment {
         btn_pay.setOnClickListener(v -> {
             if(cardForm.isValid()){
                 builder= new AlertDialog.Builder(getContext());
-                builder.setTitle("Confirm puchass");
-                builder.setMessage("Card number "+ cardForm.getCardNumber() +"\n"+
-                        "Card expiry date : " + Objects.requireNonNull(cardForm.getCardEditText().getText()) +"\n"+
-                        "Card CVV : " + cardForm.getCvv() + "\n" +
-                        "Postal code : " + cardForm.getPostalCode() +"\n"+
-                        "Phone number : " + cardForm.getMobileNumber());
-                builder.setPositiveButton("Confim", (dialog, which) -> {
-                    dialog.dismiss();
-                    toast.show();
-                });
-                builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                DialogPurchase dialogPurchase = new DialogPurchase();
+                dialogPurchase.show(getParentFragmentManager(),"Purchase");
             }else {
                 Toast.makeText(getContext(), "Please complete the form", Toast.LENGTH_SHORT).show();
             }

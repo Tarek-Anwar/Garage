@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.026"
-        app:srcCompat="@drawable/garage" />
+        tools:srcCompat="@drawable/car_profile" />
 
     <TextView
         android:id="@+id/txt_name_gover"
@@ -32,10 +32,11 @@
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="7"
-        android:textColor="@color/black"
+        android:textColor="#FFFFFF"
         android:textColorHighlight="#883636"
         android:textColorHint="#B13333"
         android:textSize="26sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

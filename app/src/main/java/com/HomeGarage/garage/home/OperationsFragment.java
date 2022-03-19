@@ -49,7 +49,7 @@ public class OperationsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     void setData(Opreation opreation){
-        type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getState())-1));
+        type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
         to.setText(opreation.getToName());
         from.setText(opreation.getFromName());
         time.setText(opreation.getDate()+"");

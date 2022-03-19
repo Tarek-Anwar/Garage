@@ -62,14 +62,13 @@ public class RateDialog extends DialogFragment {
                         @Override
                         public void onClick(View view) {
                             rateSum=rate+opreation.getRate();
-
                             grageInfo.setRate(rateSum);
                             grageInfo.setNumOfRatings(num+1);
                             garageReference.child("rate").setValue(rateSum);
                             garageReference.child("numOfRatings").setValue(num+1);
                             opreationReference.child("rate").setValue(opreation.getRate());
-
                             Toast.makeText(getContext(), rateSum+"", Toast.LENGTH_SHORT).show();
+                            dismiss();
                         }
                     });
                 }
@@ -85,6 +84,7 @@ public class RateDialog extends DialogFragment {
         ratingBar=(RatingBar) view.findViewById(R.id.rate);
         rateBtn=(Button) view.findViewById(R.id.addRate);
     }
+
     void addRate(Rate rateOBJ)
     {
         garageReference.addValueEventListener(new ValueEventListener() {
