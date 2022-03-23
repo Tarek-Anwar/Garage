@@ -6,7 +6,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">The password should contain at least 8 characters, including at least one lower case letter, one upper case letter, one number and one punctuation mark</string>
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -91,5 +91,10 @@
     <string name="text_log">By pressing “submit” you agree to our</string>
     <string name="terms_conditions"><u>terms &amp; conditions</u></string>
     <string name="todo">TODO</string>
+    <string name="please_sign_up">please sign up.</string>
+    <string name="name_invalid">your name please</string>
+    <string name="invalid_email">Email address please</string>
+    <string name="invalid_phone">Telephone Number please</string>
+    <string name="invalid_conform">Please re-enter the password</string>
 
 </resources>

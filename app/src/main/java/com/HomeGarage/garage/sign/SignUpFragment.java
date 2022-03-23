@@ -1,8 +1,6 @@
 package com.HomeGarage.garage.sign;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -21,31 +19,24 @@ import com.HomeGarage.garage.home.models.CarInfo;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.Objects;
-
 public class SignUpFragment extends Fragment {
 
-    public static final String USER_NAME = "user name";
-    public static final String EMAIL = "email";
-    public static final String PHONE = "phone";
-    public static final String ID_USER = "ID_USER";
-    public static final String BALANCE = "BALANCE";
+
     AwesomeValidation validation;
-
     CarInfo model = new CarInfo();
-
-    TextInputLayout userNameET,emailET,phoneET,passwordET,confirmET ;
-    Button creatBTN;
+    TextInputEditText userNameET,emailET,phoneET,passwordET,confirmET ;
+    FloatingActionButton creatBTN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        validation=new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
+        validation= new AwesomeValidation(ValidationStyle.BASIC);
     }
 
     @Override
@@ -55,24 +46,16 @@ public class SignUpFragment extends Fragment {
         initViews(rootView);
 
         validatET();
-        SharedPreferences preferences = requireActivity().getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
 
         creatBTN.setOnClickListener(v-> {
 
-            model.setName(userNameET.getEditText().getText().toString());
-            model.setEmail(emailET.getEditText().getText().toString());
-            model.setPhone(phoneET.getEditText().getText().toString());
-
-            String userPass=passwordET.getEditText().getText().toString();
-
-            editor.putString(USER_NAME, model.getName());
-            editor.putString(EMAIL, model.getEmail());
-            editor.putString(PHONE, model.getPhone());
-            editor.apply();
+            model.setName(userNameET.getText().toString());
+            model.setEmail(emailET.getText().toString());
+            model.setPhone(phoneET.getText().toString());
+            String userPass=passwordET.getText().toString();
 
             if(validation.validate()) {
-                FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
+               FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
                  firebaseAuth.createUserWithEmailAndPassword(model.getEmail(),userPass).addOnCompleteListener(task -> {
                      if (task.isSuccessful()) {
                             DatabaseReference databaseReference = FirebaseUtil.databaseReference;
@@ -82,46 +65,37 @@ public class SignUpFragment extends Fragment {
                             model.setId(firebaseUser.getUid());
                             model.setBalance(0.0f);
 
-                            editor.putString(ID_USER, model.getId());
-                            editor.putFloat(BALANCE , model.getBalance());
-                            editor.commit();
-
                             reference.setValue(model);
                             Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
-
                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         }
                         else
-                        {
-                            Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
+                        { Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show(); }
                     });
+                Toast.makeText(getContext(), "Goog", Toast.LENGTH_SHORT).show();
                 }
             else
-            {
-                Toast.makeText(getContext(),"invalid register",Toast.LENGTH_SHORT).show();
-            }
+            { Toast.makeText(getContext(),"invalid register",Toast.LENGTH_SHORT).show(); }
         });
-
         return rootView;
     }
 
     private void initViews(View rootView) {
-        userNameET=rootView.findViewById(R.id.user_Name_ET);
-        emailET=rootView.findViewById(R.id.cemail);
-        phoneET=rootView.findViewById(R.id.cphone);
-        passwordET=rootView.findViewById(R.id.cPassword_ET);
-        confirmET=rootView.findViewById(R.id.Confirm_Password_ET);
-        creatBTN=rootView.findViewById(R.id.register_btn);
+        userNameET=rootView.findViewById(R.id.user_name_TF);
+        emailET=rootView.findViewById(R.id.et_email_address);
+        phoneET=rootView.findViewById(R.id.edit_phone);
+        passwordET=rootView.findViewById(R.id.password_sign);
+        confirmET=rootView.findViewById(R.id.Confirm_Password_TF);
+        creatBTN = rootView.findViewById(R.id.sign_float);
     }
 
     private void validatET() {
-        validation.addValidation(userNameET, RegexTemplate.NOT_EMPTY,"enter your name");
-        validation.addValidation(emailET, Patterns.EMAIL_ADDRESS,"invalid e-mail");
-        validation.addValidation(phoneET,"^01[0125][0-9]{8}$","invalid phone number");
-        validation.addValidation(passwordET, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}","password must be 6 digits or more");
-        validation.addValidation(confirmET,passwordET,"mismatch password");
+        validation.addValidation(userNameET, RegexTemplate.NOT_EMPTY,getString(R.string.invalid_username));
+        validation.addValidation(emailET, Patterns.EMAIL_ADDRESS,getString(R.string.invalid_email));
+         validation.addValidation(phoneET,"^01[0125][0-9]{8}$",getString(R.string.invalid_phone));
+        validation.addValidation(passwordET, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
+        validation.addValidation(confirmET,passwordET,getString(R.string.invalid_conform));
     }
 }
