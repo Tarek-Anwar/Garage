@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView9"
@@ -135,7 +135,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView13"
+                        android:id="@+id/login_txt_sign"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
@@ -153,9 +153,9 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/devid_log"
                         android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="@+id/textView13"
-                        app:layout_constraintStart_toStartOf="@+id/textView13"
-                        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                        app:layout_constraintEnd_toEndOf="@+id/login_txt_sign"
+                        app:layout_constraintStart_toStartOf="@+id/login_txt_sign"
+                        app:layout_constraintTop_toBottomOf="@+id/login_txt_sign" />
 
                     <View
                         android:id="@+id/divider6"
@@ -175,9 +175,8 @@
                         android:layout_marginStart="70dp"
                         android:layout_marginTop="24dp"
                         android:text="@string/sign_up"
-                        android:textColor="@color/black"
                         android:textSize="18sp"
-                        app:layout_constraintStart_toEndOf="@+id/textView13"
+                        app:layout_constraintStart_toEndOf="@+id/login_txt_sign"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -188,14 +187,14 @@
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="32dp"
                         android:background="@drawable/edittext_radius"
-                        android:drawableLeft="@drawable/ic_baseline_person_24"
+                        android:drawableStart="@drawable/ic_baseline_person_24"
                         android:drawablePadding="10dp"
                         android:hint="@string/user_name"
                         android:padding="15dp"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                        app:layout_constraintTop_toBottomOf="@+id/login_txt_sign" />
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -206,14 +205,17 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="32dp"
                         android:background="@drawable/edittext_radius"
-                        android:drawableLeft="@drawable/ic_phone"
+                        android:drawableStart="@drawable/ic_phone"
                         android:drawablePadding="10dp"
                         android:hint="@string/phone"
+                        android:inputType="phone"
                         android:padding="15dp"
+                        android:textAlignment="viewStart"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/user_name_TF"
+                        tools:ignore="TextContrastCheck"
                         tools:layout_conversion_absoluteHeight="0dp"
                         tools:layout_conversion_absoluteWidth="0dp" />
 
@@ -230,31 +232,12 @@
                         android:drawablePadding="10dp"
                         android:hint="@string/email_adress"
                         android:inputType="textEmailAddress"
+                        android:textAlignment="viewStart"
                         android:padding="15dp"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/edit_phone" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/password_TF"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="32dp"
-                        android:autofillHints=""
-                        android:background="@drawable/edittext_radius"
-                        android:drawableStart="@drawable/ic_baseline_lock_24"
-                        android:drawablePadding="10dp"
-                        android:hint="@string/password"
-                        android:inputType="textPersonName|textPassword"
-                        android:padding="15dp"
-                        android:textColorHint="#757575"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/et_email_address"
-                        tools:ignore="DuplicateClickableBoundsCheck" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_sign"
@@ -263,12 +246,12 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="32dp"
-                        android:autofillHints=""
                         android:background="@drawable/edittext_radius"
                         android:drawableStart="@drawable/ic_baseline_lock_24"
                         android:drawablePadding="10dp"
                         android:hint="@string/password"
-                        android:inputType="textPersonName|textPassword"
+                        android:textAlignment="viewStart"
+                        android:inputType="textPassword"
                         android:padding="15dp"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -282,17 +265,17 @@
                         android:layout_marginStart="32dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="32dp"
-                        android:autofillHints=""
                         android:background="@drawable/edittext_radius"
                         android:drawableStart="@drawable/ic_baseline_lock_24"
                         android:drawablePadding="10dp"
                         android:hint="@string/confirm_password"
-                        android:inputType="textPersonName|textPassword"
-                        android:padding="10dp"
+                        android:inputType="textPassword"
+                        android:padding="15dp"
+                        android:textAlignment="viewStart"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/password_TF" />
+                        app:layout_constraintTop_toBottomOf="@+id/password_sign" />
 
                     <TextView
                         android:id="@+id/textView15"
@@ -301,8 +284,8 @@
                         android:layout_marginTop="24dp"
                         android:text="@string/text_log"
                         android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="@+id/password_TF"
-                        app:layout_constraintStart_toStartOf="@+id/password_TF"
+                        app:layout_constraintEnd_toEndOf="@+id/Confirm_Password_TF"
+                        app:layout_constraintStart_toStartOf="@+id/Confirm_Password_TF"
                         app:layout_constraintTop_toBottomOf="@+id/Confirm_Password_TF" />
 
                     <TextView
@@ -332,15 +315,16 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/sign_float"
-                    android:maxHeight="50dp"
-                    android:maxWidth="50dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:contentDescription="TODO"
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
                     android:src="@drawable/ic_arrow_forward"
                     app:backgroundTint="@color/orange"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"
+                    tools:ignore="ImageContrastCheck,DuplicateSpeakableTextCheck" />
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,42 +31,40 @@ public class LoginFragment extends Fragment {
      TextView sign_in ;
      FloatingActionButton login;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView=inflater.inflate(R.layout.fragment_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         initViews(rootView);
 
+        rootView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                opneSign();
+            }
+        });
+
         sign_in.setOnClickListener(V-> {
-                SignUpFragment newFragment = new SignUpFragment();
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer_main, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+           opneSign();
         });
 
         login.setOnClickListener(v-> {
             String email=emailEditText.getText().toString();
             String pass= passwordEditText.getText().toString();
 
-            if(!email.isEmpty()&&!pass.isEmpty())
-            {
-                if (!(pass.length()<6))
-                {
+            if(!email.isEmpty()&&!pass.isEmpty()) {
+                if (!(pass.length()<6)) {
                     FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
-                    firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful())
-                            { Toast.makeText(getContext(),"Welcom!",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
-                            else { Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show(); }
+                    firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
+                        if(task.isSuccessful())
+                        { Toast.makeText(getContext(),"Welcom!",Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         }
+                        else { Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show(); }
                     });
                 }
                 else { Toast.makeText(getContext(), "password should be 6 digits or more" , Toast.LENGTH_SHORT).show(); }
@@ -75,14 +74,22 @@ public class LoginFragment extends Fragment {
         return rootView;
     }
 
-    private void initViews(View rootView)
-    {
+    private void initViews(View rootView) {
         emailEditText=rootView.findViewById(R.id.et_email_address);
         passwordEditText=rootView.findViewById(R.id.password_TF);
         sign_in = rootView.findViewById(R.id.txt_sign_up_log);
         login = rootView.findViewById(R.id.login_float);
     }
 
+    private void opneSign(){
+        SignUpFragment newFragment = new SignUpFragment();
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
+                R.anim.enter_left_to_righ,R.anim.exit_left_to_righ);
+        transaction.replace(R.id.fragmentContainer_main, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
     @Override
     public void onResume() {
         super.onResume();

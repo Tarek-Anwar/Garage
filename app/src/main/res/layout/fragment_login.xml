@@ -133,7 +133,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView13"
+                            android:id="@+id/login_txt_sign"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="32dp"
@@ -150,9 +150,9 @@
                             android:layout_height="2dp"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/devid_log"
-                            app:layout_constraintEnd_toEndOf="@+id/textView13"
-                            app:layout_constraintStart_toStartOf="@+id/textView13"
-                            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                            app:layout_constraintEnd_toEndOf="@+id/login_txt_sign"
+                            app:layout_constraintStart_toStartOf="@+id/login_txt_sign"
+                            app:layout_constraintTop_toBottomOf="@+id/login_txt_sign" />
 
                         <View
                             android:id="@+id/divider6"
@@ -174,7 +174,7 @@
                             android:text="@string/sign_up"
                             android:textColor="#757575"
                             android:textSize="18sp"
-                            app:layout_constraintStart_toEndOf="@+id/textView13"
+                            app:layout_constraintStart_toEndOf="@+id/login_txt_sign"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -208,8 +208,9 @@
                             android:drawableStart="@drawable/ic_baseline_lock_24"
                             android:drawablePadding="10dp"
                             android:hint="@string/password"
-                            android:inputType="textPersonName|textPassword"
+                            android:inputType="textPassword"
                             android:padding="15dp"
+                            android:textAlignment="viewStart"
                             android:textColorHint="#757575"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

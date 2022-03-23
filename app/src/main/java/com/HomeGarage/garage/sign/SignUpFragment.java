@@ -7,15 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.home.models.CarInfo;
+import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
@@ -30,6 +33,7 @@ public class SignUpFragment extends Fragment {
 
     AwesomeValidation validation;
     CarInfo model = new CarInfo();
+    TextView loginTxt;
     TextInputEditText userNameET,emailET,phoneET,passwordET,confirmET ;
     FloatingActionButton creatBTN;
 
@@ -44,6 +48,14 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_sign, container, false);
         initViews(rootView);
+
+        loginTxt.setOnClickListener(v -> opneLogin());
+
+        rootView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeRight() {
+                opneLogin();
+            }
+        });
 
         validatET();
 
@@ -82,6 +94,16 @@ public class SignUpFragment extends Fragment {
         return rootView;
     }
 
+
+    private void opneLogin(){
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_left_to_righ,R.anim.exit_left_to_righ,R.anim.enter_right_to_left
+                ,R.anim.exit_right_to_left);
+        transaction.replace(R.id.fragmentContainer_main, new LoginFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     private void initViews(View rootView) {
         userNameET=rootView.findViewById(R.id.user_name_TF);
         emailET=rootView.findViewById(R.id.et_email_address);
@@ -89,6 +111,7 @@ public class SignUpFragment extends Fragment {
         passwordET=rootView.findViewById(R.id.password_sign);
         confirmET=rootView.findViewById(R.id.Confirm_Password_TF);
         creatBTN = rootView.findViewById(R.id.sign_float);
+        loginTxt = rootView.findViewById(R.id.login_txt_sign);
     }
 
     private void validatET() {
