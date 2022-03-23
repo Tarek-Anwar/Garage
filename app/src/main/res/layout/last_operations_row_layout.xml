@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:textSize="12sp"
                     android:gravity="start"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     tools:text="09 SEP 2021" />
         </LinearLayout>
 

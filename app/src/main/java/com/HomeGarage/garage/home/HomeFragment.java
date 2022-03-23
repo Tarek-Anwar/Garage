@@ -6,11 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,8 +45,9 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     public static LatLng curentLocation = null;
     public static String curentGover = null;
     ArrayList <GrageInfo> grageInfos = null;
-
+    TextView govetLocation;
     MapsFragment mapsFragment;
+    FragmentContainerView fragmentContainer;
 
     public HomeFragment(){ }
 
@@ -74,11 +78,13 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
             public void onSwipeRight() {
                 drawerLayout.open();
             }
+
         });
 
         getAllGarage(grages -> {
             if(curentLocation!=null){
                 mapsFragment.setLocationMe(curentLocation);
+                govetLocation.setText(curentGover);
             }
             if(grageInfos!=null){
                mapsFragment.setMarkers(grageInfos);
@@ -118,6 +124,8 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         layoutlast = v.findViewById(R.id.layout_last);
         recyclerGover = v.findViewById(R.id.recycle_gover);
         locationGet = v.findViewById(R.id.get_location);
+        govetLocation = v.findViewById(R.id.txt_govet_location);
+        fragmentContainer = v.findViewById(R.id.fragmentContainerMap);
     }
 
     public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfo> grageInfos);}

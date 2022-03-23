@@ -58,9 +58,9 @@ public class LocationGetFragment extends Fragment {
     private double longitude , latitude;
     private  String allLocation = null;
     private ActivityResultLauncher<Object> launcher;
-    TextView allLocaion;
+    TextView allLocaion ;
     private Geocoder geocoder;
-    ImageView getlocation;
+    ImageView getlocation ;
     LinearLayout all_space , partSapce;
 
     public LocationGetFragment() { }
@@ -74,7 +74,6 @@ public class LocationGetFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_location_get, container, false);
-
         all_space = root.findViewById(R.id.all_space);
         getlocation = root.findViewById(R.id.btn_get_location);
         partSapce = root.findViewById(R.id.part_space);

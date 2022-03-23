@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.Adapter.CustomInfoWindowAdpter;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,7 +40,7 @@ public class MapsFragment extends Fragment {
     private final OnMapReadyCallback callback = googleMap -> {
 
         if (locationMe!=null) {
-            Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title("Me"));
+            Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title("Me").snippet("I'm Here"));
             assert me != null;
             me.setTag(-1);
             markers.add(me);
@@ -50,7 +51,7 @@ public class MapsFragment extends Fragment {
 
        googleMap.setOnMarkerClickListener(marker -> {
            if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
-               Toast.makeText(getContext(), "ME", Toast.LENGTH_SHORT).show();
+
            }else {
                GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
                if (grageInfo != null) {
@@ -68,10 +69,29 @@ public class MapsFragment extends Fragment {
 
         if (locationMe != null) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
+            googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
 
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(@NonNull Marker marker) {
+                    if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
+
+                    }else {
+                        GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
+                        if (grageInfo != null) {
+                            GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragmentContainerView, newFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
+                    }
+                }
+            });
         }else if(gover!=null){
             for(Marker m : markers) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
+                googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
             }
         }
 
@@ -103,9 +123,12 @@ public class MapsFragment extends Fragment {
     void setMarkersOnMap(GoogleMap googleMap){
         if (grageInfos != null) {
             for (int i = 0; i < grageInfos.size(); i++) {
+                int numOfRate = grageInfos.get(i).getNumOfRatings();
+                String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" rating )";
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(grageInfos.get(i).getLatLngGarage())
                         .title(grageInfos.get(i).getNameEn())
+                        .snippet(snippet)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 assert marker != null;
                 marker.setTag(i);
