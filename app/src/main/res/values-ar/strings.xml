@@ -5,7 +5,6 @@
     <string name="prompt_password">كلمة السر</string>
     <string name="action_sign_in">تسجيل الدخول او انشاء حساب</string>
     <string name="action_sign_in_short">تسجيل الدخول</string>
-    <string name="welcome">"مرحبا!"</string>
     <string name="invalid_username">اسم المستخدم غير صحيح</string>
     <string name="invalid_password">كلمة السر يجب ان تكون أكبر من 5 حروف</string>
     <string name="login_failed">"فشل تسجيل الدخول"</string>
@@ -81,4 +80,10 @@
     <string name="balance_details">اعرف تفاصيل رصيد</string>
     <string name="eg">جنية</string>
     <string name="current_balance">الرصيد الحالي هو</string>
+    <string name="welcome">مرحبا</string>
+    <string name="please_log">من فضلك ادخل حسابك</string>
+    <string name="login">دخول</string>
+    <string name="sign_up">انشاء حساب</string>
+    <string name="terms_conditions">"شروط الخدمة "</string>
+    <string name="text_log">بالضغط على \"إرسال\" ، فإنك توافق على</string>
 </resources>

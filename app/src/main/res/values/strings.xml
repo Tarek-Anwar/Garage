@@ -5,7 +5,6 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
@@ -20,7 +19,7 @@
     <string name="or">or</string>
     <string name="creat_new_account">Creat new account</string>
     <string name="user_name">Name</string>
-    <string name="email_adress">Email address</string>
+    <string name="email_adress">Email Address</string>
     <string name="password">Password</string>
     <string name="phone">Phone</string>
     <string name="register">Register</string>
@@ -85,5 +84,12 @@
     <string name="balance_details">Know your balance details</string>
     <string name="eg">E.G</string>
     <string name="current_balance">The current balance is</string>
+    <string name="welcome">Welcome</string>
+    <string name="please_log">please log in to your account.</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Signup</string>
+    <string name="text_log">By pressing “submit” you agree to our</string>
+    <string name="terms_conditions"><u>terms &amp; conditions</u></string>
+    <string name="todo">TODO</string>
 
 </resources>

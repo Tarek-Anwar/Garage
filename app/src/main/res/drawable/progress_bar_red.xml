@@ -13,6 +13,7 @@
             android:startColor="#FFB71C1C"
             android:type="sweep"
             android:useLevel="true"/>
+
     </shape>
 
 </rotate>
