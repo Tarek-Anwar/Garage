@@ -50,7 +50,6 @@ public class SignUpFragment extends Fragment {
         initViews(rootView);
 
         loginTxt.setOnClickListener(v -> opneLogin());
-
         rootView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
                 opneLogin();
@@ -58,7 +57,6 @@ public class SignUpFragment extends Fragment {
         });
 
         validatET();
-
         creatBTN.setOnClickListener(v-> {
 
             model.setName(userNameET.getText().toString());
@@ -70,26 +68,24 @@ public class SignUpFragment extends Fragment {
                FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
                  firebaseAuth.createUserWithEmailAndPassword(model.getEmail(),userPass).addOnCompleteListener(task -> {
                      if (task.isSuccessful()) {
-                            DatabaseReference databaseReference = FirebaseUtil.databaseReference;
-                            FirebaseUser firebaseUser = task.getResult().getUser();
-                            DatabaseReference reference =databaseReference.child(firebaseUser.getUid());
+                         DatabaseReference databaseReference = FirebaseUtil.databaseReference;
+                         FirebaseUser firebaseUser = task.getResult().getUser();
+                         DatabaseReference reference =databaseReference.child(firebaseUser.getUid());
 
-                            model.setId(firebaseUser.getUid());
-                            model.setBalance(0.0f);
+                         model.setId(firebaseUser.getUid());
+                         model.setBalance(0.0f);
 
-                            reference.setValue(model);
-                            Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getActivity(), HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                         reference.setValue(model);
+                         Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
+                         Intent intent = new Intent(getActivity(), HomeActivity.class);
+                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                         startActivity(intent);
                         }
                         else
                         { Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show(); }
                     });
-                Toast.makeText(getContext(), "Goog", Toast.LENGTH_SHORT).show();
                 }
-            else
-            { Toast.makeText(getContext(),"invalid register",Toast.LENGTH_SHORT).show(); }
+            else { Toast.makeText(getContext(),"invalid register",Toast.LENGTH_SHORT).show(); }
         });
         return rootView;
     }
@@ -99,8 +95,9 @@ public class SignUpFragment extends Fragment {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_left_to_righ,R.anim.exit_left_to_righ,R.anim.enter_right_to_left
                 ,R.anim.exit_right_to_left)
-        .replace(R.id.fragmentContainer_main, new LoginFragment())
-        .commit();
+                .replace(R.id.fragmentContainer_main, new LoginFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     private void initViews(View rootView) {

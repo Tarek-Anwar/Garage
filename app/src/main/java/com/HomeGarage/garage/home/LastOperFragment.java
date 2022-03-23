@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,15 +19,23 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
 
     RecyclerView  recyclerAllOper;
     LastOperAdapter lastOperAdapter;
+    TextView textOper;
+    volatile int count;
+    boolean aBoolean = false;
 
-    public LastOperFragment() {
-
+    public LastOperFragment(int count) {
+       this.count=count;
+        lastOperAdapter = new LastOperAdapter(this,count);
+        if(count==0){
+            aBoolean=true;
+        }
     }
+
+    public LastOperFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lastOperAdapter=new LastOperAdapter(this,0);
     }
 
     @Override
@@ -34,21 +43,31 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
+        textOper = root.findViewById(R.id.txt_oper_fragment);
 
-        recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
-        recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
-        recyclerAllOper.setAdapter(lastOperAdapter);
+        updateUI(count, count -> {
+            recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
+            recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
+            recyclerAllOper.setAdapter(lastOperAdapter);
+            if(aBoolean){
+                textOper.setText(R.string.all_opertions);
+            }
+        });
 
         return root;
     }
 
     @Override
     public void LastOperListener(Opreation opreation) {
-        OperationsFragment newFragment = new OperationsFragment(opreation);
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView, newFragment);
+        transaction.replace(R.id.fragmentContainerView,  new OperationsFragment(opreation));
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
+    interface OnCountReciveCallback{
+        void countReciveCallback(int count);
+    }
+    void updateUI(int count,OnCountReciveCallback callback){
+        callback.countReciveCallback(count);
+    }
 }

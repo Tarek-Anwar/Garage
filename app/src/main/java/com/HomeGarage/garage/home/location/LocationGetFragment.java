@@ -11,12 +11,17 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,20 +60,31 @@ public class LocationGetFragment extends Fragment {
     private ActivityResultLauncher<Object> launcher;
     TextView allLocaion;
     private Geocoder geocoder;
-    public LocationGetFragment() { }
+    ImageView getlocation;
+    LinearLayout all_space , partSapce;
 
+    public LocationGetFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
+        super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_location_get, container, false);
+
+        all_space = root.findViewById(R.id.all_space);
+        getlocation = root.findViewById(R.id.btn_get_location);
+        partSapce = root.findViewById(R.id.part_space);
+
+        Animation animationCricle = AnimationUtils.loadAnimation(getContext(), R.anim.blinlk_animation);
+        all_space.setAnimation(animationCricle);
+        partSapce.setAnimation(animationCricle);
+
+        Animation animationImage = AnimationUtils.loadAnimation(getContext(), R.anim.bounce_animation);
+        getlocation.setAnimation(animationImage);
 
         ActivityResultContract<Object, Integer> contract = new ActivityResultContract<Object, Integer>() {
             @NonNull
@@ -86,13 +102,10 @@ public class LocationGetFragment extends Fragment {
                 getCurrantLoaction();
             }else {
                 Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-
             }
         });
 
         geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-
 
         LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         final boolean locationEnable = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -105,8 +118,10 @@ public class LocationGetFragment extends Fragment {
 
         allLocaion =  root.findViewById(R.id.txt_show_locaion);
 
-        root.findViewById(R.id.btn_get_location).setOnClickListener(v -> {
+        getlocation.setOnClickListener(v -> {
             getCurrantLoaction();
+            all_space.clearAnimation();
+            partSapce.clearAnimation();
         });
 
         return root;
@@ -148,14 +163,10 @@ public class LocationGetFragment extends Fragment {
                             String [] govers = address.getAdminArea().split(" ");
                             HomeFragment.curentGover = govers[0];
                             allLocaion.setText(allLocation);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        } catch (IOException e) { e.printStackTrace(); }
                     }
                 }
             }, Looper.getMainLooper());
         }
-
     }
-
 }

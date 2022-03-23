@@ -43,7 +43,6 @@ public class ConfarmResrerFragment extends Fragment {
     String e_time = null;
     Calendar calendar = Calendar.getInstance();
 
-    SimpleDateFormat formatter =new SimpleDateFormat("dd/MM/yyyy",new Locale("en"));
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
     DatabaseReference reference;

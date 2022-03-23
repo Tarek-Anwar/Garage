@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,10 +55,12 @@ public class MapsFragment extends Fragment {
                GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
                if (grageInfo != null) {
                    GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                   FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                   TextView textView = getActivity().findViewById(R.id.garage_select_text);
+                   textView.setText(grageInfo.getNameEn());
+                 /*  FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                    transaction.replace(R.id.fragmentContainerView, newFragment);
                    transaction.addToBackStack(null);
-                   transaction.commit();
+                   transaction.commit();*/
                }
            }
            return false;

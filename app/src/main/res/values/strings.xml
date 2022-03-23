@@ -96,5 +96,11 @@
     <string name="invalid_email">Email address please</string>
     <string name="invalid_phone">Telephone Number please</string>
     <string name="invalid_conform">Please re-enter the password</string>
+    <string name="garage_scl">Garage selected</string>
+    <string name="what_city">what is your city ?</string>
+    <string name="click_here">Click here</string>
+    <string name="address">Address</string>
+    <string name="type">Type</string>
+    <string name="created_date">Created Date</string>
 
 </resources>

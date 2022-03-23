@@ -85,8 +85,9 @@ public class LoginFragment extends Fragment {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
                 R.anim.enter_left_to_righ,R.anim.exit_left_to_righ)
-        .replace(R.id.fragmentContainer_main, new SignUpFragment())
-        .commit();
+                .replace(R.id.fragmentContainer_main, new SignUpFragment())
+                .addToBackStack(null)
+                .commit();
     }
     @Override
     public void onResume() {

@@ -13,5 +13,6 @@
     <color name="bord_color">#707070</color>
     <color name="unuse_color">#4D707070</color>
     <color name="red">#F13B2C</color>
+    <color name="gover_loc_color">#FA983A</color>
 
 </resources>

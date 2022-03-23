@@ -17,18 +17,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+    SimpleDateFormat formatter =new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
     ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
     LastOperListener lastOperListener;
     DatabaseReference reference =  FirebaseUtil.referenceOperattion;
     Query query ;
 
-    private int numViewOper=0;
+    private int numViewOper = 0;
 
-    public LastOperAdapter( LastOperListener lastOperListener, int numViewOper) {
+    public LastOperAdapter(LastOperListener lastOperListener, int numViewOper) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
         query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
@@ -92,10 +98,16 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
         }
 
         public void BulidUI(@NonNull Opreation opreation){
+
             textWhoToDoOper.setText(opreation.getToName());
             textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
-            textTimeOper.setText(opreation.getDate());
+
+            Date d1 = null;
+            try { d1 = formatterLong.parse(opreation.getDate());
+                textTimeOper.setText(formatter.format(d1));
+            } catch (ParseException e) { e.printStackTrace(); }
             textWhoDoOper.setText(opreation.getFromName());
+
             layoutLastOper.setOnClickListener(v ->  {
                 lastOperListener.LastOperListener(opreation);
             });

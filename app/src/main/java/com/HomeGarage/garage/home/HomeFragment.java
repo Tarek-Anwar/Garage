@@ -35,11 +35,9 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener  {
 
     DrawerLayout drawerLayout;
-    RecyclerView  recyclerLast , recyclerGover ;
-    LinearLayout layoutNearFind , layoutAllFind , layoutlast;
-    View seeAllOper;
-    ImageView find_location;
-    LastOperAdapter lastOperAdapter;
+    RecyclerView   recyclerGover ;
+    LinearLayout  layoutlast;
+    View seeAllOper , locationGet;
     GovernorateAdapter governorateAdapter;
     public static LatLng curentLocation = null;
     public static String curentGover = null;
@@ -68,6 +66,10 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         transaction2.replace(R.id.fragmentContainerMap,mapsFragment);
         transaction2.commit();
 
+        FragmentTransaction transaction3 = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction3.replace(R.id.fragmentContainerLastOper,new LastOperFragment(3));
+        transaction3.commit();
+
         root.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
                 drawerLayout.open();
@@ -83,32 +85,16 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
             }
         });
 
-
-        lastOperAdapter = new LastOperAdapter(opreation -> {
-            OperationsFragment newFragment = new OperationsFragment(opreation);
-            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }, 3);
-
-        recyclerLast.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        recyclerLast.setAdapter(lastOperAdapter);
-
         governorateAdapter = new GovernorateAdapter(this::onGoverListener);
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         recyclerGover.setAdapter(governorateAdapter);
 
-        seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment()));
-
-        layoutAllFind.setOnClickListener(v -> replaceFragment(new SearchFragment()));
-
-        layoutNearFind.setOnClickListener(v -> replaceFragment(new SearchFragment()));
+        seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(0)));
 
         if(curentLocation!=null){
-            find_location.setVisibility(View.GONE);
+           locationGet.setVisibility(View.GONE);
         }
-        find_location.setOnClickListener(v -> replaceFragment(new LocationGetFragment()));
+        locationGet.setOnClickListener(v -> replaceFragment(new LocationGetFragment()));
 
         return root;
     }
@@ -128,13 +114,10 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
     private void initViews(View v){
-        recyclerLast = v.findViewById(R.id.recycler_last);
-        layoutNearFind = v.findViewById(R.id.layout_near_find);
-        layoutAllFind = v.findViewById(R.id.layout_all_find);
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
         layoutlast = v.findViewById(R.id.layout_last);
         recyclerGover = v.findViewById(R.id.recycle_gover);
-        find_location  = v.findViewById(R.id.find_locatin);
+        locationGet = v.findViewById(R.id.get_location);
     }
 
     public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfo> grageInfos);}
