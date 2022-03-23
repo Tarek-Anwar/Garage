@@ -82,13 +82,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void opneSign(){
-        SignUpFragment newFragment = new SignUpFragment();
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
-                R.anim.enter_left_to_righ,R.anim.exit_left_to_righ);
-        transaction.replace(R.id.fragmentContainer_main, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+                R.anim.enter_left_to_righ,R.anim.exit_left_to_righ)
+        .replace(R.id.fragmentContainer_main, new SignUpFragment())
+        .commit();
     }
     @Override
     public void onResume() {

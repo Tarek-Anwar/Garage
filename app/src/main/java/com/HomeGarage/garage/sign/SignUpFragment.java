@@ -98,10 +98,9 @@ public class SignUpFragment extends Fragment {
     private void opneLogin(){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_left_to_righ,R.anim.exit_left_to_righ,R.anim.enter_right_to_left
-                ,R.anim.exit_right_to_left);
-        transaction.replace(R.id.fragmentContainer_main, new LoginFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
+                ,R.anim.exit_right_to_left)
+        .replace(R.id.fragmentContainer_main, new LoginFragment())
+        .commit();
     }
 
     private void initViews(View rootView) {
