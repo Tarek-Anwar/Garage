@@ -35,7 +35,6 @@ public class GoverGarageFragment extends Fragment implements CityAdapter.CityLis
     String gover;
     MapsFragment mapsFragment;
 
-
     public GoverGarageFragment(int pos , String gover) {
         this.pos = pos;
         this.gover = gover;

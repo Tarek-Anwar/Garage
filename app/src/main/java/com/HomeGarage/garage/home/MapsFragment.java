@@ -33,14 +33,17 @@ public class MapsFragment extends Fragment {
     ArrayList<GrageInfo> grageInfos = null;
     LatLng locationMe = null;
     String gover = null;
+    String title = null;
+    String snippet =null;
     List<Marker> markers = new ArrayList<>();
 
-    public MapsFragment( ){ }
+    public MapsFragment( ){
+
+    }
 
     private final OnMapReadyCallback callback = googleMap -> {
-
-        if (locationMe!=null) {
-            Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title("Me").snippet("I'm Here"));
+        if (locationMe!=null && title!=null) {
+            Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title(title).snippet(snippet));
             assert me != null;
             me.setTag(-1);
             markers.add(me);
@@ -49,42 +52,20 @@ public class MapsFragment extends Fragment {
             setMarkersOnMap(googleMap);
         }
 
-       googleMap.setOnMarkerClickListener(marker -> {
-           if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
-
-           }else {
-               GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
-               if (grageInfo != null) {
-                   GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                 /*  TextView textView = getActivity().findViewById(R.id.garage_select_text);
-                   textView.setText(grageInfo.getNameEn());*/
-                 /*  FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                   transaction.replace(R.id.fragmentContainerView, newFragment);
-                   transaction.addToBackStack(null);
-                   transaction.commit();*/
-               }
-           }
-           return false;
-       });
-
         if (locationMe != null) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
             googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
+            googleMap.setOnInfoWindowClickListener(marker -> {
+                if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
 
-            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(@NonNull Marker marker) {
-                    if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
-
-                    }else {
-                        GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
-                        if (grageInfo != null) {
-                            GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.fragmentContainerView, newFragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                        }
+                }else {
+                    GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
+                    if (grageInfo != null) {
+                        GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+                        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }
             });
@@ -94,7 +75,6 @@ public class MapsFragment extends Fragment {
                 googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
             }
         }
-
     };
 
     public void setMarkers(ArrayList<GrageInfo> grageInfos){
@@ -104,6 +84,10 @@ public class MapsFragment extends Fragment {
         this.locationMe = locationMe;
     }
     public void setGover(String gover){this.gover=gover;}
+    public void setTitle(String title , String snippet){
+        this.title = title;
+        this.snippet = snippet;
+    }
 
     @Nullable
     @Override
@@ -135,6 +119,5 @@ public class MapsFragment extends Fragment {
                 markers.add(marker);
             }
         }
-
     }
 }

@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.reservation.ConfarmResrerFragment;
@@ -25,14 +25,16 @@ import com.google.firebase.database.ValueEventListener;
 public class GarageViewFragment extends Fragment {
 
     GrageInfo grageInfo;
-    private TextView nameGarage , totalAddressGarage;
-    private RatingBar ratingGarage ;
-    Button orderGarage,rate;
+    private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
+    Button orderGarage;
     DatabaseReference garageReference ;
+    com.chaek.android.RatingBar ratingBar;
+    MapsFragment mapsFragment;
 
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
     }
+    public GarageViewFragment(){};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,68 +45,79 @@ public class GarageViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_garage_view, container, false);
-
         initView(root);
-        garageReference = FirebaseDatabase.getInstance().getReference().child("GaragerOnwerInfo").child(grageInfo.getId());
 
-        getRate(new Rate() {
-            @Override
-            public void getRate(float rate, int num) {
-                if(num!=0)
-                {
-                    float ratting=rate/((float) num);
-                    ratingGarage.setRating(ratting);
-                }
-                else
-                    ratingGarage.setRating(0f);
-            }
+        if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(grageInfo.getId());
+        }else { garageReference = FirebaseUtil.referenceGarage.child(savedInstanceState.getString("saveBalance")); }
+
+        getRate(grageInfo -> {
+            nameGarage.setText(grageInfo.getNameEn());
+            totalAddressGarage.setText(grageInfo.getGovernoateEn()+"\n"+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN());
+            phoneGarage.setText(grageInfo.getPhone());
+            priceGarage.setText(grageInfo.getPriceForHour()+" "+getString(R.string.eg));
+
+            setInfoMap(grageInfo);
+            setMapsFragment();
+
+            if(grageInfo.getNumOfRatings()!=0) {
+                float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
+                ratingBar.setScore((int) ratting*2);
+                rateGarageNum.setText(ratting + " ( "+grageInfo.getNumOfRatings() + " " + getString(R.string.ratings) + " )");
+            } else ratingBar.setScore(0);
+
         });
-        ratingGarage.setEnabled(false);
 
-
-
-        nameGarage.setText(grageInfo.getNameEn());
-        totalAddressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+" "+grageInfo.getRestOfAddressEN());
+        ratingBar.setEnabled(false);
 
         orderGarage.setOnClickListener(v -> {
-
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(grageInfo,getActivity()));
             transaction.addToBackStack(null);
             transaction.commit();
-
         });
-
         return root;
     }
 
     void initView (View view){
         nameGarage = view.findViewById(R.id.name_garage_txt);
-        totalAddressGarage = view.findViewById(R.id.total_address_garage_txt);
+        totalAddressGarage = view.findViewById(R.id.address_garage_view);
         orderGarage = view.findViewById(R.id.btn_order_garage);
-        ratingGarage = view.findViewById(R.id.rating_garage);
+        ratingBar = view.findViewById(R.id.rate_garage);
+        phoneGarage = view.findViewById(R.id.phone_garage_view);
+        priceGarage = view.findViewById(R.id.price_garage_view);
+        rateGarageNum = view.findViewById(R.id.rate_garage_view);
     }
-    void getRate(Rate rate)
-    {
+
+    void getRate(Rate rate) {
         garageReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                float rateValue=snapshot.child("rate").getValue(Float.class);
-                int num=snapshot.child("numOfRatings").getValue(Integer.class);
-                rate.getRate(rateValue,num);
+                grageInfo = snapshot.getValue(GrageInfo.class);
+                rate.onGarageGet(grageInfo);
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
-    interface Rate
-    {
-       void getRate(float rate,int num);
+
+    interface Rate { void onGarageGet(GrageInfo grageInfo);}
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("saveBalance" , grageInfo.getId());
+    }
+
+    private void setMapsFragment(){
+        FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction2.replace(R.id.map_garage_owner,mapsFragment);
+        transaction2.commit();
+    }
+
+    private void setInfoMap(GrageInfo grageInfo){
+        mapsFragment = new MapsFragment();
+        mapsFragment.setLocationMe(grageInfo.getLatLngGarage());
+        mapsFragment.setTitle(grageInfo.getNameEn(),grageInfo.getRestOfAddressEN());
     }
 }

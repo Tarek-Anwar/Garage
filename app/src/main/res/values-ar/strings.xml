@@ -84,7 +84,23 @@
     <string name="please_log">من فضلك ادخل حسابك</string>
     <string name="login">دخول</string>
     <string name="sign_up">انشاء حساب</string>
-    <string name="terms_conditions">"شروط الخدمة "</string>
+    <string name="terms_conditions"><u>شروط الخدمة</u></string>
     <string name="text_log">بالضغط على \"إرسال\" ، فإنك توافق على</string>
     <string name="reservation_scheduling">جدولة الحجز</string>
+    <string name="please_sign_up">من فضلك سجل حساب</string>
+    <string name="name_invalid">ادخل اسمك</string>
+    <string name="invalid_email">"ادخل البريد "</string>
+    <string name="invalid_phone">ادخل رقم الهاتف</string>
+    <string name="invalid_conform">تأكيد الرقم السري غير صحيح</string>
+    <string name="garage_scl">الجراش المحدد</string>
+    <string name="what_city">ما هي المدينة ؟</string>
+    <string name="click_here">اضغط هنا</string>
+    <string name="address">العنوان</string>
+    <string name="type">النوع</string>
+    <string name="created_date">تاريخ الانشاء</string>
+    <string name="rate">التفيم</string>
+    <string name="todo">TODO</string>
+    <string name="ratings">التقييمات</string>
+    <string name="i_here">اناا هنا</string>
+    <string name="not_rate">لا يوجد تقيم بعد</string>
 </resources>

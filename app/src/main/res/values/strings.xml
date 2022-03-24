@@ -82,7 +82,7 @@
     <string name="amount">The Amount</string>
     <string name="purchase_now">Purchase Now</string>
     <string name="balance_details">Know your balance details</string>
-    <string name="eg">E.G</string>
+    <string name="eg">E.G.</string>
     <string name="current_balance">The current balance is</string>
     <string name="welcome">Welcome</string>
     <string name="please_log">please log in to your account.</string>
@@ -103,5 +103,9 @@
     <string name="type">Type</string>
     <string name="created_date">Created Date</string>
     <string name="reservation_scheduling">Reservation scheduling</string>
+    <string name="rate">Rate</string>
+    <string name="ratings">Ratings</string>
+    <string name="i_here">I\'m here</string>
+    <string name="not_rate">Not rate after</string>
 
 </resources>

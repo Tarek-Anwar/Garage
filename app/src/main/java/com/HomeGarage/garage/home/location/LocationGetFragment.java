@@ -152,7 +152,6 @@ public class LocationGetFragment extends Fragment {
                         latitude =    locationResult.getLocations().get(indx).getLatitude();
                         allLocation  =  longitude + "," + latitude;
                         HomeFragment.curentLocation = new LatLng(latitude,longitude);
-                        Toast.makeText(getContext(), allLocation, Toast.LENGTH_SHORT).show();
                         try {
                             List<Address> addresses = geocoder.getFromLocation(latitude,longitude,1);
                             Address address = addresses.get(0);

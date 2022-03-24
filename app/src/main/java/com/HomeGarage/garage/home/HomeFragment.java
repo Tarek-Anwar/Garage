@@ -88,6 +88,8 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         getAllGarage(grages -> {
             if(curentLocation!=null){
                 mapsFragment.setLocationMe(curentLocation);
+                mapsFragment.setTitle(getString(R.string.me),getString(R.string.i_here));
+
                 govetLocation.setText(curentGover);
             }
             if(grageInfos!=null){
