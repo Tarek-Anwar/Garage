@@ -86,4 +86,5 @@
     <string name="sign_up">انشاء حساب</string>
     <string name="terms_conditions">"شروط الخدمة "</string>
     <string name="text_log">بالضغط على \"إرسال\" ، فإنك توافق على</string>
+    <string name="reservation_scheduling">جدولة الحجز</string>
 </resources>

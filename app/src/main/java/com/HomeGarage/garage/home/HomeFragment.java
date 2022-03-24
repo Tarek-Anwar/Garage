@@ -1,10 +1,10 @@
 package com.HomeGarage.garage.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,21 +20,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.GovernorateAdapter;
-import com.HomeGarage.garage.home.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
 import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.home.search.SearchFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener  {
+
 
     DrawerLayout drawerLayout;
     RecyclerView   recyclerGover ;
@@ -102,8 +106,14 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         }
         locationGet.setOnClickListener(v -> replaceFragment(new LocationGetFragment()));
 
+
+
+        TimeZone tz = TimeZone.getDefault();
+
+        Log.i("aFdsfsdf", Calendar.getInstance(tz).getTime().getTime()+"");
         return root;
     }
+
 
 
     @Override
@@ -148,6 +158,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
     }
 
 }

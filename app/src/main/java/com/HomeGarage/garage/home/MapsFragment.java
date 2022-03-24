@@ -56,8 +56,8 @@ public class MapsFragment extends Fragment {
                GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
                if (grageInfo != null) {
                    GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                   TextView textView = getActivity().findViewById(R.id.garage_select_text);
-                   textView.setText(grageInfo.getNameEn());
+                 /*  TextView textView = getActivity().findViewById(R.id.garage_select_text);
+                   textView.setText(grageInfo.getNameEn());*/
                  /*  FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                    transaction.replace(R.id.fragmentContainerView, newFragment);
                    transaction.addToBackStack(null);

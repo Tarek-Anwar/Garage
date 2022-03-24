@@ -102,5 +102,6 @@
     <string name="address">Address</string>
     <string name="type">Type</string>
     <string name="created_date">Created Date</string>
+    <string name="reservation_scheduling">Reservation scheduling</string>
 
 </resources>
