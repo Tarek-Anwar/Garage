@@ -16,5 +16,6 @@
     <color name="gover_loc_color">#FA983A</color>
     <color name="linear_start_color">#BFFA983A</color>
     <color name="linear_center">#FA983A</color>
+    <color name="req_color">#4A4B4D</color>
 
 </resources>

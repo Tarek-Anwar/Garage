@@ -66,63 +66,25 @@ public class ConfarmResrerFragment extends Fragment {
         initUI(root);
 
         reference = FirebaseUtil.referenceOperattion;
+        singleDateAndTimePicker2.setCustomLocale(Locale.getDefault());
 
         btnRecerNow.setOnClickListener(v -> {
-            Opreation model = new Opreation();
             Date date = new Date(System.currentTimeMillis());
             String dataModel = formatterLong.format(date);
-            model.setDate(dataModel);
-            model.setType("1");
-            model.setState("1");
-            model.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
-            model.setFrom(FirebaseUtil.firebaseAuth.getUid());
-            model.setTo(grageInfo.getId());
-            model.setToName(grageInfo.getNameEn());
-            model.setId(reference.push().getKey());
-
-            reference.child(model.getId()).setValue(model);
-            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                    grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
-                    ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext());
-            notificationsSender.SendNotifications();
-
-            statResetvaion(model);
+            singOperation(dataModel);
         });
 
         btnRecer.setOnClickListener(v -> {
-            if(singleDateAndTimePicker2.getDate()!=null){
-                allDate = formatterLong.format(singleDateAndTimePicker2.getDate());
-            }
+            if(singleDateAndTimePicker2.getDate()!=null){ allDate = formatterLong.format(singleDateAndTimePicker2.getDate()); }
             if(allDate != null) {
                 Date d1 = null;
                 try { d1 = formatterLong.parse(allDate);
                 } catch (ParseException e) { e.printStackTrace(); }
                 if (d1.getTime()>System.currentTimeMillis()){
-                    Opreation model = new Opreation();
-                    model.setDate(allDate);
-                    model.setType("1");
-                    model.setState("1");
-                    model.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
-                    model.setFrom(FirebaseUtil.firebaseAuth.getUid());
-                    model.setTo(grageInfo.getId());
-                    model.setToName(grageInfo.getNameEn());
-                    model.setId(reference.push().getKey());
-                    reference.child(model.getId()).setValue(model);
-
-                    FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                            grageInfo.getId(),"From " + FirebaseUtil.firebaseAuth.getCurrentUser().getEmail()
-                            ,"I'w Reservation Garage "+ model.getDate() ,model.getId() , getContext());
-                    notificationsSender.SendNotifications();
-
-                    statResetvaion(model);
-                }
-                else{ Toast.makeText(getContext(), "Time in paist", Toast.LENGTH_SHORT).show(); }
+                    singOperation(allDate); }
+                else{ Toast.makeText(getContext(), getString(R.string.time_past), Toast.LENGTH_SHORT).show(); }
             }
-
-
         });
-
-
 
         return root;
     }
@@ -143,5 +105,22 @@ public class ConfarmResrerFragment extends Fragment {
         transaction.commit();
     }
 
+    private void singOperation( String data){
+        Opreation model = new Opreation();
+        model.setDate(data);
+        model.setType("1");
+        model.setState("1");
+        model.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
+        model.setFrom(FirebaseUtil.firebaseAuth.getUid());
+        model.setTo(grageInfo.getId());
+        model.setToName(grageInfo.getNameEn());
+        model.setId(reference.push().getKey());
+        reference.child(model.getId()).setValue(model);
+        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                grageInfo.getId(),"from " + FirebaseUtil.carInfoLogin.get(0).getName()
+                ,"I want to reserve garage "+ model.getDate() ,model.getId() , getContext());
+        notificationsSender.SendNotifications();
+        statResetvaion(model);
+    }
 
 }

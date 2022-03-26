@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.GovernorateViewHolder> {
 
@@ -78,7 +79,11 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
         }
 
         public void BulidUI(GoverModel model){
-            nameGaver.setText(model.getGovernorate_name_en());
+            if(Locale.getDefault().getLanguage().equals("en")){
+                nameGaver.setText(model.getGovernorate_name_en());
+            }else {
+                nameGaver.setText(model.getGovernorate_name_ar());
+            }
             layouGover.setOnClickListener(v -> goverListener.onGoverListener(getAdapterPosition() , model.getGovernorate_name_en()));
             if(model.getImage_url()!=null){
                 showImage(model.getImage_url());
@@ -93,7 +98,6 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
                         .into(imageView);
             }
         }
-
     }
 
     public interface GoverListener{

@@ -85,11 +85,12 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         });
 
+        String me = getActivity().getString(R.string.me_location);
+        String here = getActivity().getString(R.string.i_here);
         getAllGarage(grages -> {
             if(curentLocation!=null){
                 mapsFragment.setLocationMe(curentLocation);
-                mapsFragment.setTitle(getString(R.string.me),getString(R.string.i_here));
-
+                mapsFragment.setTitle(me,here);
                 govetLocation.setText(curentGover);
             }
             if(grageInfos!=null){
@@ -108,11 +109,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         }
         locationGet.setOnClickListener(v -> replaceFragment(new LocationGetFragment()));
 
-
-
-        TimeZone tz = TimeZone.getDefault();
-
-        Log.i("aFdsfsdf", Calendar.getInstance(tz).getTime().getTime()+"");
         return root;
     }
 

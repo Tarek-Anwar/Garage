@@ -18,6 +18,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapter.GarageViewHolder> {
 
@@ -72,8 +73,14 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
         }
 
         public void  bulidUI(GrageInfo info){
-            name.setText(info.getNameEn());
-            address.setText(info.getRestOfAddressEN());
+            if(Locale.getDefault().getLanguage().equals("en")){
+                name.setText(info.getNameEn());
+                address.setText(info.getRestOfAddressEN());
+            }else {
+                name.setText(info.getNameAr());
+                address.setText(info.getRestOfAddressAr());
+            }
+
             viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(grageInfos.get(getAdapterPosition())));
         }
     }

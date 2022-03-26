@@ -98,9 +98,15 @@
     <string name="address">العنوان</string>
     <string name="type">النوع</string>
     <string name="created_date">تاريخ الانشاء</string>
-    <string name="rate">التفيم</string>
+    <string name="rate">التقيم</string>
     <string name="todo">TODO</string>
     <string name="ratings">التقييمات</string>
-    <string name="i_here">اناا هنا</string>
+    <string name="i_here">انا هنا</string>
     <string name="not_rate">لا يوجد تقيم بعد</string>
+    <string name="governorate">المحافظة</string>
+    <string name="City">المدينة</string>
+    <string name="country">الدولة</string>
+    <string name="me_location">موقعي</string>
+    <string name="time_past">الوقت في الماضي</string>
+    <string name="booking_expired">الحجز انتهى</string>
 </resources>

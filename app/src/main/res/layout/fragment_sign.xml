@@ -179,23 +179,25 @@
                         app:layout_constraintStart_toEndOf="@+id/login_txt_sign"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/user_name_TF"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="32dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="32dp"
                         android:background="@drawable/edittext_radius"
                         android:drawableStart="@drawable/ic_baseline_person_24"
                         android:drawablePadding="10dp"
+                        android:textAlignment="viewStart"
                         android:hint="@string/user_name"
                         android:padding="15dp"
                         android:textColorHint="#757575"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/login_txt_sign" />
-
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_phone"

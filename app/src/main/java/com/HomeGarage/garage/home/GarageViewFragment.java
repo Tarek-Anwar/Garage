@@ -19,8 +19,9 @@ import com.HomeGarage.garage.home.reservation.ConfarmResrerFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Locale;
 
 public class GarageViewFragment extends Fragment {
 
@@ -34,7 +35,8 @@ public class GarageViewFragment extends Fragment {
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
     }
-    public GarageViewFragment(){};
+
+    public GarageViewFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,19 +53,32 @@ public class GarageViewFragment extends Fragment {
         if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(grageInfo.getId());
         }else { garageReference = FirebaseUtil.referenceGarage.child(savedInstanceState.getString("saveBalance")); }
 
+        mapsFragment = new MapsFragment();
+        setMapsFragment();
+        String pound = " "+ getActivity().getString(R.string.eg);
+        String ratings =  " " + getActivity().getString(R.string.ratings) + " )";
         getRate(grageInfo -> {
-            nameGarage.setText(grageInfo.getNameEn());
-            totalAddressGarage.setText(grageInfo.getGovernoateEn()+"\n"+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN());
+            String allAddress , name ;
+            if(Locale.getDefault().getLanguage().equals("en")){
+                allAddress = grageInfo.getGovernoateEn()+"\n"+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN();
+                name = grageInfo.getNameEn();
+            }else {
+                allAddress = grageInfo.getGovernoateAR()+"\n"+grageInfo.getCityAr()+"\n"+grageInfo.getRestOfAddressAr();
+                name = grageInfo.getNameAr();
+
+            }
+
+            nameGarage.setText(name);
+            totalAddressGarage.setText(allAddress);
             phoneGarage.setText(grageInfo.getPhone());
-            priceGarage.setText(grageInfo.getPriceForHour()+" "+getString(R.string.eg));
+            priceGarage.setText(grageInfo.getPriceForHour()+pound);
 
             setInfoMap(grageInfo);
-            setMapsFragment();
 
             if(grageInfo.getNumOfRatings()!=0) {
                 float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
                 ratingBar.setScore((int) ratting*2);
-                rateGarageNum.setText(ratting + " ( "+grageInfo.getNumOfRatings() + " " + getString(R.string.ratings) + " )");
+                rateGarageNum.setText(ratting + " ( "+grageInfo.getNumOfRatings() +ratings);
             } else ratingBar.setScore(0);
 
         });
@@ -116,8 +131,9 @@ public class GarageViewFragment extends Fragment {
     }
 
     private void setInfoMap(GrageInfo grageInfo){
-        mapsFragment = new MapsFragment();
         mapsFragment.setLocationMe(grageInfo.getLatLngGarage());
-        mapsFragment.setTitle(grageInfo.getNameEn(),grageInfo.getRestOfAddressEN());
+        if(Locale.getDefault().getLanguage().equals("en")){
+        mapsFragment.setTitle(grageInfo.getNameEn(),grageInfo.getRestOfAddressEN());}
+        else { mapsFragment.setTitle(grageInfo.getNameAr(),grageInfo.getRestOfAddressAr()); }
     }
 }

@@ -94,9 +94,10 @@
                 android:id="@+id/edit_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_baseline_person_24"
+                android:drawableStart="@drawable/ic_baseline_person_24"
                 android:drawablePadding="10dp"
                 android:enabled="false"
+                android:textAlignment="viewStart"
                 android:textColor="@color/hed_color"
                 android:textColorHint="@color/orange" />
 
@@ -125,8 +126,9 @@
                 android:id="@+id/edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:drawableStart="@drawable/ic_baseline_email_24"
                 android:drawablePadding="10dp"
+                android:textAlignment="viewStart"
                 android:enabled="false"
                 android:textColor="@color/hed_color" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -154,8 +156,8 @@
                 android:id="@+id/edit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:drawableLeft="@drawable/ic_phone"
+                android:textAlignment="viewStart"
+                android:drawableStart="@drawable/ic_phone"
                 android:drawablePadding="10dp"
                 android:enabled="false"
                 android:textColor="@color/hed_color" />

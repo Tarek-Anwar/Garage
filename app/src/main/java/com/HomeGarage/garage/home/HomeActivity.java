@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity  {
             name.setText(carInfo.getName());
             phone.setText(carInfo.getPhone());
             email.setText(carInfo.getEmail());
-            balance.setText(String.format("%.2f",carInfo.getBalance()) + " E.G.");
+            balance.setText(String.format("%.2f",carInfo.getBalance()) + " "+getString(R.string.eg));
         }
     }
 

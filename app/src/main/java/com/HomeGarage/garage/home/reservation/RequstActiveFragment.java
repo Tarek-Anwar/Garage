@@ -4,9 +4,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -46,6 +48,7 @@ public class RequstActiveFragment extends Fragment {
     Long diff;
     volatile boolean con;
     int countProgress ;
+
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
     public RequstActiveFragment(Opreation opreation , FragmentActivity activity) {
@@ -59,14 +62,12 @@ public class RequstActiveFragment extends Fragment {
         refOperation = FirebaseUtil.referenceOperattion.child(opreation.getId());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentRequstActiveBinding.inflate(getLayoutInflater());
-        binding.txtDate.setText(opreation.getDate());
-        binding.txtGarageName.setText(opreation.getToName());
+
         binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
         binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
 
@@ -81,50 +82,29 @@ public class RequstActiveFragment extends Fragment {
              diff = end.getTime() - start.getTime();
         }
 
-        if(diff<0){
-            con = false;
-            countProgress = (int) (-1 * diff / 10000);
-        }else { con=true;countProgress = (int) (diff / 10000); }
+        setProgressBar();
 
-        binding.chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-
-        if(con && (opreation.getState().equals("1") || opreation.getState().equals("2"))){
-            binding.progressBar.setMin(0);
-            binding.progressBar.setMax(1100);
-            binding.chronometer.start();
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(countProgress<1100){
-                        binding.progressBar.setProgress(countProgress);
-                        countProgress++;
-                        handler.postDelayed(this,10000);
-                    }else{
-                        handler.removeCallbacks(this);
-                    }}
-            },10000);
-        }else if(con == false) {
-            binding.progressBar.setMin(0);
-            binding.progressBar.setMax(countProgress);
-            binding.chronometer.start();
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(countProgress>0){
-                        binding.progressBar.setProgress(countProgress);
-                        countProgress--;
-                        handler.postDelayed(this,10000);
-                    }else{
-                        handler.removeCallbacks(this);
-                    }}
-            },10000);
-        }
+        String ratings =  " " + getActivity().getString(R.string.ratings) + " )";
 
         getGarageInfo(opreation.getTo(), new OnGrageReciveCallback() {
             @Override
             public void OnGrageRecive(GrageInfo grageInfo) {
+                String allAddress  , name;
+                if(Locale.getDefault().getLanguage().equals("en")){
+                    allAddress = grageInfo.getGovernoateEn()+"\n"+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN();
+                    name = grageInfo.getNameEn();
+                }else {
+                    allAddress = grageInfo.getGovernoateAR()+"\n"+grageInfo.getCityAr()+"\n"+grageInfo.getRestOfAddressAr();
+                    name = grageInfo.getNameAr();
+                }
+                binding.addressReq.setText(allAddress);
+                binding.nameGarageReq.setText(name);
+
+                if(grageInfo.getNumOfRatings()!=0) {
+                    float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
+                    binding.rateReq.setText(ratting+"");
+                    binding.numRateReq.setText(ratting + " ( "+grageInfo.getNumOfRatings() +ratings);
+                }
                 if(opreation.getPrice()<0){
                     binding.dues.setVisibility(View.VISIBLE);
                     binding.btnFinshedReser.setVisibility(View.GONE);
@@ -135,7 +115,7 @@ public class RequstActiveFragment extends Fragment {
 
             @Override
             public void onBalaceChange(Opreation opreation) {
-                if(opreation.getPrice()>0){
+                if(opreation.getPrice()>0 || opreation.getType().equals("3")){
                     replaceFragment(new HomeFragment());
                 }
             }
@@ -192,10 +172,48 @@ public class RequstActiveFragment extends Fragment {
         binding.btnPayReser.setOnClickListener(v -> {
             DialogPay dialogPay = new DialogPay(grageInfo, -1 * opreation.getPrice(), opreation.getId());
             dialogPay.show(getParentFragmentManager(), "Pay");
-
         });
 
         return binding.getRoot();
+    }
+
+    private void setProgressBar(){
+        if(diff<0){
+            con = false;
+            countProgress = (int) (-1 * diff / 5000);
+        }else { con=true;countProgress = (int) (diff / 5000); }
+        binding.chronometer.setBase(SystemClock.elapsedRealtime() - diff);
+        if(con && (opreation.getState().equals("1") || opreation.getState().equals("2"))){
+            binding.progressBar.setMax(2160);
+            binding.chronometer.start();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(countProgress==2160){
+                        binding.progressBar.setProgress(countProgress);
+                        countProgress=0;
+                        handler.postDelayed(this,5000);
+                    }else if(countProgress<2160){
+                        binding.progressBar.setProgress(countProgress);
+                        countProgress++;
+                        handler.postDelayed(this,5000);
+                    }else{ handler.removeCallbacks(this); }}
+            },5000);
+        }else if(con == false) {
+            binding.progressBar.setMax(countProgress);
+            binding.chronometer.start();
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(countProgress>0){
+                        binding.progressBar.setProgress(countProgress);
+                        countProgress--;
+                        handler.postDelayed(this,5000);
+                    }else{ handler.removeCallbacks(this); }}
+            },5000);
+        }
     }
 
     private void getGarageInfo(String id , OnGrageReciveCallback callback){
@@ -206,7 +224,6 @@ public class RequstActiveFragment extends Fragment {
                 grageInfo = snapshot.getValue(GrageInfo.class);
                 callback.OnGrageRecive(grageInfo);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
@@ -216,13 +233,9 @@ public class RequstActiveFragment extends Fragment {
                 Opreation opreation = snapshot.getValue(Opreation.class);
               callback.onBalaceChange(opreation);
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
-
     }
 
     private interface OnGrageReciveCallback{
@@ -236,12 +249,9 @@ public class RequstActiveFragment extends Fragment {
         try {
             d1 = formatterLong.parse(s_time);
             d2 = formatterLong.parse(e_time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        } catch (ParseException e) { e.printStackTrace(); }
         Long diff = d2.getTime() - d1.getTime();
         Long diffMinets = diff / (60 *1000) ;
-
         return  diffMinets * f / 60;
     }
 

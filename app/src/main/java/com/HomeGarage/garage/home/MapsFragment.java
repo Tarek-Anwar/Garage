@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MapsFragment extends Fragment {
@@ -55,26 +56,26 @@ public class MapsFragment extends Fragment {
         if (locationMe != null) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
             googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
-            googleMap.setOnInfoWindowClickListener(marker -> {
-                if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
 
-                }else {
-                    GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
-                    if (grageInfo != null) {
-                        GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragmentContainerView, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                    }
-                }
-            });
         }else if(gover!=null){
             for(Marker m : markers) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
                 googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
             }
         }
+        googleMap.setOnInfoWindowClickListener(marker -> {
+            if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
+            }else {
+                GrageInfo grageInfo = grageInfos.get(Integer.parseInt(marker.getTag().toString()));
+                if (grageInfo != null) {
+                    GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            }
+        });
     };
 
     public void setMarkers(ArrayList<GrageInfo> grageInfos){
@@ -108,10 +109,17 @@ public class MapsFragment extends Fragment {
         if (grageInfos != null) {
             for (int i = 0; i < grageInfos.size(); i++) {
                 int numOfRate = grageInfos.get(i).getNumOfRatings();
-                String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" rating )";
+                String name ;
+                if(Locale.getDefault().getLanguage().equals("en")){
+                    name = grageInfos.get(i).getNameEn();
+                }else {
+                    name = grageInfos.get(i).getNameAr();
+                }
+
+                String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" "+getString(R.string.ratings)+" )";
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(grageInfos.get(i).getLatLngGarage())
-                        .title(grageInfos.get(i).getNameEn())
+                        .title(name)
                         .snippet(snippet)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 assert marker != null;

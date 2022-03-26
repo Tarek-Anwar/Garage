@@ -63,7 +63,7 @@
             android:shadowColor="#3B000000"
             android:shadowDx="2"
             android:shadowRadius="5"
-            android:text="cairo"
+            android:text="@string/governorate"
             android:textColor="@color/orange"
             android:textSize="20sp"
             android:textStyle="bold"

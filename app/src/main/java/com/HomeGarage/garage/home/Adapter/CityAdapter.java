@@ -18,6 +18,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {
 
@@ -33,7 +34,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
                 if(snapshot.exists()){
                     cityList.clear();
                     for (DataSnapshot item : snapshot.getChildren()){
-                        cityList.add(item.child("city_name_en").getValue(String.class));
+                        if(Locale.getDefault().getLanguage().equals("en")){
+                            cityList.add(item.child("city_name_en").getValue(String.class));
+                        }else { cityList.add(item.child("city_name_ar").getValue(String.class)); }
                         notifyItemChanged(cityList.size()-1);
                     }
                     notifyDataSetChanged();

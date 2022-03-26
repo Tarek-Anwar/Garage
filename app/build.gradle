@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.braintreepayments:card-form:5.3.0'
 
     implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
-
     implementation 'com.github.shallcheek:RatingBar:v1.0'
+
 
 }
