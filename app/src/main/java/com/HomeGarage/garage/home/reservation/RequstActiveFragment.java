@@ -1,17 +1,14 @@
 package com.HomeGarage.garage.home.reservation;
 
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -47,14 +44,16 @@ public class RequstActiveFragment extends Fragment {
     Date end = null;
     Long diff;
     volatile boolean con;
-    int countProgress ;
-
+    int countProgress , round ;
+    String roundTxt  ;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
 
     public RequstActiveFragment(Opreation opreation , FragmentActivity activity) {
         this.opreation = opreation;
         this.activity = activity;
     }
+
+    public RequstActiveFragment (){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,26 +64,28 @@ public class RequstActiveFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = FragmentRequstActiveBinding.inflate(getLayoutInflater());
+
+        String cancel = getActivity().getString(R.string.cancel);
+        String finsh= getActivity().getString(R.string.finshed_requst);
+        String pay = getActivity().getString(R.string.pay_type);
+        String ratings =  " " + getActivity().getString(R.string.ratings) + " )";
+        String egPound = " " + getActivity().getString(R.string.eg);
+        roundTxt = getActivity().getString(R.string.round_time)+ " : ";
+        Drawable  icRequst  =getActivity().getDrawable(R.drawable.ic_requst);
+        Drawable reqWait = getActivity().getDrawable(R.drawable.type_req_wait);
+        Drawable icAccpet = getActivity().getDrawable(R.drawable.ic_accpet);
+        Drawable  reqActice = getActivity().getDrawable(R.drawable.type_req_active);
+        Drawable ic_done = getActivity().getDrawable(R.drawable.ic_done_all);
+        Drawable reqFinsh = getActivity().getDrawable(R.drawable.type_req_finsh);
+
 
         binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
         binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
 
-        try { start = formatterLong.parse(opreation.getDate());
-        } catch (ParseException e) { e.printStackTrace(); }
 
-        if(opreation.getDataEnd()==null) {
-          diff = System.currentTimeMillis() - start.getTime();
-        }else {
-            try { end = formatterLong.parse(opreation.getDataEnd());
-            } catch (ParseException e) { e.printStackTrace(); }
-             diff = end.getTime() - start.getTime();
-        }
 
         setProgressBar();
-
-        String ratings =  " " + getActivity().getString(R.string.ratings) + " )";
 
         getGarageInfo(opreation.getTo(), new OnGrageReciveCallback() {
             @Override
@@ -102,86 +103,112 @@ public class RequstActiveFragment extends Fragment {
 
                 if(grageInfo.getNumOfRatings()!=0) {
                     float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
-                    binding.rateReq.setText(ratting+"");
-                    binding.numRateReq.setText(ratting + " ( "+grageInfo.getNumOfRatings() +ratings);
+                    binding.rateReq.setText(String.format("%.2f",ratting));
+                    binding.numRateReq.setText( " ( "+grageInfo.getNumOfRatings() +ratings);
                 }
-                if(opreation.getPrice()<0){
+               if(opreation.getPrice()<0){
                     binding.dues.setVisibility(View.VISIBLE);
-                    binding.btnFinshedReser.setVisibility(View.GONE);
-                    binding.btnCancelReser.setVisibility(View.GONE);
-                    binding.btnPayReser.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onBalaceChange(Opreation opreation) {
+                if(opreation.getType().equals("1") && opreation.getState().equals("1")){
+                    binding.imgTypeReq.setImageDrawable(icRequst);
+                    binding.imgStateReq.setBackground(reqWait);
+                    binding.totalType.setVisibility(View.GONE);
+                    binding.btnPayReser.setText(cancel);
+                }else if(opreation.getType().equals("2") && opreation.getState().equals("2")){
+                    binding.imgTypeReq.setImageDrawable(icAccpet);
+                    binding.imgStateReq.setBackground(reqActice);
+                    binding.totalType.setVisibility(View.GONE);
+                    binding.btnPayReser.setText(finsh);
+                }else {
+                    binding.imgTypeReq.setImageDrawable(ic_done);
+                    binding.imgStateReq.setBackground(reqFinsh);
+                    binding.btnPayReser.setText(pay);
+                }
+
                 if(opreation.getPrice()>0 || opreation.getType().equals("3")){
                     replaceFragment(new HomeFragment());
                 }
+                if(opreation.getPrice()!=0){
+                    binding.txtTotalHome.setText(opreation.getPrice()*-1 + egPound);
+                }
+
+                if(opreation.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
+
+                    if(binding.btnPayReser.getText().equals(cancel)) {
+                        binding.btnPayReser.setOnClickListener(v -> {
+                            Date date = new Date(System.currentTimeMillis());
+                            if (opreation.getDataEnd() == null) {
+                                opreation.setDataEnd(formatterLong.format(date));
+                            }
+                            opreation.setState("3");
+                            opreation.setType("4");
+                            refOperation.setValue(opreation);
+                            binding.chronometer.stop();
+
+                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                                    grageInfo.getId(), "From " + opreation.getFromName()
+                                    , "sorry " + opreation.getToName() + ", i'm can't come in reservation " + opreation.getDate(), opreation.getId(), getContext());
+                            notificationsSender.SendNotifications();
+                            replaceFragment(new HomeFragment());
+                        });
+                    }
+
+                }else if(System.currentTimeMillis() > start.getTime() && opreation.getState().equals("2")) {
+
+                    if(binding.btnPayReser.getText().equals(finsh)) {
+                        binding.btnPayReser.setOnClickListener(v -> {
+                            Date date = new Date(System.currentTimeMillis());
+                            if (opreation.getDataEnd() == null) {
+                                opreation.setDataEnd(formatterLong.format(date));
+                            }
+                            opreation.setPrice(-1 * calPriceExpect(grageInfo.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
+                            opreation.setState("3");
+                            opreation.setType("5");
+                            refOperation.setValue(opreation);
+                            binding.chronometer.stop();
+
+                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                                    grageInfo.getId(), "From " + opreation.getFromName()
+                                    , "reservation to is finshed check pay" + opreation.getDate(), opreation.getId(), getContext());
+                            notificationsSender.SendNotifications();
+                            binding.btnPayReser.setText(pay);
+                        });
+                    }
+                }else {
+                    if(binding.btnPayReser.getText().equals(pay)) {
+                        binding.btnPayReser.setOnClickListener(v -> {
+                            DialogPay dialogPay = new DialogPay(grageInfo, -1 * opreation.getPrice(), opreation.getId());
+                            dialogPay.show(getParentFragmentManager(), "Pay");
+                        });
+                    }
+                }
             }
-        });
-
-        if(opreation.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
-            binding.btnCancelReser.setVisibility(View.VISIBLE);
-            binding.btnCancelReser.setOnClickListener(v -> {
-                Date date = new Date(System.currentTimeMillis());
-                if(opreation.getDataEnd()==null){
-                    opreation.setDataEnd(formatterLong.format(date));
-                }
-                opreation.setState("3");
-                opreation.setType("4");
-                refOperation.setValue(opreation);
-
-                binding.chronometer.stop();
-
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        grageInfo.getId(), "From " + opreation.getFromName()
-                        , "sorry " + opreation.getToName() + ", i'm can't come in reservation " + opreation.getDate(), opreation.getId(), getContext());
-                notificationsSender.SendNotifications();
-                replaceFragment(new HomeFragment());
-            });
-
-            binding.btnFinshedReser.setVisibility(View.GONE);
-            binding.btnPayReser.setVisibility(View.GONE);
-
-        }else if(System.currentTimeMillis() > start.getTime() && opreation.getState().equals("2")) {
-            binding.btnCancelReser.setVisibility(View.GONE);
-            binding.btnPayReser.setVisibility(View.GONE);
-            binding.btnFinshedReser.setVisibility(View.VISIBLE);
-            binding.btnFinshedReser.setOnClickListener(v -> {
-
-                Date date = new Date(System.currentTimeMillis());
-                if (opreation.getDataEnd()==null){
-                    opreation.setDataEnd(formatterLong.format(date));
-                }
-                opreation.setPrice(-1 * calPriceExpect(grageInfo.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
-                opreation.setState("3");
-                opreation.setType("5");
-                refOperation.setValue(opreation);
-                binding.chronometer.stop();
-
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        grageInfo.getId(), "From " + opreation.getFromName()
-                        , "reservation to is finshed check pay" + opreation.getDate(), opreation.getId(), getContext());
-                notificationsSender.SendNotifications();
-                binding.btnFinshedReser.setVisibility(View.GONE);
-                binding.btnPayReser.setVisibility(View.VISIBLE);
-            });
-        }
-
-        binding.btnPayReser.setOnClickListener(v -> {
-            DialogPay dialogPay = new DialogPay(grageInfo, -1 * opreation.getPrice(), opreation.getId());
-            dialogPay.show(getParentFragmentManager(), "Pay");
         });
 
         return binding.getRoot();
     }
 
     private void setProgressBar(){
-        if(diff<0){
-            con = false;
-            countProgress = (int) (-1 * diff / 5000);
-        }else { con=true;countProgress = (int) (diff / 5000); }
+        try { start = formatterLong.parse(opreation.getDate());
+        } catch (ParseException e) { e.printStackTrace(); }
+
+        if(opreation.getDataEnd()==null) {
+            diff = System.currentTimeMillis() - start.getTime();
+        }else {
+            try { end = formatterLong.parse(opreation.getDataEnd());
+            } catch (ParseException e) { e.printStackTrace(); }
+            diff = end.getTime() - start.getTime();
+        }
+
+        if(diff<0){ con = false;countProgress = (int) (-1 * diff / 5000);
+        }else { con=true;countProgress = (int) (diff / 5000);
+            round = (countProgress/2160) + 1;
+            binding.roundTime.setText(roundTxt + round);}
+
         binding.chronometer.setBase(SystemClock.elapsedRealtime() - diff);
         if(con && (opreation.getState().equals("1") || opreation.getState().equals("2"))){
             binding.progressBar.setMax(2160);
@@ -192,6 +219,8 @@ public class RequstActiveFragment extends Fragment {
                 public void run() {
                     if(countProgress==2160){
                         binding.progressBar.setProgress(countProgress);
+                        round++;
+                        binding.roundTime.setText(round + round);
                         countProgress=0;
                         handler.postDelayed(this,5000);
                     }else if(countProgress<2160){
@@ -200,6 +229,7 @@ public class RequstActiveFragment extends Fragment {
                         handler.postDelayed(this,5000);
                     }else{ handler.removeCallbacks(this); }}
             },5000);
+
         }else if(con == false) {
             binding.progressBar.setMax(countProgress);
             binding.chronometer.start();
@@ -207,6 +237,11 @@ public class RequstActiveFragment extends Fragment {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if(countProgress==0){
+                        con=true;
+                        binding.progressBar.setProgress(countProgress);
+                        setProgressBar();
+                    }
                     if(countProgress>0){
                         binding.progressBar.setProgress(countProgress);
                         countProgress--;

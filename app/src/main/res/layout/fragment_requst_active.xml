@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/address_layout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:textColor="@color/unuse_color"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 tools:text="(127 rateing)" />
 
         </LinearLayout>
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,9 +105,11 @@
                 android:id="@+id/address_req"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:textColor="@color/unuse_color"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 tools:text="(127 rateing)" />
 
         </LinearLayout>
@@ -134,12 +136,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/round_time"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginTop="55dp"
+                android:textColor="#FC6011"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Chronometer
                 android:id="@+id/chronometer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:gravity="center"
-                android:textColor="@color/orange"
+                android:textColor="#FC6011"
                 android:textSize="40sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -202,10 +214,13 @@
                     android:textColor="@color/white"
                     tools:text="@string/waiting_requst" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_wait" />
+
+                <LinearLayout
+                    android:id="@+id/img_state_req"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/type_req_wait" />
 
             </LinearLayout>
 
@@ -263,11 +278,12 @@
                     android:textColor="@color/white"
                     tools:text="@string/requst_type" />
 
-                <LinearLayout
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                <ImageView
+                    android:id="@+id/img_type_req"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
-                    android:background="@drawable/type_req" />
+                    android:src="@drawable/ic_requst" />
 
             </LinearLayout>
 
@@ -326,29 +342,13 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="16dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:src="@drawable/ic_money" />
+                    android:src="@drawable/ic_baseline_payment_24" />
 
             </LinearLayout>
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_cancel_reser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@android:string/cancel"
-            android:visibility="gone"
-            tools:layout_editor_absoluteX="159dp"
-            tools:layout_editor_absoluteY="606dp" />
-
-        <Button
-            android:id="@+id/btn_finshed_reser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/finshed"
-            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_pay_reser"
@@ -357,9 +357,8 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:text="@string/pay_type"
             android:background="@drawable/background_req"
-            android:visibility="visible"
+            android:text="@string/pay_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_type" />
@@ -368,8 +367,14 @@
             android:id="@+id/dues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="Please pay the dues"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_pay_reser"
             tools:ignore="MissingConstraints" />
 
 

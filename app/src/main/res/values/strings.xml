@@ -114,5 +114,6 @@
     <string name="time_past">Time in the past</string>
     <string name="booking_expired">Booking expired</string>
     <string name="total">Total</string>
+    <string name="round_time">Rotating</string>
 
 </resources>
