@@ -22,29 +22,14 @@ import java.util.Locale;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {
 
-    ArrayList<String> cityList = new ArrayList<>();
+    ArrayList<String> cityList ;
     CityListener cityListener;
-    public CityAdapter(int pos ,CityListener cityListener){
+
+    public CityAdapter(ArrayList<String> cityList , CityListener cityListener){
         this.cityListener = cityListener;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("cities");
-        Query query =  reference.orderByChild("governorate_id").equalTo((pos+1)+"");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    cityList.clear();
-                    for (DataSnapshot item : snapshot.getChildren()){
-                        if(Locale.getDefault().getLanguage().equals("en")){
-                            cityList.add(item.child("city_name_en").getValue(String.class));
-                        }else { cityList.add(item.child("city_name_ar").getValue(String.class)); }
-                        notifyItemChanged(cityList.size()-1);
-                    }
-                    notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
+        this.cityList=cityList;
+        notifyDataSetChanged();
+
     }
     @NonNull
     @Override
@@ -57,6 +42,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
         holder.BulidUI(cityList.get(position));
     }
+
 
     @Override
     public int getItemCount() {

@@ -41,18 +41,17 @@ public class CityGarageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View root =  inflater.inflate(R.layout.fragment_city_garage, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recycle_garage_in_city);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
-        recyclerView.setAdapter(new GarageInCityAdapter(citySearch, new GarageInCityAdapter.GarageLisenter() {
-            @Override
-            public void onGarageLisenter(GrageInfo grageInfo) {
-                GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
+
+        recyclerView.setAdapter(new GarageInCityAdapter(citySearch, grageInfo -> {
+            GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }));
 
         return root;

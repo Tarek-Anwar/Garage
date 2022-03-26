@@ -17,5 +17,6 @@
     <color name="linear_start_color">#BFFA983A</color>
     <color name="linear_center">#FA983A</color>
     <color name="req_color">#4A4B4D</color>
+    <color name="gray">#B6B7B7</color>
 
 </resources>

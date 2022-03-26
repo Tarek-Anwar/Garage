@@ -83,8 +83,6 @@ public class RequstActiveFragment extends Fragment {
         binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
         binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
 
-
-
         setProgressBar();
 
         getGarageInfo(opreation.getTo(), new OnGrageReciveCallback() {
