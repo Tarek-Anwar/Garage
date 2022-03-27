@@ -31,7 +31,6 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     LastOperListener lastOperListener;
     DatabaseReference reference =  FirebaseUtil.referenceOperattion;
     Query query ;
-
     private int numViewOper = 0;
 
     public LastOperAdapter(LastOperListener lastOperListener, int numViewOper) {
@@ -45,10 +44,9 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
                     lastOpereations.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if (opreation.getState().equals("3") && (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
+                        if (opreation.getType().equals("5") || (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
                             lastOpereations.add(opreation);
-                            notifyItemChanged(lastOpereations.size()-1);
-                        }
+                            notifyItemChanged(lastOpereations.size()-1); }
                     }
                     notifyDataSetChanged();
                 }

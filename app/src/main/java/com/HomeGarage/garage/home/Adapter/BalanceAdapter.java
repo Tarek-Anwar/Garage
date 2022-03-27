@@ -2,6 +2,7 @@ package com.HomeGarage.garage.home.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceViewHolder> {
@@ -67,28 +72,38 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
         return purchaseModels.size();
     }
 
-    public class BalaceViewHolder extends RecyclerView.ViewHolder{
-        TextView type , to ,value , date ;
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
+    SimpleDateFormat formatterData =new SimpleDateFormat("dd/MM/yyyy" , new Locale("en"));
+    SimpleDateFormat formattertime =new SimpleDateFormat("hh:mm:ss aa" , new Locale("en"));
 
+    public class BalaceViewHolder extends RecyclerView.ViewHolder{
+        TextView type , to ,value , date , time;
+        Date dateLong ;
         public BalaceViewHolder(@NonNull View itemView) {
             super(itemView);
             type = itemView.findViewById(R.id.type_pay_txt);
             to = itemView.findViewById(R.id.to_pay_txt);
             value = itemView.findViewById(R.id.value_pay_txt);
             date = itemView.findViewById(R.id.date_pay_txt);
-
+            time = itemView.findViewById(R.id.time_pay_txt);
         }
 
         public void bulidUI(PurchaseModel model){
             type.setText(FirebaseUtil.paylist.get(Integer.parseInt(model.getType())-1));
             to.setText(model.getToName());
             if(model.getType().equals("2")){
-                value.setTextColor(context.getResources().getColor(R.color.grean));
                 value.setText("+ "+String.format("%.2f",model.getValue())+" " + context.getString(R.string.eg));
             }else {
                 value.setText("- "+String.format("%.2f",model.getValue())+" " + context.getString(R.string.eg));
             }
-            date.setText(model.getDate());
+
+            try {
+                dateLong = formatterLong.parse(model.getDate());
+                date.setText(formatterData.format(dateLong));
+                time.setText(formattertime.format(dateLong));
+            } catch (ParseException e) { e.printStackTrace(); }
+
+
 
         }
     }

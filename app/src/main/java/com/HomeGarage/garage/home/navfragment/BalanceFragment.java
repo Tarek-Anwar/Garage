@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.HomeGarage.garage.R;
@@ -22,7 +23,7 @@ public class BalanceFragment extends Fragment {
 
     RecyclerView recyclerView;
     TextView balanceTxt;
-    Button button;
+    LinearLayout button;
     float balance;
     public BalanceFragment(){}
     public BalanceFragment(float balance) {

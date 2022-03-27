@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-
-    app:cardBackgroundColor="#E2EDFF"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="8dp">
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginTop="15dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,8 +22,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:textAllCaps="true"
             android:textColor="@color/orange"
-            android:textSize="16sp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/to_pay_txt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Pay" />
@@ -31,12 +35,14 @@
             android:id="@+id/to_pay_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/orange"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/type_pay_txt"
+            app:layout_constraintStart_toStartOf="@+id/type_pay_txt"
             app:layout_constraintTop_toBottomOf="@+id/type_pay_txt"
             tools:text="Tarek" />
 
@@ -45,10 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="-15.6 E.G."
-            android:textColor="#DD0D0D"
-            android:textSize="20dp"
+            android:textColor="@color/orange"
+            android:textSize="18dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,15 +63,57 @@
             android:id="@+id/date_pay_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:text="15/10/2022"
             android:textColor="@color/orange"
-            android:textSize="10sp"
+            android:textSize="9sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView12"
+            app:layout_constraintEnd_toStartOf="@+id/imageView13"
+            app:layout_constraintStart_toEndOf="@+id/imageView12"
+            app:layout_constraintTop_toTopOf="@+id/imageView12"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/value_pay_txt" />
+            app:layout_constraintEnd_toStartOf="@+id/date_pay_txt"
+            app:layout_constraintStart_toStartOf="@+id/value_pay_txt"
+            app:layout_constraintTop_toBottomOf="@+id/value_pay_txt"
+            app:srcCompat="@drawable/ic_date" />
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/time_pay_txt"
+            app:layout_constraintStart_toEndOf="@+id/date_pay_txt"
+            app:layout_constraintTop_toBottomOf="@+id/value_pay_txt"
+            app:srcCompat="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/time_pay_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/orange"
+            android:textSize="9sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView13"
+            app:layout_constraintEnd_toEndOf="@+id/value_pay_txt"
+            app:layout_constraintStart_toEndOf="@+id/imageView13"
+            app:layout_constraintTop_toTopOf="@+id/imageView13"
+            tools:text="9:10 AM" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
