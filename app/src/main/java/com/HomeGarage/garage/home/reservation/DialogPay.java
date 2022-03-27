@@ -40,7 +40,7 @@ public class DialogPay extends DialogFragment {
     Button pay , purchase;
     Toast toast;
 
-    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm aa", new Locale("en"));
+    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
     DatabaseReference reference ;
     DatabaseReference garageReference;

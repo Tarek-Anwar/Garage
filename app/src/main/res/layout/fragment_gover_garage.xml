@@ -27,7 +27,6 @@
             <AutoCompleteTextView
                 android:background="@drawable/autocomplet_background"
                 android:padding="15dp"
-
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="10dp"
                 android:id="@+id/search_city"

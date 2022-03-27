@@ -18,5 +18,8 @@
     <color name="linear_center">#FA983A</color>
     <color name="req_color">#4A4B4D</color>
     <color name="gray">#B6B7B7</color>
+    <color name="start_bg_garage_color">#645A5A</color>
+    <color name="center_bg_garage_colot">#A6150F0F</color>
+    <color name="end_bg_garage_color">#00141111</color>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.home.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,28 +22,18 @@ import java.util.Locale;
 
 public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapter.GarageViewHolder> {
 
-    ArrayList<GrageInfo> grageInfos  = new ArrayList<>() ;
+    ArrayList<GrageInfo> grageInfos  ;
     GarageLisenter garageLisenter;
-    public   GarageInCityAdapter(String s , GarageLisenter garageLisenter){
-        this.garageLisenter = garageLisenter;
-        Query query = FirebaseUtil.referenceGarage.orderByChild("cityEn").equalTo(s);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        GrageInfo grage = dataSnapshot.getValue(GrageInfo.class);
-                        grageInfos.add(grage);
-                        notifyItemChanged(grageInfos.size()-1);
-                    }
-                    notifyDataSetChanged();
-                }
-            }
+    Context context;
+    String ratings;
+    String egPound;
+    String nonRate;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+    public   GarageInCityAdapter(ArrayList<GrageInfo> grageInfos , Context context, GarageLisenter garageLisenter ){
+        this.garageLisenter = garageLisenter;
+        this.context = context;
+        this.grageInfos = grageInfos;
+        notifyDataSetChanged();
     }
     @NonNull
     @Override
@@ -62,23 +53,30 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
     }
 
     public class GarageViewHolder extends RecyclerView.ViewHolder{
-        TextView name ,address;
+        TextView name  , rate , numOfRats , price;
         View viewGarageLisenter;
         public GarageViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.txt_name_garage);
-            address = itemView.findViewById(R.id.txt_address_garage);
+            rate = itemView.findViewById(R.id.rate_req_garage);
+            numOfRats = itemView.findViewById(R.id.num_rate_req_garage);
+            price = itemView.findViewById(R.id.price_garage);
             viewGarageLisenter = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
         public void  bulidUI(GrageInfo info){
+            ratings =  " " + context.getString(R.string.ratings) + " )";
+            egPound = " " + context.getString(R.string.eg);
+            nonRate = context.getString(R.string.not_rate);
             if(Locale.getDefault().getLanguage().equals("en")){
                 name.setText(info.getNameEn());
-                address.setText(info.getRestOfAddressEN());
-            }else {
-                name.setText(info.getNameAr());
-                address.setText(info.getRestOfAddressAr());
-            }
+            }else { name.setText(info.getNameAr()); }
+            price.setText(info.getPriceForHour()+egPound);
+            if(info.getNumOfRatings()!=0) {
+                float ratting = info.getRate() /((float) info.getNumOfRatings());
+                rate.setText(String.format("%.2f",ratting));
+                numOfRats.setText( " ( "+info.getNumOfRatings() +ratings);
+            }else { numOfRats.setText(nonRate); }
 
             viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(grageInfos.get(getAdapterPosition())));
         }

@@ -46,7 +46,7 @@ public class RequstActiveFragment extends Fragment {
     volatile boolean con;
     int countProgress , round ;
     String roundTxt  ;
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
 
     public RequstActiveFragment(Opreation opreation , FragmentActivity activity) {
         this.opreation = opreation;
@@ -284,7 +284,7 @@ public class RequstActiveFragment extends Fragment {
             d2 = formatterLong.parse(e_time);
         } catch (ParseException e) { e.printStackTrace(); }
         Long diff = d2.getTime() - d1.getTime();
-        Long diffMinets = diff / (60 *1000) ;
+        Long diffMinets = diff / (60 * 1000) ;
         return  diffMinets * f / 60;
     }
 

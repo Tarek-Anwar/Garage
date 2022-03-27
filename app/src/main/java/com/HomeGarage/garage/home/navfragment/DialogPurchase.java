@@ -36,7 +36,7 @@ public class DialogPurchase extends DialogFragment {
     Button pushece;
     TextView balace;
 
-    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm aa", new Locale("en"));
+    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
     DatabaseReference referencePurchase = FirebaseUtil.referencePurchase;
     DatabaseReference reference = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());

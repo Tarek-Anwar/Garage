@@ -41,7 +41,7 @@ public class ConfarmResrerFragment extends Fragment {
     Button  btnRecer ,btnRecerNow ;
     SingleDateAndTimePicker singleDateAndTimePicker2;
 
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     DatabaseReference reference;
     GrageInfo grageInfo ;
 

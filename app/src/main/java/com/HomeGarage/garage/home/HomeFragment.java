@@ -113,10 +113,9 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
 
-
     @Override
     public void onGoverListener(int pos , String s) {
-        GoverGarageFragment fragment = new GoverGarageFragment(pos , s);
+        GoverGarageFragment fragment = new GoverGarageFragment (pos , s , getContext());
         replaceFragment(fragment);
     }
 

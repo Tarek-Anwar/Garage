@@ -116,5 +116,6 @@
     <string name="total">Total</string>
     <string name="round_time">Rotating</string>
     <string name="search_city">Search city</string>
+    <string name="all_garage_in_city">All Garage in city</string>
 
 </resources>

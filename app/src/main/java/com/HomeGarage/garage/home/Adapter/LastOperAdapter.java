@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm aa" , new Locale("en"));
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     SimpleDateFormat formatter =new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
     ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
     LastOperListener lastOperListener;

@@ -20,10 +20,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     ArrayList<GrageInfo> grageInfos;
     Context context;
     SearchListener searchListener;
+    String ratings;
+    String egPound;
 
     public SearchAdapter(Context context, SearchListener searchListener) {
         this.context = context;
         this.searchListener = searchListener;
+        ratings =  " " + context.getString(R.string.ratings) + " )";
+        egPound = " " + context.getString(R.string.eg);
     }
 
     public void setGrageInfos(ArrayList<GrageInfo> grageInfos) {
@@ -52,19 +56,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     protected class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView nameGarage , addressGarage;
+        private TextView nameGarage , rate , numOfRats , price ;
         private View layouthListener;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
             nameGarage = itemView.findViewById(R.id.txt_name_garage);
-            addressGarage = itemView.findViewById(R.id.txt_address_garage);
+            rate = itemView.findViewById(R.id.rate_req_garage);
+            numOfRats = itemView.findViewById(R.id.num_rate_req_garage);
+            price = itemView.findViewById(R.id.price_garage);
             layouthListener = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
         public void BulidUI(GrageInfo grageInfo){
             nameGarage.setText(grageInfo.getNameEn());
-            addressGarage.setText(grageInfo.getGovernoateEn()+" "+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN());
+            price.setText(grageInfo.getPriceForHour()+egPound);
+            if(grageInfo.getNumOfRatings()!=0) {
+                float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
+                rate.setText(String.format("%.2f",ratting));
+                numOfRats.setText( " ( "+grageInfo.getNumOfRatings() +ratings);
+            }
 
             layouthListener.setOnClickListener(V-> {
                 searchListener.SearchListener(grageInfo);

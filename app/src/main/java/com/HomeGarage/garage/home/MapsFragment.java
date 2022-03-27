@@ -59,7 +59,7 @@ public class MapsFragment extends Fragment {
 
         }else if(gover!=null){
             for(Marker m : markers) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 9));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 13.5f));
                 googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
             }
         }
@@ -121,7 +121,7 @@ public class MapsFragment extends Fragment {
                         .position(grageInfos.get(i).getLatLngGarage())
                         .title(name)
                         .snippet(snippet)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
                 assert marker != null;
                 marker.setTag(i);
                 markers.add(marker);
