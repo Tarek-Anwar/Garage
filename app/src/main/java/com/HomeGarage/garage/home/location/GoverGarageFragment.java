@@ -2,6 +2,11 @@ package com.HomeGarage.garage.home.location;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -9,21 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
-
-import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.CityAdapter;
-import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.home.MapsFragment;
 import com.HomeGarage.garage.home.models.CityModel;
-import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,18 +25,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 public class GoverGarageFragment extends Fragment {
 
     int pos;
     String gover;
-    ArrayAdapter<String> cityAdapterAuto;
     ArrayList<String> listAdapter;
     ArrayList<CityModel> cityList;
     CityAdapter cityAdapter;
-    AutoCompleteTextView completeText;
+    SearchView completeText;
     RecyclerView recyclerCity;
     Context context;
 
@@ -68,21 +59,26 @@ public class GoverGarageFragment extends Fragment {
         getAllCityInGover(citys -> {
             cityAdapter= new CityAdapter(citys, s -> {
                 if(s.getNumberGarage()>0){
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s.getCity_name_en()));
-                transaction.addToBackStack(null);
-                transaction.commit();}
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s.getCity_name_en()));
+                    transaction.addToBackStack(null);
+                    transaction.commit();}
                 else {
                     Toast.makeText(context, "There are no garages", Toast.LENGTH_SHORT).show();
                 }
             });
             recyclerCity.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
             recyclerCity.setAdapter(cityAdapter);
+        });
 
-            cityAdapterAuto = new ArrayAdapter<>(context,R.layout.item_auto_complet_row,listAdapter);
-            cityAdapterAuto.notifyDataSetChanged();
-            completeText.setAdapter(cityAdapterAuto);
-            completeText.setThreshold(1);
+        completeText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { return false; }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                cityAdapter.getFilter().filter(newText);
+                return false; }
         });
 
         return root;
@@ -104,7 +100,6 @@ public class GoverGarageFragment extends Fragment {
                        cityList.add(cityModel);
                     }
                     callback.onAllCityInGoverCallback(cityList);
-
                 }
             }
             @Override
@@ -114,6 +109,5 @@ public class GoverGarageFragment extends Fragment {
 
     interface AllCityInGoverCallback{
         void  onAllCityInGoverCallback(ArrayList<CityModel> citys);
-
     }
 }

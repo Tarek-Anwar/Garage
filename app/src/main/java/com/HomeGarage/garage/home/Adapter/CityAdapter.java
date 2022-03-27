@@ -3,6 +3,8 @@ package com.HomeGarage.garage.home.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,16 +21,19 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 
-public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {
+public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder>  implements Filterable {
 
     ArrayList<CityModel> cityList ;
+    ArrayList<CityModel> cityFilter;
     CityListener cityListener;
 
     public CityAdapter(ArrayList<CityModel> cityList , CityListener cityListener){
         this.cityListener = cityListener;
         this.cityList=cityList;
+        cityFilter = new ArrayList<>(cityList);
         notifyDataSetChanged();
 
     }
@@ -49,6 +54,35 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     public int getItemCount() {
         return cityList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<CityModel> filterlist = new ArrayList<>();
+            if(constraint.toString().isEmpty()){
+                filterlist.addAll(cityFilter);
+            }else {
+                for(CityModel city : cityFilter){
+                    if(city.getCity_name_en().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filterlist.add(city);
+                    } } }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filterlist;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            cityList.clear();
+            cityList.addAll((Collection<? extends CityModel>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class CityViewHolder extends RecyclerView.ViewHolder {
         TextView cityName , numOfGarage;

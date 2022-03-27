@@ -10,31 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
+        <SearchView
+            android:id="@+id/search_city"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/autocomplet_background"
+            android:drawablePadding="10dp"
             android:hint="@string/search_city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <AutoCompleteTextView
-                android:background="@drawable/autocomplet_background"
-                android:padding="15dp"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="10dp"
-                android:id="@+id/search_city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_city"
@@ -46,7 +35,7 @@
             android:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/search_city"
             tools:itemCount="5"
             tools:listitem="@layout/city_in_cover_row" />
 
@@ -54,7 +43,6 @@
             android:id="@+id/linearLayout5"
             android:layout_width="95dp"
             android:layout_height="0dp"
-            android:layout_marginTop="-5dp"
             android:background="@drawable/city_card_background"
             android:elevation="5dp"
             android:orientation="horizontal"
