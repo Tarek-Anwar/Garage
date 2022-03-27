@@ -35,7 +35,7 @@ public class CityGarageFragment extends Fragment {
     MapsFragment mapsFragment;
     ArrayList<GrageInfo> grageInfos ;
     RecyclerView recyclerView;
-    public CityGarageFragment( String citySearch) {
+    public CityGarageFragment(String citySearch) {
         this.citySearch = citySearch;
     }
 

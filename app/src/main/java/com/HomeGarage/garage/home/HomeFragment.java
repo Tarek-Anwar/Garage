@@ -22,12 +22,15 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.home.location.GoverGarageFragment;
 import com.HomeGarage.garage.home.location.LocationGetFragment;
+import com.HomeGarage.garage.home.models.CityModel;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -52,7 +55,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     TextView govetLocation;
     MapsFragment mapsFragment;
     FragmentContainerView fragmentContainer;
-
+    CityModel info;
     public HomeFragment(){ }
 
     @Override
@@ -157,5 +160,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         });
 
     }
+
 
 }

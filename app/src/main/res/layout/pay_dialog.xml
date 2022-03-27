@@ -69,6 +69,7 @@
                 android:layout_margin="8dp"
                 android:text="Purchase"
                 android:visibility="gone" />
+
         </LinearLayout>
 
 

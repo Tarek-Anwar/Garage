@@ -22,6 +22,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.CityAdapter;
 import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.home.MapsFragment;
+import com.HomeGarage.garage.home.models.CityModel;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +40,8 @@ public class GoverGarageFragment extends Fragment {
     int pos;
     String gover;
     ArrayAdapter<String> cityAdapterAuto;
-    ArrayList<String> cityList;
+    ArrayList<String> listAdapter;
+    ArrayList<CityModel> cityList;
     CityAdapter cityAdapter;
     AutoCompleteTextView completeText;
     RecyclerView recyclerCity;
@@ -65,15 +67,19 @@ public class GoverGarageFragment extends Fragment {
 
         getAllCityInGover(citys -> {
             cityAdapter= new CityAdapter(citys, s -> {
+                if(s.getNumberGarage()>0){
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s));
+                transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s.getCity_name_en()));
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();}
+                else {
+                    Toast.makeText(context, "There are no garages", Toast.LENGTH_SHORT).show();
+                }
             });
             recyclerCity.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
             recyclerCity.setAdapter(cityAdapter);
 
-            cityAdapterAuto = new ArrayAdapter<>(context,R.layout.item_auto_complet_row,cityList);
+            cityAdapterAuto = new ArrayAdapter<>(context,R.layout.item_auto_complet_row,listAdapter);
             cityAdapterAuto.notifyDataSetChanged();
             completeText.setAdapter(cityAdapterAuto);
             completeText.setThreshold(1);
@@ -85,6 +91,7 @@ public class GoverGarageFragment extends Fragment {
 
     private void getAllCityInGover(AllCityInGoverCallback callback){
         cityList = new ArrayList<>();
+        listAdapter = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("cities");
         Query query =  reference.orderByChild("governorate_id").equalTo((pos+1)+"");
         query.addValueEventListener(new ValueEventListener() {
@@ -92,9 +99,9 @@ public class GoverGarageFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
-                        if(Locale.getDefault().getLanguage().equals("en")){
-                            cityList.add(item.child("city_name_en").getValue(String.class));
-                        }else { cityList.add(item.child("city_name_ar").getValue(String.class)); }
+                       CityModel cityModel = item.getValue(CityModel.class);
+                       listAdapter.add(cityModel.getCity_name_en());
+                       cityList.add(cityModel);
                     }
                     callback.onAllCityInGoverCallback(cityList);
 
@@ -106,7 +113,7 @@ public class GoverGarageFragment extends Fragment {
     }
 
     interface AllCityInGoverCallback{
-        void  onAllCityInGoverCallback(ArrayList<String> citys);
+        void  onAllCityInGoverCallback(ArrayList<CityModel> citys);
 
     }
 }

@@ -83,6 +83,7 @@
                 tools:text="@string/City" />
 
             <TextView
+                android:id="@+id/txtt_num_of_garage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"

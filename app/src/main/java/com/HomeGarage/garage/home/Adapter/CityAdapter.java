@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.models.CityModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,10 +23,10 @@ import java.util.Locale;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder> {
 
-    ArrayList<String> cityList ;
+    ArrayList<CityModel> cityList ;
     CityListener cityListener;
 
-    public CityAdapter(ArrayList<String> cityList , CityListener cityListener){
+    public CityAdapter(ArrayList<CityModel> cityList , CityListener cityListener){
         this.cityListener = cityListener;
         this.cityList=cityList;
         notifyDataSetChanged();
@@ -50,21 +51,26 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     }
 
     public class CityViewHolder extends RecyclerView.ViewHolder {
-        TextView cityName;
+        TextView cityName , numOfGarage;
         View layouCity;
         public CityViewHolder(@NonNull View itemView) {
             super(itemView);
             cityName = itemView.findViewById(R.id.txt_city_name);
             layouCity = itemView.findViewById(R.id.layout_city_Listener);
+            numOfGarage = itemView.findViewById(R.id.txtt_num_of_garage);
         }
 
-        public void BulidUI(String s){
-            cityName.setText(s);
-            layouCity.setOnClickListener(v -> cityListener.onCityListener(s));
+        public void BulidUI(CityModel cityModel){
+            cityName.setText(cityModel.getCity_name_en());
+            if(cityModel.getNumberGarage()==0){
+                numOfGarage.setText("Not Garage");
+            }else {
+                numOfGarage.setText(cityModel.getNumberGarage()+" Garages"); }
+            layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModel));
         }
     }
 
     public interface CityListener{
-        void onCityListener(String s);
+        void onCityListener(CityModel cityModel);
     }
 }
