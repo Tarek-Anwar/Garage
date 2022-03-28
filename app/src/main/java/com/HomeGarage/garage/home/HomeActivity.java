@@ -19,18 +19,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
+import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.home.navfragment.BalanceFragment;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.home.navfragment.PayFragment;
 import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
+import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,8 +50,8 @@ import java.util.Objects;
 public class HomeActivity extends AppCompatActivity  {
 
     private DrawerLayout drawerLayout;
-    private TextView name ,email , phone , balance;
-    private ImageView img_profile , logout , info;
+    private TextView name ,email , phone , balance ;
+    private ImageView img_profile , logout , info , setting;
     private LinearLayout payment , infoBalance;
     ArrayList<CarInfo> carInfoUtil ;
     private FirebaseUser  user;
@@ -92,6 +95,8 @@ public class HomeActivity extends AppCompatActivity  {
 
         });
 
+        setting.setOnClickListener(v14 -> replaceFragement(new SettingFragment()));
+
         infoBalance.setOnClickListener(v13 -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new BalanceFragment(currnetBalance));
@@ -125,6 +130,7 @@ public class HomeActivity extends AppCompatActivity  {
         info = v.findViewById(R.id.img_info);
         payment = v.findViewById(R.id.layout_payment_head);
         infoBalance = v.findViewById(R.id.layout_balance_head);
+        setting = v.findViewById(R.id.setting_app);
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
@@ -188,6 +194,13 @@ public class HomeActivity extends AppCompatActivity  {
         });
     }
 
+    private void replaceFragement(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
 
     private interface checkResetvationCallback{ void onCheckResetvation(Opreation opreation);}
 

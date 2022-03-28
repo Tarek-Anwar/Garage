@@ -1,6 +1,5 @@
 package com.HomeGarage.garage.home.location;
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -50,12 +49,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-
 public class LocationGetFragment extends Fragment {
 
-
     private final int locationRequestCode = 1;
-    private double longitude , latitude;
     private  String allLocation = null;
     private ActivityResultLauncher<Object> launcher;
     TextView allLocaion ;
@@ -72,12 +68,20 @@ public class LocationGetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_location_get, container, false);
-        all_space = root.findViewById(R.id.all_space);
-        getlocation = root.findViewById(R.id.btn_get_location);
-        partSapce = root.findViewById(R.id.part_space);
+        initUI(root);
 
+        //check gps
+        LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        final boolean locationEnable = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(!locationEnable){
+            Toast.makeText(getContext(), "please, opne Gps to get Location", Toast.LENGTH_SHORT).show();
+            enableLoaction();
+        }else{
+            Toast.makeText(getContext(), "GPS is opne", Toast.LENGTH_SHORT).show();
+        }
+
+        //Animation
         Animation animationCricle = AnimationUtils.loadAnimation(getContext(), R.anim.blinlk_animation);
         all_space.setAnimation(animationCricle);
         partSapce.setAnimation(animationCricle);
@@ -85,6 +89,7 @@ public class LocationGetFragment extends Fragment {
         Animation animationImage = AnimationUtils.loadAnimation(getContext(), R.anim.bounce_animation);
         getlocation.setAnimation(animationImage);
 
+        //get Result
         ActivityResultContract<Object, Integer> contract = new ActivityResultContract<Object, Integer>() {
             @NonNull
             @Override
@@ -105,22 +110,9 @@ public class LocationGetFragment extends Fragment {
         });
 
         geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-        LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-        final boolean locationEnable = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if(!locationEnable){
-            Toast.makeText(getContext(), "please, opne Gps to get Location", Toast.LENGTH_SHORT).show();
-            enableLoaction();
-        }else{
-            Toast.makeText(getContext(), "GPS is opne", Toast.LENGTH_SHORT).show();
-        }
-
-        allLocaion =  root.findViewById(R.id.txt_show_locaion);
-
         getlocation.setOnClickListener(v -> {
             getCurrantLoaction();
-            all_space.clearAnimation();
-            partSapce.clearAnimation();
+
         });
 
         return root;
@@ -130,13 +122,20 @@ public class LocationGetFragment extends Fragment {
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
     }
+
+    private void initUI(View root){
+        all_space = root.findViewById(R.id.all_space);
+        getlocation = root.findViewById(R.id.btn_get_location);
+        partSapce = root.findViewById(R.id.part_space);
+        allLocaion =  root.findViewById(R.id.txt_show_locaion);
+    }
+
     private void getCurrantLoaction() {
         LocationRequest locationRequest =  LocationRequest.create();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(3000);
         locationRequest.setNumUpdates(1);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -146,10 +145,10 @@ public class LocationGetFragment extends Fragment {
                 @Override
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     super.onLocationResult(locationResult);
-                    if(locationResult.getLocations().size()>0){
+                    if(locationResult.getLocations().size() > 0){
                         int indx = locationResult.getLocations().size()-1;
-                        longitude = locationResult.getLocations().get(indx).getLongitude();
-                        latitude =    locationResult.getLocations().get(indx).getLatitude();
+                        double longitude = locationResult.getLocations().get(indx).getLongitude();
+                        double latitude = locationResult.getLocations().get(indx).getLatitude();
                         allLocation  =  longitude + "," + latitude;
                         HomeFragment.curentLocation = new LatLng(latitude,longitude);
                         try {
@@ -158,10 +157,11 @@ public class LocationGetFragment extends Fragment {
                             allLocation = getString(R.string.City)+ " : "+address.getLocality()
                                     +"\n"+getString(R.string.governorate)+" : "+address.getAdminArea()+
                                     "\n"+ getString(R.string.country)+" : " +address.getCountryName();
-
                             String [] govers = address.getAdminArea().split(" ");
                             HomeFragment.curentGover = govers[0];
                             allLocaion.setText(allLocation);
+                            all_space.clearAnimation();
+                            partSapce.clearAnimation();
                         } catch (IOException e) { e.printStackTrace(); }
                     }
                 }
