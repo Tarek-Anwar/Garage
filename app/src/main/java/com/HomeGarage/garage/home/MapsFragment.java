@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.CustomInfoWindowAdpter;
 import com.HomeGarage.garage.home.models.GrageInfo;
@@ -23,6 +25,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +55,17 @@ public class MapsFragment extends Fragment {
             me.setTag(-1);
             markers.add(me);
             setMarkersOnMap(googleMap);
-        }else if(gover!=null){
-            setMarkersOnMap(googleMap);
-        }
+
+        }else if(gover!=null)setMarkersOnMap(googleMap);
+
+        getAllGarage(grageInfos -> {
+            this.grageInfos=grageInfos;
+            if(locationMe!=null) setMarkersOnMap(googleMap);
+        });
 
         if (locationMe != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 9));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 12));
             googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
-
         }else if(gover!=null){
             for(Marker m : markers) {
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 13.5f));
@@ -110,12 +119,8 @@ public class MapsFragment extends Fragment {
             for (int i = 0; i < grageInfos.size(); i++) {
                 int numOfRate = grageInfos.get(i).getNumOfRatings();
                 String name ;
-                if(Locale.getDefault().getLanguage().equals("en")){
-                    name = grageInfos.get(i).getNameEn();
-                }else {
-                    name = grageInfos.get(i).getNameAr();
-                }
-
+                if(Locale.getDefault().getLanguage().equals("en")) name = grageInfos.get(i).getNameEn();
+                else name = grageInfos.get(i).getNameAr();
                 String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" "+getString(R.string.ratings)+" )";
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(grageInfos.get(i).getLatLngGarage())
@@ -128,4 +133,24 @@ public class MapsFragment extends Fragment {
             }
         }
     }
+
+    private void getAllGarage(HomeFragment.OnDataReceiveCallback callback) {
+        grageInfos = new ArrayList<>();
+        DatabaseReference ref = FirebaseUtil.referenceGarage;
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        GrageInfo info = item.getValue(GrageInfo.class);
+                        grageInfos.add(info);
+                    }
+                    callback.onDataReceived(grageInfos);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+    }
+
 }

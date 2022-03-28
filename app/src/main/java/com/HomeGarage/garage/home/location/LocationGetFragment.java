@@ -54,8 +54,9 @@ public class LocationGetFragment extends Fragment {
     private final int locationRequestCode = 1;
     private  String allLocation = null;
     private ActivityResultLauncher<Object> launcher;
-    TextView allLocaion ;
+
     private Geocoder geocoder;
+    TextView allLocaion ;
     ImageView getlocation ;
     LinearLayout all_space , partSapce;
 
@@ -63,7 +64,9 @@ public class LocationGetFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); }
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

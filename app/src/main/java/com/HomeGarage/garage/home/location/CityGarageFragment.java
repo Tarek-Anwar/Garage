@@ -80,25 +80,6 @@ public class CityGarageFragment extends Fragment {
     }
 
     private void getAllGarage(HomeFragment.OnDataReceiveCallback callback) {
-
-       /* DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cities");
-        Query query = ref.orderByChild("governoateEn").equalTo(gover);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    grageInfos.clear();
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        GrageInfo info = item.getValue(GrageInfo.class);
-                        grageInfos.add(info);
-                    }
-                    callback.onDataReceived(grageInfos);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });*/
         grageInfos = new ArrayList<>();
         Query query = FirebaseUtil.referenceGarage.orderByChild("cityEn").equalTo(citySearch);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

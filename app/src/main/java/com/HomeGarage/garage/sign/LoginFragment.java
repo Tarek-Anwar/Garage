@@ -1,6 +1,8 @@
 package com.HomeGarage.garage.sign;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
+import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -58,8 +61,13 @@ public class LoginFragment extends Fragment {
                 if (!(pass.length()<6)) {
                     FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
                     firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
-                        if(task.isSuccessful())
-                        { Toast.makeText(getContext(),"Welcom!",Toast.LENGTH_LONG).show();
+                        if(task.isSuccessful()) {
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
+                            editor.putBoolean(SettingFragment.LOCATIOON_SETTINNG , false);
+                            editor.putBoolean(SettingFragment.CITY_SETTINNG , false);
+                            editor.apply();
+
+                            Toast.makeText(getContext(),"Welcom!",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);

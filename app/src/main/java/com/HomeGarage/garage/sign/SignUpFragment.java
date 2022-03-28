@@ -1,6 +1,8 @@
 package com.HomeGarage.garage.sign;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
+import com.HomeGarage.garage.setting.SettingFragment;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
@@ -37,6 +40,7 @@ public class SignUpFragment extends Fragment {
     TextInputEditText userNameET,emailET,phoneET,passwordET,confirmET ;
     FloatingActionButton creatBTN;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,8 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView= inflater.inflate(R.layout.fragment_sign, container, false);
         initViews(rootView);
+
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
 
         loginTxt.setOnClickListener(v -> opneLogin());
         rootView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
@@ -76,6 +82,11 @@ public class SignUpFragment extends Fragment {
                          model.setBalance(0.0f);
 
                          reference.setValue(model);
+
+                         editor.putBoolean(SettingFragment.LOCATIOON_SETTINNG , false);
+                         editor.putBoolean(SettingFragment.CITY_SETTINNG , false);
+                         editor.apply();
+
                          Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
                          Intent intent = new Intent(getActivity(), HomeActivity.class);
                          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

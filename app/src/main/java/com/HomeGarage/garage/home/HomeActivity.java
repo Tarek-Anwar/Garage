@@ -1,7 +1,9 @@
 package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -104,7 +106,13 @@ public class HomeActivity extends AppCompatActivity  {
             transaction.commit();
             drawerLayout.closeDrawer(GravityCompat.START);
         });
+
         logout.setOnClickListener(v12 -> {
+
+            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
+            editor.clear();
+            editor.commit();
+
             FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
             FirebaseUtil.firebaseAuth.signOut();
             Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();

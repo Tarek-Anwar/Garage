@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.home.location;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.Adapter.CityAdapter;
 import com.HomeGarage.garage.home.models.CityModel;
+import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,12 +33,13 @@ public class GoverGarageFragment extends Fragment {
 
     int pos;
     String gover;
-    ArrayList<String> listAdapter;
     ArrayList<CityModel> cityList;
     CityAdapter cityAdapter;
     SearchView completeText;
     RecyclerView recyclerCity;
     Context context;
+    SharedPreferences preferences;
+    boolean settingCity;
 
     public GoverGarageFragment(int pos , String gover , Context context) {
         this.pos = pos;
@@ -55,6 +58,9 @@ public class GoverGarageFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_gover_garage, container, false);
         completeText = root.findViewById(R.id.search_city);
         recyclerCity = root.findViewById(R.id.recycle_city);
+
+        preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
+        settingCity = preferences.getBoolean(SettingFragment.CITY_SETTINNG,true);
 
         getAllCityInGover(citys -> {
             cityAdapter= new CityAdapter(citys, s -> {
@@ -87,7 +93,7 @@ public class GoverGarageFragment extends Fragment {
 
     private void getAllCityInGover(AllCityInGoverCallback callback){
         cityList = new ArrayList<>();
-        listAdapter = new ArrayList<>();
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("cities");
         Query query =  reference.orderByChild("governorate_id").equalTo((pos+1)+"");
         query.addValueEventListener(new ValueEventListener() {
@@ -96,8 +102,12 @@ public class GoverGarageFragment extends Fragment {
                 if(snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
                        CityModel cityModel = item.getValue(CityModel.class);
-                       listAdapter.add(cityModel.getCity_name_en());
-                       cityList.add(cityModel);
+                       if(settingCity){
+                            if(cityModel.getNumberGarage()>0){
+                                cityList.add(cityModel);
+                            }
+                       }else cityList.add(cityModel);
+
                     }
                     callback.onAllCityInGoverCallback(cityList);
                 }
