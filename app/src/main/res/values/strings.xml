@@ -117,5 +117,8 @@
     <string name="round_time">Rotating</string>
     <string name="search_city">Search city</string>
     <string name="all_garage_in_city">All Garage in city</string>
+    <string name="cost_reservation">Cost Reservation</string>
+    <string name="your_balance">YOUR  BALANCE</string>
+    <string name="purchase">purchase</string>
 
 </resources>

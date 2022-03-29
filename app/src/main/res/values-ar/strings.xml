@@ -109,4 +109,5 @@
     <string name="me_location">موقعي</string>
     <string name="time_past">الوقت في الماضي</string>
     <string name="booking_expired">الحجز انتهى</string>
+    <string name="purchase">purchase</string>
 </resources>

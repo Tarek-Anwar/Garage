@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.home;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,13 +76,14 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     private View seeAllOper , locationGet;
     private GovernorateAdapter governorateAdapter;
     private TextView govetLocation;
-    private MapsFragment mapsFragment;
     private FragmentContainerView fragmentContainer;
     private String me , here;
     private SharedPreferences preferences ;
     private ActivityResultLauncher<Object> launcher;
     private Geocoder geocoder;
 
+    MapsFragment mapsFragment;
+    MapSetLocation setLocation;
 
     public HomeFragment(){ }
 
@@ -97,14 +100,15 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         initViews(root);
         drawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
+        if(getActivity()!=null){
+            mapsFragment = (MapsFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerMap);
+        }
+        me = getActivity().getString(R.string.me_location);here = getActivity().getString(R.string.i_here);
+
         //swaip
         root.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
                 drawerLayout.open(); } });
-
-        me = getActivity().getString(R.string.me_location);here = getActivity().getString(R.string.i_here);
-        mapsFragment = new MapsFragment();
-        mapsFragment.setTitle(me,here);
 
         preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
         boolean locationget = preferences.getBoolean(SettingFragment.LOCATIOON_SETTINNG,false);
@@ -130,38 +134,41 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
             };
             launcher = registerForActivityResult(contract, result -> {
                 if(result==locationRequestCode){
-                    getCurrantLoaction(latLng -> {
-                        if(latLng!=null ) setMapsFragment(mapsFragment);
-                    });
+                    getCurrantLoaction();
                 }else { Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show(); }
             });
             geocoder = new Geocoder(getContext(), Locale.getDefault());
-            getCurrantLoaction(latLng -> {
-                if(latLng!=null) setMapsFragment(mapsFragment);
-
-            });
+            getCurrantLoaction();
 
         }else {
-            setMapsFragment(mapsFragment);
             if(curentLocation!=null){
-                mapsFragment.setLocationMe(curentLocation);
-                mapsFragment.setTitle(me,here);
+                if(getActivity()!=null){
+                    mapsFragment.setTitle(me,here);
+                    mapsFragment.setLocationMe(curentLocation);
+                }
                 govetLocation.setText(curentGover);
                 locationGet.setVisibility(View.GONE);
             }else locationGet.setOnClickListener(v -> replaceFragment(new LocationGetFragment()));
         }
 
-        //last Operation
-        FragmentTransaction transaction3 = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction3.replace(R.id.fragmentContainerLastOper,new LastOperFragment(3));
-        transaction3.commit();
+        setLocation = latLng -> {
+            if(getActivity()!=null){
+                mapsFragment.setTitle(me,here);
+                mapsFragment.setLocationMe(latLng);
+            }
+        };
+
+        if(getActivity()!=null){
+            LastOperFragment fragmentView = (LastOperFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerLastOper);
+            fragmentView.setCount(3);
+        }
+
         seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(0)));
 
         //Gover item
         governorateAdapter = new GovernorateAdapter(this::onGoverListener);
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         recyclerGover.setAdapter(governorateAdapter);
-
         return root;
     }
 
@@ -172,7 +179,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
     private void replaceFragment(Fragment fragment){
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -189,21 +196,14 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
     public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfo> grageInfos);}
 
-
-    private void setMapsFragment(MapsFragment mapsFragment){
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerMap,mapsFragment);
-        transaction.commit();
-    }
-
     private void enableLoaction(){
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
     }
 
-    private void getCurrantLoaction(MapSetLocation setLocation) {
+    private void getCurrantLoaction() {
         LocationRequest locationRequest =  LocationRequest.create();
-        locationRequest.setInterval(100000);
+        locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(3000);
         locationRequest.setNumUpdates(5);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -224,20 +224,23 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
                         double longitude = locationResult.getLocations().get(i).getLongitude();
                         double latitude = locationResult.getLocations().get(i).getLatitude();
                         curentLocation = new LatLng(latitude,longitude);
-                        setLocation.onMapSetLocation(curentLocation);
-                        mapsFragment.setLocationMe(curentLocation);
+                        if(curentLocation!=null)setLocation.onMapSetLocation(curentLocation);
                         try {
                             List<Address> addresses = geocoder.getFromLocation(latitude,longitude,1);
                             Address address = addresses.get(0);
                             String [] govers = address.getAdminArea().split(" ");
                             curentGover = govers[0];
                             govetLocation.setText(curentGover);
+
                         } catch (IOException e) { e.printStackTrace(); }
-                    } }}, Looper.getMainLooper());
+                    }
+                }
+                }, Looper.getMainLooper());
         }
     }
 
     interface MapSetLocation{
         void onMapSetLocation(LatLng latLng);
     }
+
 }

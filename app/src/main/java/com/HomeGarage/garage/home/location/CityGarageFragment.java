@@ -1,17 +1,15 @@
 package com.HomeGarage.garage.home.location;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
@@ -22,8 +20,6 @@ import com.HomeGarage.garage.home.MapsFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -35,10 +31,11 @@ public class CityGarageFragment extends Fragment {
     MapsFragment mapsFragment;
     ArrayList<GrageInfo> grageInfos ;
     RecyclerView recyclerView;
+    SetMarkersGarage setMarkersGarage;
+
     public CityGarageFragment(String citySearch) {
         this.citySearch = citySearch;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,35 +48,42 @@ public class CityGarageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View root =  inflater.inflate(R.layout.fragment_city_garage, container, false);
+        recyclerView = root.findViewById(R.id.recycle_garage_in_city);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
 
-        if(savedInstanceState==null){
+     /*   if(savedInstanceState==null){
             mapsFragment = new MapsFragment();
             FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
             transaction2.replace(R.id.map_gover,mapsFragment);
             transaction2.commit();
         }
+        */
+        if(getActivity()!=null){
+            mapsFragment = (MapsFragment) getChildFragmentManager().findFragmentById(R.id.map_gover);
+        }
 
-        getAllGarage(grageInfos -> {
-            if(citySearch!=null){
-                mapsFragment.setGover(citySearch);
+        setMarkersGarage = new SetMarkersGarage() {
+            @Override
+            public void setMarkersMap(ArrayList<GrageInfo> grageInfos) {
+                if(getActivity()!=null){
+                    mapsFragment.setGover(citySearch);mapsFragment.setMarkers(grageInfos);
+                    recyclerView.setAdapter(new GarageInCityAdapter(grageInfos , getContext(), grageInfo -> {
+                        GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+                        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }));
+                }
             }
-            mapsFragment.setMarkers(grageInfos);
+        };
 
-            recyclerView = root.findViewById(R.id.recycle_garage_in_city);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
-            recyclerView.setAdapter(new GarageInCityAdapter(grageInfos ,getContext(), grageInfo -> {
-                GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainerView, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }));
+        getAllGarage();
 
-        });
         return root;
     }
 
-    private void getAllGarage(HomeFragment.OnDataReceiveCallback callback) {
+    private void getAllGarage() {
         grageInfos = new ArrayList<>();
         Query query = FirebaseUtil.referenceGarage.orderByChild("cityEn").equalTo(citySearch);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,12 +94,16 @@ public class CityGarageFragment extends Fragment {
                         GrageInfo grage = dataSnapshot.getValue(GrageInfo.class);
                         grageInfos.add(grage);
                     }
-                    callback.onDataReceived(grageInfos);
+                    setMarkersGarage.setMarkersMap(grageInfos);
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
 
         });
+    }
+
+    interface  SetMarkersGarage{
+        void setMarkersMap( ArrayList<GrageInfo> grageInfos );
     }
 }

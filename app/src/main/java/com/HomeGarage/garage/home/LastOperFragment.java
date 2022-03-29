@@ -20,11 +20,20 @@ public class LastOperFragment extends Fragment implements LastOperAdapter.LastOp
     RecyclerView  recyclerAllOper;
     LastOperAdapter lastOperAdapter;
     TextView textOper;
-    volatile int count;
+    private int count;
     boolean aBoolean = false;
+
 
     public LastOperFragment(int count) {
        this.count=count;
+        lastOperAdapter = new LastOperAdapter(this,count);
+        if(count==0){
+            aBoolean=true;
+        }
+    }
+
+    public void setCount(int count) {
+        this.count = count;
         lastOperAdapter = new LastOperAdapter(this,count);
         if(count==0){
             aBoolean=true;

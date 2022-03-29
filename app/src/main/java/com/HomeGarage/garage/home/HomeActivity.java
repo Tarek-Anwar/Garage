@@ -1,14 +1,12 @@
 package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,14 +24,13 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
-import com.HomeGarage.garage.home.location.LocationGetFragment;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.home.navfragment.BalanceFragment;
-import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.home.navfragment.PayFragment;
 import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
 import com.HomeGarage.garage.setting.SettingFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,7 +42,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity  {
 
@@ -59,7 +53,7 @@ public class HomeActivity extends AppCompatActivity  {
     private FirebaseUser  user;
     ActivityHomeBinding binding;
     float currnetBalance;
-
+    public static boolean checkReqst = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +61,13 @@ public class HomeActivity extends AppCompatActivity  {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //find element
+
         FirebaseUtil.getInstence("CarInfo" , "Operation","GaragerOnwerInfo");
         user = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         checkResetvation(opreation -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation ,this));
+            transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation ,HomeActivity.this));
             transaction.commit();
         });
 
@@ -89,30 +83,19 @@ public class HomeActivity extends AppCompatActivity  {
         });
 
         payment.setOnClickListener(v1 -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, new PayFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
-            drawerLayout.closeDrawer(GravityCompat.START);
-
+            replaceFragement(new PayFragment());
         });
 
         setting.setOnClickListener(v14 -> replaceFragement(new SettingFragment()));
 
         infoBalance.setOnClickListener(v13 -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, new BalanceFragment(currnetBalance));
-            transaction.addToBackStack(null);
-            transaction.commit();
-            drawerLayout.closeDrawer(GravityCompat.START);
+            replaceFragement(new BalanceFragment(currnetBalance));
         });
 
         logout.setOnClickListener(v12 -> {
-
             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
             editor.clear();
-            editor.commit();
-
+            editor.apply();
             FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
             FirebaseUtil.firebaseAuth.signOut();
             Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
@@ -126,19 +109,6 @@ public class HomeActivity extends AppCompatActivity  {
         checkLogin(carInfo -> {
             setHeaderNav(carInfo);
             showImage(carInfo.getImageUrl()); });
-    }
-
-    void intiHeader(View v){
-        name = v.findViewById(R.id.user_name_nav);
-        email = v.findViewById(R.id.user_email_nav);
-        phone = v.findViewById(R.id.user_phone_nav);
-        balance = v.findViewById(R.id.user_balance_nav);
-        img_profile = v.findViewById(R.id.img_profile);
-        logout = v.findViewById(R.id.img_logout);
-        info = v.findViewById(R.id.img_info);
-        payment = v.findViewById(R.id.layout_payment_head);
-        infoBalance = v.findViewById(R.id.layout_balance_head);
-        setting = v.findViewById(R.id.setting_app);
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
@@ -158,6 +128,27 @@ public class HomeActivity extends AppCompatActivity  {
             setHeaderNav(carInfo);
             showImage(carInfo.getImageUrl()); });
         FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+    }
+
+    void intiHeader(View v){
+        name = v.findViewById(R.id.user_name_nav);
+        email = v.findViewById(R.id.user_email_nav);
+        phone = v.findViewById(R.id.user_phone_nav);
+        balance = v.findViewById(R.id.user_balance_nav);
+        img_profile = v.findViewById(R.id.img_profile);
+        logout = v.findViewById(R.id.img_logout);
+        info = v.findViewById(R.id.img_info);
+        payment = v.findViewById(R.id.layout_payment_head);
+        infoBalance = v.findViewById(R.id.layout_balance_head);
+        setting = v.findViewById(R.id.setting_app);
+    }
+
+    private void replaceFragement(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private  void checkLogin(OnInfoArriveCallbacl callback) {
@@ -193,24 +184,23 @@ public class HomeActivity extends AppCompatActivity  {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         Opreation opreation = snapshot1.getValue(Opreation.class);
                         assert opreation != null;
-                        if (  ((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
+                        if (((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
                                 (opreation.getType().equals("1") || opreation.getType().equals("2") ))
                                 || opreation.getPrice() < 0) {
-                            callback.onCheckResetvation(opreation); } } } }
+                            checkReqst = true;
+                            callback.onCheckResetvation(opreation);
+                        }else  checkReqst = false;
+                    }
+                }
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
-    private void replaceFragement(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-        drawerLayout.closeDrawer(GravityCompat.START);
+    private interface checkResetvationCallback{
+        void onCheckResetvation(Opreation opreation);
     }
-
-    private interface checkResetvationCallback{ void onCheckResetvation(Opreation opreation);}
 
     private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
 

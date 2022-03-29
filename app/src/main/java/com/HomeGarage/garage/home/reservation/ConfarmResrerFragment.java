@@ -2,6 +2,7 @@ package com.HomeGarage.garage.home.reservation;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -22,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
@@ -40,11 +42,9 @@ public class ConfarmResrerFragment extends Fragment {
 
     Button  btnRecer ,btnRecerNow ;
     SingleDateAndTimePicker singleDateAndTimePicker2;
-
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     DatabaseReference reference;
     GrageInfo grageInfo ;
-
     String allDate= null;
     FragmentActivity activity;
 
@@ -99,6 +99,10 @@ public class ConfarmResrerFragment extends Fragment {
        FragmentManager fm = activity.getSupportFragmentManager();
         while (fm.getBackStackEntryCount() != 0) {
             fm.popBackStackImmediate();
+          /*  FragmentManager.BackStackEntry entry = activity.getSupportFragmentManager().getBackStackEntryAt(0);
+            activity.getSupportFragmentManager().popBackStack(entry.getId(),
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            activity.getSupportFragmentManager().executePendingTransactions();*/
         }
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation,activity));

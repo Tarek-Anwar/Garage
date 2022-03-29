@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,25 +35,23 @@ import java.util.Objects;
 
 public class MapsFragment extends Fragment {
 
-    ArrayList<GrageInfo> grageInfos = null;
-    LatLng locationMe = null;
-    String gover = null;
-    String title = null;
-    String snippet =null;
-    List<Marker> markers = new ArrayList<>();
+    private  ArrayList<GrageInfo> grageInfos = null;
+    private  LatLng locationMe = null;
+    private  String gover;
+    private  String title , snippet ;
+    private  List<Marker> markers = new ArrayList<>();
+    SupportMapFragment mapFragment;
 
-    public MapsFragment( ){
-
-    }
+    public MapsFragment(){ }
 
     private final OnMapReadyCallback callback = googleMap -> {
-        if (locationMe!=null && title!=null) {
+
+        if (locationMe!=null && title!=null)  {
             Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title(title).snippet(snippet));
             assert me != null;
             me.setTag(-1);
             markers.add(me);
             setMarkersOnMap(googleMap);
-
         }else if(gover!=null)setMarkersOnMap(googleMap);
 
         getAllGarage(grageInfos -> {
@@ -72,6 +68,7 @@ public class MapsFragment extends Fragment {
                 googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
             }
         }
+
         googleMap.setOnInfoWindowClickListener(marker -> {
             if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
             }else {
@@ -89,11 +86,25 @@ public class MapsFragment extends Fragment {
 
     public void setMarkers(ArrayList<GrageInfo> grageInfos){
         this.grageInfos=grageInfos;
+        Log.i("werxcerer" , grageInfos.size()+"");
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
     }
     public void setLocationMe(LatLng locationMe){
         this.locationMe = locationMe;
+        Log.i("werxcerer" , locationMe.toString());
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
     }
-    public void setGover(String gover){this.gover=gover;}
+    public void setGover(String gover){
+        this.gover=gover;
+        Log.i("werxcerer" , gover);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
+    }
     public void setTitle(String title , String snippet){
         this.title = title;
         this.snippet = snippet;
@@ -108,12 +119,12 @@ public class MapsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
              mapFragment.getMapAsync(callback);
         }
     }
+
     void setMarkersOnMap(GoogleMap googleMap){
         if (grageInfos != null) {
             for (int i = 0; i < grageInfos.size(); i++) {
@@ -121,7 +132,7 @@ public class MapsFragment extends Fragment {
                 String name ;
                 if(Locale.getDefault().getLanguage().equals("en")) name = grageInfos.get(i).getNameEn();
                 else name = grageInfos.get(i).getNameAr();
-                String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" "+getString(R.string.ratings)+" )";
+                String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" "+" rates "+" )";
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(grageInfos.get(i).getLatLngGarage())
                         .title(name)
@@ -144,6 +155,7 @@ public class MapsFragment extends Fragment {
                     for (DataSnapshot item : snapshot.getChildren()) {
                         GrageInfo info = item.getValue(GrageInfo.class);
                         grageInfos.add(info);
+                        snapshot.getKey();
                     }
                     callback.onDataReceived(grageInfos);
                 }

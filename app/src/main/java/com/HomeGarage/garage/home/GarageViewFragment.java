@@ -30,7 +30,7 @@ public class GarageViewFragment extends Fragment {
     Button orderGarage;
     DatabaseReference garageReference ;
     com.chaek.android.RatingBar ratingBar;
-    MapsFragment mapsFragment;
+
 
     public GarageViewFragment(GrageInfo grageInfo) {
        this.grageInfo = grageInfo;
@@ -53,8 +53,6 @@ public class GarageViewFragment extends Fragment {
         if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(grageInfo.getId());
         }else { garageReference = FirebaseUtil.referenceGarage.child(savedInstanceState.getString("saveBalance")); }
 
-        mapsFragment = new MapsFragment();
-        setMapsFragment();
         String pound = " "+ getActivity().getString(R.string.eg);
         String ratings =  " " + getActivity().getString(R.string.ratings) + " )";
         getRate(grageInfo -> {
@@ -65,15 +63,12 @@ public class GarageViewFragment extends Fragment {
             }else {
                 allAddress = grageInfo.getGovernoateAR()+"\n"+grageInfo.getCityAr()+"\n"+grageInfo.getRestOfAddressAr();
                 name = grageInfo.getNameAr();
-
             }
 
             nameGarage.setText(name);
             totalAddressGarage.setText(allAddress);
             phoneGarage.setText(grageInfo.getPhone());
             priceGarage.setText(grageInfo.getPriceForHour()+pound);
-
-            setInfoMap(grageInfo);
 
             if(grageInfo.getNumOfRatings()!=0) {
                 float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
@@ -124,16 +119,4 @@ public class GarageViewFragment extends Fragment {
         outState.putString("saveBalance" , grageInfo.getId());
     }
 
-    private void setMapsFragment(){
-        FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction2.replace(R.id.map_garage_owner,mapsFragment);
-        transaction2.commit();
-    }
-
-    private void setInfoMap(GrageInfo grageInfo){
-        mapsFragment.setLocationMe(grageInfo.getLatLngGarage());
-        if(Locale.getDefault().getLanguage().equals("en")){
-        mapsFragment.setTitle(grageInfo.getNameEn(),grageInfo.getRestOfAddressEN());}
-        else { mapsFragment.setTitle(grageInfo.getNameAr(),grageInfo.getRestOfAddressAr()); }
-    }
 }

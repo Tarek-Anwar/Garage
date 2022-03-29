@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.home.reservation;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,11 +12,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
+import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.home.models.Opreation;
@@ -57,14 +61,13 @@ public class RequstActiveFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        refOperation = FirebaseUtil.referenceOperattion.child(opreation.getId());
-    }
+        super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRequstActiveBinding.inflate(getLayoutInflater());
+        refOperation = FirebaseUtil.referenceOperattion.child(opreation.getId());
 
         String cancel = getActivity().getString(R.string.cancel);
         String finsh= getActivity().getString(R.string.finshed_requst);
@@ -127,15 +130,11 @@ public class RequstActiveFragment extends Fragment {
                     binding.btnPayReser.setText(pay);
                 }
 
-                if(opreation.getPrice()>0 || opreation.getType().equals("3")){
-                    replaceFragment(new HomeFragment());
-                }
                 if(opreation.getPrice()!=0){
                     binding.txtTotalHome.setText(opreation.getPrice()*-1 + egPound);
                 }
 
                 if(opreation.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
-
                     if(binding.btnPayReser.getText().equals(cancel)) {
                         binding.btnPayReser.setOnClickListener(v -> {
                             Date date = new Date(System.currentTimeMillis());
@@ -151,7 +150,9 @@ public class RequstActiveFragment extends Fragment {
                                     grageInfo.getId(), "From " + opreation.getFromName()
                                     , "sorry " + opreation.getToName() + ", i'm can't come in reservation " + opreation.getDate(), opreation.getId(), getContext());
                             notificationsSender.SendNotifications();
-                            replaceFragment(new HomeFragment());
+                            Intent intent = new Intent(activity, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         });
                     }
 
@@ -260,11 +261,12 @@ public class RequstActiveFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
+
         refOperation.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Opreation opreation = snapshot.getValue(Opreation.class);
-              callback.onBalaceChange(opreation);
+               callback.onBalaceChange(opreation);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -285,7 +287,9 @@ public class RequstActiveFragment extends Fragment {
         } catch (ParseException e) { e.printStackTrace(); }
         Long diff = d2.getTime() - d1.getTime();
         Long diffMinets = diff / (60 * 1000) ;
-        return  diffMinets * f / 60;
+        float total =   diffMinets * f / 60;
+        if(total<10) return 10;
+        else  return total ;
     }
 
     private void replaceFragment(Fragment fragment){

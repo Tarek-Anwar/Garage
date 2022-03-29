@@ -2,6 +2,7 @@ package com.HomeGarage.garage.home.reservation;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.home.RateDialog;
 import com.HomeGarage.garage.home.models.CarInfo;
 import com.HomeGarage.garage.home.models.GrageInfo;
@@ -36,22 +38,21 @@ import java.util.Objects;
 
 public class DialogPay extends DialogFragment {
 
-    TextView balance, cost , enough_txt;
-    Button pay , purchase;
+    TextView balance, cost ;
+    Button pay , pruchese;
     Toast toast;
-
-    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
-
-    DatabaseReference reference ;
-    DatabaseReference garageReference;
-    DatabaseReference referenceOperattion = FirebaseUtil.referenceOperattion;
-    DatabaseReference refPushase = FirebaseUtil.referencePurchase;
-    DatabaseReference appReference = FirebaseDatabase.getInstance().getReference().child("App");
 
     float  costIN;
     CarInfo carInfoListener;
     GrageInfo grageInfo;
     String idLastOper;
+
+    DatabaseReference reference ;
+    DatabaseReference garageReference;
+    DatabaseReference refPushase = FirebaseUtil.referencePurchase;
+    DatabaseReference referenceOperattion = FirebaseUtil.referenceOperattion;
+    DatabaseReference appReference = FirebaseDatabase.getInstance().getReference().child("App");
+    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
     public DialogPay(GrageInfo grageInfo , float  costIN , String idLastOper) {
         this.grageInfo = grageInfo;
@@ -69,6 +70,9 @@ public class DialogPay extends DialogFragment {
         View root = inflater.inflate(R.layout.pay_dialog, container, false);
         initViews(root);
 
+        String yourBalance = getString(R.string.your_balance);
+        String eg = " " + getString(R.string.eg);
+
         //custom toast
         LayoutInflater li = getLayoutInflater();
         View view = li.inflate(R.layout.castom_toast_layout,root.findViewById(R.id.custom_toast_thank_you));
@@ -76,40 +80,33 @@ public class DialogPay extends DialogFragment {
         toast.setGravity(Gravity.CENTER,0,0);
         toast.setView(view);
 
-        purchase.setOnClickListener(v -> {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView,new PayFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
-            dismiss();
-        });
-
         getCarInfo(new OnBalanceReciveCallback() {
             @SuppressLint("SetTextI18n")
             @Override
             public void OnBalanceRecive(CarInfo carInfo) {
-                balance.setText("Your Balance is : " + carInfoListener.getBalance()+ " E.G.");
-                cost.setText("Cost Reservation "+ costIN +" E.G.");
+                if(costIN>0 && costIN<10 ){ costIN=10; }
+                balance.setText(yourBalance +" : " + String.format("%.2f",carInfoListener.getBalance())+ eg);
+                cost.setText(String.format("%.2f",costIN) + eg);
+
                 if (costIN < carInfoListener.getBalance()) {
                     pay.setVisibility(View.VISIBLE);
-                    enough_txt.setVisibility(View.GONE);
-                    purchase.setVisibility(View.GONE);
-                }else {
-                    enough_txt.setVisibility(View.VISIBLE);
+                    pruchese.setVisibility(View.GONE);
+                }
+                else {
                     pay.setVisibility(View.GONE);
-                    purchase.setVisibility(View.VISIBLE);
+                    pruchese.setVisibility(View.VISIBLE);
                 }
             }
 
             @SuppressLint("SetTextI18n")
             @Override
-            public void OnBalanceAppRecive(Float balanceApp) {
+            public void OnBalanceAppRecive(Float balanceApp){
                 pay.setOnClickListener(v -> {
                     //update car owner balance
                     carInfoListener.setBalance(carInfoListener.getBalance() - costIN);
 
                     reference.child("balance").setValue(carInfoListener.getBalance());
-                    balance.setText("Your Balance is : " + String.format("%.2f",carInfoListener.getBalance()) + " E.G.");
+                    balance.setText(yourBalance +" : " + String.format("%.2f",carInfoListener.getBalance())+ eg);
 
                     //calc app and grage balance
                     float appBalance = (float) (costIN * .1);
@@ -120,7 +117,7 @@ public class DialogPay extends DialogFragment {
                     garageReference.child("Balance").setValue(grageInfo.getBalance());
 
                     //update app balance
-                    appReference.child("Balance").setValue(appBalance+balanceApp);
+                    appReference.child("Balance").setValue(appBalance + balanceApp);
 
                     //creat opreation and save to last opreation list
                     PurchaseModel opreation = new PurchaseModel();
@@ -135,16 +132,27 @@ public class DialogPay extends DialogFragment {
                     opreation.setToName(grageInfo.getNameEn());
                     opreation.setId(refPushase.push().getKey());
                     refPushase.child(opreation.getId()).setValue(opreation);
-
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
-
-                    RateDialog rateDialog=new RateDialog(grageInfo,referenceOperattion.child(idLastOper));
-                    rateDialog.show(getParentFragmentManager(),"Rate");
+                    RateDialog rateDialog = new RateDialog(grageInfo, referenceOperattion.child(idLastOper));
+                    rateDialog.show(getParentFragmentManager(), "Rate");
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView,new HomeFragment());
+                    transaction.commit();
                     toast.show();
                     dismiss();
                 });
+
             }
         });
+
+        pruchese.setOnClickListener(v -> {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, new PayFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+            dismiss();
+        });
+
         return root;
     }
 
@@ -152,8 +160,7 @@ public class DialogPay extends DialogFragment {
         balance = root.findViewById(R.id.balanceTV);
         cost = root.findViewById(R.id.cost);
         pay = root.findViewById(R.id.payBtnDialog);
-        enough_txt = root.findViewById(R.id.not_enough_txt);
-        purchase = root.findViewById(R.id.btn_purchase);
+        pruchese = root.findViewById(R.id.btn_purchase_dialog);
     }
 
     void getCarInfo(OnBalanceReciveCallback callback){
