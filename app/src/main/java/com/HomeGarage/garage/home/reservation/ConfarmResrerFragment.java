@@ -98,11 +98,11 @@ public class ConfarmResrerFragment extends Fragment {
     private void statResetvaion(Opreation opreation){
        FragmentManager fm = activity.getSupportFragmentManager();
         while (fm.getBackStackEntryCount() != 0) {
-            fm.popBackStackImmediate();
-          /*  FragmentManager.BackStackEntry entry = activity.getSupportFragmentManager().getBackStackEntryAt(0);
+            //fm.popBackStackImmediate();
+        FragmentManager.BackStackEntry entry = activity.getSupportFragmentManager().getBackStackEntryAt(0);
             activity.getSupportFragmentManager().popBackStack(entry.getId(),
                     FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            activity.getSupportFragmentManager().executePendingTransactions();*/
+            activity.getSupportFragmentManager().executePendingTransactions();
         }
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation,activity));

@@ -53,7 +53,6 @@ public class HomeActivity extends AppCompatActivity  {
     private FirebaseUser  user;
     ActivityHomeBinding binding;
     float currnetBalance;
-    public static boolean checkReqst = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +65,10 @@ public class HomeActivity extends AppCompatActivity  {
         user = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         checkResetvation(opreation -> {
+            if(!getSupportFragmentManager().isDestroyed()){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation ,HomeActivity.this));
-            transaction.commit();
+            transaction.commit();}
         });
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -187,9 +187,9 @@ public class HomeActivity extends AppCompatActivity  {
                         if (((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
                                 (opreation.getType().equals("1") || opreation.getType().equals("2") ))
                                 || opreation.getPrice() < 0) {
-                            checkReqst = true;
                             callback.onCheckResetvation(opreation);
-                        }else  checkReqst = false;
+                        }
+
                     }
                 }
             }
@@ -201,6 +201,7 @@ public class HomeActivity extends AppCompatActivity  {
     private interface checkResetvationCallback{
         void onCheckResetvation(Opreation opreation);
     }
+
 
     private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
 

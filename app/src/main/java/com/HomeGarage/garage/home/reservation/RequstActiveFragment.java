@@ -150,9 +150,15 @@ public class RequstActiveFragment extends Fragment {
                                     grageInfo.getId(), "From " + opreation.getFromName()
                                     , "sorry " + opreation.getToName() + ", i'm can't come in reservation " + opreation.getDate(), opreation.getId(), getContext());
                             notificationsSender.SendNotifications();
-                            Intent intent = new Intent(activity, HomeActivity.class);
+
+                            if(getActivity()!=null){
+                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.fragmentContainerView, new HomeFragment());
+                                transaction.commit();
+                            }
+                            /*Intent intent = new Intent(activity, HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                            startActivity(intent);*/
                         });
                     }
 
