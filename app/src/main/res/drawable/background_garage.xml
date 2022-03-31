@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="500"
+        android:startColor="@color/end_bg_garage_color"
+        android:centerColor="@color/center_bg_garage_colot"
+        android:endColor="@color/start_bg_garage_color"/>
+
+</shape>

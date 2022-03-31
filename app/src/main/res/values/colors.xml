@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +7,21 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="hed_color">#2699FB</color>
+    <color name="orange">#FC6011</color>
+    <color name="grean">#0C7C00</color>
+    <color name="bord_color">#707070</color>
+    <color name="unuse_color">#4D707070</color>
+    <color name="red">#F13B2C</color>
+    <color name="gover_loc_color">#FA983A</color>
+    <color name="linear_start_color">#BFFA983A</color>
+    <color name="linear_center">#FA983A</color>
+    <color name="req_color">#4A4B4D</color>
+    <color name="gray">#B6B7B7</color>
+    <color name="start_bg_garage_color">#645A5A</color>
+    <color name="center_bg_garage_colot">#A6150F0F</color>
+    <color name="end_bg_garage_color">#00141111</color>
+    <color name="balance_color1">#59FC6011</color>
+    <color name="not_last_oper_color">#BFFA983A</color>
+
 </resources>

@@ -1,22 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="270"
-    android:toDegrees="270">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <rotate android:fromDegrees="270" android:toDegrees="270">
+            <shape
+                android:innerRadiusRatio="2.5"
+                android:shape="ring"
+                android:thickness="15dp"
+                android:useLevel="true">
+                <gradient
+                    android:startColor="#FC6011"
+                    android:endColor="#FC6011"
+                    android:centerColor="@color/orange"/>
+            </shape>
+        </rotate>
+    </item>
 
-    <shape android:innerRadiusRatio="2.5"
-        android:shape="ring"
-        android:thickness="10dp"
-        android:useLevel="true">
-
-        <gradient
-            android:angle="5"
-            android:endColor="#FFBF360C"
-            android:startColor="#FFF57F17"
-            android:type="sweep"
-            android:centerColor="#FF33691E"
-            android:gradientRadius="2.5"
-            android:useLevel="true"/>
-
-    </shape>
-
-</rotate>
+    <item android:bottom="215dp">
+        <shape
+            android:innerRadiusRatio="900"
+            android:shape="ring"
+            android:thickness="7dp"
+            android:useLevel="false">
+          <solid android:color="#FC6011"/>
+        </shape>
+    </item>
+    <item>
+        <rotate>
+            <inset android:insetBottom="215dp">
+                <shape
+                    android:innerRadiusRatio="900"
+                    android:shape="ring"
+                    android:thickness="7.5dp"
+                    android:useLevel="false">
+                    <gradient
+                        android:startColor="#FC6011"
+                        android:endColor="#FC6011"
+                        android:centerColor="@color/orange"/>
+                </shape>
+            </inset>
+        </rotate>
+    </item>
+</layer-list>

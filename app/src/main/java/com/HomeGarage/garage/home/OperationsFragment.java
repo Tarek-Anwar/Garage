@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.models.Opreation;
 
 public class OperationsFragment extends Fragment {
 
-    private TextView type , to , from , time , palce , price;
     Opreation opreation;
+    private TextView type , to , from , time  , price ,rate , timeEnd , state;
     public OperationsFragment(Opreation opreation) {
         this.opreation=opreation;
     }
@@ -29,10 +30,7 @@ public class OperationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View  view =  inflater.inflate(R.layout.fragment_operations, container, false);
-
         intiView(view);
         setData(opreation);
 
@@ -46,15 +44,22 @@ public class OperationsFragment extends Fragment {
         from = view.findViewById(R.id.from_oper_txt);
         time = view.findViewById(R.id.time_oper_txt);
         price = view.findViewById(R.id.price_oper_txt);
+        state = view.findViewById(R.id.state_oper_txt);
+        rate = view.findViewById(R.id.rate_oper_txt);
+        timeEnd = view.findViewById(R.id.time_end_oper_txt);
 
     }
 
     @SuppressLint("SetTextI18n")
     void setData(Opreation opreation){
-        type.setText(opreation.getState());
+        type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
         to.setText(opreation.getToName());
-        from.setText(opreation.getFrom());
+        from.setText(opreation.getFromName());
         time.setText(opreation.getDate()+"");
-
+        price.setText(opreation.getPrice()+" E.G.");
+        state.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
+        if(opreation.getRate()!=0){ rate.setText(opreation.getRate()+""); }else { rate.setText("!"); }
+        if(opreation.getDataEnd()!=null) timeEnd.setText(opreation.getDataEnd());
+        else timeEnd.setText("!");
     }
 }

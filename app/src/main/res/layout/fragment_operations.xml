@@ -11,26 +11,28 @@
     app:layoutDescription="@xml/fragment_operations_scene"
     tools:context=".home.OperationsFragment">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="horizontal">
 
         <TextView
             style="@style/txt_detils_oper"
-            android:text="@string/type_op"
-            android:textColor="#004D40" />
+            android:text="@string/type_op" />
 
         <TextView
             android:id="@+id/type_oper_txt"
             style="@style/txt_detils_oper"
-            android:textColor="#004D40"
+            android:layout_weight="2"
             tools:text="Accpet" />
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,56 +40,109 @@
 
         <TextView
             style="@style/txt_detils_oper"
-            android:text="@string/from"
-            android:textColor="#004D40" />
+            android:text="@string/state_requst" />
+
+        <TextView
+            android:id="@+id/state_oper_txt"
+            style="@style/txt_detils_oper"
+            android:layout_weight="2"
+            tools:text="Finshed" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/txt_detils_oper"
+            android:text="@string/from" />
 
         <TextView
             android:id="@+id/from_oper_txt"
             style="@style/txt_detils_oper"
-            android:text="@string/me"
-            android:textColor="#004D40"
-            tools:text="@string/me" />
-
+            android:layout_weight="2"
+            android:text="@string/me" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             style="@style/txt_detils_oper"
-            android:text="@string/to"
-            android:textColor="#004D40" />
+            android:text="@string/to" />
 
         <TextView
             android:id="@+id/to_oper_txt"
             style="@style/txt_detils_oper"
-            android:text="@string/me"
-            android:textColor="#004D40"
+            android:layout_weight="2"
             tools:text="@string/app_name" />
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             style="@style/txt_detils_oper"
-            android:text="@string/time"
-            android:textColor="#004D40" />
+            android:text="@string/time_start" />
 
         <TextView
             android:id="@+id/time_oper_txt"
             style="@style/txt_detils_oper"
-            android:text="@string/me"
-            android:textColor="#004D40"
+            android:layout_weight="2"
             tools:text="3:00 PM 15-1-2022" />
 
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/txt_detils_oper"
+            android:text="@string/time_end" />
+
+        <TextView
+            android:id="@+id/time_end_oper_txt"
+            style="@style/txt_detils_oper"
+            android:layout_weight="2"
+            tools:text="3:00 PM 15-1-2022" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,36 +151,35 @@
 
         <TextView
             style="@style/txt_detils_oper"
-            android:text="@string/place"
-            android:textColor="#004D40" />
-
-        <TextView
-            android:id="@+id/place_oper_txt"
-            style="@style/txt_detils_oper"
-            android:text="@string/me"
-            android:textColor="#004D40"
-            tools:text="15 str Cairo" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/price"
-            android:textColor="#004D40" />
+            android:text="@string/price" />
 
         <TextView
             android:id="@+id/price_oper_txt"
             style="@style/txt_detils_oper"
-            android:text="@string/me"
-            android:textColor="#004D40"
+            android:layout_weight="2"
             tools:text="20.00 EG" />
 
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/hed_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/txt_detils_oper"
+            android:text="@string/rate" />
+
+        <TextView
+            android:id="@+id/rate_oper_txt"
+            style="@style/txt_detils_oper"
+            android:layout_weight="2"
+            tools:text="5" />
 
     </LinearLayout>
 

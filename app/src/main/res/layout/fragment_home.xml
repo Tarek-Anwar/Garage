@@ -11,90 +11,92 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView4"
-        style="@style/txt_home_fragment"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/find_garage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/garage_select_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/garage_scl"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/find_garage"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/garage_select_text"
+            app:layout_constraintStart_toStartOf="@+id/garage_select_text"
+            app:layout_constraintTop_toBottomOf="@+id/garage_select_text" />
 
-        <LinearLayout
-            android:id="@+id/layout_near_find"
-            style="@style/icon_search">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nearest_garage"
-                android:textColor="@color/purple_700" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/search_db_icon" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_all_find"
-            style="@style/icon_search">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/find_in_all_garage"
-                android:textColor="@color/purple_700" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/get_location"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="-20dp"
+            android:backgroundTint="#C9FFFFFF"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerMap"
+            app:layout_constraintEnd_toEndOf="@+id/fragmentContainerMap"
+            app:layout_constraintStart_toStartOf="@+id/fragmentContainerMap">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/location_searching_icon" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="-20dp"
+                android:src="@drawable/buttons" />
 
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txt_govet_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:shadowColor="#3B000000"
+            android:shadowDx="2"
+            android:shadowRadius="5"
+            android:text="@string/governorate"
+            android:textColor="@color/orange"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/get_location"
+            app:layout_constraintStart_toStartOf="@+id/get_location"
+            app:layout_constraintTop_toBottomOf="@+id/get_location" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerMap"
             android:name="com.HomeGarage.garage.home.MapsFragment"
             android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_gover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
-
-        <TextView
-            android:id="@+id/textView"
-            style="@style/txt_home_fragment"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/last_oper"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentContainerMap" />
+            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            tools:itemCount="1"
+            tools:listitem="@layout/layout_governorate_row" />
 
         <LinearLayout
             android:id="@+id/layout_last"
@@ -103,29 +105,45 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/recycle_gover">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_last"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerLastOper"
+                android:name="com.HomeGarage.garage.home.LastOperFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="1"
-                tools:listitem="@layout/last_operations_row_layout" />
+                android:layout_height="wrap_content" />
 
-            <TextView
+            <Button
                 android:id="@+id/see_all_last_oper"
-                style="@style/txt_last_oper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/teal_700"
-                android:text="@string/see_all" />
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/card_edge"
+                android:gravity="center"
+                android:text="@string/see_all"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:shadowColor="#51000000"
+            android:shadowDy="2"
+            android:shadowRadius="10"
+            android:text="@string/what_city"
+            android:textColor="@color/orange"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_govet_location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

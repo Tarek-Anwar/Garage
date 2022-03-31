@@ -5,9 +5,8 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">The password should contain at least 8 characters, including at least one lower case letter, one upper case letter, one number and one punctuation mark</string>
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -20,10 +19,10 @@
     <string name="or">or</string>
     <string name="creat_new_account">Creat new account</string>
     <string name="user_name">Name</string>
-    <string name="email_adress">email address</string>
-    <string name="password">password</string>
-    <string name="phone">phone</string>
-    <string name="register">register</string>
+    <string name="email_adress">Email Address</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">hello_blank_fragment</string>
 
@@ -56,8 +55,8 @@
     <string name="edit_address">Edit Address</string>
     <string name="edit_info">Edit Information</string>
     <string name="save">Save</string>
-    <string name="time_start">Time Start Reservation</string>
-    <string name="time_end">Expected time to finish</string>
+    <string name="time_start">Time Start</string>
+    <string name="time_end">Time End</string>
     <string name="expected_price">Expected Price</string>
     <string name="reservation_now">Reservation Now</string>
     <string name="expected_hour">Hour to Reservation</string>
@@ -75,5 +74,56 @@
     <string name="cancel">Cancel</string>
     <string name="finshed">Finshed</string>
     <string name="done">Done</string>
+    <string name="mobil">Mobil</string>
+    <string name="balance">Balance</string>
+    <string name="payment">Payment</string>
+    <string name="balance_is_not_enough">Balance is not enough</string>
+    <string name="Purchase">Purchase</string>
+    <string name="amount">The Amount</string>
+    <string name="purchase_now">Purchase Now</string>
+    <string name="balance_details">Know your balance details</string>
+    <string name="eg">E.G.</string>
+    <string name="current_balance">Total balance is</string>
+    <string name="welcome">Welcome</string>
+    <string name="please_log">please log in to your account.</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Signup</string>
+    <string name="text_log">By pressing “submit” you agree to our</string>
+    <string name="terms_conditions"><u>terms &amp; conditions</u></string>
+    <string name="todo">TODO</string>
+    <string name="please_sign_up">please sign up.</string>
+    <string name="name_invalid">your name please</string>
+    <string name="invalid_email">Email address please</string>
+    <string name="invalid_phone">Telephone Number please</string>
+    <string name="invalid_conform">Please re-enter the password</string>
+    <string name="garage_scl">Garage selected</string>
+    <string name="what_city">what is your city ?</string>
+    <string name="click_here">Click here</string>
+    <string name="address">Address</string>
+    <string name="type">Type</string>
+    <string name="created_date">Created Date</string>
+    <string name="reservation_scheduling">Reservation scheduling</string>
+    <string name="rate">Rate</string>
+    <string name="ratings">Ratings</string>
+    <string name="i_here">I\'m here</string>
+    <string name="not_rate">Not rate after</string>
+    <string name="governorate">Governorate</string>
+    <string name="City">City</string>
+    <string name="country">Country</string>
+    <string name="me_location">Me</string>
+    <string name="time_past">Time in the past</string>
+    <string name="booking_expired">Booking expired</string>
+    <string name="total">Total</string>
+    <string name="round_time">Rotating</string>
+    <string name="search_city">Search city</string>
+    <string name="all_garage_in_city">All Garage in city</string>
+    <string name="cost_reservation">Cost Reservation</string>
+    <string name="your_balance">YOUR  BALANCE</string>
+    <string name="purchase">purchase</string>
+    <string name="arabic">العربية</string>
+    <string name="english">English</string>
+    <string name="get_location_automatic">get location automatic</string>
+    <string name="cities_with_only_garages">Cities with only garages</string>
+    <string name="Sorry_no_operations_yet">Sorry, you have no operations yet</string>
 
 </resources>

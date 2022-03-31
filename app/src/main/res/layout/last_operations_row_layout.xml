@@ -1,35 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_last_oper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
     android:layout_marginTop="2dp"
-    android:background="@color/teal_200"
-    android:orientation="horizontal">
+    android:layout_marginBottom="7dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
 
-        <TextView
-            android:id="@+id/text_type_oper"
-            style="@style/txt_last_oper"
-            android:layout_weight="1"
-            tools:text="type" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/card_edge"
+            android:orientation="horizontal"
+            android:padding="7dp">
 
-        <TextView
-            android:id="@+id/text_who_do"
-            style="@style/txt_last_oper"
-            android:layout_weight="1"
-            tools:text="who do" />
+                <TextView
+                    android:id="@+id/text_type_oper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textSize="12sp"
+                    tools:text="Cancel" />
 
-        <TextView
-            android:id="@+id/text_who_to_do"
-            style="@style/txt_last_oper"
-            android:layout_weight="1"
-            tools:text="who to do" />
+                <TextView
+                    android:id="@+id/text_who_do"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:textSize="12sp"
+                    tools:text="Tarek Anwar" />
 
-        <TextView
-            android:id="@+id/text_time_oper"
-            style="@style/txt_last_oper"
-            android:layout_weight="2"
-            tools:text="3:20 PM 15-1-2022" />
+                <TextView
+                    android:id="@+id/text_who_to_do"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:textSize="12sp"
+                    tools:text="Garage Tarek" />
 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/text_time_oper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textSize="12sp"
+                    tools:text="09 SEP 2021" />
+        </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
