@@ -71,9 +71,9 @@ public class GarageViewFragment extends Fragment {
             priceGarage.setText(grageInfo.getPriceForHour()+pound);
 
             if(grageInfo.getNumOfRatings()!=0) {
-                float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
-                ratingBar.setScore((int) ratting*2);
-                rateGarageNum.setText(ratting + " ( "+grageInfo.getNumOfRatings() +ratings);
+                float ratting = grageInfo.getRate() /grageInfo.getNumOfRatings();
+                ratingBar.setScore((int) ratting);
+                rateGarageNum.setText( (ratting/2) + " ( "+grageInfo.getNumOfRatings() + ratings);
             } else ratingBar.setScore(0);
 
         });

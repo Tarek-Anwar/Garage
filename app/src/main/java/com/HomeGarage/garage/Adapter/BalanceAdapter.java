@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,8 +47,8 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
                     for (DataSnapshot item : snapshot.getChildren()){
                         PurchaseModel model = item.getValue(PurchaseModel.class);
                         purchaseModels.add(model);
-                        notifyItemChanged(purchaseModels.size()-1);
                     }
+                    Collections.reverse(purchaseModels);
                     notifyDataSetChanged();
                 }
             }

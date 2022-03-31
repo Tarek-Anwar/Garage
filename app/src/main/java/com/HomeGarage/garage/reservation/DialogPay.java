@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.home.RateDialog;
 import com.HomeGarage.garage.models.CarInfo;
 import com.HomeGarage.garage.models.GrageInfo;
 import com.HomeGarage.garage.models.PurchaseModel;

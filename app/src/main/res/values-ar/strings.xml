@@ -121,4 +121,5 @@
     <string name="round_time">الدوره</string>
     <string name="total">الاجمالي</string>
     <string name="Sorry_no_operations_yet">معذره , لا يوجد عمليات لديك حتي الان</string>
+    <string name="rate_reservation">قيم الحجز</string>
 </resources>

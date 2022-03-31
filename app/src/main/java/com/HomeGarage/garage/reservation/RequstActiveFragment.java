@@ -100,7 +100,7 @@ public class RequstActiveFragment extends Fragment {
                 binding.nameGarageReq.setText(name);
 
                 if(grageInfo.getNumOfRatings()!=0) {
-                    float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
+                    float ratting = grageInfo.getRate() / (2* grageInfo.getNumOfRatings());
                     binding.rateReq.setText(String.format("%.2f",ratting));
                     binding.numRateReq.setText( " ( "+grageInfo.getNumOfRatings() +ratings);
                 }

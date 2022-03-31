@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.location;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,30 +51,19 @@ public class CityGarageFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycle_garage_in_city);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
 
-     /*   if(savedInstanceState==null){
-            mapsFragment = new MapsFragment();
-            FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction2.replace(R.id.map_gover,mapsFragment);
-            transaction2.commit();
-        }
-        */
-        if(getActivity()!=null){
-            mapsFragment = (MapsFragment) getChildFragmentManager().findFragmentById(R.id.map_gover);
-        }
 
-        setMarkersGarage = new SetMarkersGarage() {
-            @Override
-            public void setMarkersMap(ArrayList<GrageInfo> grageInfos) {
-                if(getActivity()!=null){
-                    mapsFragment.setGover(citySearch);mapsFragment.setMarkers(grageInfos);
-                    recyclerView.setAdapter(new GarageInCityAdapter(grageInfos , getContext(), grageInfo -> {
-                        GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
-                        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragmentContainerView, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                    }));
-                }
+        setMarkersGarage = grageInfos -> {
+            if(getActivity()!=null){
+                mapsFragment = (MapsFragment) getChildFragmentManager().findFragmentById(R.id.map_gover);
+                mapsFragment.setGover(citySearch);
+                mapsFragment.setMarkers(grageInfos,false);
+                recyclerView.setAdapter(new GarageInCityAdapter(grageInfos , getContext(), grageInfo -> {
+                    GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainerView, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }));
             }
         };
 
@@ -92,6 +82,7 @@ public class CityGarageFragment extends Fragment {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         GrageInfo grage = dataSnapshot.getValue(GrageInfo.class);
                         grageInfos.add(grage);
+                        Log.i("gfsgerytet" , grage.getNameEn() + " " + grageInfos.size());
                     }
                     setMarkersGarage.setMarkersMap(grageInfos);
                 }

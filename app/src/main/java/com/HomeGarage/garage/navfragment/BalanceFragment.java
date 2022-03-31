@@ -52,15 +52,12 @@ public class BalanceFragment extends Fragment {
         balanceTxt.setText(String.format("%.2f",balance)+" " + getString(R.string.eg));
 
         button =  root.findViewById(R.id.btn_purchase_now);
-        button.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                 transaction.replace(R.id.fragmentContainerView,new PayFragment());
-                 transaction.addToBackStack(null);
-                 transaction.commit();
-             }
-         });
+        button.setOnClickListener(v -> {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView,new PayFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
         return root;
     }
 

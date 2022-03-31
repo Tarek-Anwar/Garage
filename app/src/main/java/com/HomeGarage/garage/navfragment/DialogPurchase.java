@@ -52,7 +52,7 @@ public class DialogPurchase extends DialogFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_dialog_purchase, container, false);
 
-        String bal = getActivity().getString(R.string.balance);
+        String eg = getActivity().getString(R.string.eg);
         amount = root.findViewById(R.id.amount_puchase);
         pushece = root.findViewById(R.id.btn_pushase_card);
         balace = root.findViewById(R.id.balance_dialog);
@@ -63,7 +63,7 @@ public class DialogPurchase extends DialogFragment {
         toast.setGravity(Gravity.CENTER,0,0);
         toast.setView(view);
 
-        getBalance(f -> balace.setText( bal +" : " +String.format("%.2f",f)  +" E.g"));
+        getBalance(f -> balace.setText(String.format("%.2f",f)  +eg));
 
         pushece.setOnClickListener(v -> {
 

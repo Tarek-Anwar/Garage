@@ -30,7 +30,6 @@ public class CustomInfoWindowAdpter implements GoogleMap.InfoWindowAdapter {
         }
         String snippet = marker.getSnippet();
         TextView tvSnippet = view.findViewById(R.id.body_garage_info);
-
         if(snippet!=null){
             tvSnippet.setText(snippet);
         }

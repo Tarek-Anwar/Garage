@@ -36,11 +36,12 @@ import java.util.Objects;
 public class MapsFragment extends Fragment {
 
     SupportMapFragment mapFragment;
-    private  ArrayList<GrageInfo> grageInfos = null;
+    private  ArrayList<GrageInfo> grageInfos ;
     private  LatLng locationMe = null;
     private  String gover;
     private  String title , snippet ;
     private  List<Marker> markers = new ArrayList<>();
+    boolean  cityCheck = true;
     private final OnMapReadyCallback callback = googleMap -> {
 
         if (locationMe!=null && title!=null)  {
@@ -51,17 +52,21 @@ public class MapsFragment extends Fragment {
             setMarkersOnMap(googleMap);
         }else if(gover!=null)setMarkersOnMap(googleMap);
 
-        getAllGarage(grageInfos -> {
-            this.grageInfos=grageInfos;
-            if(locationMe!=null) setMarkersOnMap(googleMap);
-        });
+        if(cityCheck) {
+            getAllGarage(grageInfos -> {
+                if (locationMe != null) {
+                    setMarkersOnMap(googleMap);
+                    this.grageInfos = grageInfos;
+                }
+            });
+        }
 
         if (locationMe != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 12));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 10));
             googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
         }else if(gover!=null){
             for(Marker m : markers) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 13.5f));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(m.getPosition(), 11.2f));
                 googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
             }
         }
@@ -83,26 +88,23 @@ public class MapsFragment extends Fragment {
 
     public MapsFragment(){ }
 
-    public void setMarkers(ArrayList<GrageInfo> grageInfos){
-        this.grageInfos=grageInfos;
-        Log.i("werxcerer" , grageInfos.size()+"");
+    public void setMarkers(ArrayList<GrageInfo> grageInfos , boolean cityCheck){
+        this.grageInfos = grageInfos;
+        this.cityCheck = cityCheck;
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
     }
     public void setLocationMe(LatLng locationMe){
         this.locationMe = locationMe;
-        Log.i("werxcerer" , locationMe.toString());
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
     }
     public void setGover(String gover){
         this.gover=gover;
-        Log.i("werxcerer" , gover);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }
+
     }
     public void setTitle(String title , String snippet){
         this.title = title;
@@ -127,19 +129,27 @@ public class MapsFragment extends Fragment {
     void setMarkersOnMap(GoogleMap googleMap){
         if (grageInfos != null) {
             for (int i = 0; i < grageInfos.size(); i++) {
-                int numOfRate = grageInfos.get(i).getNumOfRatings();
-                String name ;
-                if(Locale.getDefault().getLanguage().equals("en")) name = grageInfos.get(i).getNameEn();
-                else name = grageInfos.get(i).getNameAr();
-                String snippet = (grageInfos.get(i).getRate()/numOfRate) + " ( " +numOfRate+" "+" rates "+" )";
-                Marker marker = googleMap.addMarker(new MarkerOptions()
-                        .position(grageInfos.get(i).getLatLngGarage())
-                        .title(name)
-                        .snippet(snippet)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                assert marker != null;
-                marker.setTag(i);
-                markers.add(marker);
+                double distentGarage = 0;
+                if(cityCheck){
+                    double lat = grageInfos.get(i).getLatLngGarage().latitude;
+                    double lon = grageInfos.get(i).getLatLngGarage().longitude;
+                    distentGarage = distance(locationMe.latitude,locationMe.longitude,lon,lat);
+                }
+                if(distentGarage<13 || cityCheck==false){
+                    int numOfRate = grageInfos.get(i).getNumOfRatings();
+                    String name ;
+                    if(Locale.getDefault().getLanguage().equals("en")) name = grageInfos.get(i).getNameEn();
+                    else name = grageInfos.get(i).getNameAr();
+                    String snippet = (grageInfos.get(i).getRate()/(2*numOfRate)) + " ( " +numOfRate+" "+" rates "+" )";
+                    Marker marker = googleMap.addMarker(new MarkerOptions()
+                            .position(grageInfos.get(i).getLatLngGarage())
+                            .title(name)
+                            .snippet(snippet)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    assert marker != null;
+                    marker.setTag(i);
+                    markers.add(marker);
+               }
             }
         }
     }
@@ -154,7 +164,6 @@ public class MapsFragment extends Fragment {
                     for (DataSnapshot item : snapshot.getChildren()) {
                         GrageInfo info = item.getValue(GrageInfo.class);
                         grageInfos.add(info);
-                        snapshot.getKey();
                     }
                     callback.onDataReceived(grageInfos);
                 }
@@ -164,4 +173,24 @@ public class MapsFragment extends Fragment {
         });
     }
 
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
 }

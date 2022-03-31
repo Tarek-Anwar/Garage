@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     private DrawerLayout drawerLayout;
     private RecyclerView   recyclerGover ;
     private LinearLayout  layoutlast;
-    private View seeAllOper , locationGet;
+    private View seeAllOper , locationGet , opne_nave;
     private GovernorateAdapter governorateAdapter;
     private TextView govetLocation;
     private FragmentContainerView fragmentContainer;
@@ -91,6 +91,8 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         root.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
                 drawerLayout.open(); } });
+
+        opne_nave.setOnClickListener(v -> drawerLayout.open());
 
         preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
         boolean locationget = preferences.getBoolean(SettingFragment.LOCATIOON_SETTINNG,false);
@@ -151,6 +153,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         governorateAdapter = new GovernorateAdapter(this::onGoverListener);
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         recyclerGover.setAdapter(governorateAdapter);
+
         return root;
     }
 
@@ -174,6 +177,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         locationGet = v.findViewById(R.id.get_location);
         govetLocation = v.findViewById(R.id.txt_govet_location);
         fragmentContainer = v.findViewById(R.id.fragmentContainerMap);
+        opne_nave = v.findViewById(R.id.opne_nave);
     }
 
     private void enableLoaction(){

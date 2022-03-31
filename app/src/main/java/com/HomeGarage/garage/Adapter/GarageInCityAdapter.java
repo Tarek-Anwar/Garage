@@ -72,8 +72,8 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
             }else { name.setText(info.getNameAr()); }
             price.setText(info.getPriceForHour()+egPound);
             if(info.getNumOfRatings()!=0) {
-                float ratting = info.getRate() /((float) info.getNumOfRatings());
-                rate.setText(String.format("%.2f",ratting));
+                float ratting = info.getRate() / (2*info.getNumOfRatings());
+                rate.setText(String.format("%.2f", ratting));
                 numOfRats.setText( " ( "+info.getNumOfRatings() +ratings);
             }else { numOfRats.setText(nonRate); }
 

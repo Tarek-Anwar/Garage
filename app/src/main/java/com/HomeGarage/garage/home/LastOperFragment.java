@@ -23,6 +23,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LastOperFragment extends Fragment {
 
@@ -123,6 +124,7 @@ public class LastOperFragment extends Fragment {
                             lastOpereations.add(opreation);
                         }
                     }
+                    Collections.reverse(lastOpereations);
                     callback.countOpereCallback(lastOpereations);
                 }
             }

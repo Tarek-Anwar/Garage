@@ -58,7 +58,7 @@ public class OperationsFragment extends Fragment {
         time.setText(opreation.getDate()+"");
         price.setText(opreation.getPrice()+" E.G.");
         state.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
-        if(opreation.getRate()!=0){ rate.setText(opreation.getRate()+""); }else { rate.setText("!"); }
+        if(opreation.getRate()!=0){ rate.setText((opreation.getRate()/2)+""); }else { rate.setText("!"); }
         if(opreation.getDataEnd()!=null) timeEnd.setText(opreation.getDataEnd());
         else timeEnd.setText("!");
     }
