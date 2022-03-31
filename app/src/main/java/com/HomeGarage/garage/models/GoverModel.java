@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.models;
+package com.HomeGarage.garage.models;
 
 public class GoverModel {
     private String governorate_name_ar, governorate_name_en;

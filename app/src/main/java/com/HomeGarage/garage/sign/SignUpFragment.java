@@ -8,7 +8,6 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.home.models.CarInfo;
-import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
+import com.HomeGarage.garage.models.CarInfo;
+import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.setting.SettingFragment;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;

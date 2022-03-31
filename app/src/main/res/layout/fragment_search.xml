@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layoutDescription="@xml/fragment_search_scene"
-    tools:context=".home.search.SearchFragment">
+    tools:context=".search.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchGrages"
@@ -43,16 +43,16 @@
             android:id="@+id/govRB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="governoate"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="32dp"
+            android:text="governoate"
             />
         <RadioButton
             android:id="@+id/cityRB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="city"
             android:layout_marginStart="12dp"
+            android:text="city"
             />
 
     </RadioGroup>

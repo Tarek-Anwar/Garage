@@ -1,14 +1,9 @@
 package com.HomeGarage.garage.service;
 
-
-import android.app.Activity;
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -20,17 +15,14 @@ import java.util.Map;
 
 public class FcmNotificationsSender  {
 
+    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
+    private final String fcmServerKey ="AAAAyqSchTQ:APA91bGjkuA9FNg2MZKjq2u4SN3mtkQMGzqTQ93AmTGCXPS-FGmpKVxHPnoHNJAuV9bNCMNs9YH9uJ8UaOcrmFI_FgcGIGrx2qMy2tInT9FJdHVjVkG4czCDKi30uv4dUxLsnb1V2ttg";
     String userFcmToken;
     String title;
     String body;
     String id_reser;
     Context mContext;
-
-
-
     private RequestQueue requestQueue;
-    private final String postUrl = "https://fcm.googleapis.com/fcm/send";
-    private final String fcmServerKey ="AAAAyqSchTQ:APA91bGjkuA9FNg2MZKjq2u4SN3mtkQMGzqTQ93AmTGCXPS-FGmpKVxHPnoHNJAuV9bNCMNs9YH9uJ8UaOcrmFI_FgcGIGrx2qMy2tInT9FJdHVjVkG4czCDKi30uv4dUxLsnb1V2ttg";
 
     public FcmNotificationsSender(String userFcmToken, String title, String body,String id_reser, Context mContext) {
         this.userFcmToken = userFcmToken;

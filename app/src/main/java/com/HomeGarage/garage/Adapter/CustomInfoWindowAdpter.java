@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

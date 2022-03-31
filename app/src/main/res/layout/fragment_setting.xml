@@ -14,7 +14,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:text="get location automatic"
+        android:minHeight="48dp"
+        android:text="@string/get_location_automatic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +27,37 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Cities with only garages"
+        android:minHeight="48dp"
+        android:text="@string/cities_with_only_garages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_automatic" />
+
+    <RadioGroup
+        android:id="@+id/lang_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_all_garage">
+
+        <RadioButton
+            android:id="@+id/arab_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/arabic" />
+
+        <RadioButton
+            android:id="@+id/eng_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="32dp" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

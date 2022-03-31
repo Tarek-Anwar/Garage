@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.navfragment;
+package com.HomeGarage.garage.navfragment;
 
 import android.content.Context;
 import android.view.GestureDetector;
@@ -17,6 +17,22 @@ public class OnSwipeTouchListener implements  View.OnTouchListener{
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         return gestureDetector.onTouchEvent(motionEvent);
+    }
+
+    public void onSwipeRight() {
+
+    }
+
+    public void onSwipeLeft() {
+
+    }
+
+    public void onSwipeTop() {
+
+    }
+
+    public void onSwipeBottom() {
+
     }
 
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -59,22 +75,6 @@ public class OnSwipeTouchListener implements  View.OnTouchListener{
             return result;
 
         }
-
-    }
-
-    public void onSwipeRight() {
-
-    }
-
-    public void onSwipeLeft() {
-
-    }
-
-    public void onSwipeTop() {
-
-    }
-
-    public void onSwipeBottom() {
 
     }
 

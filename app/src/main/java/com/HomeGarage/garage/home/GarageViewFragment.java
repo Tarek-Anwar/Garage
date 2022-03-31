@@ -14,8 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.reservation.ConfarmResrerFragment;
+import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.reservation.ConfarmResrerFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,10 +26,10 @@ import java.util.Locale;
 public class GarageViewFragment extends Fragment {
 
     GrageInfo grageInfo;
-    private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
     Button orderGarage;
     DatabaseReference garageReference ;
     com.chaek.android.RatingBar ratingBar;
+    private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
 
 
     public GarageViewFragment(GrageInfo grageInfo) {
@@ -111,12 +111,12 @@ public class GarageViewFragment extends Fragment {
         });
     }
 
-    interface Rate { void onGarageGet(GrageInfo grageInfo);}
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("saveBalance" , grageInfo.getId());
     }
+
+    interface Rate { void onGarageGet(GrageInfo grageInfo);}
 
 }

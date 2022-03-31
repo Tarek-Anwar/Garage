@@ -5,11 +5,11 @@
     android:id="@+id/frameLayout10"
     android:layout_width="300dp"
     android:layout_height="250dp"
-    android:maxHeight="350dp"
-    android:maxWidth="300dp"
-    android:orientation="vertical"
     android:gravity="center"
-    tools:context=".home.navfragment.DialogPurchase">
+    android:maxWidth="300dp"
+    android:maxHeight="350dp"
+    android:orientation="vertical"
+    tools:context=".navfragment.DialogPurchase">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/puchase_textfield"
@@ -32,12 +32,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:layout_margin="10dp"
         android:id="@+id/balance_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Balance 500 EG"
+        android:layout_margin="10dp"
         android:textColor="@color/orange"
+        tools:text="Balance 500 EG"
         />
     <Button
         android:id="@+id/btn_pushase_card"

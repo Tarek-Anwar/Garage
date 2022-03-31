@@ -1,7 +1,6 @@
 package com.HomeGarage.garage.home;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,49 +25,36 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.Adapter.GovernorateAdapter;
-import com.HomeGarage.garage.home.location.GoverGarageFragment;
-import com.HomeGarage.garage.home.location.LocationGetFragment;
-import com.HomeGarage.garage.home.models.CityModel;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.navfragment.OnSwipeTouchListener;
+import com.HomeGarage.garage.location.GoverGarageFragment;
+import com.HomeGarage.garage.location.LocationGetFragment;
+import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class HomeFragment extends Fragment implements GovernorateAdapter.GoverListener  {
 
-    private final int locationRequestCode = 1;
     public static LatLng curentLocation = null;
     public static String curentGover = null;
-
+    private final int locationRequestCode = 1;
+    MapsFragment mapsFragment;
+    MapSetLocation setLocation;
     private DrawerLayout drawerLayout;
     private RecyclerView   recyclerGover ;
     private LinearLayout  layoutlast;
@@ -81,9 +66,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     private SharedPreferences preferences ;
     private ActivityResultLauncher<Object> launcher;
     private Geocoder geocoder;
-
-    MapsFragment mapsFragment;
-    MapSetLocation setLocation;
 
     public HomeFragment(){ }
 
@@ -163,7 +145,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
             fragmentView.setCount(3);
         }
 
-        seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(0)));
+        seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(1)));
 
         //Gover item
         governorateAdapter = new GovernorateAdapter(this::onGoverListener);
@@ -193,8 +175,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         govetLocation = v.findViewById(R.id.txt_govet_location);
         fragmentContainer = v.findViewById(R.id.fragmentContainerMap);
     }
-
-    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfo> grageInfos);}
 
     private void enableLoaction(){
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -238,6 +218,8 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
                 }, Looper.getMainLooper());
         }
     }
+
+    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfo> grageInfos);}
 
     interface MapSetLocation{
         void onMapSetLocation(LatLng latLng);

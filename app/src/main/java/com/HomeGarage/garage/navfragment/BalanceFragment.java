@@ -1,6 +1,11 @@
-package com.HomeGarage.garage.home.navfragment;
+package com.HomeGarage.garage.navfragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,15 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import com.HomeGarage.garage.Adapter.BalanceAdapter;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.Adapter.BalanceAdapter;
 
 
 public class BalanceFragment extends Fragment {

@@ -51,8 +51,8 @@
     <string name="edit_address">تعديل العنوان</string>
     <string name="edit_info">تعديل البيانات</string>
     <string name="save">حفظ</string>
-    <string name="time_start">وقت بداية الحجز</string>
-    <string name="time_end">الوقت المتوقع للانتهاء</string>
+    <string name="time_start">"وقت بداية "</string>
+    <string name="time_end">الوقت الانتهاء</string>
     <string name="expected_price">السعر المتوقع</string>
     <string name="reservation_now">احجز الان</string>
     <string name="expected_hour">عدد الساعات للحجز</string>
@@ -109,5 +109,16 @@
     <string name="me_location">موقعي</string>
     <string name="time_past">الوقت في الماضي</string>
     <string name="booking_expired">الحجز انتهى</string>
-    <string name="purchase">purchase</string>
+    <string name="purchase">شراء</string>
+    <string name="english">English</string>
+    <string name="arabic">العربية</string>
+    <string name="get_location_automatic">الحصول علي الموقع تلقائي</string>
+    <string name="cities_with_only_garages">المدن التي بقا جراشات فقط</string>
+    <string name="your_balance">رصيدك</string>
+    <string name="cost_reservation">تكلفة الحجز</string>
+    <string name="all_garage_in_city">كل الجراشات في المدينة</string>
+    <string name="search_city">البحث في المدينة</string>
+    <string name="round_time">الدوره</string>
+    <string name="total">الاجمالي</string>
+    <string name="Sorry_no_operations_yet">معذره , لا يوجد عمليات لديك حتي الان</string>
 </resources>

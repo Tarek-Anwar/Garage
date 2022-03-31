@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.search;
+package com.HomeGarage.garage.search;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,20 +8,18 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-
-import androidx.appcompat.widget.SearchView;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.HomeGarage.garage.Adapter.SearchAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.home.GarageViewFragment;
-import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.Adapter.SearchAdapter;
+import com.HomeGarage.garage.home.GarageViewFragment;
+import com.HomeGarage.garage.models.GrageInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -124,8 +122,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
 
                 searchAdapter.setGrageInfos(grageInfos);
     }*/
-    private void getChecked()
-    {
+    private void getChecked(){
         group.clearCheck();
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

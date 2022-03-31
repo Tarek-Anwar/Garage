@@ -1,8 +1,6 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.PurchaseModel;
+import com.HomeGarage.garage.models.PurchaseModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +30,9 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
     ArrayList<PurchaseModel> purchaseModels;
     DatabaseReference reference;
     Context context;
+    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
+    SimpleDateFormat formatterData =new SimpleDateFormat("dd/MM/yyyy" , new Locale("en"));
+    SimpleDateFormat formattertime =new SimpleDateFormat("hh:mm:ss aa" , new Locale("en"));
 
     public  BalanceAdapter(Context context ){
         this.context = context;
@@ -71,10 +72,6 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
     public int getItemCount() {
         return purchaseModels.size();
     }
-
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-    SimpleDateFormat formatterData =new SimpleDateFormat("dd/MM/yyyy" , new Locale("en"));
-    SimpleDateFormat formattertime =new SimpleDateFormat("hh:mm:ss aa" , new Locale("en"));
 
     public class BalaceViewHolder extends RecyclerView.ViewHolder{
         TextView type , to ,value , date , time;

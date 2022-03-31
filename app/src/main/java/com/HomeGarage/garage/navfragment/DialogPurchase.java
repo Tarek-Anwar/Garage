@@ -1,7 +1,6 @@
-package com.HomeGarage.garage.home.navfragment;
+package com.HomeGarage.garage.navfragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,14 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.home.models.PurchaseModel;
+import com.HomeGarage.garage.models.PurchaseModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

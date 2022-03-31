@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.models;
+package com.HomeGarage.garage.models;
 
 public class CityModel {
 

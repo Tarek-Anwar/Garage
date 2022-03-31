@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.location;
+package com.HomeGarage.garage.location;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.Adapter.CityAdapter;
-import com.HomeGarage.garage.home.models.CityModel;
+import com.HomeGarage.garage.Adapter.CityAdapter;
+import com.HomeGarage.garage.models.CityModel;
 import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

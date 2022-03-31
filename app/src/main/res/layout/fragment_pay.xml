@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout9"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.navfragment.PayFragment">
+    tools:context=".navfragment.PayFragment">
 
     <com.braintreepayments.cardform.view.CardForm
         android:id="@+id/card_form"

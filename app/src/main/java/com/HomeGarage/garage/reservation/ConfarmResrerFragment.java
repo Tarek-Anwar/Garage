@@ -1,18 +1,11 @@
-package com.HomeGarage.garage.home.reservation;
+package com.HomeGarage.garage.reservation;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -23,17 +16,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.Opreation;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.firebase.database.DatabaseReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 

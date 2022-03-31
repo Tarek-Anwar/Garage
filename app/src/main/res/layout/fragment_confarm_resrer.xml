@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/picekine_linear"
-    tools:context=".home.reservation.ConfarmResrerFragment" >
+    tools:context=".reservation.ConfarmResrerFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,26 +28,26 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reservation_scheduling"
                 android:layout_margin="10dp"
+                android:text="@string/reservation_scheduling"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="25dp"
-                android:layout_gravity="center"
                 app:cardElevation="15dp">
 
                 <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
                     android:id="@+id/single_day_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:layout_gravity="center"
                     app:picker_curved="true"
                     app:picker_curvedMaxAngle="45"
                     app:picker_cyclic="false"
@@ -66,9 +66,9 @@
                 android:id="@+id/btn_reser_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:backgroundTint="@color/white"
                 android:text="@string/reservation"
-                android:layout_margin="10dp"
                 android:textColor="@color/orange" />
 
 

@@ -106,17 +106,17 @@
             app:layout_constraintTop_toTopOf="@+id/card_phone_view">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
                 <LinearLayout
-                    android:layout_margin="3dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:gravity="center"
+                    android:layout_margin="3dp"
                     android:background="@drawable/circle_location2"
-                    android:backgroundTint="@color/white">
+                    android:backgroundTint="@color/white"
+                    android:gravity="center">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -127,20 +127,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
                     android:layout_margin="3dp"
-                    android:text="@string/price_for_hour"/>
+                    android:text="@string/price_for_hour"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/price_garage_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/price_garage_view"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="2dp"
-                    android:textSize="12sp"
                     android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
                     tools:text="60 E.G" />
             </LinearLayout>
 
@@ -159,17 +159,17 @@
             app:layout_constraintTop_toBottomOf="@+id/card_phone_view">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
                 <LinearLayout
-                    android:layout_margin="3dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:gravity="center"
+                    android:layout_margin="3dp"
                     android:background="@drawable/circle_location2"
-                    android:backgroundTint="@color/white">
+                    android:backgroundTint="@color/white"
+                    android:gravity="center">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -180,19 +180,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
                     android:layout_margin="3dp"
-                    android:text="@string/address"/>
+                    android:text="@string/address"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/address_garage_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/address_garage_view"
-                    android:textColor="@color/white"
-                    android:lineSpacingExtra="2dp"
-                    android:textSize="12sp"
                     android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
                     tools:text="-Garabia\n-El Mahalla el Khobra\n-street el bkhr betwee el center" />
             </LinearLayout>
 
@@ -211,17 +211,17 @@
             app:layout_constraintTop_toTopOf="@+id/card_address_view">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rate"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
 
                 <com.chaek.android.RatingBar
                     android:id="@+id/rate_garage"

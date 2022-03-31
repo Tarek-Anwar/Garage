@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.location;
+package com.HomeGarage.garage.location;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.Adapter.GarageInCityAdapter;
+import com.HomeGarage.garage.Adapter.GarageInCityAdapter;
 import com.HomeGarage.garage.home.GarageViewFragment;
-import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.home.MapsFragment;
-import com.HomeGarage.garage.home.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;

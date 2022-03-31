@@ -2,13 +2,10 @@ package com.HomeGarage.garage;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.HomeGarage.garage.home.models.CarInfo;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.models.CarInfo;
+import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.Opreation;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;

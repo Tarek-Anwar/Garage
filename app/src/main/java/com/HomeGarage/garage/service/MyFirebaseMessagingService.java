@@ -21,8 +21,8 @@ import java.util.Objects;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
-    private final static String default_notification_channel_id = "default" ;
     public static final String ID_OPERATTON = "ID_OPERATTON";
+    private final static String default_notification_channel_id = "default" ;
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {

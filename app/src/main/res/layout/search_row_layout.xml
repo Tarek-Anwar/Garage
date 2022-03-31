@@ -22,24 +22,24 @@
         android:id="@+id/layout_garage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="bottom"
         android:background="@drawable/background_garage"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="@id/image_garage_city"
         app:layout_constraintEnd_toEndOf="@id/image_garage_city"
         app:layout_constraintStart_toStartOf="@+id/image_garage_city"
-        app:layout_constraintTop_toTopOf="@id/image_garage_city"
-        android:orientation="vertical"
-        android:padding="12dp">
+        app:layout_constraintTop_toTopOf="@id/image_garage_city">
 
 
         <TextView
             android:id="@+id/txt_name_garage"
-            android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Garage Name"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:textColor="@color/white" />
+            tools:text="Garage Name" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -62,9 +62,9 @@
                     android:id="@+id/rate_req_garage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
                     android:textColor="@color/orange"
                     android:textSize="12sp"
-                    android:layout_margin="3dp"
                     android:textStyle="bold"
                     tools:text="4.9" />
 
@@ -94,9 +94,9 @@
                     android:id="@+id/price_garage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
                     android:textColor="@color/orange"
                     android:textSize="14sp"
-                    android:layout_margin="3dp"
                     android:textStyle="bold"
                     tools:text="60 E.G." />
 

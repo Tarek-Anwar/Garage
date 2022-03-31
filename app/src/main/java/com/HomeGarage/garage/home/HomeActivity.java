@@ -1,10 +1,10 @@
 package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -24,13 +24,12 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
-import com.HomeGarage.garage.home.models.CarInfo;
-import com.HomeGarage.garage.home.models.Opreation;
-import com.HomeGarage.garage.home.navfragment.BalanceFragment;
-import com.HomeGarage.garage.home.navfragment.PayFragment;
-import com.HomeGarage.garage.home.reservation.RequstActiveFragment;
+import com.HomeGarage.garage.models.CarInfo;
+import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.navfragment.BalanceFragment;
+import com.HomeGarage.garage.navfragment.PayFragment;
+import com.HomeGarage.garage.reservation.RequstActiveFragment;
 import com.HomeGarage.garage.setting.SettingFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,17 +41,19 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity  {
 
+    ArrayList<CarInfo> carInfoUtil ;
+    ActivityHomeBinding binding;
+    float currnetBalance;
+    SharedPreferences preferences;
     private DrawerLayout drawerLayout;
     private TextView name ,email , phone , balance ;
     private ImageView img_profile , logout , info , setting;
     private LinearLayout payment , infoBalance;
-    ArrayList<CarInfo> carInfoUtil ;
     private FirebaseUser  user;
-    ActivityHomeBinding binding;
-    float currnetBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,10 @@ public class HomeActivity extends AppCompatActivity  {
 
         FirebaseUtil.getInstence("CarInfo" , "Operation","GaragerOnwerInfo");
         user = FirebaseUtil.firebaseAuth.getCurrentUser();
+        preferences =  getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
+        String lang = preferences.getString(SettingFragment.LANG_APP,"en");
+        if(lang.equals("en")) resterLang("en");
+        else resterLang("ar");
 
         checkResetvation(opreation -> {
             if(!getSupportFragmentManager().isDestroyed()){
@@ -93,7 +98,7 @@ public class HomeActivity extends AppCompatActivity  {
         });
 
         logout.setOnClickListener(v12 -> {
-            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.apply();
             FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
@@ -189,7 +194,6 @@ public class HomeActivity extends AppCompatActivity  {
                                 || opreation.getPrice() < 0) {
                             callback.onCheckResetvation(opreation);
                         }
-
                     }
                 }
             }
@@ -198,15 +202,21 @@ public class HomeActivity extends AppCompatActivity  {
         });
     }
 
-    private interface checkResetvationCallback{
-        void onCheckResetvation(Opreation opreation);
-    }
-
-
-    private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
-
     private void showImage(String url) {
         if (url != null && !url.isEmpty()) {
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
             Picasso.get().load(url).resize(width, width).centerCrop().into(img_profile); } }
+
+    private void resterLang(String lang){
+        Configuration resources = getApplicationContext().getResources().getConfiguration();
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        resources.locale = locale;
+        getBaseContext().getResources().updateConfiguration(resources,
+                getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    private interface checkResetvationCallback{ void onCheckResetvation(Opreation opreation);}
+
+    private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
 }

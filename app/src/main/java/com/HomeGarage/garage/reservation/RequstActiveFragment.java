@@ -1,6 +1,5 @@
-package com.HomeGarage.garage.home.reservation;
+package com.HomeGarage.garage.reservation;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,13 +15,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
-import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.Opreation;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -143,6 +140,7 @@ public class RequstActiveFragment extends Fragment {
                             }
                             opreation.setState("3");
                             opreation.setType("4");
+                            opreation.setDataEnd(formatterLong.format(System.currentTimeMillis()));
                             refOperation.setValue(opreation);
                             binding.chronometer.stop();
 
@@ -152,13 +150,17 @@ public class RequstActiveFragment extends Fragment {
                             notificationsSender.SendNotifications();
 
                             if(getActivity()!=null){
+                                FragmentManager fm = activity.getSupportFragmentManager();
+                                while (fm.getBackStackEntryCount() != 0) {
+                                    FragmentManager.BackStackEntry entry = activity.getSupportFragmentManager().getBackStackEntryAt(0);
+                                    activity.getSupportFragmentManager().popBackStack(entry.getId(),
+                                            FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    activity.getSupportFragmentManager().executePendingTransactions();
+                                }
                                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                 transaction.replace(R.id.fragmentContainerView, new HomeFragment());
                                 transaction.commit();
                             }
-                            /*Intent intent = new Intent(activity, HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);*/
                         });
                     }
 
@@ -272,16 +274,11 @@ public class RequstActiveFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Opreation opreation = snapshot.getValue(Opreation.class);
-               callback.onBalaceChange(opreation);
+                if(opreation!=null) callback.onBalaceChange(opreation);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         });
-    }
-
-    private interface OnGrageReciveCallback{
-        void OnGrageRecive(GrageInfo  grageInfo);
-        void onBalaceChange(Opreation opreation);
     }
 
     private float calPriceExpect(Float f , String s_time , String e_time){
@@ -302,6 +299,11 @@ public class RequstActiveFragment extends Fragment {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, fragment);
         transaction.commit();
+    }
+
+    private interface OnGrageReciveCallback{
+        void OnGrageRecive(GrageInfo  grageInfo);
+        void onBalaceChange(Opreation opreation);
     }
 
 }

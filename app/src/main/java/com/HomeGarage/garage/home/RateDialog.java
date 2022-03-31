@@ -14,12 +14,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
+import com.HomeGarage.garage.models.GrageInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class RateDialog extends DialogFragment {

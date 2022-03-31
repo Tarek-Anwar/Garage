@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.location.CityGarageFragment">
+    tools:context=".location.CityGarageFragment">
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -12,8 +12,8 @@
         android:name="com.HomeGarage.garage.home.MapsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:elevation="5dp"
         android:layout_marginBottom="100dp"
+        android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,9 +25,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="-120dp"
+        android:elevation="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="30dp"
-        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

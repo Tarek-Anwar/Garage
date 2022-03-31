@@ -1,8 +1,7 @@
-package com.HomeGarage.garage.home.reservation;
+package com.HomeGarage.garage.reservation;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +19,10 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.home.RateDialog;
-import com.HomeGarage.garage.home.models.CarInfo;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.HomeGarage.garage.home.models.Opreation;
-import com.HomeGarage.garage.home.models.PurchaseModel;
-import com.HomeGarage.garage.home.navfragment.PayFragment;
+import com.HomeGarage.garage.models.CarInfo;
+import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.PurchaseModel;
+import com.HomeGarage.garage.navfragment.PayFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

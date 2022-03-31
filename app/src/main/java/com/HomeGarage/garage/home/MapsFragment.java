@@ -11,10 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.HomeGarage.garage.Adapter.CustomInfoWindowAdpter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.Adapter.CustomInfoWindowAdpter;
-import com.HomeGarage.garage.home.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,15 +35,12 @@ import java.util.Objects;
 
 public class MapsFragment extends Fragment {
 
+    SupportMapFragment mapFragment;
     private  ArrayList<GrageInfo> grageInfos = null;
     private  LatLng locationMe = null;
     private  String gover;
     private  String title , snippet ;
     private  List<Marker> markers = new ArrayList<>();
-    SupportMapFragment mapFragment;
-
-    public MapsFragment(){ }
-
     private final OnMapReadyCallback callback = googleMap -> {
 
         if (locationMe!=null && title!=null)  {
@@ -83,6 +80,8 @@ public class MapsFragment extends Fragment {
             }
         });
     };
+
+    public MapsFragment(){ }
 
     public void setMarkers(ArrayList<GrageInfo> grageInfos){
         this.grageInfos=grageInfos;

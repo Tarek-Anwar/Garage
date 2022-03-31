@@ -72,7 +72,6 @@
             app:layout_constraintStart_toStartOf="@+id/get_location"
             app:layout_constraintTop_toBottomOf="@+id/get_location" />
 
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerMap"
             android:name="com.HomeGarage.garage.home.MapsFragment"
@@ -145,7 +144,6 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_govet_location" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -55,8 +55,8 @@
     <string name="edit_address">Edit Address</string>
     <string name="edit_info">Edit Information</string>
     <string name="save">Save</string>
-    <string name="time_start">Time Start Reservation</string>
-    <string name="time_end">Expected time to finish</string>
+    <string name="time_start">Time Start</string>
+    <string name="time_end">Time End</string>
     <string name="expected_price">Expected Price</string>
     <string name="reservation_now">Reservation Now</string>
     <string name="expected_hour">Hour to Reservation</string>
@@ -120,5 +120,10 @@
     <string name="cost_reservation">Cost Reservation</string>
     <string name="your_balance">YOUR  BALANCE</string>
     <string name="purchase">purchase</string>
+    <string name="arabic">العربية</string>
+    <string name="english">English</string>
+    <string name="get_location_automatic">get location automatic</string>
+    <string name="cities_with_only_garages">Cities with only garages</string>
+    <string name="Sorry_no_operations_yet">Sorry, you have no operations yet</string>
 
 </resources>

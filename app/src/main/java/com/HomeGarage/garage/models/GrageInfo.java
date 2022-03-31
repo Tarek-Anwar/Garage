@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.models;
+package com.HomeGarage.garage.models;
 
 
 import com.google.android.gms.maps.model.LatLng;

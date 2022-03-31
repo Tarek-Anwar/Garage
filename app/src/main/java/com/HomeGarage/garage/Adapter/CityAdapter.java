@@ -1,65 +1,26 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.CityModel;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.HomeGarage.garage.models.CityModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder>  implements Filterable {
 
     ArrayList<CityModel> cityList ;
     ArrayList<CityModel> cityFilter;
     CityListener cityListener;
-
-    public CityAdapter(ArrayList<CityModel> cityList , CityListener cityListener){
-        this.cityListener = cityListener;
-        this.cityList=cityList;
-        cityFilter = new ArrayList<>(cityList);
-        notifyDataSetChanged();
-
-    }
-    @NonNull
-    @Override
-    public CityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.city_in_cover_row,parent,false);
-        return new CityViewHolder(root);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
-        holder.BulidUI(cityList.get(position));
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return cityList.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -83,6 +44,39 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
             notifyDataSetChanged();
         }
     };
+    public CityAdapter(ArrayList<CityModel> cityList , CityListener cityListener){
+        this.cityListener = cityListener;
+        this.cityList=cityList;
+        cityFilter = new ArrayList<>(cityList);
+        notifyDataSetChanged();
+
+    }
+
+    @NonNull
+    @Override
+    public CityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.city_in_cover_row,parent,false);
+        return new CityViewHolder(root);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
+        holder.BulidUI(cityList.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return cityList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public interface CityListener{
+        void onCityListener(CityModel cityModel);
+    }
 
     public class CityViewHolder extends RecyclerView.ViewHolder {
         TextView cityName , numOfGarage;
@@ -102,9 +96,5 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
                 numOfGarage.setText(cityModel.getNumberGarage()+" Garages"); }
             layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModel));
         }
-    }
-
-    public interface CityListener{
-        void onCityListener(CityModel cityModel);
     }
 }

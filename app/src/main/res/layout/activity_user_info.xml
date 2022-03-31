@@ -30,14 +30,14 @@
         android:id="@+id/imageEdit"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:contentDescription="@string/edit"
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.639"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/profile_image"
         app:layout_constraintVertical_bias="0.91"
-        app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
-        android:contentDescription="@string/edit" />
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
 
 
     <LinearLayout
@@ -128,8 +128,8 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_baseline_email_24"
                 android:drawablePadding="10dp"
-                android:textAlignment="viewStart"
                 android:enabled="false"
+                android:textAlignment="viewStart"
                 android:textColor="@color/hed_color" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -156,10 +156,10 @@
                 android:id="@+id/edit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
                 android:drawableStart="@drawable/ic_phone"
                 android:drawablePadding="10dp"
                 android:enabled="false"
+                android:textAlignment="viewStart"
                 android:textColor="@color/hed_color" />
 
         </com.google.android.material.textfield.TextInputLayout>

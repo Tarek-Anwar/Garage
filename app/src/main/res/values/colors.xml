@@ -22,5 +22,6 @@
     <color name="center_bg_garage_colot">#A6150F0F</color>
     <color name="end_bg_garage_color">#00141111</color>
     <color name="balance_color1">#59FC6011</color>
+    <color name="not_last_oper_color">#BFFA983A</color>
 
 </resources>

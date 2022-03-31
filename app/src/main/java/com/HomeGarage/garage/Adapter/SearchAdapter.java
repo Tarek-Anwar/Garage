@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,11 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.home.models.GrageInfo;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.models.GrageInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
@@ -54,6 +53,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return grageInfos.size();
     }
 
+    public interface SearchListener{
+        void  SearchListener(GrageInfo grageInfo);
+    }
+
     protected class SearchViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nameGarage , rate , numOfRats , price ;
@@ -81,9 +84,5 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 searchListener.SearchListener(grageInfo);
             });
         }
-    }
-
-    public interface SearchListener{
-        void  SearchListener(GrageInfo grageInfo);
     }
 }

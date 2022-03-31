@@ -1,8 +1,7 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.GoverModel;
+import com.HomeGarage.garage.models.GoverModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +66,10 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
         return listGoverEn.size();
     }
 
+    public interface GoverListener{
+        void onGoverListener(int pos , String s);
+    }
+
     protected class GovernorateViewHolder extends RecyclerView.ViewHolder {
         TextView nameGaver;
         ImageView imageView;
@@ -98,9 +101,5 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
                         .into(imageView);
             }
         }
-    }
-
-    public interface GoverListener{
-        void onGoverListener(int pos , String s);
     }
 }

@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,13 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.GrageInfo;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.HomeGarage.garage.models.GrageInfo;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -52,6 +47,10 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
         return grageInfos.size();
     }
 
+    public interface GarageLisenter{
+        void  onGarageLisenter(GrageInfo grageInfo);
+    }
+
     public class GarageViewHolder extends RecyclerView.ViewHolder{
         TextView name  , rate , numOfRats , price;
         View viewGarageLisenter;
@@ -80,8 +79,5 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
 
             viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(grageInfos.get(getAdapterPosition())));
         }
-    }
-    public interface GarageLisenter{
-        void  onGarageLisenter(GrageInfo grageInfo);
     }
 }

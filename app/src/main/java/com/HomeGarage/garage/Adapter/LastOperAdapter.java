@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home.Adapter;
+package com.HomeGarage.garage.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.models.Opreation;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.HomeGarage.garage.models.Opreation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,33 +24,14 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     SimpleDateFormat formatter =new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
     ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
     LastOperListener lastOperListener;
-    DatabaseReference reference =  FirebaseUtil.referenceOperattion;
-    Query query ;
-    private int numViewOper = 0;
+    private int numViewOper = 1;
 
-    public LastOperAdapter(LastOperListener lastOperListener, int numViewOper) {
+
+    public LastOperAdapter(ArrayList<Opreation> lastOpereations , int numViewOper, LastOperListener lastOperListener) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
-        query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    lastOpereations.clear();
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if (opreation.getType().equals("5") || (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
-                            lastOpereations.add(opreation);
-                            notifyItemChanged(lastOpereations.size()-1); }
-                    }
-                    notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
+        this.lastOpereations = lastOpereations;
     }
-
 
     @NonNull
     @Override
@@ -71,7 +47,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
    @Override
     public int getItemCount() {
-        if(numViewOper==0){
+        if(numViewOper==1){
             return lastOpereations.size();
         }else {
              if(lastOpereations.size() < 3){
@@ -79,6 +55,10 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
              }
              return 3;
         }
+    }
+
+    public interface LastOperListener{
+        void LastOperListener(Opreation opreation);
     }
 
     protected class LastOperViewHolder extends RecyclerView.ViewHolder{
@@ -110,9 +90,5 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
                 lastOperListener.LastOperListener(opreation);
             });
         }
-    }
-
-    public interface LastOperListener{
-        void LastOperListener(Opreation opreation);
     }
 }
