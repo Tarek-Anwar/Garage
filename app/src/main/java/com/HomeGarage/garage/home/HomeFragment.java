@@ -155,7 +155,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(1)));
 
         //Gover item
-        governorateAdapter = new GovernorateAdapter(this::onGoverListener);
+        governorateAdapter = new GovernorateAdapter(this::onGoverListener , getContext());
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         recyclerGover.setAdapter(governorateAdapter);
 

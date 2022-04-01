@@ -1,11 +1,14 @@
 package com.HomeGarage.garage.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,14 +30,18 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
 
     ArrayList<GoverModel> listGoverEn = new ArrayList<>();
     GoverListener goverListener;
-
-    public GovernorateAdapter(GoverListener goverListener){
+    ProgressDialog  progressDialog;
+    public GovernorateAdapter(GoverListener goverListener , Context context){
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("wait ...");
+        progressDialog.show();
         this.goverListener = goverListener;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Governorate");
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressDialog.dismiss();
                 if (snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
                         GoverModel model = item.getValue(GoverModel.class);
