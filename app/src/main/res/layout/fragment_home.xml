@@ -27,21 +27,21 @@
             android:id="@+id/get_location"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginBottom="-20dp"
+            android:layout_marginBottom="-30dp"
             android:backgroundTint="#C9FFFFFF"
             app:cardCornerRadius="50dp"
-            app:cardElevation="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerMap"
-            app:layout_constraintEnd_toEndOf="@+id/fragmentContainerMap"
-            app:layout_constraintStart_toStartOf="@+id/fragmentContainerMap">
+            app:cardElevation="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_map"
+            app:layout_constraintEnd_toEndOf="@+id/card_map"
+            app:layout_constraintStart_toStartOf="@+id/card_map">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="-20dp"
+                android:contentDescription="@string/todo"
                 android:src="@drawable/buttons"
-                tools:ignore="ImageContrastCheck"
-                android:contentDescription="@string/todo" />
+                tools:ignore="ImageContrastCheck" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -49,7 +49,6 @@
             android:id="@+id/txt_govet_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:shadowColor="#3B000000"
             android:shadowDx="2"
             android:shadowRadius="5"
@@ -61,18 +60,26 @@
             app:layout_constraintStart_toStartOf="@+id/get_location"
             app:layout_constraintTop_toBottomOf="@+id/get_location" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerMap"
-            android:name="com.HomeGarage.garage.home.MapsFragment"
-            android:layout_width="0dp"
-            android:layout_height="225dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_170sdp"
+            android:layout_marginTop="4dp"
+            android:layout_margin="@dimen/_3sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_4sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerMap"
+                android:name="com.HomeGarage.garage.home.MapsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_gover"
@@ -109,13 +116,12 @@
             <Button
                 android:id="@+id/see_all_last_oper"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
+                android:layout_height="@dimen/_26sdp"
+                android:layout_margin="@dimen/_3sdp"
                 android:background="@drawable/card_edge"
                 android:gravity="center"
                 android:text="@string/see_all"
-                android:textColor="#212121"
-                android:textSize="12sp"
+                android:textSize="@dimen/_9sdp"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>

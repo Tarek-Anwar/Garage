@@ -122,4 +122,6 @@
     <string name="total">الاجمالي</string>
     <string name="Sorry_no_operations_yet">معذره , لا يوجد عمليات لديك حتي الان</string>
     <string name="rate_reservation">قيم الحجز</string>
+    <string name="old_pass_worng">كلمة المرور القديمة خاطئة</string>
+    <string name="ake_sure_password">تأكد من إدخال كلمة المرور القديمة</string>
 </resources>

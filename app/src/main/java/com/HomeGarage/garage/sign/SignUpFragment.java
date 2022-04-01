@@ -39,7 +39,6 @@ public class SignUpFragment extends Fragment {
     TextInputEditText userNameET,emailET,phoneET,passwordET,confirmET ;
     FloatingActionButton creatBTN;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

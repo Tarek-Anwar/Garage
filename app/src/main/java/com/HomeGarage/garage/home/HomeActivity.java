@@ -142,7 +142,6 @@ public class HomeActivity extends AppCompatActivity  {
         balance = v.findViewById(R.id.user_balance_nav);
         img_profile = v.findViewById(R.id.img_profile);
         logout = v.findViewById(R.id.img_logout);
-        info = v.findViewById(R.id.img_info);
         payment = v.findViewById(R.id.layout_payment_head);
         infoBalance = v.findViewById(R.id.layout_balance_head);
         setting = v.findViewById(R.id.setting_app);

@@ -27,7 +27,7 @@ public class LoginFragment extends Fragment {
 
 
      EditText emailEditText,passwordEditText;
-     TextView sign_in ;
+     TextView sign_in  , forgetPass;
      FloatingActionButton login;
 
     @Override
@@ -41,12 +41,12 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
-                opneSign();
+                opneSign(new SignUpFragment());
             }
         });
 
         sign_in.setOnClickListener(V-> {
-           opneSign();
+           opneSign(new SignUpFragment());
         });
 
         login.setOnClickListener(v-> {
@@ -75,6 +75,12 @@ public class LoginFragment extends Fragment {
             } else { Toast.makeText(getContext(), "please insert email and password", Toast.LENGTH_SHORT).show(); }
         });
 
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            opneSign(new ForgetPasswordFragment());
+            }
+        });
         return rootView;
     }
 
@@ -83,13 +89,14 @@ public class LoginFragment extends Fragment {
         passwordEditText=rootView.findViewById(R.id.password_TF);
         sign_in = rootView.findViewById(R.id.txt_sign_up_log);
         login = rootView.findViewById(R.id.login_float);
+        forgetPass = rootView.findViewById(R.id.forgot_password);
     }
 
-    private void opneSign(){
+    private void opneSign(Fragment fragment){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_right_to_left,R.anim.exit_right_to_left,
                 R.anim.enter_left_to_righ,R.anim.exit_left_to_righ)
-                .replace(R.id.fragmentContainer_main, new SignUpFragment())
+                .replace(R.id.fragmentContainer_main, fragment)
                 .addToBackStack(null)
                 .commit();
     }

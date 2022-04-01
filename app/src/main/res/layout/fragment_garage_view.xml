@@ -22,8 +22,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_border_color="@color/white"
-            app:riv_border_width="4dp"
+            app:riv_border_color="@color/hed_color"
+            app:riv_border_width="@dimen/_2sdp"
             app:riv_oval="true"
             tools:ignore="MissingConstraints" />
 

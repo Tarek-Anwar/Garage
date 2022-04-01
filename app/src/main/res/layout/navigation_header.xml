@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,16 +9,16 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/img_profile"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
+        android:layout_marginTop="@dimen/_50sdp"
         android:scaleType="centerCrop"
         android:src="@drawable/car_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_border_color="@color/white"
-        app:riv_border_width="4dp"
+        app:riv_border_color="@color/hed_color"
+        app:riv_border_width="@dimen/_2sdp"
         app:riv_oval="true" />
 
     <TextView
@@ -26,8 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="User Name"
+        android:textStyle="bold"
         android:textColor="@color/hed_color"
-        android:textSize="18sp"
+        android:textSize="@dimen/_16sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_profile" />
@@ -42,7 +44,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting_app">
+        app:layout_constraintTop_toBottomOf="@+id/user_name_nav">
 
         <ImageView
             android:id="@+id/imageView6"
@@ -214,34 +216,14 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/setting_app"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
-        app:layout_constraintStart_toStartOf="@+id/user_name_nav"
-        app:layout_constraintTop_toBottomOf="@+id/user_name_nav"
-        app:srcCompat="@drawable/ic_baseline_settings_24" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/user_name_nav"
-        app:layout_constraintStart_toEndOf="@+id/setting_app"
-        app:layout_constraintTop_toBottomOf="@+id/user_name_nav"
-        app:srcCompat="@drawable/ic_baseline_notifications" />
-
     <View
         android:id="@+id/divider2"
         android:layout_width="0dp"
-        android:layout_height="3dp"
+        android:layout_height="@dimen/_2sdp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/hed_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -250,11 +232,11 @@
     <View
         android:id="@+id/divider5"
         android:layout_width="0dp"
-        android:layout_height="3dp"
+        android:layout_height="@dimen/_2sdp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -263,11 +245,11 @@
     <View
         android:id="@+id/divider3"
         android:layout_width="0dp"
-        android:layout_height="3dp"
+        android:layout_height="@dimen/_2sdp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -276,11 +258,11 @@
     <View
         android:id="@+id/divider4"
         android:layout_width="0dp"
-        android:layout_height="3dp"
+        android:layout_height="@dimen/_2sdp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/hed_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -291,19 +273,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toStartOf="@+id/img_info"
+        app:layout_constraintEnd_toStartOf="@+id/setting_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider4"
         app:srcCompat="@drawable/ic_baseline_login_24" />
 
     <ImageView
-        android:id="@+id/img_info"
+        android:id="@+id/setting_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_logout"
-        app:layout_constraintTop_toBottomOf="@+id/divider4"
-        app:srcCompat="@drawable/ic_baseline_info_24" />
+        app:layout_constraintTop_toTopOf="@+id/img_logout"
+        app:srcCompat="@drawable/ic_baseline_settings_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

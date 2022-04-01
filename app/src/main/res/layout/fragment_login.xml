@@ -206,6 +206,18 @@
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/forgot_password"
+                android:textColor="#DD2C00"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

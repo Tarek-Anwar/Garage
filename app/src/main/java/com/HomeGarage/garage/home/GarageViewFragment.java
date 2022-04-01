@@ -1,6 +1,8 @@
 package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ public class GarageViewFragment extends Fragment {
     Button orderGarage;
     DatabaseReference garageReference ;
     com.chaek.android.RatingBar ratingBar;
+    View cardPhoneView , cardAddressView;
     private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
 
 
@@ -86,6 +89,18 @@ public class GarageViewFragment extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
         });
+
+        cardPhoneView.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" +grageInfo.getPhone()));
+            startActivity(intent);
+        });
+
+        cardAddressView.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(getMapsURI(grageInfo.getLocation())));
+            startActivity(intent);
+        });
         return root;
     }
 
@@ -97,6 +112,8 @@ public class GarageViewFragment extends Fragment {
         phoneGarage = view.findViewById(R.id.phone_garage_view);
         priceGarage = view.findViewById(R.id.price_garage_view);
         rateGarageNum = view.findViewById(R.id.rate_garage_view);
+        cardPhoneView = view.findViewById(R.id.card_phone_view);
+        cardAddressView = view.findViewById(R.id.card_address_view);
     }
 
     void getRate(Rate rate) {
@@ -118,5 +135,14 @@ public class GarageViewFragment extends Fragment {
     }
 
     interface Rate { void onGarageGet(GrageInfo grageInfo);}
+
+    private String getMapsURI(String locationId) {
+        String[] latitudeAndLongitude = locationId.split(",");
+        String latitude = latitudeAndLongitude[0];
+        String longitude = latitudeAndLongitude[1];
+        return "geo:" + latitude + "," + longitude
+                + "?q=<" + latitude + ">,<" + longitude + ">,("
+                + grageInfo.getNameEn() + ")";
+    }
 
 }

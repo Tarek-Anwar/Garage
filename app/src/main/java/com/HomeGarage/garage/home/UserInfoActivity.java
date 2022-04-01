@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.databinding.ActivityUserInfoBinding;
 import com.HomeGarage.garage.models.CarInfo;
+import com.HomeGarage.garage.sign.NewPasswordActivity;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -36,7 +38,6 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         binding = ActivityUserInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -71,6 +72,13 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
 
+        binding.newPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserInfoActivity.this , NewPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
         setInfo();
 
         binding.layoutEditInfo.setOnClickListener(v->{
