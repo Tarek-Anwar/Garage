@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -38,9 +39,11 @@ public class DialogPurchase extends DialogFragment {
     SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
     DatabaseReference referencePurchase = FirebaseUtil.referencePurchase;
-    DatabaseReference reference = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());
+    DatabaseReference referenceCar = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());
+    DatabaseReference referenceApp = FirebaseDatabase.getInstance().getReference().child("App");
 
-    float currntBalance;
+    float currntBalance = -1;
+    float balance = -1;
     Toast toast;
     public DialogPurchase() { }
 
@@ -63,49 +66,71 @@ public class DialogPurchase extends DialogFragment {
         toast.setGravity(Gravity.CENTER,0,0);
         toast.setView(view);
 
-        getBalance(f -> balace.setText(String.format("%.2f",f)  +eg));
+        getBalance((f, balance) -> {
+            balace.setText(String.format("%.2f",f)  +eg);
+            pushece.setOnClickListener(v -> {
+                float amountF = Float.parseFloat(Objects.requireNonNull(amount.getText()).toString());
+                PurchaseModel opreation = new PurchaseModel();
+                Date date = new Date(System.currentTimeMillis());
+                String dateOpreation = formatterLong.format(date);
+                opreation.setDate(dateOpreation);
+                opreation.setType("2");
+                opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
+                opreation.setTo("app");
+                opreation.setValue(amountF);
+                opreation.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
+                opreation.setToName("app");
+                opreation.setId(referencePurchase.push().getKey());
 
-        pushece.setOnClickListener(v -> {
+                referencePurchase.child(opreation.getId()).setValue(opreation);
+                referenceCar.child("balance").setValue(amountF + currntBalance);
+                referenceApp.child("Balance").setValue(balance+amountF);
 
-            PurchaseModel opreation = new PurchaseModel();
-            Date date = new Date(System.currentTimeMillis());
-            String dateOpreation = formatterLong.format(date);
-            opreation.setDate(dateOpreation);
-            opreation.setType("2");
-            opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
-            opreation.setTo("app");
-            opreation.setValue(Float.parseFloat(amount.getText().toString()));
-            opreation.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
-            opreation.setToName("app");
-            opreation.setId(referencePurchase.push().getKey());
-            referencePurchase.child(opreation.getId()).setValue(opreation);
+                toast.show();
+                dismiss();
 
-            reference.child("balance").setValue(Float.parseFloat(Objects.requireNonNull(amount.getText()).toString())+currntBalance);
-            toast.show();
-            dismiss();
-
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            fm.popBackStackImmediate();
-
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStackImmediate();
+            });
         });
+
         return root;
     }
 
     void getBalance(OnBalaceGetCallBack callBack){
-      reference.addValueEventListener(new ValueEventListener() {
+        referenceCar.addValueEventListener(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
               if(snapshot.exists()){
                    currntBalance = snapshot.child("balance").getValue(Float.class);
-                  callBack.balaceGetCallBack(currntBalance);
+                   if(balance>=0){
+                       callBack.balaceGetCallBack(currntBalance , balance);
+                   }
+
               }
           }
           @Override
           public void onCancelled(@NonNull DatabaseError error) { }
       });
+        referenceApp.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                     balance  = snapshot.child("Balance").getValue(Float.class);
+                    if(currntBalance>=0){
+                        callBack.balaceGetCallBack(currntBalance , balance);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public interface OnBalaceGetCallBack{
-        void balaceGetCallBack(Float f);
+        void balaceGetCallBack(Float f ,Float balance);
     }
 }

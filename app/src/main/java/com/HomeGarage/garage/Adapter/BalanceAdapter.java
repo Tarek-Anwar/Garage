@@ -35,21 +35,16 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     SimpleDateFormat formatterData =new SimpleDateFormat("dd/MM/yyyy" , new Locale("en"));
     SimpleDateFormat formattertime =new SimpleDateFormat("hh:mm:ss aa" , new Locale("en"));
-    ProgressDialog  progressDialog;
 
     public  BalanceAdapter(Context context ){
         this.context = context;
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle("wait ...");
-        progressDialog.show();
-
         purchaseModels = new ArrayList<>();
         reference = FirebaseUtil.referencePurchase;
         Query query =  reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                progressDialog.dismiss();
+
                 if(snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
                         PurchaseModel model = item.getValue(PurchaseModel.class);

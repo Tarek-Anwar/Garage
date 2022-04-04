@@ -30,18 +30,14 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
 
     ArrayList<GoverModel> listGoverEn = new ArrayList<>();
     GoverListener goverListener;
-    ProgressDialog  progressDialog;
+
     public GovernorateAdapter(GoverListener goverListener , Context context){
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle("wait ...");
-        progressDialog.show();
         this.goverListener = goverListener;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Governorate");
         reference.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                progressDialog.dismiss();
                 if (snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
                         GoverModel model = item.getValue(GoverModel.class);
