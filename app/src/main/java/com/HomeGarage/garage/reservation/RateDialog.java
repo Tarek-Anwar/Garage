@@ -23,18 +23,19 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RateDialog extends DialogFragment {
 
-    GrageInfo grageInfo;
+
     com.chaek.android.RatingBar ratingBar;
     TextView rateText , skip;
     float currnt_rate = -1;
     float rateSum;
-
+    String idGarage , idOperation;
     DatabaseReference garageReference,opreationReference;
 
-    public RateDialog(GrageInfo grageInfo,DatabaseReference opreationReference) {
-        this.grageInfo = grageInfo;
-        this.opreationReference=opreationReference;
-        garageReference = FirebaseUtil.referenceGarage.child(grageInfo.getId());
+    public RateDialog( String idOperation , String idGarage) {
+        this.idGarage = idGarage;
+        this.idOperation = idOperation;
+        opreationReference = FirebaseUtil.referenceOperattion.child(idOperation);
+        garageReference = FirebaseUtil.referenceGarage.child(idGarage);
     }
 
     @Nullable
@@ -78,6 +79,5 @@ public class RateDialog extends DialogFragment {
             public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
-
     public interface Rate { void getRateAndNum(float rate,int num);}
 }

@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,6 @@ public class RequstActiveFragment extends Fragment {
     int countProgress , round ;
     String roundTxt  ;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-
     public RequstActiveFragment(Opreation opreation , FragmentActivity activity) {
         this.opreation = opreation;
         this.activity = activity;
@@ -78,7 +78,6 @@ public class RequstActiveFragment extends Fragment {
         Drawable  reqActice = getActivity().getDrawable(R.drawable.type_req_active);
         Drawable ic_done = getActivity().getDrawable(R.drawable.ic_done_all);
         Drawable reqFinsh = getActivity().getDrawable(R.drawable.type_req_finsh);
-
 
         binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
         binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
@@ -295,15 +294,11 @@ public class RequstActiveFragment extends Fragment {
         else  return total ;
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView, fragment);
-        transaction.commit();
-    }
 
     private interface OnGrageReciveCallback{
         void OnGrageRecive(GrageInfo  grageInfo);
         void onBalaceChange(Opreation opreation);
     }
+
 
 }

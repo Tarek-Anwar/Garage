@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,9 +35,11 @@ import com.HomeGarage.garage.reservation.RequstActiveFragment;
 import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -54,6 +59,7 @@ public class HomeActivity extends AppCompatActivity  {
     private ImageView img_profile , logout , info , setting;
     private LinearLayout payment , infoBalance;
     private FirebaseUser  user;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,8 @@ public class HomeActivity extends AppCompatActivity  {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        toast = Toast.makeText(this, "Please , chec time", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER,0,0);
 
         FirebaseUtil.getInstence("CarInfo" , "Operation","GaragerOnwerInfo");
         user = FirebaseUtil.firebaseAuth.getCurrentUser();
@@ -68,6 +76,13 @@ public class HomeActivity extends AppCompatActivity  {
         String lang = preferences.getString(SettingFragment.LANG_APP,"en");
         if(lang.equals("en")) resterLang("en");
         else resterLang("ar");
+
+        getTime(offset -> {
+            if(offset > 1000 || offset < -1000) {
+                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                toast.show();
+            }
+        });
 
         checkResetvation(opreation -> {
             if(!getSupportFragmentManager().isDestroyed()){
@@ -218,4 +233,41 @@ public class HomeActivity extends AppCompatActivity  {
     private interface checkResetvationCallback{ void onCheckResetvation(Opreation opreation);}
 
     private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
+
+    private void getTime(CheckCurrerntTimeCallback callback){
+        DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        offsetRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+               long offset = snapshot.getValue(Long.class);
+                callback.onOffsetGet(offset);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+    }
+
+    private interface CheckCurrerntTimeCallback{
+        void onOffsetGet(long offset);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getTime(offset -> {
+            if(offset > 1000 || offset < -1000) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getTime(offset -> { });
+    }
 }

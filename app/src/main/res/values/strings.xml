@@ -129,6 +129,7 @@
     <string name="old_pass_worng">The old password is wrong</string>
     <string name="ake_sure_password">Make sure to enter the old password</string>
     <string name="btn_reset_password">Reset Password</string>
+    <string name="deposit">Deposit</string>
 
 
 </resources>

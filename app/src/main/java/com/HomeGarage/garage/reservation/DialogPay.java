@@ -2,7 +2,6 @@ package com.HomeGarage.garage.reservation;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,7 +139,7 @@ public class DialogPay extends DialogFragment {
 
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
 
-                    RateDialog rateDialog = new RateDialog(grageInfo, referenceOperattion.child(idLastOper));
+                    RateDialog rateDialog = new RateDialog(idLastOper, grageInfo.getId());
                     rateDialog.show(getParentFragmentManager(), "Rate");
 
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

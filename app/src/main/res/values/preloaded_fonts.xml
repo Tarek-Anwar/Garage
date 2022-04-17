@@ -3,5 +3,6 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/aclonica</item>
         <item>@font/akronim</item>
+        <item>@font/mystery_quest</item>
     </array>
 </resources>

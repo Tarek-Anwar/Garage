@@ -66,6 +66,7 @@ public class FirebaseUtil {
         paylist = new ArrayList<>();
         paylist.add(R.string.pay_type);
         paylist.add(R.string.Purchase);
+        paylist.add(R.string.deposit);
 
         carInfoLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
