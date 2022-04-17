@@ -28,7 +28,7 @@
         app:paintStrokeColor="@color/orange"
         app:pathStrokeColor="@color/orange"
         app:showPainter="true"
-        app:text="Car Home"
+        app:text="@string/app_name"
         app:textInCenter="true"
         app:textSize="@dimen/_43sdp" />
 

@@ -193,8 +193,10 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
     private void getCurrantLoaction() {
         LocationRequest locationRequest =  LocationRequest.create();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(3000);
+        locationRequest.setInterval(100000);
+        locationRequest.setFastestInterval(100000);
+        locationRequest.setSmallestDisplacement(1f);
+        locationRequest.setMaxWaitTime(2000);
         locationRequest.setNumUpdates(5);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)

@@ -3,9 +3,11 @@ package com.HomeGarage.garage.home;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.SplashScreenActivity;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
 import com.HomeGarage.garage.models.CarInfo;
 import com.HomeGarage.garage.models.Opreation;
@@ -33,7 +36,9 @@ import com.HomeGarage.garage.navfragment.BalanceFragment;
 import com.HomeGarage.garage.navfragment.PayFragment;
 import com.HomeGarage.garage.reservation.RequstActiveFragment;
 import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.utils.ConnectionReceiver;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -48,42 +53,48 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class HomeActivity extends AppCompatActivity  {
+public class HomeActivity extends AppCompatActivity  implements ConnectionReceiver.ReceiverListener {
 
     ArrayList<CarInfo> carInfoUtil ;
     ActivityHomeBinding binding;
     float currnetBalance;
     SharedPreferences preferences;
-    private DrawerLayout drawerLayout;
-    private TextView name ,email , phone , balance ;
-    private ImageView img_profile , logout , info , setting;
-    private LinearLayout payment , infoBalance;
-    private FirebaseUser  user;
     Toast toast;
+    private ConnectionReceiver myReceiver = null;
+    private DrawerLayout drawerLayout;
+    private TextView textName , textEmail , textPhone , textBalance ;
+    private ImageView imageProfile , imageLogout , imageSetting;
+    private LinearLayout  layoutPayment , layoutInfoBalance;
+    private FirebaseUser  cruuentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
+
         toast = Toast.makeText(this, "Please , chec time", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER,0,0);
 
-        FirebaseUtil.getInstence("CarInfo" , "Operation","GaragerOnwerInfo");
-        user = FirebaseUtil.firebaseAuth.getCurrentUser();
-        preferences =  getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
-        String lang = preferences.getString(SettingFragment.LANG_APP,"en");
-        if(lang.equals("en")) resterLang("en");
-        else resterLang("ar");
-
+        //Check Connection Internet
+        myReceiver = new ConnectionReceiver();
+        ConnectionReceiver.Listener = this;
+        broadcastIntent();
+        //Check Time
         getTime(offset -> {
             if(offset > 1000 || offset < -1000) {
                 startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
                 toast.show();
             }
         });
-
+        // Check Login
+        checkLogin(carInfo -> {
+            setHeaderNav(carInfo);
+            showImage(carInfo.getImageUrl());
+        });
+        //Check Operation
         checkResetvation(opreation -> {
             if(!getSupportFragmentManager().isDestroyed()){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -96,29 +107,20 @@ public class HomeActivity extends AppCompatActivity  {
         View v = navigationView.getHeaderView(0);
         intiHeader(v);
 
-        img_profile.setOnClickListener( V->{
-                Intent intent = new Intent(HomeActivity.this,UserInfoActivity.class);
-                startActivity(intent);
-                drawerLayout.closeDrawer(GravityCompat.START);
+        imageProfile.setOnClickListener( V->{
+            Intent intent = new Intent(HomeActivity.this,UserInfoActivity.class);
+            startActivity(intent);
+            drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-        payment.setOnClickListener(v1 -> {
-            replaceFragement(new PayFragment());
-        });
-
-        setting.setOnClickListener(v14 -> replaceFragement(new SettingFragment()));
-
-        infoBalance.setOnClickListener(v13 -> {
-            replaceFragement(new BalanceFragment(currnetBalance));
-        });
-
-        logout.setOnClickListener(v12 -> {
+        imageLogout.setOnClickListener(v12 -> {
+            //clear Setting
             SharedPreferences.Editor editor = preferences.edit();
-            editor.clear();
-            editor.apply();
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(user.getUid());
+            editor.clear(); editor.apply();
+            // clear subscribe notifation
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(cruuentUser.getUid());
             FirebaseUtil.firebaseAuth.signOut();
-            Toast.makeText(getApplicationContext(), "Logging Out .. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.goodbye), Toast.LENGTH_LONG).show();
             drawerLayout.closeDrawer(GravityCompat.START);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -126,19 +128,9 @@ public class HomeActivity extends AppCompatActivity  {
             finish();
         });
 
-        checkLogin(carInfo -> {
-            setHeaderNav(carInfo);
-            showImage(carInfo.getImageUrl()); });
-    }
-
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-    void setHeaderNav(CarInfo carInfo){
-        if (carInfo != null) {
-            name.setText(carInfo.getName());
-            phone.setText(carInfo.getPhone());
-            email.setText(carInfo.getEmail());
-            balance.setText(String.format("%.2f",carInfo.getBalance()) + " "+getString(R.string.eg));
-        }
+        layoutPayment.setOnClickListener(v1 -> replaceFragement(new PayFragment()));
+        imageSetting.setOnClickListener(v14 -> replaceFragement(new SettingFragment()));
+        layoutInfoBalance.setOnClickListener(v13 -> replaceFragement(new BalanceFragment(currnetBalance)));
     }
 
     @Override
@@ -147,19 +139,58 @@ public class HomeActivity extends AppCompatActivity  {
         checkLogin(carInfo -> {
             setHeaderNav(carInfo);
             showImage(carInfo.getImageUrl()); });
-        FirebaseMessaging.getInstance().subscribeToTopic(user.getUid());
+        FirebaseMessaging.getInstance().subscribeToTopic(cruuentUser.getUid());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getTime(offset -> {
+            if(offset > 1000 || offset < -1000) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
+        getTime(offset -> { });
+    }
+
+    @Override
+    public void onNetworkChange(boolean isConnected) {
+        if(!isConnected)
+            SplashScreenActivity.showSnackBar(isConnected,findViewById(R.id.fragmentContainerView),getApplicationContext(),Snackbar.LENGTH_SHORT);
+    }
+
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    void setHeaderNav(CarInfo carInfo){
+        if (carInfo != null) {
+            textName.setText(carInfo.getName());
+            textPhone.setText(carInfo.getPhone());
+            textPhone.setText(carInfo.getEmail());
+            textBalance.setText(String.format("%.2f",carInfo.getBalance()) + " "+getString(R.string.eg));
+        }
+    }
+
+    public void broadcastIntent() {
+        registerReceiver(myReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     void intiHeader(View v){
-        name = v.findViewById(R.id.user_name_nav);
-        email = v.findViewById(R.id.user_email_nav);
-        phone = v.findViewById(R.id.user_phone_nav);
-        balance = v.findViewById(R.id.user_balance_nav);
-        img_profile = v.findViewById(R.id.img_profile);
-        logout = v.findViewById(R.id.img_logout);
-        payment = v.findViewById(R.id.layout_payment_head);
-        infoBalance = v.findViewById(R.id.layout_balance_head);
-        setting = v.findViewById(R.id.setting_app);
+        textName = v.findViewById(R.id.user_name_nav);
+        textEmail = v.findViewById(R.id.user_email_nav);
+        textPhone = v.findViewById(R.id.user_phone_nav);
+        textBalance = v.findViewById(R.id.user_balance_nav);
+        imageProfile = v.findViewById(R.id.img_profile);
+        imageLogout = v.findViewById(R.id.img_logout);
+        layoutPayment = v.findViewById(R.id.layout_payment_head);
+        layoutInfoBalance = v.findViewById(R.id.layout_balance_head);
+        imageSetting = v.findViewById(R.id.setting_app);
     }
 
     private void replaceFragement(Fragment fragment){
@@ -170,15 +201,15 @@ public class HomeActivity extends AppCompatActivity  {
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    private  void checkLogin(OnInfoArriveCallbacl callback) {
-        if (user == null) {
+    private  void checkLogin(OnInfoArriveCallback callback) {
+        if (cruuentUser == null) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }else {
             carInfoUtil = FirebaseUtil.carInfoLogin;
-            DatabaseReference ref = FirebaseUtil.databaseReference.child(user.getUid());
+            DatabaseReference ref = FirebaseUtil.databaseReference.child(cruuentUser.getUid());
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -193,7 +224,7 @@ public class HomeActivity extends AppCompatActivity  {
         }
     }
 
-    private void checkResetvation(checkResetvationCallback callback) {
+    private void checkResetvation(CheckResetvationCallback callback) {
         DatabaseReference reference = FirebaseUtil.referenceOperattion;
         Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
         query.addValueEventListener(new ValueEventListener() {
@@ -219,20 +250,7 @@ public class HomeActivity extends AppCompatActivity  {
     private void showImage(String url) {
         if (url != null && !url.isEmpty()) {
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-            Picasso.get().load(url).resize(width, width).centerCrop().into(img_profile); } }
-
-    private void resterLang(String lang){
-        Configuration resources = getApplicationContext().getResources().getConfiguration();
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        resources.locale = locale;
-        getBaseContext().getResources().updateConfiguration(resources,
-                getBaseContext().getResources().getDisplayMetrics());
-    }
-
-    private interface checkResetvationCallback{ void onCheckResetvation(Opreation opreation);}
-
-    private interface OnInfoArriveCallbacl{ void infoArriveCallback(CarInfo carInfo);}
+            Picasso.get().load(url).resize(width, width).centerCrop().into(imageProfile); } }
 
     private void getTime(CheckCurrerntTimeCallback callback){
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
@@ -247,27 +265,10 @@ public class HomeActivity extends AppCompatActivity  {
         });
     }
 
-    private interface CheckCurrerntTimeCallback{
-        void onOffsetGet(long offset);
-    }
+    private interface CheckResetvationCallback{ void onCheckResetvation(Opreation opreation);}
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        getTime(offset -> {
-            if(offset > 1000 || offset < -1000) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });
+    private interface OnInfoArriveCallback{ void infoArriveCallback(CarInfo carInfo);}
 
+    private interface CheckCurrerntTimeCallback{ void onOffsetGet(long offset);}
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        getTime(offset -> { });
-    }
 }

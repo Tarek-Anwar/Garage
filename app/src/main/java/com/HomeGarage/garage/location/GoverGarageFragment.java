@@ -100,6 +100,7 @@ public class GoverGarageFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    cityList.clear();
                     for (DataSnapshot item : snapshot.getChildren()){
                        CityModel cityModel = item.getValue(CityModel.class);
                        if(settingCity){

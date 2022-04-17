@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Garage</string>
+    <string name="app_name">Home Car</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -130,6 +130,11 @@
     <string name="ake_sure_password">Make sure to enter the old password</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="deposit">Deposit</string>
+    <string name="connected_to_Internet">Connected to Internet</string>
+    <string name="not_connected_to_internet">Not Connected to Internet</string>
+    <string name="wifi_enabled">Wifi enabled</string>
+    <string name="mobile_data_enabled">Mobile data enabled</string>
+    <string name="goodbye">Goodbye 😢</string>
 
 
 </resources>

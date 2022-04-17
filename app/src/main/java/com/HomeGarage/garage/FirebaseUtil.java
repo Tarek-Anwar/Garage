@@ -37,7 +37,7 @@ public class FirebaseUtil {
     public static ArrayList<Integer> typeList;
     public static ArrayList<Integer> paylist;
 
-    public static void getInstence(String ref , String refOperattion , String garage ) {
+    public static void getInstence() {
         if (firebaseUtil == null) {
             firebaseUtil=new FirebaseUtil();
             firebaseDatabase=FirebaseDatabase.getInstance();
@@ -71,9 +71,9 @@ public class FirebaseUtil {
         carInfoLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
         opreationEndList = new ArrayList<>();
-        databaseReference = firebaseDatabase.getReference().child(ref);
-        referenceOperattion = firebaseDatabase.getReference().child(refOperattion);
-        referenceGarage = firebaseDatabase.getReference().child(garage);
+        databaseReference = firebaseDatabase.getReference().child("CarInfo");
+        referenceOperattion = firebaseDatabase.getReference().child("Operation");
+        referenceGarage = firebaseDatabase.getReference().child("GaragerOnwerInfo");
         referencePurchase = firebaseDatabase.getReference().child("Purchase");
     }
 
@@ -82,7 +82,6 @@ public class FirebaseUtil {
         firebaseAuth.addAuthStateListener(listener);
     }
     public static void detachListner() { firebaseAuth.removeAuthStateListener(listener); }
-
 
     public static void connectStorage(){
         firebaseStorage = FirebaseStorage.getInstance();

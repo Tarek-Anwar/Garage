@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_gover_listener"
-    android:layout_width="@dimen/_155sdp"
-    android:layout_height="@dimen/_115sdp"
+    android:layout_width="@dimen/_140sdp"
+    android:layout_height="@dimen/_108sdp"
     android:layout_margin="@dimen/_7sdp"
     app:cardCornerRadius="@dimen/_6sdp"
     app:cardElevation="@dimen/_3sdp">
@@ -46,7 +46,6 @@
                 android:textColor="@color/white"
                 android:paddingBottom="15dp"
                 tools:text="Cairo" />
-
         </LinearLayout>
 
 
