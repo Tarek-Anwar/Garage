@@ -22,6 +22,7 @@ import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.HomeGarage.garage.utils.ConnectionReceiver;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
 
@@ -33,12 +34,14 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
     ImageView imageSplash;
     SharedPreferences preferences;
     private ConnectionReceiver myReceiver = null;
+    private FirebaseUser cruuentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         FirebaseUtil.getInstence();
+        cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         preferences =  getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
         String lang = preferences.getString(SettingFragment.LANG_APP,"en");
@@ -64,10 +67,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
 
     }
 
-    public void broadcastIntent() {
-        registerReceiver(myReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -77,9 +76,15 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
     @Override
     public void onNetworkChange(boolean isConnected) {
         if(isConnected){
-            showSnackBar(isConnected ,imageSplash , getApplicationContext() , Snackbar.LENGTH_SHORT);
-            startHomeActivity();
+            checkLogin(isFind -> {
+                Class activity = isFind ? HomeActivity.class : MainActivity.class;
+                startHomeActivity(activity);
+            });
         }else showSnackBar(isConnected ,imageSplash , getApplicationContext() , Snackbar.LENGTH_INDEFINITE);
+    }
+
+    public void broadcastIntent() {
+        registerReceiver(myReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     public static void showSnackBar(boolean isConnected ,View view ,Context context , int timeSnackbar) {
@@ -98,9 +103,9 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
         snackbar.show();
     }
 
-    void startHomeActivity(){
+    void startHomeActivity(Class activity){
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this,activity);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }, 4500);
@@ -114,4 +119,12 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
         getBaseContext().getResources().updateConfiguration(resources,
                 getBaseContext().getResources().getDisplayMetrics());
     }
+
+    private interface OnInfoArriveCallback{ void infoArriveCallback(Boolean isFind);}
+
+    private  void checkLogin(OnInfoArriveCallback callback) {
+        callback.infoArriveCallback(cruuentUser==null ? false : true);
+    }
+
+
 }

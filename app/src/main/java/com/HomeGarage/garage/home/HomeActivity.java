@@ -1,6 +1,7 @@
 package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -52,14 +53,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     ArrayList<CarInfoModule> carInfoModuleUtil;
     ActivityHomeBinding binding;
     float currnetBalance;
-    SharedPreferences preferences;
     Toast toast;
     private ConnectionReceiver myReceiver = null;
     private DrawerLayout drawerLayout;
     private TextView textName , textEmail , textPhone , textBalance ;
     private ImageView imageProfile , imageLogout , imageSetting;
     private LinearLayout  layoutPayment , layoutInfoBalance;
-    private FirebaseUser  cruuentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
+      //  cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         toast = Toast.makeText(this, "Please , chec time", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER,0,0);
@@ -83,11 +82,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
                 toast.show();
             }
         });
-        // Check Login
-        checkLogin(carInfo -> {
+
+        getUserInfo(carInfo -> {
             setHeaderNav(carInfo);
             showImage(carInfo.getImageUrl());
         });
+
         //Check Operation
         checkResetvation(opreation -> {
             if(!getSupportFragmentManager().isDestroyed()){
@@ -107,14 +107,16 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             drawerLayout.closeDrawer(GravityCompat.START);
         });
 
+        String goodbye =  getString(R.string.goodbye);
+
         imageLogout.setOnClickListener(v12 -> {
             //clear Setting
-            SharedPreferences.Editor editor = preferences.edit();
+            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
             editor.clear(); editor.apply();
             // clear subscribe notifation
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(cruuentUser.getUid());
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseUtil.firebaseAuth.getUid());
             FirebaseUtil.firebaseAuth.signOut();
-            Toast.makeText(getApplicationContext(), getString(R.string.goodbye), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), goodbye, Toast.LENGTH_LONG).show();
             drawerLayout.closeDrawer(GravityCompat.START);
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -130,10 +132,11 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     @Override
     protected void onResume() {
         super.onResume();
-        checkLogin(carInfo -> {
+        getUserInfo(carInfo -> {
             setHeaderNav(carInfo);
-            showImage(carInfo.getImageUrl()); });
-        FirebaseMessaging.getInstance().subscribeToTopic(cruuentUser.getUid());
+            showImage(carInfo.getImageUrl());
+        });
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.firebaseAuth.getUid());
     }
 
     @Override
@@ -151,7 +154,6 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     @Override
     protected void onPause() {
         super.onPause();
-        getTime(offset -> { });
     }
 
     @Override
@@ -165,8 +167,8 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         if (carInfoModule != null) {
             textName.setText(carInfoModule.getName());
             textPhone.setText(carInfoModule.getPhone());
-            textPhone.setText(carInfoModule.getEmail());
-            textBalance.setText(String.format("%.2f", carInfoModule.getBalance()) + " "+getString(R.string.eg));
+            textEmail.setText(carInfoModule.getEmail());
+            textBalance.setText(String.format("%.2f %s", carInfoModule.getBalance(),getString(R.string.eg)));
         }
     }
 
@@ -194,29 +196,21 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    private  void checkLogin(OnInfoArriveCallback callback) {
-        if (cruuentUser == null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }else {
-            carInfoModuleUtil = FirebaseUtil.carInfoModuleLogin;
-            DatabaseReference ref = FirebaseUtil.databaseReference.child(cruuentUser.getUid());
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    CarInfoModule carInfoModule = snapshot.getValue(CarInfoModule.class);
-                    carInfoModuleUtil.add(carInfoModule);
-                    currnetBalance = carInfoModule.getBalance();
-                    callback.infoArriveCallback(carInfoModule);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) { }
-            });
-        }
+    private void getUserInfo(OnUserInfoArriveCallback callback){
+        carInfoModuleUtil = FirebaseUtil.carInfoModuleLogin;
+        DatabaseReference ref = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CarInfoModule carInfoModule = snapshot.getValue(CarInfoModule.class);
+                carInfoModuleUtil.add(carInfoModule);
+                currnetBalance = carInfoModule.getBalance();
+                callback.infoUser(carInfoModule);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
     }
-
     private void checkResetvation(CheckResetvationCallback callback) {
         DatabaseReference reference = FirebaseUtil.referenceOperattion;
         Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
@@ -260,7 +254,7 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
 
     private interface CheckResetvationCallback{ void onCheckResetvation(OpreationModule opreationModule);}
 
-    private interface OnInfoArriveCallback{ void infoArriveCallback(CarInfoModule carInfoModule);}
+    private interface OnUserInfoArriveCallback{ void infoUser(CarInfoModule carInfoModule);}
 
     private interface CheckCurrerntTimeCallback{ void onOffsetGet(long offset);}
 
