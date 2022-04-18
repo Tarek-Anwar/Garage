@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GarageInfoModel;
+import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.HomeGarage.garage.reservation.ConfarmResrerFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +29,7 @@ import java.util.Locale;
 
 public class GarageViewFragment extends Fragment {
 
-    GarageInfoModel garageInfoModel;
+    GarageInfoModule garageInfoModule;
     Button orderGarage;
     DatabaseReference garageReference ;
     com.chaek.android.RatingBar ratingBar;
@@ -38,8 +38,8 @@ public class GarageViewFragment extends Fragment {
     private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
     DatabaseReference referenceFav;
 
-    public GarageViewFragment(GarageInfoModel garageInfoModel) {
-       this.garageInfoModel = garageInfoModel;
+    public GarageViewFragment(GarageInfoModule garageInfoModule) {
+       this.garageInfoModule = garageInfoModule;
     }
 
     public GarageViewFragment(){}
@@ -56,9 +56,9 @@ public class GarageViewFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_garage_view, container, false);
         initView(root);
 
-        referenceFav = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid()).child("favicon").child(garageInfoModel.getId());
+        referenceFav = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid()).child("favicon").child(garageInfoModule.getId());
 
-        if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(garageInfoModel.getId());
+        if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(garageInfoModule.getId());
         }else { garageReference = FirebaseUtil.referenceGarage.child(savedInstanceState.getString("saveBalance")); }
 
         String pound = " "+ getActivity().getString(R.string.eg);
@@ -91,7 +91,7 @@ public class GarageViewFragment extends Fragment {
             likeButtonGarage.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    if(likeButton.isEnabled()) referenceFav.setValue(garageInfoModel.getNameEn());
+                    if(likeButton.isEnabled()) referenceFav.setValue(garageInfoModule.getNameEn());
                 }
                 @Override
                 public void unLiked(LikeButton likeButton) {
@@ -104,20 +104,20 @@ public class GarageViewFragment extends Fragment {
 
         orderGarage.setOnClickListener(v -> {
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(garageInfoModel,getActivity()));
+            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(garageInfoModule,getActivity()));
             transaction.addToBackStack(null);
             transaction.commit();
         });
 
         cardPhoneView.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + garageInfoModel.getPhone()));
+            intent.setData(Uri.parse("tel:" + garageInfoModule.getPhone()));
             startActivity(intent);
         });
 
         cardAddressView.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(getMapsURI(garageInfoModel.getLocation())));
+            intent.setData(Uri.parse(getMapsURI(garageInfoModule.getLocation())));
             startActivity(intent);
         });
 
@@ -141,8 +141,8 @@ public class GarageViewFragment extends Fragment {
         garageReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                garageInfoModel = snapshot.getValue(GarageInfoModel.class);
-                rate.onGarageGet(garageInfoModel);
+                garageInfoModule = snapshot.getValue(GarageInfoModule.class);
+                rate.onGarageGet(garageInfoModule);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -152,7 +152,7 @@ public class GarageViewFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("saveBalance" , garageInfoModel.getId());
+        outState.putString("saveBalance" , garageInfoModule.getId());
     }
 
     private void getFaviconGarage(OnFaviconGarageGetCallBack callBack){
@@ -171,7 +171,7 @@ public class GarageViewFragment extends Fragment {
     interface OnFaviconGarageGetCallBack{
         void isFaviconGarage(Boolean isFavicon);
     }
-    interface Rate { void onGarageGet(GarageInfoModel garageInfoModel);}
+    interface Rate { void onGarageGet(GarageInfoModule garageInfoModule);}
 
     private String getMapsURI(String locationId) {
         String[] latitudeAndLongitude = locationId.split(",");
@@ -179,7 +179,7 @@ public class GarageViewFragment extends Fragment {
         String longitude = latitudeAndLongitude[1];
         return "geo:" + latitude + "," + longitude
                 + "?q=<" + latitude + ">,<" + longitude + ">,("
-                + garageInfoModel.getNameEn() + ")";
+                + garageInfoModule.getNameEn() + ")";
     }
 
 }

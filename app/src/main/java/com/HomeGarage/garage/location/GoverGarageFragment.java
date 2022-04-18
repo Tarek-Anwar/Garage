@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.Adapter.CityAdapter;
-import com.HomeGarage.garage.models.CityModel;
+import com.HomeGarage.garage.modules.CityModule;
 import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +37,7 @@ public class GoverGarageFragment extends Fragment {
 
     int posationCity;
     String city;
-    ArrayList<CityModel> cityList;
+    ArrayList<CityModule> cityList;
     CityAdapter cityAdapter = null;
     SearchView completeText;
     RecyclerView recyclerCity;
@@ -117,12 +117,12 @@ public class GoverGarageFragment extends Fragment {
                 if(snapshot.exists()){
                     cityList.clear();
                     for (DataSnapshot item : snapshot.getChildren()){
-                       CityModel cityModel = item.getValue(CityModel.class);
+                       CityModule cityModule = item.getValue(CityModule.class);
                        if(settingCity){
-                            if(cityModel.getNumberGarage()>0){
-                                cityList.add(cityModel);
+                            if(cityModule.getNumberGarage()>0){
+                                cityList.add(cityModule);
                             }
-                       }else cityList.add(cityModel);
+                       }else cityList.add(cityModule);
                     }
                     callback.onAllCityInGoverCallback(cityList);
                 }
@@ -133,6 +133,6 @@ public class GoverGarageFragment extends Fragment {
     }
 
     interface AllCityInGoverCallback{
-        void  onAllCityInGoverCallback(ArrayList<CityModel> citys);
+        void  onAllCityInGoverCallback(ArrayList<CityModule> citys);
     }
 }

@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.PurchaseModel;
+import com.HomeGarage.garage.modules.PurchaseModule;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,7 +74,7 @@ public class DialogPurchase extends DialogFragment {
                 if(amountF<0) Toast.makeText(getContext(), negativeMoney, Toast.LENGTH_SHORT).show();
                 else if(amountF>10000) Toast.makeText(getContext(), maxDeposit, Toast.LENGTH_SHORT).show();
                 else{
-                    PurchaseModel opreation = new PurchaseModel();
+                    PurchaseModule opreation = new PurchaseModule();
                     Date date = new Date(System.currentTimeMillis());
                     String dateOpreation = formatterLong.format(date);
                     opreation.setDate(dateOpreation);
@@ -82,7 +82,7 @@ public class DialogPurchase extends DialogFragment {
                     opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
                     opreation.setTo("app");
                     opreation.setValue(amountF);
-                    opreation.setFromName(FirebaseUtil.carInfoModelLogin.get(0).getName());
+                    opreation.setFromName(FirebaseUtil.carInfoModuleLogin.get(0).getName());
                     opreation.setToName("app");
                     opreation.setId(referencePurchase.push().getKey());
 

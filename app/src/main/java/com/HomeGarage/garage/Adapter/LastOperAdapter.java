@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.OpreationModel;
+import com.HomeGarage.garage.modules.OpreationModule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,12 +22,12 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     SimpleDateFormat formatter =new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
-    ArrayList<OpreationModel> lastOpereations = FirebaseUtil.opreationModelEndList;
+    ArrayList<OpreationModule> lastOpereations = FirebaseUtil.opreationModuleEndList;
     LastOperListener lastOperListener;
     private int numViewOper = 1;
 
 
-    public LastOperAdapter(ArrayList<OpreationModel> lastOpereations , int numViewOper, LastOperListener lastOperListener) {
+    public LastOperAdapter(ArrayList<OpreationModule> lastOpereations , int numViewOper, LastOperListener lastOperListener) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
         this.lastOpereations = lastOpereations;
@@ -58,7 +58,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     }
 
     public interface LastOperListener{
-        void LastOperListener(OpreationModel opreationModel);
+        void LastOperListener(OpreationModule opreationModule);
     }
 
     protected class LastOperViewHolder extends RecyclerView.ViewHolder{
@@ -75,19 +75,19 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
             layoutLastOper = itemView.findViewById(R.id.layout_last_oper);
         }
 
-        public void BulidUI(@NonNull OpreationModel opreationModel){
+        public void BulidUI(@NonNull OpreationModule opreationModule){
 
-            textWhoToDoOper.setText(opreationModel.getToName());
-            textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModel.getType())-1));
+            textWhoToDoOper.setText(opreationModule.getToName());
+            textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModule.getType())-1));
 
             Date d1 = null;
-            try { d1 = formatterLong.parse(opreationModel.getDate());
+            try { d1 = formatterLong.parse(opreationModule.getDate());
                 textTimeOper.setText(formatter.format(d1));
             } catch (ParseException e) { e.printStackTrace(); }
-            textWhoDoOper.setText(opreationModel.getFromName());
+            textWhoDoOper.setText(opreationModule.getFromName());
 
             layoutLastOper.setOnClickListener(v ->  {
-                lastOperListener.LastOperListener(opreationModel);
+                lastOperListener.LastOperListener(opreationModule);
             });
         }
     }

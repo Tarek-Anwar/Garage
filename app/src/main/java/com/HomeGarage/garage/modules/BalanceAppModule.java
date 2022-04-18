@@ -1,12 +1,12 @@
-package com.HomeGarage.garage.models;
+package com.HomeGarage.garage.modules;
 
-public class MoneyModel {
+public class BalanceAppModule {
     private float moneyForGarage , appPercent , totalBalance;
 
-    public MoneyModel() {
+    public BalanceAppModule() {
     }
 
-    public MoneyModel(float moneyForGarage, float appPercent , float totalBalance) {
+    public BalanceAppModule(float moneyForGarage, float appPercent , float totalBalance) {
         this.moneyForGarage = moneyForGarage;
         this.appPercent = appPercent;
         this.totalBalance = totalBalance;

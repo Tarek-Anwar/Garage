@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.Adapter.CustomInfoWindowAdpter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GarageInfoModel;
+import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,7 +35,7 @@ import java.util.Objects;
 public class MapsFragment extends Fragment {
 
     SupportMapFragment mapFragment;
-    private  ArrayList<GarageInfoModel> garageInfoModels;
+    private  ArrayList<GarageInfoModule> garageInfoModules;
     private  LatLng locationMe = null;
     private  String gover;
     private  String title , snippet ;
@@ -55,7 +55,7 @@ public class MapsFragment extends Fragment {
             getAllGarage(grageInfos -> {
                 if (locationMe != null) {
                     setMarkersOnMap(googleMap);
-                    this.garageInfoModels = grageInfos;
+                    this.garageInfoModules = grageInfos;
                 }
             });
         }
@@ -73,9 +73,9 @@ public class MapsFragment extends Fragment {
         googleMap.setOnInfoWindowClickListener(marker -> {
             if(Integer.parseInt(Objects.requireNonNull(marker.getTag()).toString()) == -1){
             }else {
-                GarageInfoModel garageInfoModel = garageInfoModels.get(Integer.parseInt(marker.getTag().toString()));
-                if (garageInfoModel != null) {
-                    GarageViewFragment newFragment = new GarageViewFragment(garageInfoModel);
+                GarageInfoModule garageInfoModule = garageInfoModules.get(Integer.parseInt(marker.getTag().toString()));
+                if (garageInfoModule != null) {
+                    GarageViewFragment newFragment = new GarageViewFragment(garageInfoModule);
                     FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragmentContainerView, newFragment);
                     transaction.addToBackStack(null);
@@ -87,8 +87,8 @@ public class MapsFragment extends Fragment {
 
     public MapsFragment(){ }
 
-    public void setMarkers(ArrayList<GarageInfoModel> garageInfoModels, boolean cityCheck){
-        this.garageInfoModels = garageInfoModels;
+    public void setMarkers(ArrayList<GarageInfoModule> garageInfoModules, boolean cityCheck){
+        this.garageInfoModules = garageInfoModules;
         this.cityCheck = cityCheck;
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
@@ -126,22 +126,22 @@ public class MapsFragment extends Fragment {
     }
 
     void setMarkersOnMap(GoogleMap googleMap){
-        if (garageInfoModels != null) {
-            for (int i = 0; i < garageInfoModels.size(); i++) {
+        if (garageInfoModules != null) {
+            for (int i = 0; i < garageInfoModules.size(); i++) {
                 double distentGarage = 0;
                 if(cityCheck){
-                    double lat = garageInfoModels.get(i).getLatLngGarage().latitude;
-                    double lon = garageInfoModels.get(i).getLatLngGarage().longitude;
+                    double lat = garageInfoModules.get(i).getLatLngGarage().latitude;
+                    double lon = garageInfoModules.get(i).getLatLngGarage().longitude;
                     distentGarage = distance(locationMe.latitude,locationMe.longitude,lon,lat);
                 }
                 if(distentGarage<13 || cityCheck==false){
-                    int numOfRate = garageInfoModels.get(i).getNumOfRatings();
+                    int numOfRate = garageInfoModules.get(i).getNumOfRatings();
                     String name ;
-                    if(Locale.getDefault().getLanguage().equals("en")) name = garageInfoModels.get(i).getNameEn();
-                    else name = garageInfoModels.get(i).getNameAr();
-                    String snippet = (garageInfoModels.get(i).getRate()/(2*numOfRate)) + " ( " +numOfRate+" "+" rates "+" )";
+                    if(Locale.getDefault().getLanguage().equals("en")) name = garageInfoModules.get(i).getNameEn();
+                    else name = garageInfoModules.get(i).getNameAr();
+                    String snippet = (garageInfoModules.get(i).getRate()/(2*numOfRate)) + " ( " +numOfRate+" "+" rates "+" )";
                     Marker marker = googleMap.addMarker(new MarkerOptions()
-                            .position(garageInfoModels.get(i).getLatLngGarage())
+                            .position(garageInfoModules.get(i).getLatLngGarage())
                             .title(name)
                             .snippet(snippet)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
@@ -154,17 +154,17 @@ public class MapsFragment extends Fragment {
     }
 
     private void getAllGarage(HomeFragment.OnDataReceiveCallback callback) {
-        garageInfoModels = new ArrayList<>();
+        garageInfoModules = new ArrayList<>();
         DatabaseReference ref = FirebaseUtil.referenceGarage;
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot item : snapshot.getChildren()) {
-                        GarageInfoModel info = item.getValue(GarageInfoModel.class);
-                        garageInfoModels.add(info);
+                        GarageInfoModule info = item.getValue(GarageInfoModule.class);
+                        garageInfoModules.add(info);
                     }
-                    callback.onDataReceived(garageInfoModels);
+                    callback.onDataReceived(garageInfoModules);
                 }
             }
             @Override

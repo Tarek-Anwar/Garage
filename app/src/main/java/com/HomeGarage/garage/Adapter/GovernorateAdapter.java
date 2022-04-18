@@ -1,21 +1,19 @@
 package com.HomeGarage.garage.Adapter;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GoverModel;
+import com.HomeGarage.garage.modules.GovernorateModule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +26,7 @@ import java.util.Locale;
 
 public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.GovernorateViewHolder> {
 
-    ArrayList<GoverModel> listGoverEn = new ArrayList<>();
+    ArrayList<GovernorateModule> listGoverEn = new ArrayList<>();
     GoverListener goverListener;
 
     public GovernorateAdapter(GoverListener goverListener , Context context){
@@ -40,7 +38,7 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     for (DataSnapshot item : snapshot.getChildren()){
-                        GoverModel model = item.getValue(GoverModel.class);
+                        GovernorateModule model = item.getValue(GovernorateModule.class);
                         listGoverEn.add(model);
                         notifyItemChanged(listGoverEn.size()-1);
                     }
@@ -84,7 +82,7 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
             imageView  = itemView.findViewById(R.id.image_gover);
         }
 
-        public void BulidUI(GoverModel model){
+        public void BulidUI(GovernorateModule model){
             if(Locale.getDefault().getLanguage().equals("en")){
                 nameGaver.setText(model.getGovernorate_name_en());
             }else {

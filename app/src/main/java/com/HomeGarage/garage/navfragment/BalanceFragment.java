@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,15 +15,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.Adapter.BalanceAdapter;
+import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.modules.PurchaseModule;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class BalanceFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    TextView balanceTxt;
-    LinearLayout button;
+    private RecyclerView recyclerView;
+    private TextView textBalance;
+    private LinearLayout buttonPurchase;
     float balance;
+    private ProgressBar progressBarBalance;
+    DatabaseReference referencePurchase;
+    ArrayList<PurchaseModule> purchaseModules;
+
     public BalanceFragment(){}
     public BalanceFragment(float balance) {
         this.balance = balance;
@@ -31,39 +45,73 @@ public class BalanceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        referencePurchase = FirebaseUtil.referencePurchase;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_balance, container, false);
+        initUI(root);
 
-        recyclerView = root.findViewById(R.id.recycle_pay);
+        if(savedInstanceState==null) textBalance.setText("");
+        else balance = savedInstanceState.getFloat("saveBalance");
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
-        recyclerView.setAdapter(new BalanceAdapter(getContext()));
 
-        balanceTxt = root.findViewById(R.id.currnet_balace_pay);
-        if(savedInstanceState==null){
-            balanceTxt.setText("");
-        }else {
-            balance = savedInstanceState.getFloat("saveBalance");
-        }
-        balanceTxt.setText(String.format("%.2f",balance)+" " + getString(R.string.eg));
+        getAllPurchase(purchaseModules -> recyclerView.setAdapter(new BalanceAdapter(getContext(),purchaseModules)));
 
-        button =  root.findViewById(R.id.btn_purchase_now);
-        button.setOnClickListener(v -> {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView,new PayFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
-        });
+        String poundEg = getString(R.string.eg);
+        textBalance.setText(String.format("%.2f %s",balance , poundEg));
+
+        buttonPurchase.setOnClickListener(v -> replaceFragment(new PayFragment()));
+
         return root;
+    }
+
+    private void replaceFragment(PayFragment payFragment) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView,payFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void initUI(View root) {
+        recyclerView = root.findViewById(R.id.recycle_pay);
+        buttonPurchase =  root.findViewById(R.id.btn_purchase_now);
+        progressBarBalance = root.findViewById(R.id.progressBar_balance);
+        textBalance = root.findViewById(R.id.currnet_balace_pay);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putFloat("saveBalance" , balance);
+    }
+
+    private void getAllPurchase(OnPurchaseGetCallBack callBack){
+        purchaseModules = new ArrayList<>();
+        Query query =  referencePurchase.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for (DataSnapshot item : snapshot.getChildren()){
+                        progressBarBalance.setVisibility(View.VISIBLE);
+                        PurchaseModule model = item.getValue(PurchaseModule.class);
+                        purchaseModules.add(model);
+                    }
+                    Collections.reverse(purchaseModules);
+                    callBack.getPurchases(purchaseModules);
+                    progressBarBalance.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+    }
+
+    private interface OnPurchaseGetCallBack{
+        void getPurchases(ArrayList<PurchaseModule> purchaseModules);
     }
 }

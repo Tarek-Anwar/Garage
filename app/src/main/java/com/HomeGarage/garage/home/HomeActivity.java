@@ -26,8 +26,8 @@ import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.SplashScreenActivity;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
-import com.HomeGarage.garage.models.CarInfoModel;
-import com.HomeGarage.garage.models.OpreationModel;
+import com.HomeGarage.garage.modules.CarInfoModule;
+import com.HomeGarage.garage.modules.OpreationModule;
 import com.HomeGarage.garage.navfragment.BalanceFragment;
 import com.HomeGarage.garage.navfragment.PayFragment;
 import com.HomeGarage.garage.reservation.RequstActiveFragment;
@@ -49,7 +49,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity  implements ConnectionReceiver.ReceiverListener {
 
-    ArrayList<CarInfoModel> carInfoModelUtil;
+    ArrayList<CarInfoModule> carInfoModuleUtil;
     ActivityHomeBinding binding;
     float currnetBalance;
     SharedPreferences preferences;
@@ -161,12 +161,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
-    void setHeaderNav(CarInfoModel carInfoModel){
-        if (carInfoModel != null) {
-            textName.setText(carInfoModel.getName());
-            textPhone.setText(carInfoModel.getPhone());
-            textPhone.setText(carInfoModel.getEmail());
-            textBalance.setText(String.format("%.2f", carInfoModel.getBalance()) + " "+getString(R.string.eg));
+    void setHeaderNav(CarInfoModule carInfoModule){
+        if (carInfoModule != null) {
+            textName.setText(carInfoModule.getName());
+            textPhone.setText(carInfoModule.getPhone());
+            textPhone.setText(carInfoModule.getEmail());
+            textBalance.setText(String.format("%.2f", carInfoModule.getBalance()) + " "+getString(R.string.eg));
         }
     }
 
@@ -201,15 +201,15 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             startActivity(intent);
             finish();
         }else {
-            carInfoModelUtil = FirebaseUtil.carInfoModelLogin;
+            carInfoModuleUtil = FirebaseUtil.carInfoModuleLogin;
             DatabaseReference ref = FirebaseUtil.databaseReference.child(cruuentUser.getUid());
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    CarInfoModel carInfoModel = snapshot.getValue(CarInfoModel.class);
-                    carInfoModelUtil.add(carInfoModel);
-                    currnetBalance = carInfoModel.getBalance();
-                    callback.infoArriveCallback(carInfoModel);
+                    CarInfoModule carInfoModule = snapshot.getValue(CarInfoModule.class);
+                    carInfoModuleUtil.add(carInfoModule);
+                    currnetBalance = carInfoModule.getBalance();
+                    callback.infoArriveCallback(carInfoModule);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) { }
@@ -225,12 +225,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        OpreationModel opreationModel = snapshot1.getValue(OpreationModel.class);
-                        assert opreationModel != null;
-                        if (((opreationModel.getState().equals("1") || opreationModel.getState().equals("2") ) &&
-                                (opreationModel.getType().equals("1") || opreationModel.getType().equals("2") ))
-                                || opreationModel.getPrice() < 0) {
-                            callback.onCheckResetvation(opreationModel);
+                        OpreationModule opreationModule = snapshot1.getValue(OpreationModule.class);
+                        assert opreationModule != null;
+                        if (((opreationModule.getState().equals("1") || opreationModule.getState().equals("2") ) &&
+                                (opreationModule.getType().equals("1") || opreationModule.getType().equals("2") ))
+                                || opreationModule.getPrice() < 0) {
+                            callback.onCheckResetvation(opreationModule);
                         }
                     }
                 }
@@ -258,9 +258,9 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         });
     }
 
-    private interface CheckResetvationCallback{ void onCheckResetvation(OpreationModel opreationModel);}
+    private interface CheckResetvationCallback{ void onCheckResetvation(OpreationModule opreationModule);}
 
-    private interface OnInfoArriveCallback{ void infoArriveCallback(CarInfoModel carInfoModel);}
+    private interface OnInfoArriveCallback{ void infoArriveCallback(CarInfoModule carInfoModule);}
 
     private interface CheckCurrerntTimeCallback{ void onOffsetGet(long offset);}
 

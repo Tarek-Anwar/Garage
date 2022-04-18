@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import com.HomeGarage.garage.Adapter.GarageInCityAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.GarageViewFragment;
-import com.HomeGarage.garage.models.GarageInfoModel;
+import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +31,7 @@ public class FavoriteGarageFragment extends Fragment {
     DatabaseReference referenceFav;
     DatabaseReference referenceGarage;
     ArrayList<String> allFavGarage = null;
-    ArrayList<GarageInfoModel> garagresFav = null;
+    ArrayList<GarageInfoModule> garagresFav = null;
     RecyclerView recyclerGaragres;
     public FavoriteGarageFragment() { }
 
@@ -90,7 +89,7 @@ public class FavoriteGarageFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()) {
                         for (DataSnapshot item : snapshot.getChildren()) {
-                            GarageInfoModel model = item.getValue(GarageInfoModel.class);
+                            GarageInfoModule model = item.getValue(GarageInfoModule.class);
                             garagresFav.add(model);
                         }
                         callBack.onGaragesGet(garagresFav);
@@ -104,6 +103,6 @@ public class FavoriteGarageFragment extends Fragment {
         }
     }
     private interface OnGarageFavoriteGetCallBack{
-        void onGaragesGet(ArrayList<GarageInfoModel> garagesFav);
+        void onGaragesGet(ArrayList<GarageInfoModule> garagesFav);
     }
 }

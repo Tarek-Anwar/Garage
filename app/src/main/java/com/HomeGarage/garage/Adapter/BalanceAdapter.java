@@ -1,6 +1,5 @@
 package com.HomeGarage.garage.Adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.PurchaseModel;
+import com.HomeGarage.garage.modules.PurchaseModule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,37 +28,14 @@ import java.util.Locale;
 
 public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceViewHolder> {
 
-    ArrayList<PurchaseModel> purchaseModels;
-    DatabaseReference reference;
+    ArrayList<PurchaseModule> purchaseModules;
     Context context;
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-    SimpleDateFormat formatterData =new SimpleDateFormat("dd/MM/yyyy" , new Locale("en"));
-    SimpleDateFormat formattertime =new SimpleDateFormat("hh:mm:ss aa" , new Locale("en"));
 
-    public  BalanceAdapter(Context context ){
+    public  BalanceAdapter(Context context , ArrayList<PurchaseModule> purchaseModules ){
+        this.purchaseModules=purchaseModules;
         this.context = context;
-        purchaseModels = new ArrayList<>();
-        reference = FirebaseUtil.referencePurchase;
-        Query query =  reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if(snapshot.exists()){
-                    for (DataSnapshot item : snapshot.getChildren()){
-                        PurchaseModel model = item.getValue(PurchaseModel.class);
-                        purchaseModels.add(model);
-                    }
-                    Collections.reverse(purchaseModels);
-                    notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
     }
 
-    @NonNull
     @Override
     public BalaceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.balance_row,parent,false);
@@ -68,44 +44,44 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
 
     @Override
     public void onBindViewHolder(@NonNull BalaceViewHolder holder, int position) {
-        holder.bulidUI(purchaseModels.get(position));
+        holder.bulidUI(purchaseModules.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return purchaseModels.size();
+        return purchaseModules.size();
     }
 
     public class BalaceViewHolder extends RecyclerView.ViewHolder{
-        TextView type , to ,value , date , time;
+        TextView textType , TextToName , textValue , TextDate , TextTime;
         Date dateLong ;
         String poundEg = context.getString(R.string.eg);
+        SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
+        SimpleDateFormat formatterData =new SimpleDateFormat("dd/MM/yyyy" , new Locale("en"));
+        SimpleDateFormat formattertime =new SimpleDateFormat("hh:mm:ss aa" , new Locale("en"));
+
         public BalaceViewHolder(@NonNull View itemView) {
             super(itemView);
-            type = itemView.findViewById(R.id.type_pay_txt);
-            to = itemView.findViewById(R.id.to_pay_txt);
-            value = itemView.findViewById(R.id.value_pay_txt);
-            date = itemView.findViewById(R.id.date_pay_txt);
-            time = itemView.findViewById(R.id.time_pay_txt);
+            textType = itemView.findViewById(R.id.type_pay_txt);
+            TextToName = itemView.findViewById(R.id.to_pay_txt);
+            textValue = itemView.findViewById(R.id.value_pay_txt);
+            TextDate = itemView.findViewById(R.id.date_pay_txt);
+            TextTime = itemView.findViewById(R.id.time_pay_txt);
         }
 
-        public void bulidUI(PurchaseModel model){
-            type.setText(FirebaseUtil.paylist.get(Integer.parseInt(model.getType())-1));
-            to.setText(model.getToName());
-            if(model.getType().equals("2")){
-                value.setText(String.format(" %+.2f %s",model.getValue() , poundEg));
-            }else {
-                model.setValue(model.getValue()*-1);
-                value.setText(String.format("%+.2f %s",model.getValue() , poundEg));
-            }
+        public void bulidUI(PurchaseModule model){
+
+            model.setValue(model.getType().equals("2") ? model.getValue() : model.getValue() * -1);
+
+            textType.setText(FirebaseUtil.paylist.get(Integer.parseInt(model.getType())-1));
+            TextToName.setText(model.getToName());
+            textValue.setText(String.format("%+.2f %s",model.getValue() , poundEg));
 
             try {
                 dateLong = formatterLong.parse(model.getDate());
-                date.setText(formatterData.format(dateLong));
-                time.setText(formattertime.format(dateLong));
+                TextDate.setText(formatterData.format(dateLong));
+                TextTime.setText(formattertime.format(dateLong));
             } catch (ParseException e) { e.printStackTrace(); }
-
-
 
         }
     }

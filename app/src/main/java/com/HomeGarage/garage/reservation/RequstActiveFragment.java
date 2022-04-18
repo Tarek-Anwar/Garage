@@ -19,8 +19,8 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
 import com.HomeGarage.garage.dialog.DialogPay;
 import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.models.GarageInfoModel;
-import com.HomeGarage.garage.models.OpreationModel;
+import com.HomeGarage.garage.modules.GarageInfoModule;
+import com.HomeGarage.garage.modules.OpreationModule;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,8 +38,8 @@ import java.util.Locale;
 public class RequstActiveFragment extends Fragment {
 
     FragmentRequstActiveBinding binding;
-    OpreationModel opreationModel;
-    GarageInfoModel garageInfoModel;
+    OpreationModule opreationModule;
+    GarageInfoModule garageInfoModule;
     FragmentActivity activity;
     DatabaseReference refOperation;
     Date start = null;
@@ -49,8 +49,8 @@ public class RequstActiveFragment extends Fragment {
     int countProgress , round ;
     String roundTxt  ;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-    public RequstActiveFragment(OpreationModel opreationModel, FragmentActivity activity) {
-        this.opreationModel = opreationModel;
+    public RequstActiveFragment(OpreationModule opreationModule, FragmentActivity activity) {
+        this.opreationModule = opreationModule;
         this.activity = activity;
     }
 
@@ -64,7 +64,7 @@ public class RequstActiveFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRequstActiveBinding.inflate(getLayoutInflater());
-        refOperation = FirebaseUtil.referenceOperattion.child(opreationModel.getId());
+        refOperation = FirebaseUtil.referenceOperattion.child(opreationModule.getId());
 
         String cancel = getActivity().getString(R.string.cancel);
         String finsh= getActivity().getString(R.string.finshed_requst);
@@ -79,43 +79,43 @@ public class RequstActiveFragment extends Fragment {
         Drawable ic_done = getActivity().getDrawable(R.drawable.ic_done_all);
         Drawable reqFinsh = getActivity().getDrawable(R.drawable.type_req_finsh);
 
-        binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreationModel.getState())-1));
-        binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModel.getType())-1));
+        binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreationModule.getState())-1));
+        binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModule.getType())-1));
 
         setProgressBar();
 
-        getGarageInfo(opreationModel.getTo(), new OnGrageReciveCallback() {
+        getGarageInfo(opreationModule.getTo(), new OnGrageReciveCallback() {
             @Override
-            public void OnGrageRecive(GarageInfoModel garageInfoModel) {
+            public void OnGrageRecive(GarageInfoModule garageInfoModule) {
                 String allAddress  , name;
                 if(Locale.getDefault().getLanguage().equals("en")){
-                    allAddress = garageInfoModel.getGovernoateEn()+"\n"+ garageInfoModel.getCityEn()+"\n"+ garageInfoModel.getRestOfAddressEN();
-                    name = garageInfoModel.getNameEn();
+                    allAddress = garageInfoModule.getGovernoateEn()+"\n"+ garageInfoModule.getCityEn()+"\n"+ garageInfoModule.getRestOfAddressEN();
+                    name = garageInfoModule.getNameEn();
                 }else {
-                    allAddress = garageInfoModel.getGovernoateAR()+"\n"+ garageInfoModel.getCityAr()+"\n"+ garageInfoModel.getRestOfAddressAr();
-                    name = garageInfoModel.getNameAr();
+                    allAddress = garageInfoModule.getGovernoateAR()+"\n"+ garageInfoModule.getCityAr()+"\n"+ garageInfoModule.getRestOfAddressAr();
+                    name = garageInfoModule.getNameAr();
                 }
                 binding.addressReq.setText(allAddress);
                 binding.nameGarageReq.setText(name);
 
-                if(garageInfoModel.getNumOfRatings()!=0) {
-                    float ratting = garageInfoModel.getRate() / (2* garageInfoModel.getNumOfRatings());
+                if(garageInfoModule.getNumOfRatings()!=0) {
+                    float ratting = garageInfoModule.getRate() / (2* garageInfoModule.getNumOfRatings());
                     binding.rateReq.setText(String.format("%.2f",ratting));
-                    binding.numRateReq.setText( " ( "+ garageInfoModel.getNumOfRatings() +ratings);
+                    binding.numRateReq.setText( " ( "+ garageInfoModule.getNumOfRatings() +ratings);
                 }
-               if(opreationModel.getPrice()<0){
+               if(opreationModule.getPrice()<0){
                     binding.dues.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onBalaceChange(OpreationModel opreationModel) {
-                if(opreationModel.getType().equals("1") && opreationModel.getState().equals("1")){
+            public void onBalaceChange(OpreationModule opreationModule) {
+                if(opreationModule.getType().equals("1") && opreationModule.getState().equals("1")){
                     binding.imgTypeReq.setImageDrawable(icRequst);
                     binding.imgStateReq.setBackground(reqWait);
                     binding.totalType.setVisibility(View.GONE);
                     binding.btnPayReser.setText(cancel);
-                }else if(opreationModel.getType().equals("2") && opreationModel.getState().equals("2")){
+                }else if(opreationModule.getType().equals("2") && opreationModule.getState().equals("2")){
                     binding.imgTypeReq.setImageDrawable(icAccpet);
                     binding.imgStateReq.setBackground(reqActice);
                     binding.totalType.setVisibility(View.GONE);
@@ -126,26 +126,26 @@ public class RequstActiveFragment extends Fragment {
                     binding.btnPayReser.setText(pay);
                 }
 
-                if(opreationModel.getPrice()!=0){
-                    binding.txtTotalHome.setText(opreationModel.getPrice()*-1 + egPound);
+                if(opreationModule.getPrice()!=0){
+                    binding.txtTotalHome.setText(opreationModule.getPrice()*-1 + egPound);
                 }
 
-                if(opreationModel.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
+                if(opreationModule.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
                     if(binding.btnPayReser.getText().equals(cancel)) {
                         binding.btnPayReser.setOnClickListener(v -> {
                             Date date = new Date(System.currentTimeMillis());
-                            if (opreationModel.getDataEnd() == null) {
-                                opreationModel.setDataEnd(formatterLong.format(date));
+                            if (opreationModule.getDataEnd() == null) {
+                                opreationModule.setDataEnd(formatterLong.format(date));
                             }
-                            opreationModel.setState("3");
-                            opreationModel.setType("4");
-                            opreationModel.setDataEnd(formatterLong.format(System.currentTimeMillis()));
-                            refOperation.setValue(opreationModel);
+                            opreationModule.setState("3");
+                            opreationModule.setType("4");
+                            opreationModule.setDataEnd(formatterLong.format(System.currentTimeMillis()));
+                            refOperation.setValue(opreationModule);
                             binding.chronometer.stop();
 
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    garageInfoModel.getId(), "From " + opreationModel.getFromName()
-                                    , "sorry " + opreationModel.getToName() + ", i'm can't come in reservation " + opreationModel.getDate(), opreationModel.getId(), getContext());
+                                    garageInfoModule.getId(), "From " + opreationModule.getFromName()
+                                    , "sorry " + opreationModule.getToName() + ", i'm can't come in reservation " + opreationModule.getDate(), opreationModule.getId(), getContext());
                             notificationsSender.SendNotifications();
 
                             if(getActivity()!=null){
@@ -163,23 +163,23 @@ public class RequstActiveFragment extends Fragment {
                         });
                     }
 
-                }else if(System.currentTimeMillis() > start.getTime() && opreationModel.getState().equals("2")) {
+                }else if(System.currentTimeMillis() > start.getTime() && opreationModule.getState().equals("2")) {
 
                     if(binding.btnPayReser.getText().equals(finsh)) {
                         binding.btnPayReser.setOnClickListener(v -> {
                             Date date = new Date(System.currentTimeMillis());
-                            if (opreationModel.getDataEnd() == null) {
-                                opreationModel.setDataEnd(formatterLong.format(date));
+                            if (opreationModule.getDataEnd() == null) {
+                                opreationModule.setDataEnd(formatterLong.format(date));
                             }
-                            opreationModel.setPrice(-1 * calPriceExpect(garageInfoModel.getPriceForHour(), opreationModel.getDate(), opreationModel.getDataEnd()));
-                            opreationModel.setState("3");
-                            opreationModel.setType("5");
-                            refOperation.setValue(opreationModel);
+                            opreationModule.setPrice(-1 * calPriceExpect(garageInfoModule.getPriceForHour(), opreationModule.getDate(), opreationModule.getDataEnd()));
+                            opreationModule.setState("3");
+                            opreationModule.setType("5");
+                            refOperation.setValue(opreationModule);
                             binding.chronometer.stop();
 
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    garageInfoModel.getId(), "From " + opreationModel.getFromName()
-                                    , "reservation to is finshed check pay" + opreationModel.getDate(), opreationModel.getId(), getContext());
+                                    garageInfoModule.getId(), "From " + opreationModule.getFromName()
+                                    , "reservation to is finshed check pay" + opreationModule.getDate(), opreationModule.getId(), getContext());
                             notificationsSender.SendNotifications();
                             binding.btnPayReser.setText(pay);
                         });
@@ -187,7 +187,7 @@ public class RequstActiveFragment extends Fragment {
                 }else {
                     if(binding.btnPayReser.getText().equals(pay)) {
                         binding.btnPayReser.setOnClickListener(v -> {
-                            DialogPay dialogPay = new DialogPay(garageInfoModel, -1 * opreationModel.getPrice(), opreationModel.getId());
+                            DialogPay dialogPay = new DialogPay(garageInfoModule, -1 * opreationModule.getPrice(), opreationModule.getId());
                             dialogPay.show(getParentFragmentManager(), "Pay");
                         });
                     }
@@ -199,13 +199,13 @@ public class RequstActiveFragment extends Fragment {
     }
 
     private void setProgressBar(){
-        try { start = formatterLong.parse(opreationModel.getDate());
+        try { start = formatterLong.parse(opreationModule.getDate());
         } catch (ParseException e) { e.printStackTrace(); }
 
-        if(opreationModel.getDataEnd()==null) {
+        if(opreationModule.getDataEnd()==null) {
             diff = System.currentTimeMillis() - start.getTime();
         }else {
-            try { end = formatterLong.parse(opreationModel.getDataEnd());
+            try { end = formatterLong.parse(opreationModule.getDataEnd());
             } catch (ParseException e) { e.printStackTrace(); }
             diff = end.getTime() - start.getTime();
         }
@@ -216,7 +216,7 @@ public class RequstActiveFragment extends Fragment {
             binding.roundTime.setText(roundTxt + round);}
 
         binding.chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-        if(con && (opreationModel.getState().equals("1") || opreationModel.getState().equals("2"))){
+        if(con && (opreationModule.getState().equals("1") || opreationModule.getState().equals("2"))){
             binding.progressBar.setMax(2160);
             binding.chronometer.start();
             final Handler handler = new Handler();
@@ -262,8 +262,8 @@ public class RequstActiveFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                garageInfoModel = snapshot.getValue(GarageInfoModel.class);
-                callback.OnGrageRecive(garageInfoModel);
+                garageInfoModule = snapshot.getValue(GarageInfoModule.class);
+                callback.OnGrageRecive(garageInfoModule);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -272,8 +272,8 @@ public class RequstActiveFragment extends Fragment {
         refOperation.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                OpreationModel opreationModel = snapshot.getValue(OpreationModel.class);
-                if(opreationModel !=null) callback.onBalaceChange(opreationModel);
+                OpreationModule opreationModule = snapshot.getValue(OpreationModule.class);
+                if(opreationModule !=null) callback.onBalaceChange(opreationModule);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -296,8 +296,8 @@ public class RequstActiveFragment extends Fragment {
 
 
     private interface OnGrageReciveCallback{
-        void OnGrageRecive(GarageInfoModel garageInfoModel);
-        void onBalaceChange(OpreationModel opreationModel);
+        void OnGrageRecive(GarageInfoModule garageInfoModule);
+        void onBalaceChange(OpreationModule opreationModule);
     }
 
 

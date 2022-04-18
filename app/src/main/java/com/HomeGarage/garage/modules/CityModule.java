@@ -1,11 +1,11 @@
-package com.HomeGarage.garage.models;
+package com.HomeGarage.garage.modules;
 
-public class CityModel {
+public class CityModule {
 
     private  String city_name_ar , city_name_en , governorate_id ;
     private int numberGarage;
 
-    public CityModel() { }
+    public CityModule() { }
 
     public String getCity_name_ar() {
         return city_name_ar;

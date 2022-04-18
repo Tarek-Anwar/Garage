@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.databinding.ActivityUserInfoBinding;
-import com.HomeGarage.garage.models.CarInfoModel;
+import com.HomeGarage.garage.modules.CarInfoModule;
 import com.HomeGarage.garage.sign.NewPasswordActivity;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -32,7 +32,7 @@ public class UserInfoActivity extends AppCompatActivity {
     Uri filePath;
     private ActivityUserInfoBinding binding;
     private ActivityResultLauncher<Object> launcher;
-    private CarInfoModel carInfoModel = FirebaseUtil.carInfoModelLogin.get(0);
+    private CarInfoModule carInfoModule = FirebaseUtil.carInfoModuleLogin.get(0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class UserInfoActivity extends AppCompatActivity {
         binding = ActivityUserInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(carInfoModel.getImageUrl()!=null){
-            showImage(carInfoModel.getImageUrl());
+        if(carInfoModule.getImageUrl()!=null){
+            showImage(carInfoModule.getImageUrl());
         }
         ActivityResultContract<Object, Uri> contract = new ActivityResultContract<Object, Uri>() {
             @NonNull
@@ -87,18 +87,18 @@ public class UserInfoActivity extends AppCompatActivity {
         });
 
         binding.btnSave.setOnClickListener(v -> {
-            carInfoModel.setName(binding.editUserName.getText().toString());
-            carInfoModel.setPhone(binding.editPhone.getText().toString());
-            FirebaseUtil.databaseReference.child(carInfoModel.getId()).setValue(carInfoModel);
+            carInfoModule.setName(binding.editUserName.getText().toString());
+            carInfoModule.setPhone(binding.editPhone.getText().toString());
+            FirebaseUtil.databaseReference.child(carInfoModule.getId()).setValue(carInfoModule);
         });
         binding.profileImage.setOnClickListener(v->launcher.launch(null));
     }
 
     void setInfo() {
-        if (carInfoModel.getId() != null) {
-            binding.editUserName.setText(carInfoModel.getName());
-            binding.editPhone.setText(carInfoModel.getPhone());
-            binding.editEmail.setText(carInfoModel.getEmail());
+        if (carInfoModule.getId() != null) {
+            binding.editUserName.setText(carInfoModule.getName());
+            binding.editPhone.setText(carInfoModule.getPhone());
+            binding.editEmail.setText(carInfoModule.getEmail());
         }
     }
 
@@ -111,10 +111,10 @@ public class UserInfoActivity extends AppCompatActivity {
             ref.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
                 progressDialog.dismiss();
                 String nameImage  = taskSnapshot.getStorage().getPath();
-                carInfoModel.setImageName(nameImage);
+                carInfoModule.setImageName(nameImage);
                 taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri ->{
-                    carInfoModel.setImageUrl(uri.toString());
-                    FirebaseUtil.databaseReference.child(carInfoModel.getId()).setValue(carInfoModel);
+                    carInfoModule.setImageUrl(uri.toString());
+                    FirebaseUtil.databaseReference.child(carInfoModule.getId()).setValue(carInfoModule);
                 });
                 Toast.makeText(getApplicationContext(), "Image Uploaded!!", Toast.LENGTH_SHORT).show(); }).addOnFailureListener(e -> { progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();

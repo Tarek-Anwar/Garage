@@ -1,9 +1,9 @@
-package com.HomeGarage.garage.models;
+package com.HomeGarage.garage.modules;
 
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class GarageInfoModel {
+public class GarageInfoModule {
 
     private float Balance;
     private String id;
@@ -41,7 +41,7 @@ public class GarageInfoModel {
         return new LatLng(Double.parseDouble(loc[0]), Double.parseDouble(loc[1]));
     }
 
-    public GarageInfoModel() {
+    public GarageInfoModule() {
     }
 
     public float getBalance() {

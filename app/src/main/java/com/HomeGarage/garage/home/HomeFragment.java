@@ -34,7 +34,7 @@ import com.HomeGarage.garage.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.location.GoverGarageFragment;
 import com.HomeGarage.garage.location.LocationGetFragment;
-import com.HomeGarage.garage.models.GarageInfoModel;
+import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.HomeGarage.garage.navfragment.FavoriteGarageFragment;
 import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.navfragment.SettingFragment;
@@ -232,7 +232,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         }
     }
 
-    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GarageInfoModel> garageInfoModels);}
+    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GarageInfoModule> garageInfoModules);}
 
     interface MapSetLocation{
         void onMapSetLocation(LatLng latLng);

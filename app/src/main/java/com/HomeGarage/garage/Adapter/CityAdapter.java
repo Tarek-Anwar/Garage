@@ -6,30 +6,29 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.CityModel;
+import com.HomeGarage.garage.modules.CityModule;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder>  implements Filterable {
 
-    ArrayList<CityModel> cityList ;
-    ArrayList<CityModel> cityFilter;
+    ArrayList<CityModule> cityList ;
+    ArrayList<CityModule> cityFilter;
     CityListener cityListener;
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<CityModel> filterlist = new ArrayList<>();
+            ArrayList<CityModule> filterlist = new ArrayList<>();
             if(constraint.toString().isEmpty()){
                 filterlist.addAll(cityFilter);
             }else {
-                for(CityModel city : cityFilter){
+                for(CityModule city : cityFilter){
                     if(city.getCity_name_en().toLowerCase().contains(constraint.toString().toLowerCase())){
                         filterlist.add(city);
                     } } }
@@ -41,11 +40,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             cityList.clear();
-            cityList.addAll((Collection<? extends CityModel>) results.values);
+            cityList.addAll((Collection<? extends CityModule>) results.values);
             notifyDataSetChanged();
         }
     };
-    public CityAdapter(ArrayList<CityModel> cityList , CityListener cityListener){
+    public CityAdapter(ArrayList<CityModule> cityList , CityListener cityListener){
         this.cityListener = cityListener;
         this.cityList=cityList;
         cityFilter = new ArrayList<>(cityList);
@@ -76,7 +75,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     }
 
     public interface CityListener{
-        void onCityListener(CityModel cityModel);
+        void onCityListener(CityModule cityModule);
     }
 
     public class CityViewHolder extends RecyclerView.ViewHolder {
@@ -89,13 +88,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
             numOfGarage = itemView.findViewById(R.id.txtt_num_of_garage);
         }
 
-        public void BulidUI(CityModel cityModel){
-            cityName.setText(cityModel.getCity_name_en());
-            if(cityModel.getNumberGarage()==0){
+        public void BulidUI(CityModule cityModule){
+            cityName.setText(cityModule.getCity_name_en());
+            if(cityModule.getNumberGarage()==0){
                 numOfGarage.setText(itemView.getContext().getText(R.string.coom_soon));
             }else {
-                numOfGarage.setText(cityModel.getNumberGarage()+" Garages"); }
-            layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModel));
+                numOfGarage.setText(cityModule.getNumberGarage()+" Garages"); }
+            layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModule));
         }
     }
 }

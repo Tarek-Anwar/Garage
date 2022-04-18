@@ -16,7 +16,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.Adapter.GarageInCityAdapter;
 import com.HomeGarage.garage.home.GarageViewFragment;
 import com.HomeGarage.garage.home.MapsFragment;
-import com.HomeGarage.garage.models.GarageInfoModel;
+import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -28,7 +28,7 @@ public class CityGarageFragment extends Fragment {
 
     String citySearch;
     MapsFragment mapsFragment;
-    ArrayList<GarageInfoModel> garageInfoModels;
+    ArrayList<GarageInfoModule> garageInfoModules;
     RecyclerView recyclerView;
     SetMarkersGarage setMarkersGarage;
 
@@ -72,18 +72,18 @@ public class CityGarageFragment extends Fragment {
     }
 
     private void getAllGarage() {
-        garageInfoModels = FirebaseUtil.allGarage;
+        garageInfoModules = FirebaseUtil.allGarage;
         Query query = FirebaseUtil.referenceGarage.orderByChild("cityEn").equalTo(citySearch);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    garageInfoModels.clear();
+                    garageInfoModules.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        GarageInfoModel grage = dataSnapshot.getValue(GarageInfoModel.class);
-                        garageInfoModels.add(grage);
+                        GarageInfoModule grage = dataSnapshot.getValue(GarageInfoModule.class);
+                        garageInfoModules.add(grage);
                     }
-                    setMarkersGarage.setMarkersMap(garageInfoModels);
+                    setMarkersGarage.setMarkersMap(garageInfoModules);
                 }
             }
             @Override
@@ -93,6 +93,6 @@ public class CityGarageFragment extends Fragment {
     }
 
     interface  SetMarkersGarage{
-        void setMarkersMap( ArrayList<GarageInfoModel> garageInfoModels);
+        void setMarkersMap( ArrayList<GarageInfoModule> garageInfoModules);
     }
 }

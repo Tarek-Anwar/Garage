@@ -1,6 +1,6 @@
-package com.HomeGarage.garage.models;
+package com.HomeGarage.garage.modules;
 
-public class PurchaseModel {
+public class PurchaseModule {
 
     private String id;
     private String date;
@@ -28,7 +28,7 @@ public class PurchaseModel {
     private String toName ;
     private float value;
 
-    public PurchaseModel() {
+    public PurchaseModule() {
     }
 
     public String getId() {
