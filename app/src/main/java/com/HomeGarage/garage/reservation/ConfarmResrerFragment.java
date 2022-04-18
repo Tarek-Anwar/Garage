@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.GarageInfoModel;
 import com.HomeGarage.garage.models.OpreationModel;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
@@ -34,12 +34,12 @@ public class ConfarmResrerFragment extends Fragment {
     SingleDateAndTimePicker singleDateAndTimePicker2;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     DatabaseReference reference;
-    GrageInfoModel grageInfoModel;
+    GarageInfoModel garageInfoModel;
     String allDate= null;
     FragmentActivity activity;
 
-    public ConfarmResrerFragment(GrageInfoModel grageInfoModel, FragmentActivity activity) {
-        this.grageInfoModel = grageInfoModel;
+    public ConfarmResrerFragment(GarageInfoModel garageInfoModel, FragmentActivity activity) {
+        this.garageInfoModel = garageInfoModel;
         this.activity = activity;
     }
 
@@ -106,12 +106,12 @@ public class ConfarmResrerFragment extends Fragment {
         model.setState("1");
         model.setFromName(FirebaseUtil.carInfoModelLogin.get(0).getName());
         model.setFrom(FirebaseUtil.firebaseAuth.getUid());
-        model.setTo(grageInfoModel.getId());
-        model.setToName(grageInfoModel.getNameEn());
+        model.setTo(garageInfoModel.getId());
+        model.setToName(garageInfoModel.getNameEn());
         model.setId(reference.push().getKey());
         reference.child(model.getId()).setValue(model);
         FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                grageInfoModel.getId(),"from " + FirebaseUtil.carInfoModelLogin.get(0).getName()
+                garageInfoModel.getId(),"from " + FirebaseUtil.carInfoModelLogin.get(0).getName()
                 ,"I want to reserve garage "+ model.getDate() ,model.getId() , getContext());
         notificationsSender.SendNotifications();
         statResetvaion(model);

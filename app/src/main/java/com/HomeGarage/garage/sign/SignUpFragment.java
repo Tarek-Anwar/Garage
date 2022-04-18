@@ -20,7 +20,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.models.CarInfoModel;
 import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;

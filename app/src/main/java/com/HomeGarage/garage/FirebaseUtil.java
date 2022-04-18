@@ -3,7 +3,7 @@ package com.HomeGarage.garage;
 import android.util.Log;
 
 import com.HomeGarage.garage.models.CarInfoModel;
-import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.GarageInfoModel;
 import com.HomeGarage.garage.models.OpreationModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +31,7 @@ public class FirebaseUtil {
 
 
     public static ArrayList<CarInfoModel> carInfoModelLogin;
-    public static ArrayList<GrageInfoModel> allGarage;
+    public static ArrayList<GarageInfoModel> allGarage;
     public static ArrayList<OpreationModel> opreationModelEndList;
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;

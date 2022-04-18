@@ -19,7 +19,7 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
 import com.HomeGarage.garage.dialog.DialogPay;
 import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.GarageInfoModel;
 import com.HomeGarage.garage.models.OpreationModel;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.google.firebase.database.DataSnapshot;
@@ -39,7 +39,7 @@ public class RequstActiveFragment extends Fragment {
 
     FragmentRequstActiveBinding binding;
     OpreationModel opreationModel;
-    GrageInfoModel grageInfoModel;
+    GarageInfoModel garageInfoModel;
     FragmentActivity activity;
     DatabaseReference refOperation;
     Date start = null;
@@ -86,22 +86,22 @@ public class RequstActiveFragment extends Fragment {
 
         getGarageInfo(opreationModel.getTo(), new OnGrageReciveCallback() {
             @Override
-            public void OnGrageRecive(GrageInfoModel grageInfoModel) {
+            public void OnGrageRecive(GarageInfoModel garageInfoModel) {
                 String allAddress  , name;
                 if(Locale.getDefault().getLanguage().equals("en")){
-                    allAddress = grageInfoModel.getGovernoateEn()+"\n"+ grageInfoModel.getCityEn()+"\n"+ grageInfoModel.getRestOfAddressEN();
-                    name = grageInfoModel.getNameEn();
+                    allAddress = garageInfoModel.getGovernoateEn()+"\n"+ garageInfoModel.getCityEn()+"\n"+ garageInfoModel.getRestOfAddressEN();
+                    name = garageInfoModel.getNameEn();
                 }else {
-                    allAddress = grageInfoModel.getGovernoateAR()+"\n"+ grageInfoModel.getCityAr()+"\n"+ grageInfoModel.getRestOfAddressAr();
-                    name = grageInfoModel.getNameAr();
+                    allAddress = garageInfoModel.getGovernoateAR()+"\n"+ garageInfoModel.getCityAr()+"\n"+ garageInfoModel.getRestOfAddressAr();
+                    name = garageInfoModel.getNameAr();
                 }
                 binding.addressReq.setText(allAddress);
                 binding.nameGarageReq.setText(name);
 
-                if(grageInfoModel.getNumOfRatings()!=0) {
-                    float ratting = grageInfoModel.getRate() / (2* grageInfoModel.getNumOfRatings());
+                if(garageInfoModel.getNumOfRatings()!=0) {
+                    float ratting = garageInfoModel.getRate() / (2* garageInfoModel.getNumOfRatings());
                     binding.rateReq.setText(String.format("%.2f",ratting));
-                    binding.numRateReq.setText( " ( "+ grageInfoModel.getNumOfRatings() +ratings);
+                    binding.numRateReq.setText( " ( "+ garageInfoModel.getNumOfRatings() +ratings);
                 }
                if(opreationModel.getPrice()<0){
                     binding.dues.setVisibility(View.VISIBLE);
@@ -144,7 +144,7 @@ public class RequstActiveFragment extends Fragment {
                             binding.chronometer.stop();
 
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    grageInfoModel.getId(), "From " + opreationModel.getFromName()
+                                    garageInfoModel.getId(), "From " + opreationModel.getFromName()
                                     , "sorry " + opreationModel.getToName() + ", i'm can't come in reservation " + opreationModel.getDate(), opreationModel.getId(), getContext());
                             notificationsSender.SendNotifications();
 
@@ -171,14 +171,14 @@ public class RequstActiveFragment extends Fragment {
                             if (opreationModel.getDataEnd() == null) {
                                 opreationModel.setDataEnd(formatterLong.format(date));
                             }
-                            opreationModel.setPrice(-1 * calPriceExpect(grageInfoModel.getPriceForHour(), opreationModel.getDate(), opreationModel.getDataEnd()));
+                            opreationModel.setPrice(-1 * calPriceExpect(garageInfoModel.getPriceForHour(), opreationModel.getDate(), opreationModel.getDataEnd()));
                             opreationModel.setState("3");
                             opreationModel.setType("5");
                             refOperation.setValue(opreationModel);
                             binding.chronometer.stop();
 
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    grageInfoModel.getId(), "From " + opreationModel.getFromName()
+                                    garageInfoModel.getId(), "From " + opreationModel.getFromName()
                                     , "reservation to is finshed check pay" + opreationModel.getDate(), opreationModel.getId(), getContext());
                             notificationsSender.SendNotifications();
                             binding.btnPayReser.setText(pay);
@@ -187,7 +187,7 @@ public class RequstActiveFragment extends Fragment {
                 }else {
                     if(binding.btnPayReser.getText().equals(pay)) {
                         binding.btnPayReser.setOnClickListener(v -> {
-                            DialogPay dialogPay = new DialogPay(grageInfoModel, -1 * opreationModel.getPrice(), opreationModel.getId());
+                            DialogPay dialogPay = new DialogPay(garageInfoModel, -1 * opreationModel.getPrice(), opreationModel.getId());
                             dialogPay.show(getParentFragmentManager(), "Pay");
                         });
                     }
@@ -262,8 +262,8 @@ public class RequstActiveFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                grageInfoModel = snapshot.getValue(GrageInfoModel.class);
-                callback.OnGrageRecive(grageInfoModel);
+                garageInfoModel = snapshot.getValue(GarageInfoModel.class);
+                callback.OnGrageRecive(garageInfoModel);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -296,7 +296,7 @@ public class RequstActiveFragment extends Fragment {
 
 
     private interface OnGrageReciveCallback{
-        void OnGrageRecive(GrageInfoModel grageInfoModel);
+        void OnGrageRecive(GarageInfoModel garageInfoModel);
         void onBalaceChange(OpreationModel opreationModel);
     }
 

@@ -18,7 +18,7 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 

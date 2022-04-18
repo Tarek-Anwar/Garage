@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.setting;
+package com.HomeGarage.garage.navfragment;
 
 import android.content.Context;
 import android.content.Intent;

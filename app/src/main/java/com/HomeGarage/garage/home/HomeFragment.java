@@ -34,9 +34,10 @@ import com.HomeGarage.garage.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.location.GoverGarageFragment;
 import com.HomeGarage.garage.location.LocationGetFragment;
-import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.GarageInfoModel;
+import com.HomeGarage.garage.navfragment.FavoriteGarageFragment;
 import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -58,7 +59,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     private DrawerLayout drawerLayout;
     private RecyclerView   recyclerGover ;
     private LinearLayout  layoutlast;
-    private View seeAllOper , locationGet , opne_nave;
+    private View seeAllOper , locationGet , imageNaveDrawer , imageFavGarage;
     private GovernorateAdapter governorateAdapter;
     private TextView govetLocation;
     private FragmentContainerView fragmentContainer;
@@ -92,7 +93,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
             public void onSwipeRight() {
                 drawerLayout.open(); } });
 
-        opne_nave.setOnClickListener(v -> drawerLayout.open());
+        imageNaveDrawer.setOnClickListener(v -> drawerLayout.open());
 
         preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
         boolean locationget = preferences.getBoolean(SettingFragment.LOCATIOON_SETTINNG,false);
@@ -149,6 +150,12 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(1)));
 
+        imageFavGarage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new FavoriteGarageFragment());
+            }
+        });
         //Gover item
         governorateAdapter = new GovernorateAdapter(this::onGoverListener , getContext());
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
@@ -177,7 +184,8 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         locationGet = v.findViewById(R.id.get_location);
         govetLocation = v.findViewById(R.id.txt_govet_location);
         fragmentContainer = v.findViewById(R.id.fragmentContainerMap);
-        opne_nave = v.findViewById(R.id.opne_nave);
+        imageNaveDrawer = v.findViewById(R.id.opne_nave);
+        imageFavGarage = v.findViewById(R.id.image_fav_garage);
     }
 
     private void enableLoaction(){
@@ -224,7 +232,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         }
     }
 
-    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfoModel> grageInfoModels);}
+    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GarageInfoModel> garageInfoModels);}
 
     interface MapSetLocation{
         void onMapSetLocation(LatLng latLng);

@@ -10,24 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.GarageInfoModel;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapter.GarageViewHolder> {
 
-    ArrayList<GrageInfoModel> grageInfoModels;
+    ArrayList<GarageInfoModel> garageInfoModels;
     GarageLisenter garageLisenter;
     Context context;
     String ratings;
     String egPound;
     String nonRate;
 
-    public   GarageInCityAdapter(ArrayList<GrageInfoModel> grageInfoModels, Context context, GarageLisenter garageLisenter ){
+    public   GarageInCityAdapter(ArrayList<GarageInfoModel> garageInfoModels, Context context, GarageLisenter garageLisenter ){
         this.garageLisenter = garageLisenter;
         this.context = context;
-        this.grageInfoModels = grageInfoModels;
+        this.garageInfoModels = garageInfoModels;
         notifyDataSetChanged();
     }
     @NonNull
@@ -39,16 +39,16 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
 
     @Override
     public void onBindViewHolder(@NonNull GarageViewHolder holder, int position) {
-            holder.bulidUI(grageInfoModels.get(position));
+            holder.bulidUI(garageInfoModels.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return grageInfoModels.size();
+        return garageInfoModels.size();
     }
 
     public interface GarageLisenter{
-        void  onGarageLisenter(GrageInfoModel grageInfoModel);
+        void  onGarageLisenter(GarageInfoModel garageInfoModel);
     }
 
     public class GarageViewHolder extends RecyclerView.ViewHolder{
@@ -63,21 +63,20 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
             viewGarageLisenter = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
-        public void  bulidUI(GrageInfoModel info){
-            ratings =  " " + context.getString(R.string.ratings) + " )";
-            egPound = " " + context.getString(R.string.eg);
+        public void  bulidUI(GarageInfoModel info){
+            ratings =   context.getString(R.string.ratings) ;
+            egPound =  context.getString(R.string.eg);
             nonRate = context.getString(R.string.not_rate);
             if(Locale.getDefault().getLanguage().equals("en")){
                 name.setText(info.getNameEn());
             }else { name.setText(info.getNameAr()); }
-            price.setText(info.getPriceForHour()+egPound);
+            price.setText(String.format(" %.2f %s" , info.getPriceForHour() , egPound));
             if(info.getNumOfRatings()!=0) {
                 float ratting = info.getRate() / (2*info.getNumOfRatings());
-                rate.setText(String.format("%.2f", ratting));
-                numOfRats.setText( " ( "+info.getNumOfRatings() +ratings);
+                rate.setText(String.format("%.2f ", ratting));
+                numOfRats.setText(String.format(" %d ( %s )",info.getNumOfRatings(),ratings));
             }else { numOfRats.setText(nonRate); }
-
-            viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(grageInfoModels.get(getAdapterPosition())));
+            viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(garageInfoModels.get(getLayoutPosition())));
         }
     }
 }

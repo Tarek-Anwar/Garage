@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.Adapter.CityAdapter;
 import com.HomeGarage.garage.models.CityModel;
-import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

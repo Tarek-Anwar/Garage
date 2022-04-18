@@ -19,7 +19,7 @@ import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeFragment;
 import com.HomeGarage.garage.models.CarInfoModel;
-import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.GarageInfoModel;
 import com.HomeGarage.garage.models.MoneyModel;
 import com.HomeGarage.garage.models.PurchaseModel;
 import com.HomeGarage.garage.navfragment.PayFragment;
@@ -42,7 +42,7 @@ public class DialogPay extends DialogFragment {
 
     float  costIN;
     CarInfoModel carInfoModelListener;
-    GrageInfoModel grageInfoModel;
+    GarageInfoModel garageInfoModel;
     String idLastOper;
     MoneyModel  modelMoney;
 
@@ -53,11 +53,11 @@ public class DialogPay extends DialogFragment {
     DatabaseReference appReference = FirebaseDatabase.getInstance().getReference().child("App");
     SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
-    public DialogPay(GrageInfoModel grageInfoModel, float  costIN , String idLastOper) {
-        this.grageInfoModel = grageInfoModel;
+    public DialogPay(GarageInfoModel garageInfoModel, float  costIN , String idLastOper) {
+        this.garageInfoModel = garageInfoModel;
         this.costIN =costIN;
         this.idLastOper = idLastOper;
-        garageReference = FirebaseUtil.referenceGarage.child(grageInfoModel.getId());
+        garageReference = FirebaseUtil.referenceGarage.child(garageInfoModel.getId());
         referenceCar = FirebaseUtil.databaseReference.child(Objects.requireNonNull(FirebaseUtil.firebaseAuth.getUid()));
     }
 
@@ -113,15 +113,15 @@ public class DialogPay extends DialogFragment {
 
 
                     //update balance for grage owner
-                    grageInfoModel.setBalance(grageInfoModel.getBalance() + grageBalance);
-                    garageReference.child("Balance").setValue(grageInfoModel.getBalance());
+                    garageInfoModel.setBalance(garageInfoModel.getBalance() + grageBalance);
+                    garageReference.child("Balance").setValue(garageInfoModel.getBalance());
                     modelMoney.setMoneyForGarage(grageBalance + modelMoney.getMoneyForGarage());
-                    appReference.child(grageInfoModel.getId()).child("moneyForGarage").setValue(modelMoney.getMoneyForGarage());
+                    appReference.child(garageInfoModel.getId()).child("moneyForGarage").setValue(modelMoney.getMoneyForGarage());
 
                     //update app balance
                     modelMoney.setAppPercent(appBalance + modelMoney.getAppPercent());
-                    appReference.child(grageInfoModel.getId()).child("appPercent").setValue(modelMoney.getAppPercent());
-                    appReference.child(grageInfoModel.getId()).child("totalBalance").setValue(modelMoney.getMoneyForGarage() - modelMoney.getAppPercent());
+                    appReference.child(garageInfoModel.getId()).child("appPercent").setValue(modelMoney.getAppPercent());
+                    appReference.child(garageInfoModel.getId()).child("totalBalance").setValue(modelMoney.getMoneyForGarage() - modelMoney.getAppPercent());
 
                     //creat opreation and save to last opreation list
                     PurchaseModel opreation = new PurchaseModel();
@@ -133,13 +133,13 @@ public class DialogPay extends DialogFragment {
                     opreation.setTo(carInfoModelListener.getId());
                     opreation.setValue(costIN);
                     opreation.setFromName(FirebaseUtil.carInfoModelLogin.get(0).getName());
-                    opreation.setToName(grageInfoModel.getNameEn());
+                    opreation.setToName(garageInfoModel.getNameEn());
                     opreation.setId(refPushase.push().getKey());
                     refPushase.child(opreation.getId()).setValue(opreation);
 
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
 
-                    RateDialog rateDialog = new RateDialog(idLastOper, grageInfoModel.getId());
+                    RateDialog rateDialog = new RateDialog(idLastOper, garageInfoModel.getId());
                     rateDialog.show(getParentFragmentManager(), "Rate");
 
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -171,7 +171,7 @@ public class DialogPay extends DialogFragment {
     }
 
     void getCarInfo(OnBalanceReciveCallback callback){
-        DatabaseReference reference  = appReference.child(grageInfoModel.getId());
+        DatabaseReference reference  = appReference.child(garageInfoModel.getId());
        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

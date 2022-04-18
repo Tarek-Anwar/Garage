@@ -31,7 +31,7 @@ import com.HomeGarage.garage.models.OpreationModel;
 import com.HomeGarage.garage.navfragment.BalanceFragment;
 import com.HomeGarage.garage.navfragment.PayFragment;
 import com.HomeGarage.garage.reservation.RequstActiveFragment;
-import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.HomeGarage.garage.utils.ConnectionReceiver;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;

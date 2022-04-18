@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.setting.SettingFragment;
+import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.HomeGarage.garage.utils.ConnectionReceiver;
 import com.google.android.material.snackbar.Snackbar;
 
