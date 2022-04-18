@@ -79,6 +79,7 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
     public class BalaceViewHolder extends RecyclerView.ViewHolder{
         TextView type , to ,value , date , time;
         Date dateLong ;
+        String poundEg = context.getString(R.string.eg);
         public BalaceViewHolder(@NonNull View itemView) {
             super(itemView);
             type = itemView.findViewById(R.id.type_pay_txt);
@@ -92,9 +93,10 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
             type.setText(FirebaseUtil.paylist.get(Integer.parseInt(model.getType())-1));
             to.setText(model.getToName());
             if(model.getType().equals("2")){
-                value.setText("+ "+String.format("%.2f",model.getValue())+" " + context.getString(R.string.eg));
+                value.setText(String.format(" %+.2f %s",model.getValue() , poundEg));
             }else {
-                value.setText("- "+String.format("%.2f",model.getValue())+" " + context.getString(R.string.eg));
+                model.setValue(model.getValue()*-1);
+                value.setText(String.format("%+.2f %s",model.getValue() , poundEg));
             }
 
             try {

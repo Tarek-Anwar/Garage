@@ -3,7 +3,7 @@ package com.HomeGarage.garage.models;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class GrageInfo {
+public class GrageInfoModel {
 
     private float Balance;
     private String id;
@@ -41,7 +41,7 @@ public class GrageInfo {
         return new LatLng(Double.parseDouble(loc[0]), Double.parseDouble(loc[1]));
     }
 
-    public GrageInfo() {
+    public GrageInfoModel() {
     }
 
     public float getBalance() {

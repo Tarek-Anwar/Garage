@@ -1,14 +1,14 @@
 package com.HomeGarage.garage.models;
 
 
-public class Opreation {
+public class OpreationModel {
 
     String id , state , type , fromName ,toName , from , to , date , dataEnd;
     float price,rate;
 
-    public  Opreation(){}
+    public OpreationModel(){}
 
-    public Opreation(String type, String fromName, String toName, String date, float price) {
+    public OpreationModel(String type, String fromName, String toName, String date, float price) {
         this.type = type;
         this.fromName = fromName;
         this.toName = toName;

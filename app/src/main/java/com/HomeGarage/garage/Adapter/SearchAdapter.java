@@ -10,13 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfoModel;
 
 import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
-    ArrayList<GrageInfo> grageInfos;
+    ArrayList<GrageInfoModel> grageInfoModels;
     Context context;
     SearchListener searchListener;
     String ratings;
@@ -29,8 +29,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         egPound = " " + context.getString(R.string.eg);
     }
 
-    public void setGrageInfos(ArrayList<GrageInfo> grageInfos) {
-        this.grageInfos= grageInfos;
+    public void setGrageInfos(ArrayList<GrageInfoModel> grageInfoModels) {
+        this.grageInfoModels = grageInfoModels;
         notifyDataSetChanged();
     }
 
@@ -43,18 +43,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
-        holder.BulidUI(grageInfos.get(position));
+        holder.BulidUI(grageInfoModels.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if(grageInfos==null)
+        if(grageInfoModels ==null)
             return 0;
-        return grageInfos.size();
+        return grageInfoModels.size();
     }
 
     public interface SearchListener{
-        void  SearchListener(GrageInfo grageInfo);
+        void  SearchListener(GrageInfoModel grageInfoModel);
     }
 
     protected class SearchViewHolder extends RecyclerView.ViewHolder {
@@ -71,17 +71,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             layouthListener = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
-        public void BulidUI(GrageInfo grageInfo){
-            nameGarage.setText(grageInfo.getNameEn());
-            price.setText(grageInfo.getPriceForHour()+egPound);
-            if(grageInfo.getNumOfRatings()!=0) {
-                float ratting = grageInfo.getRate() /((float) grageInfo.getNumOfRatings());
+        public void BulidUI(GrageInfoModel grageInfoModel){
+            nameGarage.setText(grageInfoModel.getNameEn());
+            price.setText(grageInfoModel.getPriceForHour()+egPound);
+            if(grageInfoModel.getNumOfRatings()!=0) {
+                float ratting = grageInfoModel.getRate() /((float) grageInfoModel.getNumOfRatings());
                 rate.setText(String.format("%.2f",ratting));
-                numOfRats.setText( " ( "+grageInfo.getNumOfRatings() +ratings);
+                numOfRats.setText( " ( "+ grageInfoModel.getNumOfRatings() +ratings);
             }
 
             layouthListener.setOnClickListener(V-> {
-                searchListener.SearchListener(grageInfo);
+                searchListener.SearchListener(grageInfoModel);
             });
         }
     }

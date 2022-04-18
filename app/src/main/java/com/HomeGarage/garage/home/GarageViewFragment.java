@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,27 +17,30 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfoModel;
 import com.HomeGarage.garage.reservation.ConfarmResrerFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.Locale;
 
 public class GarageViewFragment extends Fragment {
 
-    GrageInfo grageInfo;
+    GrageInfoModel grageInfoModel;
     Button orderGarage;
     DatabaseReference garageReference ;
     com.chaek.android.RatingBar ratingBar;
     View cardPhoneView , cardAddressView;
+    LikeButton likeButtonGarage;
     private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
 
 
-    public GarageViewFragment(GrageInfo grageInfo) {
-       this.grageInfo = grageInfo;
+    public GarageViewFragment(GrageInfoModel grageInfoModel) {
+       this.grageInfoModel = grageInfoModel;
     }
 
     public GarageViewFragment(){}
@@ -53,7 +57,7 @@ public class GarageViewFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_garage_view, container, false);
         initView(root);
 
-        if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(grageInfo.getId());
+        if(savedInstanceState==null){ garageReference = FirebaseUtil.referenceGarage.child(grageInfoModel.getId());
         }else { garageReference = FirebaseUtil.referenceGarage.child(savedInstanceState.getString("saveBalance")); }
 
         String pound = " "+ getActivity().getString(R.string.eg);
@@ -82,29 +86,47 @@ public class GarageViewFragment extends Fragment {
         });
 
         ratingBar.setEnabled(false);
+        likeButtonGarage.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                if(likeButton.isEnabled()) {
+                    DatabaseReference reference = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid()).child("favicon").child(grageInfoModel.getId());
+                    reference.setValue(grageInfoModel.getNameEn());
+                }
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                if(likeButton.isEnabled()){
+                    DatabaseReference reference = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid()).child("favicon").child(grageInfoModel.getId());
+                    reference.removeValue();
+                }
+            }
+        });
 
         orderGarage.setOnClickListener(v -> {
             FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(grageInfo,getActivity()));
+            transaction.replace(R.id.fragmentContainerView , new ConfarmResrerFragment(grageInfoModel,getActivity()));
             transaction.addToBackStack(null);
             transaction.commit();
         });
 
         cardPhoneView.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" +grageInfo.getPhone()));
+            intent.setData(Uri.parse("tel:" + grageInfoModel.getPhone()));
             startActivity(intent);
         });
 
         cardAddressView.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(getMapsURI(grageInfo.getLocation())));
+            intent.setData(Uri.parse(getMapsURI(grageInfoModel.getLocation())));
             startActivity(intent);
         });
         return root;
     }
 
     void initView (View view){
+        likeButtonGarage = view.findViewById(R.id.like_button_garage);
         nameGarage = view.findViewById(R.id.name_garage_txt);
         totalAddressGarage = view.findViewById(R.id.address_garage_view);
         orderGarage = view.findViewById(R.id.btn_order_garage);
@@ -120,8 +142,8 @@ public class GarageViewFragment extends Fragment {
         garageReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                grageInfo = snapshot.getValue(GrageInfo.class);
-                rate.onGarageGet(grageInfo);
+                grageInfoModel = snapshot.getValue(GrageInfoModel.class);
+                rate.onGarageGet(grageInfoModel);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -131,10 +153,10 @@ public class GarageViewFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("saveBalance" , grageInfo.getId());
+        outState.putString("saveBalance" , grageInfoModel.getId());
     }
 
-    interface Rate { void onGarageGet(GrageInfo grageInfo);}
+    interface Rate { void onGarageGet(GrageInfoModel grageInfoModel);}
 
     private String getMapsURI(String locationId) {
         String[] latitudeAndLongitude = locationId.split(",");
@@ -142,7 +164,7 @@ public class GarageViewFragment extends Fragment {
         String longitude = latitudeAndLongitude[1];
         return "geo:" + latitude + "," + longitude
                 + "?q=<" + latitude + ">,<" + longitude + ">,("
-                + grageInfo.getNameEn() + ")";
+                + grageInfoModel.getNameEn() + ")";
     }
 
 }

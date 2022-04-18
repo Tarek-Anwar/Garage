@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.Adapter.LastOperAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.models.OpreationModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +32,7 @@ public class LastOperFragment extends Fragment {
     TextView textOper;
     boolean aBoolean = false;
     View not_oper , find_oper , see_all_last_oper;
-    ArrayList<Opreation> lastOpereations = FirebaseUtil.opreationEndList;
+    ArrayList<OpreationModel> lastOpereations = FirebaseUtil.opreationModelEndList;
     private int count;
 
     public LastOperFragment(int count) {
@@ -70,7 +70,7 @@ public class LastOperFragment extends Fragment {
 
         getOperationMe(new OnOperReciveCallback() {
             @Override
-            public void countOpereCallback(ArrayList<Opreation> lastOpereations) {
+            public void countOpereCallback(ArrayList<OpreationModel> lastOpereations) {
                 lastOperAdapter = new LastOperAdapter(lastOpereations,count, opreation -> {
                     replace(opreation);
                 });
@@ -101,9 +101,9 @@ public class LastOperFragment extends Fragment {
         not_oper = root.findViewById(R.id.not_operation);
     }
 
-    private void replace(Opreation opreation){
+    private void replace(OpreationModel opreationModel){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView,  new OperationsFragment(opreation));
+        transaction.replace(R.id.fragmentContainerView,  new OperationsFragment(opreationModel));
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -118,10 +118,10 @@ public class LastOperFragment extends Fragment {
                 if (snapshot.exists()) {
                     lastOpereations.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Opreation opreation = snapshot1.getValue(Opreation.class);
-                        if (opreation.getType().equals("5")
-                                || (opreation.getType().equals("3") || opreation.getType().equals("4"))) {
-                            lastOpereations.add(opreation);
+                        OpreationModel opreationModel = snapshot1.getValue(OpreationModel.class);
+                        if (opreationModel.getType().equals("5")
+                                || (opreationModel.getType().equals("3") || opreationModel.getType().equals("4"))) {
+                            lastOpereations.add(opreationModel);
                         }
                     }
                     Collections.reverse(lastOpereations);
@@ -134,7 +134,7 @@ public class LastOperFragment extends Fragment {
     }
 
     interface OnOperReciveCallback{
-        void countOpereCallback(ArrayList<Opreation> lastOpereations);
+        void countOpereCallback(ArrayList<OpreationModel> lastOpereations);
         void isexit(boolean isexit);
     }
 }

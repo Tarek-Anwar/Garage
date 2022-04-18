@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -91,7 +92,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
         public void BulidUI(CityModel cityModel){
             cityName.setText(cityModel.getCity_name_en());
             if(cityModel.getNumberGarage()==0){
-                numOfGarage.setText("Not Garage");
+                numOfGarage.setText(itemView.getContext().getText(R.string.coom_soon));
             }else {
                 numOfGarage.setText(cityModel.getNumberGarage()+" Garages"); }
             layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModel));

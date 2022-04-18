@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.models.OpreationModel;
 
 public class OperationsFragment extends Fragment {
 
-    Opreation opreation;
+    OpreationModel opreationModel;
     private TextView type , to , from , time  , price ,rate , timeEnd , state;
-    public OperationsFragment(Opreation opreation) {
-        this.opreation=opreation;
+    public OperationsFragment(OpreationModel opreationModel) {
+        this.opreationModel = opreationModel;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class OperationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View  view =  inflater.inflate(R.layout.fragment_operations, container, false);
         intiView(view);
-        setData(opreation);
+        setData(opreationModel);
 
         return  view;
     }
@@ -51,15 +51,15 @@ public class OperationsFragment extends Fragment {
     }
 
     @SuppressLint("SetTextI18n")
-    void setData(Opreation opreation){
-        type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
-        to.setText(opreation.getToName());
-        from.setText(opreation.getFromName());
-        time.setText(opreation.getDate()+"");
-        price.setText(opreation.getPrice()+" E.G.");
-        state.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
-        if(opreation.getRate()!=0){ rate.setText((opreation.getRate()/2)+""); }else { rate.setText("!"); }
-        if(opreation.getDataEnd()!=null) timeEnd.setText(opreation.getDataEnd());
+    void setData(OpreationModel opreationModel){
+        type.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModel.getType())-1));
+        to.setText(opreationModel.getToName());
+        from.setText(opreationModel.getFromName());
+        time.setText(opreationModel.getDate()+"");
+        price.setText(opreationModel.getPrice()+" E.G.");
+        state.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreationModel.getState())-1));
+        if(opreationModel.getRate()!=0){ rate.setText((opreationModel.getRate()/2)+""); }else { rate.setText("!"); }
+        if(opreationModel.getDataEnd()!=null) timeEnd.setText(opreationModel.getDataEnd());
         else timeEnd.setText("!");
     }
 }

@@ -137,4 +137,7 @@
     <string name="wifi_enabled">الوايفاي يعمل</string>
     <string name="mobile_data_enabled">بيانات الهاتف تعمل</string>
     <string name="goodbye">الي اللقاء 😢</string>
+    <string name="coom_soon">انتظرونا 🤞</string>
+    <string name="negative_money">لا يمكن إدخال الأموال السلبية</string>
+    <string name="max_deposit">أقصى إيداع 10,000</string>
 </resources>

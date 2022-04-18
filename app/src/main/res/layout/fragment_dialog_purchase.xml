@@ -10,7 +10,7 @@
     android:maxWidth="300dp"
     android:maxHeight="350dp"
     android:orientation="vertical"
-    tools:context=".navfragment.DialogPurchase">
+    tools:context=".dialog.DialogPurchase">
 
     <LinearLayout
         android:layout_width="wrap_content"

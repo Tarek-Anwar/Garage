@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
+import com.HomeGarage.garage.dialog.DialogPay;
 import com.HomeGarage.garage.home.HomeFragment;
-import com.HomeGarage.garage.models.GrageInfo;
-import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.OpreationModel;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,8 +38,8 @@ import java.util.Locale;
 public class RequstActiveFragment extends Fragment {
 
     FragmentRequstActiveBinding binding;
-    Opreation opreation;
-    GrageInfo grageInfo;
+    OpreationModel opreationModel;
+    GrageInfoModel grageInfoModel;
     FragmentActivity activity;
     DatabaseReference refOperation;
     Date start = null;
@@ -49,8 +49,8 @@ public class RequstActiveFragment extends Fragment {
     int countProgress , round ;
     String roundTxt  ;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-    public RequstActiveFragment(Opreation opreation , FragmentActivity activity) {
-        this.opreation = opreation;
+    public RequstActiveFragment(OpreationModel opreationModel, FragmentActivity activity) {
+        this.opreationModel = opreationModel;
         this.activity = activity;
     }
 
@@ -64,7 +64,7 @@ public class RequstActiveFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRequstActiveBinding.inflate(getLayoutInflater());
-        refOperation = FirebaseUtil.referenceOperattion.child(opreation.getId());
+        refOperation = FirebaseUtil.referenceOperattion.child(opreationModel.getId());
 
         String cancel = getActivity().getString(R.string.cancel);
         String finsh= getActivity().getString(R.string.finshed_requst);
@@ -79,43 +79,43 @@ public class RequstActiveFragment extends Fragment {
         Drawable ic_done = getActivity().getDrawable(R.drawable.ic_done_all);
         Drawable reqFinsh = getActivity().getDrawable(R.drawable.type_req_finsh);
 
-        binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreation.getState())-1));
-        binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreation.getType())-1));
+        binding.txtRequstStateHome.setText(FirebaseUtil.stateList.get(Integer.parseInt(opreationModel.getState())-1));
+        binding.txtRequstTypeHome.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModel.getType())-1));
 
         setProgressBar();
 
-        getGarageInfo(opreation.getTo(), new OnGrageReciveCallback() {
+        getGarageInfo(opreationModel.getTo(), new OnGrageReciveCallback() {
             @Override
-            public void OnGrageRecive(GrageInfo grageInfo) {
+            public void OnGrageRecive(GrageInfoModel grageInfoModel) {
                 String allAddress  , name;
                 if(Locale.getDefault().getLanguage().equals("en")){
-                    allAddress = grageInfo.getGovernoateEn()+"\n"+grageInfo.getCityEn()+"\n"+grageInfo.getRestOfAddressEN();
-                    name = grageInfo.getNameEn();
+                    allAddress = grageInfoModel.getGovernoateEn()+"\n"+ grageInfoModel.getCityEn()+"\n"+ grageInfoModel.getRestOfAddressEN();
+                    name = grageInfoModel.getNameEn();
                 }else {
-                    allAddress = grageInfo.getGovernoateAR()+"\n"+grageInfo.getCityAr()+"\n"+grageInfo.getRestOfAddressAr();
-                    name = grageInfo.getNameAr();
+                    allAddress = grageInfoModel.getGovernoateAR()+"\n"+ grageInfoModel.getCityAr()+"\n"+ grageInfoModel.getRestOfAddressAr();
+                    name = grageInfoModel.getNameAr();
                 }
                 binding.addressReq.setText(allAddress);
                 binding.nameGarageReq.setText(name);
 
-                if(grageInfo.getNumOfRatings()!=0) {
-                    float ratting = grageInfo.getRate() / (2* grageInfo.getNumOfRatings());
+                if(grageInfoModel.getNumOfRatings()!=0) {
+                    float ratting = grageInfoModel.getRate() / (2* grageInfoModel.getNumOfRatings());
                     binding.rateReq.setText(String.format("%.2f",ratting));
-                    binding.numRateReq.setText( " ( "+grageInfo.getNumOfRatings() +ratings);
+                    binding.numRateReq.setText( " ( "+ grageInfoModel.getNumOfRatings() +ratings);
                 }
-               if(opreation.getPrice()<0){
+               if(opreationModel.getPrice()<0){
                     binding.dues.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onBalaceChange(Opreation opreation) {
-                if(opreation.getType().equals("1") && opreation.getState().equals("1")){
+            public void onBalaceChange(OpreationModel opreationModel) {
+                if(opreationModel.getType().equals("1") && opreationModel.getState().equals("1")){
                     binding.imgTypeReq.setImageDrawable(icRequst);
                     binding.imgStateReq.setBackground(reqWait);
                     binding.totalType.setVisibility(View.GONE);
                     binding.btnPayReser.setText(cancel);
-                }else if(opreation.getType().equals("2") && opreation.getState().equals("2")){
+                }else if(opreationModel.getType().equals("2") && opreationModel.getState().equals("2")){
                     binding.imgTypeReq.setImageDrawable(icAccpet);
                     binding.imgStateReq.setBackground(reqActice);
                     binding.totalType.setVisibility(View.GONE);
@@ -126,26 +126,26 @@ public class RequstActiveFragment extends Fragment {
                     binding.btnPayReser.setText(pay);
                 }
 
-                if(opreation.getPrice()!=0){
-                    binding.txtTotalHome.setText(opreation.getPrice()*-1 + egPound);
+                if(opreationModel.getPrice()!=0){
+                    binding.txtTotalHome.setText(opreationModel.getPrice()*-1 + egPound);
                 }
 
-                if(opreation.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
+                if(opreationModel.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
                     if(binding.btnPayReser.getText().equals(cancel)) {
                         binding.btnPayReser.setOnClickListener(v -> {
                             Date date = new Date(System.currentTimeMillis());
-                            if (opreation.getDataEnd() == null) {
-                                opreation.setDataEnd(formatterLong.format(date));
+                            if (opreationModel.getDataEnd() == null) {
+                                opreationModel.setDataEnd(formatterLong.format(date));
                             }
-                            opreation.setState("3");
-                            opreation.setType("4");
-                            opreation.setDataEnd(formatterLong.format(System.currentTimeMillis()));
-                            refOperation.setValue(opreation);
+                            opreationModel.setState("3");
+                            opreationModel.setType("4");
+                            opreationModel.setDataEnd(formatterLong.format(System.currentTimeMillis()));
+                            refOperation.setValue(opreationModel);
                             binding.chronometer.stop();
 
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    grageInfo.getId(), "From " + opreation.getFromName()
-                                    , "sorry " + opreation.getToName() + ", i'm can't come in reservation " + opreation.getDate(), opreation.getId(), getContext());
+                                    grageInfoModel.getId(), "From " + opreationModel.getFromName()
+                                    , "sorry " + opreationModel.getToName() + ", i'm can't come in reservation " + opreationModel.getDate(), opreationModel.getId(), getContext());
                             notificationsSender.SendNotifications();
 
                             if(getActivity()!=null){
@@ -163,23 +163,23 @@ public class RequstActiveFragment extends Fragment {
                         });
                     }
 
-                }else if(System.currentTimeMillis() > start.getTime() && opreation.getState().equals("2")) {
+                }else if(System.currentTimeMillis() > start.getTime() && opreationModel.getState().equals("2")) {
 
                     if(binding.btnPayReser.getText().equals(finsh)) {
                         binding.btnPayReser.setOnClickListener(v -> {
                             Date date = new Date(System.currentTimeMillis());
-                            if (opreation.getDataEnd() == null) {
-                                opreation.setDataEnd(formatterLong.format(date));
+                            if (opreationModel.getDataEnd() == null) {
+                                opreationModel.setDataEnd(formatterLong.format(date));
                             }
-                            opreation.setPrice(-1 * calPriceExpect(grageInfo.getPriceForHour(), opreation.getDate(), opreation.getDataEnd()));
-                            opreation.setState("3");
-                            opreation.setType("5");
-                            refOperation.setValue(opreation);
+                            opreationModel.setPrice(-1 * calPriceExpect(grageInfoModel.getPriceForHour(), opreationModel.getDate(), opreationModel.getDataEnd()));
+                            opreationModel.setState("3");
+                            opreationModel.setType("5");
+                            refOperation.setValue(opreationModel);
                             binding.chronometer.stop();
 
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    grageInfo.getId(), "From " + opreation.getFromName()
-                                    , "reservation to is finshed check pay" + opreation.getDate(), opreation.getId(), getContext());
+                                    grageInfoModel.getId(), "From " + opreationModel.getFromName()
+                                    , "reservation to is finshed check pay" + opreationModel.getDate(), opreationModel.getId(), getContext());
                             notificationsSender.SendNotifications();
                             binding.btnPayReser.setText(pay);
                         });
@@ -187,7 +187,7 @@ public class RequstActiveFragment extends Fragment {
                 }else {
                     if(binding.btnPayReser.getText().equals(pay)) {
                         binding.btnPayReser.setOnClickListener(v -> {
-                            DialogPay dialogPay = new DialogPay(grageInfo, -1 * opreation.getPrice(), opreation.getId());
+                            DialogPay dialogPay = new DialogPay(grageInfoModel, -1 * opreationModel.getPrice(), opreationModel.getId());
                             dialogPay.show(getParentFragmentManager(), "Pay");
                         });
                     }
@@ -199,13 +199,13 @@ public class RequstActiveFragment extends Fragment {
     }
 
     private void setProgressBar(){
-        try { start = formatterLong.parse(opreation.getDate());
+        try { start = formatterLong.parse(opreationModel.getDate());
         } catch (ParseException e) { e.printStackTrace(); }
 
-        if(opreation.getDataEnd()==null) {
+        if(opreationModel.getDataEnd()==null) {
             diff = System.currentTimeMillis() - start.getTime();
         }else {
-            try { end = formatterLong.parse(opreation.getDataEnd());
+            try { end = formatterLong.parse(opreationModel.getDataEnd());
             } catch (ParseException e) { e.printStackTrace(); }
             diff = end.getTime() - start.getTime();
         }
@@ -216,7 +216,7 @@ public class RequstActiveFragment extends Fragment {
             binding.roundTime.setText(roundTxt + round);}
 
         binding.chronometer.setBase(SystemClock.elapsedRealtime() - diff);
-        if(con && (opreation.getState().equals("1") || opreation.getState().equals("2"))){
+        if(con && (opreationModel.getState().equals("1") || opreationModel.getState().equals("2"))){
             binding.progressBar.setMax(2160);
             binding.chronometer.start();
             final Handler handler = new Handler();
@@ -262,8 +262,8 @@ public class RequstActiveFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                grageInfo = snapshot.getValue(GrageInfo.class);
-                callback.OnGrageRecive(grageInfo);
+                grageInfoModel = snapshot.getValue(GrageInfoModel.class);
+                callback.OnGrageRecive(grageInfoModel);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -272,8 +272,8 @@ public class RequstActiveFragment extends Fragment {
         refOperation.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Opreation opreation = snapshot.getValue(Opreation.class);
-                if(opreation!=null) callback.onBalaceChange(opreation);
+                OpreationModel opreationModel = snapshot.getValue(OpreationModel.class);
+                if(opreationModel !=null) callback.onBalaceChange(opreationModel);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -296,8 +296,8 @@ public class RequstActiveFragment extends Fragment {
 
 
     private interface OnGrageReciveCallback{
-        void OnGrageRecive(GrageInfo  grageInfo);
-        void onBalaceChange(Opreation opreation);
+        void OnGrageRecive(GrageInfoModel grageInfoModel);
+        void onBalaceChange(OpreationModel opreationModel);
     }
 
 

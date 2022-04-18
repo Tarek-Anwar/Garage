@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GrageInfo;
-import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.OpreationModel;
 import com.HomeGarage.garage.service.FcmNotificationsSender;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.firebase.database.DatabaseReference;
@@ -34,12 +34,12 @@ public class ConfarmResrerFragment extends Fragment {
     SingleDateAndTimePicker singleDateAndTimePicker2;
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     DatabaseReference reference;
-    GrageInfo grageInfo ;
+    GrageInfoModel grageInfoModel;
     String allDate= null;
     FragmentActivity activity;
 
-    public ConfarmResrerFragment(GrageInfo grageInfo ,  FragmentActivity activity) {
-        this.grageInfo = grageInfo;
+    public ConfarmResrerFragment(GrageInfoModel grageInfoModel, FragmentActivity activity) {
+        this.grageInfoModel = grageInfoModel;
         this.activity = activity;
     }
 
@@ -85,7 +85,7 @@ public class ConfarmResrerFragment extends Fragment {
         singleDateAndTimePicker2 = root.findViewById(R.id.single_day_picker);
     }
 
-    private void statResetvaion(Opreation opreation){
+    private void statResetvaion(OpreationModel opreationModel){
        FragmentManager fm = activity.getSupportFragmentManager();
         while (fm.getBackStackEntryCount() != 0) {
             //fm.popBackStackImmediate();
@@ -95,23 +95,23 @@ public class ConfarmResrerFragment extends Fragment {
             activity.getSupportFragmentManager().executePendingTransactions();
         }
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreation,activity));
+        transaction.replace(R.id.fragmentContainerView, new RequstActiveFragment(opreationModel,activity));
         transaction.commit();
     }
 
     private void singOperation( String data){
-        Opreation model = new Opreation();
+        OpreationModel model = new OpreationModel();
         model.setDate(data);
         model.setType("1");
         model.setState("1");
-        model.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
+        model.setFromName(FirebaseUtil.carInfoModelLogin.get(0).getName());
         model.setFrom(FirebaseUtil.firebaseAuth.getUid());
-        model.setTo(grageInfo.getId());
-        model.setToName(grageInfo.getNameEn());
+        model.setTo(grageInfoModel.getId());
+        model.setToName(grageInfoModel.getNameEn());
         model.setId(reference.push().getKey());
         reference.child(model.getId()).setValue(model);
         FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                grageInfo.getId(),"from " + FirebaseUtil.carInfoLogin.get(0).getName()
+                grageInfoModel.getId(),"from " + FirebaseUtil.carInfoModelLogin.get(0).getName()
                 ,"I want to reserve garage "+ model.getDate() ,model.getId() , getContext());
         notificationsSender.SendNotifications();
         statResetvaion(model);

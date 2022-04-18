@@ -1,15 +1,12 @@
 package com.HomeGarage.garage.home;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,8 +26,8 @@ import com.HomeGarage.garage.MainActivity;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.SplashScreenActivity;
 import com.HomeGarage.garage.databinding.ActivityHomeBinding;
-import com.HomeGarage.garage.models.CarInfo;
-import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.models.CarInfoModel;
+import com.HomeGarage.garage.models.OpreationModel;
 import com.HomeGarage.garage.navfragment.BalanceFragment;
 import com.HomeGarage.garage.navfragment.PayFragment;
 import com.HomeGarage.garage.reservation.RequstActiveFragment;
@@ -40,7 +36,6 @@ import com.HomeGarage.garage.utils.ConnectionReceiver;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,11 +46,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity  implements ConnectionReceiver.ReceiverListener {
 
-    ArrayList<CarInfo> carInfoUtil ;
+    ArrayList<CarInfoModel> carInfoModelUtil;
     ActivityHomeBinding binding;
     float currnetBalance;
     SharedPreferences preferences;
@@ -157,7 +151,6 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(myReceiver);
         getTime(offset -> { });
     }
 
@@ -168,12 +161,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
-    void setHeaderNav(CarInfo carInfo){
-        if (carInfo != null) {
-            textName.setText(carInfo.getName());
-            textPhone.setText(carInfo.getPhone());
-            textPhone.setText(carInfo.getEmail());
-            textBalance.setText(String.format("%.2f",carInfo.getBalance()) + " "+getString(R.string.eg));
+    void setHeaderNav(CarInfoModel carInfoModel){
+        if (carInfoModel != null) {
+            textName.setText(carInfoModel.getName());
+            textPhone.setText(carInfoModel.getPhone());
+            textPhone.setText(carInfoModel.getEmail());
+            textBalance.setText(String.format("%.2f", carInfoModel.getBalance()) + " "+getString(R.string.eg));
         }
     }
 
@@ -208,15 +201,15 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             startActivity(intent);
             finish();
         }else {
-            carInfoUtil = FirebaseUtil.carInfoLogin;
+            carInfoModelUtil = FirebaseUtil.carInfoModelLogin;
             DatabaseReference ref = FirebaseUtil.databaseReference.child(cruuentUser.getUid());
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    CarInfo carInfo = snapshot.getValue(CarInfo.class);
-                    carInfoUtil.add(carInfo);
-                    currnetBalance = carInfo.getBalance();
-                    callback.infoArriveCallback(carInfo);
+                    CarInfoModel carInfoModel = snapshot.getValue(CarInfoModel.class);
+                    carInfoModelUtil.add(carInfoModel);
+                    currnetBalance = carInfoModel.getBalance();
+                    callback.infoArriveCallback(carInfoModel);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) { }
@@ -232,12 +225,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Opreation opreation = snapshot1.getValue(Opreation.class);
-                        assert opreation != null;
-                        if (((opreation.getState().equals("1") || opreation.getState().equals("2") ) &&
-                                (opreation.getType().equals("1") || opreation.getType().equals("2") ))
-                                || opreation.getPrice() < 0) {
-                            callback.onCheckResetvation(opreation);
+                        OpreationModel opreationModel = snapshot1.getValue(OpreationModel.class);
+                        assert opreationModel != null;
+                        if (((opreationModel.getState().equals("1") || opreationModel.getState().equals("2") ) &&
+                                (opreationModel.getType().equals("1") || opreationModel.getType().equals("2") ))
+                                || opreationModel.getPrice() < 0) {
+                            callback.onCheckResetvation(opreationModel);
                         }
                     }
                 }
@@ -265,9 +258,9 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         });
     }
 
-    private interface CheckResetvationCallback{ void onCheckResetvation(Opreation opreation);}
+    private interface CheckResetvationCallback{ void onCheckResetvation(OpreationModel opreationModel);}
 
-    private interface OnInfoArriveCallback{ void infoArriveCallback(CarInfo carInfo);}
+    private interface OnInfoArriveCallback{ void infoArriveCallback(CarInfoModel carInfoModel);}
 
     private interface CheckCurrerntTimeCallback{ void onOffsetGet(long offset);}
 

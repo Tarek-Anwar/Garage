@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.navfragment;
+package com.HomeGarage.garage.dialog;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -45,8 +45,8 @@ public class DialogPurchase extends DialogFragment {
     float currntBalance = -1;
     float balance = -1;
     Toast toast;
-    public DialogPurchase() { }
 
+    public DialogPurchase() { }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
@@ -54,12 +54,13 @@ public class DialogPurchase extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_dialog_purchase, container, false);
+        initUI(root);
 
-        String eg = getActivity().getString(R.string.eg);
-        amount = root.findViewById(R.id.amount_puchase);
-        pushece = root.findViewById(R.id.btn_pushase_card);
-        balace = root.findViewById(R.id.balance_dialog);
+        String poungEg = getActivity().getString(R.string.eg);
+        String maxDeposit = getActivity().getString(R.string.max_deposit);
+        String negativeMoney = getActivity().getString(R.string.negative_money);
 
+        //custom Toast
         LayoutInflater li = getLayoutInflater();
         View view = li.inflate(R.layout.castom_toast_layout,root.findViewById(R.id.custom_toast_thank_you));
         toast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
@@ -67,34 +68,44 @@ public class DialogPurchase extends DialogFragment {
         toast.setView(view);
 
         getBalance((f, balance) -> {
-            balace.setText(String.format("%.2f",f)  +eg);
+            balace.setText(String.format("%.2f %s",f , poungEg));
             pushece.setOnClickListener(v -> {
                 float amountF = Float.parseFloat(Objects.requireNonNull(amount.getText()).toString());
-                PurchaseModel opreation = new PurchaseModel();
-                Date date = new Date(System.currentTimeMillis());
-                String dateOpreation = formatterLong.format(date);
-                opreation.setDate(dateOpreation);
-                opreation.setType("2");
-                opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
-                opreation.setTo("app");
-                opreation.setValue(amountF);
-                opreation.setFromName(FirebaseUtil.carInfoLogin.get(0).getName());
-                opreation.setToName("app");
-                opreation.setId(referencePurchase.push().getKey());
+                if(amountF<0) Toast.makeText(getContext(), negativeMoney, Toast.LENGTH_SHORT).show();
+                else if(amountF>10000) Toast.makeText(getContext(), maxDeposit, Toast.LENGTH_SHORT).show();
+                else{
+                    PurchaseModel opreation = new PurchaseModel();
+                    Date date = new Date(System.currentTimeMillis());
+                    String dateOpreation = formatterLong.format(date);
+                    opreation.setDate(dateOpreation);
+                    opreation.setType("2");
+                    opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
+                    opreation.setTo("app");
+                    opreation.setValue(amountF);
+                    opreation.setFromName(FirebaseUtil.carInfoModelLogin.get(0).getName());
+                    opreation.setToName("app");
+                    opreation.setId(referencePurchase.push().getKey());
 
-                referencePurchase.child(opreation.getId()).setValue(opreation);
-                referenceCar.child("balance").setValue(amountF + currntBalance);
-                referenceApp.child("Balance").setValue(balance+amountF);
+                    referencePurchase.child(opreation.getId()).setValue(opreation);
+                    referenceCar.child("balance").setValue(amountF + currntBalance);
+                    referenceApp.child("Balance").setValue(balance+amountF);
 
-                toast.show();
-                dismiss();
+                    toast.show();
+                    dismiss();
 
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.popBackStackImmediate();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStackImmediate();
+                }
             });
         });
 
         return root;
+    }
+
+    private void initUI(View root) {
+        amount = root.findViewById(R.id.amount_puchase);
+        pushece = root.findViewById(R.id.btn_pushase_card);
+        balace = root.findViewById(R.id.balance_dialog);
     }
 
     void getBalance(OnBalaceGetCallBack callBack){
@@ -106,7 +117,6 @@ public class DialogPurchase extends DialogFragment {
                    if(balance>=0){
                        callBack.balaceGetCallBack(currntBalance , balance);
                    }
-
               }
           }
           @Override
@@ -122,11 +132,8 @@ public class DialogPurchase extends DialogFragment {
                     }
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 

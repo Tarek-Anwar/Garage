@@ -10,24 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfoModel;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapter.GarageViewHolder> {
 
-    ArrayList<GrageInfo> grageInfos  ;
+    ArrayList<GrageInfoModel> grageInfoModels;
     GarageLisenter garageLisenter;
     Context context;
     String ratings;
     String egPound;
     String nonRate;
 
-    public   GarageInCityAdapter(ArrayList<GrageInfo> grageInfos , Context context, GarageLisenter garageLisenter ){
+    public   GarageInCityAdapter(ArrayList<GrageInfoModel> grageInfoModels, Context context, GarageLisenter garageLisenter ){
         this.garageLisenter = garageLisenter;
         this.context = context;
-        this.grageInfos = grageInfos;
+        this.grageInfoModels = grageInfoModels;
         notifyDataSetChanged();
     }
     @NonNull
@@ -39,16 +39,16 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
 
     @Override
     public void onBindViewHolder(@NonNull GarageViewHolder holder, int position) {
-            holder.bulidUI(grageInfos.get(position));
+            holder.bulidUI(grageInfoModels.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return grageInfos.size();
+        return grageInfoModels.size();
     }
 
     public interface GarageLisenter{
-        void  onGarageLisenter(GrageInfo grageInfo);
+        void  onGarageLisenter(GrageInfoModel grageInfoModel);
     }
 
     public class GarageViewHolder extends RecyclerView.ViewHolder{
@@ -63,7 +63,7 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
             viewGarageLisenter = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
-        public void  bulidUI(GrageInfo info){
+        public void  bulidUI(GrageInfoModel info){
             ratings =  " " + context.getString(R.string.ratings) + " )";
             egPound = " " + context.getString(R.string.eg);
             nonRate = context.getString(R.string.not_rate);
@@ -77,7 +77,7 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
                 numOfRats.setText( " ( "+info.getNumOfRatings() +ratings);
             }else { numOfRats.setText(nonRate); }
 
-            viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(grageInfos.get(getAdapterPosition())));
+            viewGarageLisenter.setOnClickListener(v -> garageLisenter.onGarageLisenter(grageInfoModels.get(getAdapterPosition())));
         }
     }
 }

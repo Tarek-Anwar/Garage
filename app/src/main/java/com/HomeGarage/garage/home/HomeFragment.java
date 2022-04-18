@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ import com.HomeGarage.garage.Adapter.GovernorateAdapter;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.location.GoverGarageFragment;
 import com.HomeGarage.garage.location.LocationGetFragment;
-import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfoModel;
 import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.setting.SettingFragment;
 import com.google.android.gms.location.LocationCallback;
@@ -43,11 +42,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -230,7 +224,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         }
     }
 
-    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfo> grageInfos);}
+    public interface OnDataReceiveCallback { void onDataReceived(ArrayList<GrageInfoModel> grageInfoModels);}
 
     interface MapSetLocation{
         void onMapSetLocation(LatLng latLng);

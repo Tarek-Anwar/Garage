@@ -19,7 +19,7 @@ import com.HomeGarage.garage.Adapter.SearchAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.GarageViewFragment;
-import com.HomeGarage.garage.models.GrageInfo;
+import com.HomeGarage.garage.models.GrageInfoModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +42,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
 
     RecyclerView recyclerSearch;
     SearchAdapter searchAdapter;
-    ArrayList<GrageInfo> grageInfos=new ArrayList<>();
+    ArrayList<GrageInfoModel> grageInfoModels =new ArrayList<>();
 
     public SearchFragment() { }
 
@@ -78,9 +78,9 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
                 if(snapshot.exists())
                 {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        GrageInfo grage = dataSnapshot.getValue(GrageInfo.class);
-                        if (!(grageInfos.contains(grage))) {
-                            grageInfos.add(grage);
+                        GrageInfoModel grage = dataSnapshot.getValue(GrageInfoModel.class);
+                        if (!(grageInfoModels.contains(grage))) {
+                            grageInfoModels.add(grage);
                         }
                     }
                     searchAdapter.notifyDataSetChanged();
@@ -91,7 +91,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        searchAdapter.setGrageInfos(grageInfos);
+        searchAdapter.setGrageInfos(grageInfoModels);
     }
 
     private void initViews(View root)
@@ -178,8 +178,8 @@ public class SearchFragment extends Fragment implements SearchAdapter.SearchList
         });
     }
     @Override
-    public void SearchListener(GrageInfo grageInfo) {
-        GarageViewFragment newFragment = new GarageViewFragment(grageInfo);
+    public void SearchListener(GrageInfoModel grageInfoModel) {
+        GarageViewFragment newFragment = new GarageViewFragment(grageInfoModel);
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, newFragment);
         transaction.addToBackStack(null);

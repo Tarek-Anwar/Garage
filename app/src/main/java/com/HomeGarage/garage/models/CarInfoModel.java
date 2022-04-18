@@ -1,11 +1,11 @@
 package com.HomeGarage.garage.models;
 
-public class CarInfo {
+public class CarInfoModel {
 
     private String id , email , phone , name , imageName , imageUrl;
     private float balance;
 
-    public CarInfo() { }
+    public CarInfoModel() { }
 
     public String getImageUrl() { return imageUrl; }
 

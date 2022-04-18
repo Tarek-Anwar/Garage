@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.R;
+import com.HomeGarage.garage.dialog.DialogPurchase;
 import com.braintreepayments.cardform.view.CardForm;
 
 

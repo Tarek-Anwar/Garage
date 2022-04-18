@@ -2,9 +2,9 @@ package com.HomeGarage.garage;
 
 import android.util.Log;
 
-import com.HomeGarage.garage.models.CarInfo;
-import com.HomeGarage.garage.models.GrageInfo;
-import com.HomeGarage.garage.models.Opreation;
+import com.HomeGarage.garage.models.CarInfoModel;
+import com.HomeGarage.garage.models.GrageInfoModel;
+import com.HomeGarage.garage.models.OpreationModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,9 +30,9 @@ public class FirebaseUtil {
     public static FirebaseStorage firebaseStorage;
 
 
-    public static ArrayList<CarInfo> carInfoLogin;
-    public static ArrayList<GrageInfo> allGarage;
-    public static ArrayList<Opreation> opreationEndList;
+    public static ArrayList<CarInfoModel> carInfoModelLogin;
+    public static ArrayList<GrageInfoModel> allGarage;
+    public static ArrayList<OpreationModel> opreationModelEndList;
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;
     public static ArrayList<Integer> paylist;
@@ -68,9 +68,9 @@ public class FirebaseUtil {
         paylist.add(R.string.Purchase);
         paylist.add(R.string.deposit);
 
-        carInfoLogin = new ArrayList<>();
+        carInfoModelLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
-        opreationEndList = new ArrayList<>();
+        opreationModelEndList = new ArrayList<>();
         databaseReference = firebaseDatabase.getReference().child("CarInfo");
         referenceOperattion = firebaseDatabase.getReference().child("Operation");
         referenceGarage = firebaseDatabase.getReference().child("GaragerOnwerInfo");

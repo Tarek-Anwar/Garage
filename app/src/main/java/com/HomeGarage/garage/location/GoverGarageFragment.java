@@ -31,21 +31,26 @@ import java.util.ArrayList;
 
 public class GoverGarageFragment extends Fragment {
 
-    int pos;
-    String gover;
+    public final String SAVE_POSATION = "savePosation";
+    private final String SAVE_CITY  = "saveCity";
+    private final String SAVE_QUERY  = "saveQuery";
+
+    int posationCity;
+    String city;
     ArrayList<CityModel> cityList;
-    CityAdapter cityAdapter;
+    CityAdapter cityAdapter = null;
     SearchView completeText;
     RecyclerView recyclerCity;
     Context context;
     SharedPreferences preferences;
     boolean settingCity;
-
-    public GoverGarageFragment(int pos , String gover , Context context) {
-        this.pos = pos;
-        this.gover = gover;
+    String coomSoon;
+    public GoverGarageFragment(int posationCity , String city , Context context) {
+        this.posationCity = posationCity;
+        this.city = city;
         this.context = context;
     }
+    public GoverGarageFragment(){ }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,13 @@ public class GoverGarageFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_gover_garage, container, false);
         completeText = root.findViewById(R.id.search_city);
         recyclerCity = root.findViewById(R.id.recycle_city);
+        coomSoon = (String) getActivity().getText(R.string.coom_soon);
+        if(savedInstanceState==null){
+
+        }else {
+            posationCity = savedInstanceState.getInt(SAVE_POSATION);
+            city = savedInstanceState.getString(SAVE_CITY);
+        }
 
         preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user),Context.MODE_PRIVATE);
         settingCity = preferences.getBoolean(SettingFragment.CITY_SETTINNG,true);
@@ -69,9 +81,7 @@ public class GoverGarageFragment extends Fragment {
                     transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s.getCity_name_en()));
                     transaction.addToBackStack(null);
                     transaction.commit();}
-                else {
-                    Toast.makeText(context, "There are no garages", Toast.LENGTH_SHORT).show();
-                }
+                else Toast.makeText(context,coomSoon, Toast.LENGTH_SHORT).show();
             });
             recyclerCity.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
             recyclerCity.setAdapter(cityAdapter);
@@ -80,22 +90,27 @@ public class GoverGarageFragment extends Fragment {
         completeText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) { return false; }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-                cityAdapter.getFilter().filter(newText);
-                return false; }
+                if(cityAdapter!=null) cityAdapter.getFilter().filter(newText);
+                return false;
+            }
         });
 
         return root;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SAVE_CITY,city);
+        outState.putInt(SAVE_POSATION,posationCity);
+    }
 
     private void getAllCityInGover(AllCityInGoverCallback callback){
         cityList = new ArrayList<>();
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("cities");
-        Query query =  reference.orderByChild("governorate_id").equalTo((pos+1)+"");
+        Query query =  reference.orderByChild("governorate_id").equalTo((posationCity+1)+"");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -108,7 +123,6 @@ public class GoverGarageFragment extends Fragment {
                                 cityList.add(cityModel);
                             }
                        }else cityList.add(cityModel);
-
                     }
                     callback.onAllCityInGoverCallback(cityList);
                 }

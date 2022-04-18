@@ -78,7 +78,7 @@
                 android:id="@+id/txt_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="22dp"
                 tools:text="@string/City" />
 

@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.models.CarInfo;
+import com.HomeGarage.garage.models.CarInfoModel;
 import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
 import com.HomeGarage.garage.setting.SettingFragment;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -34,7 +34,7 @@ public class SignUpFragment extends Fragment {
 
 
     AwesomeValidation validation;
-    CarInfo model = new CarInfo();
+    CarInfoModel model = new CarInfoModel();
     TextView loginTxt;
     TextInputEditText userNameET,emailET,phoneET,passwordET,confirmET ;
     FloatingActionButton creatBTN;
