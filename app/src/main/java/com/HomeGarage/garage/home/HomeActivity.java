@@ -73,12 +73,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         ConnectionReceiver.Listener = this;
         broadcastIntent();
         //Check Time
-        getTime(offset -> {
-            if(offset > 1000 || offset < -1000) {
+      /* getTime(offset -> {
+            if(offset > 2000 || offset < -2000) {
                 startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
                 toast.show();
             }
-        });
+        });*/
 
         getUserInfo(carInfo -> {
             setHeaderNav(carInfo);
@@ -139,13 +139,13 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     @Override
     protected void onRestart() {
         super.onRestart();
-        getTime(offset -> {
-            if(offset > 1000 || offset < -1000) {
+       /* getTime(offset -> {
+            if(offset > 2000 || offset < -2000) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
@@ -236,18 +236,6 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
             Picasso.get().load(url).resize(width, width).centerCrop().into(imageProfile); } }
 
-    private void getTime(CheckCurrerntTimeCallback callback){
-        DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
-        offsetRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-               long offset = snapshot.getValue(Long.class);
-                callback.onOffsetGet(offset);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
-    }
 
     private interface CheckResetvationCallback{ void onCheckResetvation(OpreationModule opreationModule);}
 

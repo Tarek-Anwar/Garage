@@ -100,6 +100,15 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
             tools:listitem="@layout/last_operations_row_layout" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar_last_oper"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycle_all_oper" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

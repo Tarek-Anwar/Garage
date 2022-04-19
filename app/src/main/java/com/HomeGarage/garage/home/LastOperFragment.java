@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,9 +31,10 @@ public class LastOperFragment extends Fragment {
 
     RecyclerView  recyclerAllOper;
     LastOperAdapter lastOperAdapter;
-    TextView textOper;
+    TextView textOperation;
+    ProgressBar progressBarLastOper;
     boolean aBoolean = false;
-    View not_oper , find_oper , see_all_last_oper;
+    View notOperation , findOperation , seeLastOperation;
     LinkedList<OpreationModule> lastOpereations = FirebaseUtil.opreationModuleEndList;
     private int count;
 
@@ -62,31 +64,26 @@ public class LastOperFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
         initUI(root);
-        if(getActivity()!=null)  see_all_last_oper = getActivity().findViewById(R.id.see_all_last_oper);
+        if(getActivity()!=null)  textOperation = getActivity().findViewById(R.id.see_all_last_oper);
 
-        if(aBoolean){
-            textOper.setText(R.string.all_opertions);
-        }
+        if(aBoolean) textOperation.setText(R.string.all_opertions);
 
         getOperationMe(new OnOperReciveCallback() {
             @Override
             public void countOpereCallback(LinkedList<OpreationModule> lastOpereations) {
-                lastOperAdapter = new LastOperAdapter(lastOpereations,count, opreation -> {
-                    replace(opreation);
-                });
+                lastOperAdapter = new LastOperAdapter(lastOpereations,count, opreation -> replace(opreation));
                 recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
                 recyclerAllOper.setAdapter(lastOperAdapter);
             }
-
             @Override
             public void isexit(boolean isexit) {
                 if(!isexit){
-                    find_oper.setVisibility(View.GONE);
-                    if(getActivity()!=null) see_all_last_oper.setVisibility(View.GONE);
-                    not_oper.setVisibility(View.VISIBLE);
+                    findOperation.setVisibility(View.GONE);
+                    if(getActivity()!=null) seeLastOperation.setVisibility(View.GONE);
+                    notOperation.setVisibility(View.VISIBLE);
                 }else {
-                    find_oper.setVisibility(View.VISIBLE);
-                    not_oper.setVisibility(View.GONE);
+                    findOperation.setVisibility(View.VISIBLE);
+                    notOperation.setVisibility(View.GONE);
                 }
             }
         });
@@ -96,9 +93,10 @@ public class LastOperFragment extends Fragment {
 
     private void initUI(View root){
         recyclerAllOper = root.findViewById(R.id.recycle_all_oper);
-        textOper = root.findViewById(R.id.txt_oper_fragment);
-        find_oper = root.findViewById(R.id.operaion_latout);
-        not_oper = root.findViewById(R.id.not_operation);
+        textOperation = root.findViewById(R.id.txt_oper_fragment);
+        findOperation = root.findViewById(R.id.operaion_latout);
+        notOperation = root.findViewById(R.id.not_operation);
+        progressBarLastOper = root.findViewById(R.id.progress_bar_last_oper);
     }
 
     private void replace(OpreationModule opreationModule){
@@ -116,6 +114,7 @@ public class LastOperFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 callback.isexit(snapshot.exists());
                 if (snapshot.exists()) {
+                    progressBarLastOper.setVisibility(View.VISIBLE);
                     lastOpereations.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         OpreationModule opreationModule = snapshot1.getValue(OpreationModule.class);
@@ -124,6 +123,7 @@ public class LastOperFragment extends Fragment {
                             lastOpereations.addFirst(opreationModule);
                         }
                     }
+                    progressBarLastOper.setVisibility(View.GONE);
                     callback.countOpereCallback(lastOpereations);
                 }
             }

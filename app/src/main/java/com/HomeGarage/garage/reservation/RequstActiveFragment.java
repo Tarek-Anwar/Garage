@@ -45,6 +45,7 @@ public class RequstActiveFragment extends Fragment {
     Date start = null;
     Date end = null;
     Long diff;
+    long offset = FirebaseUtil.offsetTime;
     volatile boolean con;
     int countProgress , round ;
     String roundTxt  ;
@@ -133,13 +134,13 @@ public class RequstActiveFragment extends Fragment {
                 if(opreationModule.getType().equals("1") || System.currentTimeMillis() < start.getTime() ){
                     if(binding.btnPayReser.getText().equals(cancel)) {
                         binding.btnPayReser.setOnClickListener(v -> {
-                            Date date = new Date(System.currentTimeMillis());
+                            Date date = new Date(System.currentTimeMillis()+offset);
                             if (opreationModule.getDataEnd() == null) {
                                 opreationModule.setDataEnd(formatterLong.format(date));
                             }
                             opreationModule.setState("3");
                             opreationModule.setType("4");
-                            opreationModule.setDataEnd(formatterLong.format(System.currentTimeMillis()));
+                            opreationModule.setDataEnd(formatterLong.format(System.currentTimeMillis()+offset));
                             refOperation.setValue(opreationModule);
                             binding.chronometer.stop();
 
@@ -167,7 +168,7 @@ public class RequstActiveFragment extends Fragment {
 
                     if(binding.btnPayReser.getText().equals(finsh)) {
                         binding.btnPayReser.setOnClickListener(v -> {
-                            Date date = new Date(System.currentTimeMillis());
+                            Date date = new Date(System.currentTimeMillis()+offset);
                             if (opreationModule.getDataEnd() == null) {
                                 opreationModule.setDataEnd(formatterLong.format(date));
                             }
@@ -203,7 +204,7 @@ public class RequstActiveFragment extends Fragment {
         } catch (ParseException e) { e.printStackTrace(); }
 
         if(opreationModule.getDataEnd()==null) {
-            diff = System.currentTimeMillis() - start.getTime();
+            diff = System.currentTimeMillis()+offset - start.getTime();
         }else {
             try { end = formatterLong.parse(opreationModule.getDataEnd());
             } catch (ParseException e) { e.printStackTrace(); }

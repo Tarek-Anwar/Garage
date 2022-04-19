@@ -2,6 +2,7 @@ package com.HomeGarage.garage.reservation;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class ConfarmResrerFragment extends Fragment {
     GarageInfoModule garageInfoModule;
     String allDate= null;
     FragmentActivity activity;
-
+    long offset = FirebaseUtil.offsetTime;
     public ConfarmResrerFragment(GarageInfoModule garageInfoModule, FragmentActivity activity) {
         this.garageInfoModule = garageInfoModule;
         this.activity = activity;
@@ -59,7 +60,7 @@ public class ConfarmResrerFragment extends Fragment {
         singleDateAndTimePicker2.setCustomLocale(Locale.getDefault());
 
         btnRecerNow.setOnClickListener(v -> {
-            Date date = new Date(System.currentTimeMillis());
+            Date date = new Date(System.currentTimeMillis()+offset);
             String dataModel = formatterLong.format(date);
             singOperation(dataModel);
         });
@@ -70,7 +71,7 @@ public class ConfarmResrerFragment extends Fragment {
                 Date d1 = null;
                 try { d1 = formatterLong.parse(allDate);
                 } catch (ParseException e) { e.printStackTrace(); }
-                if (d1.getTime()>System.currentTimeMillis()){
+                if (d1.getTime()>System.currentTimeMillis()+offset){
                     singOperation(allDate); }
                 else{ Toast.makeText(getContext(), getString(R.string.time_past), Toast.LENGTH_SHORT).show(); }
             }

@@ -3,9 +3,11 @@ package com.HomeGarage.garage.location;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -40,11 +42,13 @@ public class GoverGarageFragment extends Fragment {
     ArrayList<CityModule> cityList;
     CityAdapter cityAdapter = null;
     SearchView completeText;
+    ProgressBar progressBarCity;
     RecyclerView recyclerCity;
     Context context;
     SharedPreferences preferences;
     boolean settingCity;
     String coomSoon;
+
     public GoverGarageFragment(int posationCity , String city , Context context) {
         this.posationCity = posationCity;
         this.city = city;
@@ -61,12 +65,10 @@ public class GoverGarageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_gover_garage, container, false);
-        completeText = root.findViewById(R.id.search_city);
-        recyclerCity = root.findViewById(R.id.recycle_city);
-        coomSoon = (String) getActivity().getText(R.string.coom_soon);
-        if(savedInstanceState==null){
 
-        }else {
+        initUI(root);
+        coomSoon = (String) getActivity().getText(R.string.coom_soon);
+        if(savedInstanceState!=null){
             posationCity = savedInstanceState.getInt(SAVE_POSATION);
             city = savedInstanceState.getString(SAVE_CITY);
         }
@@ -76,11 +78,8 @@ public class GoverGarageFragment extends Fragment {
 
         getAllCityInGover(citys -> {
             cityAdapter= new CityAdapter(citys, s -> {
-                if(s.getNumberGarage()>0){
-                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainerView, new CityGarageFragment(s.getCity_name_en()));
-                    transaction.addToBackStack(null);
-                    transaction.commit();}
+
+                if(s.getNumberGarage()>0) replaceFragment(new CityGarageFragment(s.getCity_name_en()));
                 else Toast.makeText(context,coomSoon, Toast.LENGTH_SHORT).show();
             });
             recyclerCity.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
@@ -100,6 +99,20 @@ public class GoverGarageFragment extends Fragment {
         return root;
     }
 
+    private void replaceFragment(CityGarageFragment cityGarageFragment) {
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, cityGarageFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+
+    private void initUI(View root) {
+        completeText = root.findViewById(R.id.search_city);
+        recyclerCity = root.findViewById(R.id.recycle_city);
+        progressBarCity = root.findViewById(R.id.progress_bar_city);
+    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -115,15 +128,14 @@ public class GoverGarageFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    progressBarCity.setVisibility(View.VISIBLE);
                     cityList.clear();
                     for (DataSnapshot item : snapshot.getChildren()){
                        CityModule cityModule = item.getValue(CityModule.class);
-                       if(settingCity){
-                            if(cityModule.getNumberGarage()>0){
-                                cityList.add(cityModule);
-                            }
-                       }else cityList.add(cityModule);
+                       if(settingCity) {if(cityModule.getNumberGarage()>0) cityList.add(cityModule);}
+                       else cityList.add(cityModule);
                     }
+                    progressBarCity.setVisibility(View.GONE);
                     callback.onAllCityInGoverCallback(cityList);
                 }
             }
