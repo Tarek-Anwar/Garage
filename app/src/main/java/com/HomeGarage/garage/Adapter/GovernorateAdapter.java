@@ -83,17 +83,12 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
         }
 
         public void BulidUI(GovernorateModule model){
-            if(Locale.getDefault().getLanguage().equals("en")){
-                nameGaver.setText(model.getGovernorate_name_en());
-            }else {
-                nameGaver.setText(model.getGovernorate_name_ar());
-            }
-            layouGover.setOnClickListener(v -> goverListener.onGoverListener(getAdapterPosition() , model.getGovernorate_name_en()));
+            nameGaver.setText(Locale.getDefault().getLanguage().equals("en") ? model.getGovernorate_name_en() : model.getGovernorate_name_ar());
+            layouGover.setOnClickListener(v -> goverListener.onGoverListener(getLayoutPosition() , model.getGovernorate_name_en()));
             if(model.getImage_url()!=null){
                 showImage(model.getImage_url());
             }
         }
-
         private void showImage(String url) {
             if (url != null && url.isEmpty() == false) {
                 int width = Resources.getSystem().getDisplayMetrics().widthPixels;

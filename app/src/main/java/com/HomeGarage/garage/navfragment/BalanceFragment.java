@@ -24,8 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 
 public class BalanceFragment extends Fragment {
 
@@ -35,7 +34,7 @@ public class BalanceFragment extends Fragment {
     float balance;
     private ProgressBar progressBarBalance;
     DatabaseReference referencePurchase;
-    ArrayList<PurchaseModule> purchaseModules;
+    LinkedList<PurchaseModule> purchaseModules;
 
     public BalanceFragment(){}
     public BalanceFragment(float balance) {
@@ -90,18 +89,18 @@ public class BalanceFragment extends Fragment {
     }
 
     private void getAllPurchase(OnPurchaseGetCallBack callBack){
-        purchaseModules = new ArrayList<>();
+        purchaseModules = new LinkedList<>();
         Query query =  referencePurchase.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    purchaseModules.clear();
                     for (DataSnapshot item : snapshot.getChildren()){
                         progressBarBalance.setVisibility(View.VISIBLE);
                         PurchaseModule model = item.getValue(PurchaseModule.class);
-                        purchaseModules.add(model);
+                        purchaseModules.addFirst(model);
                     }
-                    Collections.reverse(purchaseModules);
                     callBack.getPurchases(purchaseModules);
                     progressBarBalance.setVisibility(View.GONE);
                 }
@@ -112,6 +111,6 @@ public class BalanceFragment extends Fragment {
     }
 
     private interface OnPurchaseGetCallBack{
-        void getPurchases(ArrayList<PurchaseModule> purchaseModules);
+        void getPurchases(LinkedList<PurchaseModule> purchaseModules);
     }
 }

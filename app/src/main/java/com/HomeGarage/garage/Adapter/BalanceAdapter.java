@@ -23,15 +23,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Locale;
 
 
 public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceViewHolder> {
 
-    ArrayList<PurchaseModule> purchaseModules;
+    LinkedList<PurchaseModule> purchaseModules;
     Context context;
 
-    public  BalanceAdapter(Context context , ArrayList<PurchaseModule> purchaseModules ){
+    public  BalanceAdapter(Context context , LinkedList<PurchaseModule> purchaseModules ){
         this.purchaseModules=purchaseModules;
         this.context = context;
     }

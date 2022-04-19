@@ -23,7 +23,7 @@
         android:theme="@style/Theme.Garage">
 
         <receiver
-            android:name=".utils.ConnectionReceiver"
+            android:name=".service.ConnectionReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

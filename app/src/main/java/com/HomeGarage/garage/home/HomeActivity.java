@@ -33,10 +33,9 @@ import com.HomeGarage.garage.navfragment.BalanceFragment;
 import com.HomeGarage.garage.navfragment.PayFragment;
 import com.HomeGarage.garage.reservation.RequstActiveFragment;
 import com.HomeGarage.garage.navfragment.SettingFragment;
-import com.HomeGarage.garage.utils.ConnectionReceiver;
+import com.HomeGarage.garage.service.ConnectionReceiver;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,8 +64,6 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-      //  cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         toast = Toast.makeText(this, "Please , chec time", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER,0,0);

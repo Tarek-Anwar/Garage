@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.HomeGarage.garage.home.HomeActivity;
 import com.HomeGarage.garage.navfragment.SettingFragment;
-import com.HomeGarage.garage.utils.ConnectionReceiver;
+import com.HomeGarage.garage.service.ConnectionReceiver;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -123,7 +123,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
     private interface OnInfoArriveCallback{ void infoArriveCallback(Boolean isFind);}
 
     private  void checkLogin(OnInfoArriveCallback callback) {
-        callback.infoArriveCallback(cruuentUser==null ? false : true);
+        callback.infoArriveCallback(cruuentUser!=null ? true : false);
     }
 
 

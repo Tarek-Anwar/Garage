@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class LastOperFragment extends Fragment {
 
@@ -32,7 +33,7 @@ public class LastOperFragment extends Fragment {
     TextView textOper;
     boolean aBoolean = false;
     View not_oper , find_oper , see_all_last_oper;
-    ArrayList<OpreationModule> lastOpereations = FirebaseUtil.opreationModuleEndList;
+    LinkedList<OpreationModule> lastOpereations = FirebaseUtil.opreationModuleEndList;
     private int count;
 
     public LastOperFragment(int count) {
@@ -59,7 +60,6 @@ public class LastOperFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
         initUI(root);
         if(getActivity()!=null)  see_all_last_oper = getActivity().findViewById(R.id.see_all_last_oper);
@@ -70,7 +70,7 @@ public class LastOperFragment extends Fragment {
 
         getOperationMe(new OnOperReciveCallback() {
             @Override
-            public void countOpereCallback(ArrayList<OpreationModule> lastOpereations) {
+            public void countOpereCallback(LinkedList<OpreationModule> lastOpereations) {
                 lastOperAdapter = new LastOperAdapter(lastOpereations,count, opreation -> {
                     replace(opreation);
                 });
@@ -121,10 +121,9 @@ public class LastOperFragment extends Fragment {
                         OpreationModule opreationModule = snapshot1.getValue(OpreationModule.class);
                         if (opreationModule.getType().equals("5")
                                 || (opreationModule.getType().equals("3") || opreationModule.getType().equals("4"))) {
-                            lastOpereations.add(opreationModule);
+                            lastOpereations.addFirst(opreationModule);
                         }
                     }
-                    Collections.reverse(lastOpereations);
                     callback.countOpereCallback(lastOpereations);
                 }
             }
@@ -134,7 +133,7 @@ public class LastOperFragment extends Fragment {
     }
 
     interface OnOperReciveCallback{
-        void countOpereCallback(ArrayList<OpreationModule> lastOpereations);
+        void countOpereCallback(LinkedList<OpreationModule> lastOpereations);
         void isexit(boolean isexit);
     }
 }

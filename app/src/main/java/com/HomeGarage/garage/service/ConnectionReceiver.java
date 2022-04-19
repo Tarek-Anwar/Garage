@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.utils;
+package com.HomeGarage.garage.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

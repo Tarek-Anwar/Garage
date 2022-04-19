@@ -13,20 +13,17 @@ import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
     ArrayList<GarageInfoModule> garageInfoModules;
     Context context;
     SearchListener searchListener;
-    String ratings;
-    String egPound;
 
     public SearchAdapter(Context context, SearchListener searchListener) {
         this.context = context;
         this.searchListener = searchListener;
-        ratings =  " " + context.getString(R.string.ratings) + " )";
-        egPound = " " + context.getString(R.string.eg);
     }
 
     public void setGrageInfos(ArrayList<GarageInfoModule> garageInfoModules) {
@@ -48,41 +45,42 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     @Override
     public int getItemCount() {
-        if(garageInfoModules ==null)
-            return 0;
+        if(garageInfoModules ==null) return 0;
         return garageInfoModules.size();
     }
 
-    public interface SearchListener{
-        void  SearchListener(GarageInfoModule garageInfoModule);
-    }
+    public interface SearchListener{ void  SearchListener(GarageInfoModule garageInfoModule);}
 
     protected class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView nameGarage , rate , numOfRats , price ;
+        private TextView textNameGarage , textRate , textNumOfRats , textPriceForHour ;
         private View layouthListener;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameGarage = itemView.findViewById(R.id.txt_name_garage);
-            rate = itemView.findViewById(R.id.rate_req_garage);
-            numOfRats = itemView.findViewById(R.id.num_rate_req_garage);
-            price = itemView.findViewById(R.id.price_garage);
+            textNameGarage = itemView.findViewById(R.id.txt_name_garage);
+            textRate = itemView.findViewById(R.id.rate_req_garage);
+            textNumOfRats = itemView.findViewById(R.id.num_rate_req_garage);
+            textPriceForHour = itemView.findViewById(R.id.price_garage);
             layouthListener = itemView.findViewById(R.id.layout_garage_lisenter);
         }
 
-        public void BulidUI(GarageInfoModule garageInfoModule){
-            nameGarage.setText(garageInfoModule.getNameEn());
-            price.setText(garageInfoModule.getPriceForHour()+egPound);
-            if(garageInfoModule.getNumOfRatings()!=0) {
-                float ratting = garageInfoModule.getRate() /((float) garageInfoModule.getNumOfRatings());
-                rate.setText(String.format("%.2f",ratting));
-                numOfRats.setText( " ( "+ garageInfoModule.getNumOfRatings() +ratings);
-            }
+        public void BulidUI(GarageInfoModule module){
 
-            layouthListener.setOnClickListener(V-> {
-                searchListener.SearchListener(garageInfoModule);
-            });
+            String ratingsText =  context.getString(R.string.ratings);
+            String egPoundText = context.getString(R.string.eg);
+            String notRateText = context.getString(R.string.not_rate);
+            float ratting = module.getRate() /((float) module.getNumOfRatings());
+
+            textNameGarage.setText(Locale.getDefault().getLanguage().equals("en") ? module.getNameEn() : module.getNameAr());
+            textPriceForHour.setText(String.format("%.2f %s",module.getPriceForHour(),egPoundText));
+
+            if(module.getNumOfRatings()!=0) {
+                textRate.setText(String.format("%.2f",ratting));
+                textNumOfRats.setText(String.format(" %d ( %s ) " ,module.getNumOfRatings(),ratingsText));
+            }else{ textRate.setText(notRateText);textNumOfRats.setText(""); }
+
+            layouthListener.setOnClickListener(V-> searchListener.SearchListener(module));
         }
     }
 }

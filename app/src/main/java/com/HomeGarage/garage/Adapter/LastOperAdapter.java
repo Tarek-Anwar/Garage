@@ -16,18 +16,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Locale;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
     SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     SimpleDateFormat formatter =new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
-    ArrayList<OpreationModule> lastOpereations = FirebaseUtil.opreationModuleEndList;
+    LinkedList<OpreationModule> lastOpereations ;
     LastOperListener lastOperListener;
     private int numViewOper = 1;
 
 
-    public LastOperAdapter(ArrayList<OpreationModule> lastOpereations , int numViewOper, LastOperListener lastOperListener) {
+    public LastOperAdapter(LinkedList<OpreationModule> lastOpereations , int numViewOper, LastOperListener lastOperListener) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
         this.lastOpereations = lastOpereations;

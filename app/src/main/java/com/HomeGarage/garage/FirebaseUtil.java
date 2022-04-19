@@ -12,6 +12,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FirebaseUtil {
 
@@ -32,7 +33,7 @@ public class FirebaseUtil {
 
     public static ArrayList<CarInfoModule> carInfoModuleLogin;
     public static ArrayList<GarageInfoModule> allGarage;
-    public static ArrayList<OpreationModule> opreationModuleEndList;
+    public static LinkedList<OpreationModule> opreationModuleEndList;
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;
     public static ArrayList<Integer> paylist;
@@ -70,7 +71,7 @@ public class FirebaseUtil {
 
         carInfoModuleLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
-        opreationModuleEndList = new ArrayList<>();
+        opreationModuleEndList = new LinkedList<>();
         databaseReference = firebaseDatabase.getReference().child("CarInfo");
         referenceOperattion = firebaseDatabase.getReference().child("Operation");
         referenceGarage = firebaseDatabase.getReference().child("GaragerOnwerInfo");
