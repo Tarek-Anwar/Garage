@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.Adapter.LastOperAdapter;
+import com.HomeGarage.garage.adapter.LastOperAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.OpreationModule;
@@ -23,8 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 
 public class LastOperFragment extends Fragment {
@@ -33,25 +32,18 @@ public class LastOperFragment extends Fragment {
     LastOperAdapter lastOperAdapter;
     TextView textOperation;
     ProgressBar progressBarLastOper;
-    boolean aBoolean = false;
     View notOperation , findOperation , seeLastOperation;
     LinkedList<OpreationModule> lastOpereations = FirebaseUtil.opreationModuleEndList;
     private int count;
 
     public LastOperFragment(int count) {
        this.count=count;
-        if(count==1){
-            aBoolean=true;
-        }
     }
 
     public LastOperFragment() { }
 
     public void setCount(int count) {
         this.count = count;
-        if(count==1){
-            aBoolean=true;
-        }
     }
 
     @Override
@@ -64,9 +56,11 @@ public class LastOperFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_last_oper, container, false);
         initUI(root);
-        if(getActivity()!=null)  textOperation = getActivity().findViewById(R.id.see_all_last_oper);
 
-        if(aBoolean) textOperation.setText(R.string.all_opertions);
+        if(checkActivity(getActivity())) {
+            seeLastOperation = getActivity().findViewById(R.id.see_all_last_oper);
+            if(count!= 3) textOperation.setText(R.string.all_opertions);
+        }
 
         getOperationMe(new OnOperReciveCallback() {
             @Override
@@ -75,17 +69,19 @@ public class LastOperFragment extends Fragment {
                 recyclerAllOper.setLayoutManager(new LinearLayoutManager(getContext() ,RecyclerView.VERTICAL,false ));
                 recyclerAllOper.setAdapter(lastOperAdapter);
             }
+
             @Override
-            public void isexit(boolean isexit) {
+            public void isExit(boolean isexit) {
                 if(!isexit){
                     findOperation.setVisibility(View.GONE);
-                    if(getActivity()!=null) seeLastOperation.setVisibility(View.GONE);
+                    if(checkActivity(getActivity())) seeLastOperation.setVisibility(View.GONE);
                     notOperation.setVisibility(View.VISIBLE);
-                }else {
+                }else{
                     findOperation.setVisibility(View.VISIBLE);
                     notOperation.setVisibility(View.GONE);
                 }
             }
+
         });
 
         return root;
@@ -112,14 +108,13 @@ public class LastOperFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                callback.isexit(snapshot.exists());
+                callback.isExit(snapshot.exists());
                 if (snapshot.exists()) {
                     progressBarLastOper.setVisibility(View.VISIBLE);
                     lastOpereations.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         OpreationModule opreationModule = snapshot1.getValue(OpreationModule.class);
-                        if (opreationModule.getType().equals("5")
-                                || (opreationModule.getType().equals("3") || opreationModule.getType().equals("4"))) {
+                        if (checkOpreation(opreationModule)) {
                             lastOpereations.addFirst(opreationModule);
                         }
                     }
@@ -132,8 +127,14 @@ public class LastOperFragment extends Fragment {
         });
     }
 
+    private boolean checkOpreation(OpreationModule module){
+        return  module.getState().equals("3") ;
+    }
+    private boolean checkActivity(FragmentActivity activity){
+        return !activity.isDestroyed() && activity!=null ;
+    }
     interface OnOperReciveCallback{
         void countOpereCallback(LinkedList<OpreationModule> lastOpereations);
-        void isexit(boolean isexit);
+        void isExit(boolean isexit);
     }
 }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.Adapter.GarageInCityAdapter;
+import com.HomeGarage.garage.adapter.GarageInCityAdapter;
 import com.HomeGarage.garage.home.GarageViewFragment;
 import com.HomeGarage.garage.home.MapsFragment;
 import com.HomeGarage.garage.modules.GarageInfoModule;

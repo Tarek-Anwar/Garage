@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.Adapter.SearchAdapter;
+import com.HomeGarage.garage.adapter.SearchAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.GarageViewFragment;

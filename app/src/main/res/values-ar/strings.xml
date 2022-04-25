@@ -141,4 +141,5 @@
     <string name="negative_money">لا يمكن إدخال الأموال السلبية</string>
     <string name="max_deposit">أقصى إيداع 10,000</string>
     <string name="your_favorite_arages">جراشاتك المفضله</string>
+    <string name="garage">جراش</string>
 </resources>

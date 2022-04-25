@@ -36,6 +36,7 @@ import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.HomeGarage.garage.service.ConnectionReceiver;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,7 +53,6 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     ArrayList<CarInfoModule> carInfoModuleUtil;
     ActivityHomeBinding binding;
     float currnetBalance;
-    Toast toast;
     private ConnectionReceiver myReceiver = null;
     private DrawerLayout drawerLayout;
     private TextView textName , textEmail , textPhone , textBalance ;
@@ -64,21 +64,12 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         super.onCreate(savedInstanceState);
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        toast = Toast.makeText(this, "Please , chec time", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER,0,0);
+        FirebaseUtil.getInstence();
 
         //Check Connection Internet
         myReceiver = new ConnectionReceiver();
         ConnectionReceiver.Listener = this;
         broadcastIntent();
-        //Check Time
-      /* getTime(offset -> {
-            if(offset > 2000 || offset < -2000) {
-                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
-                toast.show();
-            }
-        });*/
 
         getUserInfo(carInfo -> {
             setHeaderNav(carInfo);
@@ -129,23 +120,18 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     @Override
     protected void onResume() {
         super.onResume();
+
         getUserInfo(carInfo -> {
             setHeaderNav(carInfo);
             showImage(carInfo.getImageUrl());
         });
+
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.firebaseAuth.getUid());
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-       /* getTime(offset -> {
-            if(offset > 2000 || offset < -2000) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        });*/
     }
 
     @Override
@@ -208,6 +194,7 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
             public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
+
     private void checkResetvation(CheckResetvationCallback callback) {
         DatabaseReference reference = FirebaseUtil.referenceOperattion;
         Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
@@ -231,6 +218,7 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         });
     }
 
+
     private void showImage(String url) {
         if (url != null && !url.isEmpty()) {
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -241,6 +229,5 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
 
     private interface OnUserInfoArriveCallback{ void infoUser(CarInfoModule carInfoModule);}
 
-    private interface CheckCurrerntTimeCallback{ void onOffsetGet(long offset);}
 
 }

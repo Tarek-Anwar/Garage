@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.HomeGarage.garage.Adapter.GarageInCityAdapter;
+import com.HomeGarage.garage.adapter.GarageInCityAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.home.GarageViewFragment;

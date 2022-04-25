@@ -14,6 +14,9 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +33,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.Adapter.GovernorateAdapter;
+import com.HomeGarage.garage.adapter.GovernorateAdapter;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.location.GoverGarageFragment;
 import com.HomeGarage.garage.location.LocationGetFragment;
@@ -43,6 +46,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,11 +62,9 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     MapSetLocation setLocation;
     private DrawerLayout drawerLayout;
     private RecyclerView   recyclerGover ;
-    private LinearLayout  layoutlast;
     private View seeAllOper , locationGet , imageNaveDrawer , imageFavGarage;
     private GovernorateAdapter governorateAdapter;
     private TextView govetLocation;
-    private FragmentContainerView fragmentContainer;
     private String me , here;
     private SharedPreferences preferences ;
     private ActivityResultLauncher<Object> launcher;
@@ -78,7 +80,6 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //define UI
         View root =  inflater.inflate(R.layout.fragment_home, container, false);
         initViews(root);
         drawerLayout = getActivity().findViewById(R.id.drawer_layout);
@@ -90,10 +91,13 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         //swaip
         root.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() {
-                drawerLayout.open(); } });
+            public void onSwipeRight() { drawerLayout.open();setAnimation(); } });
 
-        imageNaveDrawer.setOnClickListener(v -> drawerLayout.open());
+
+        imageNaveDrawer.setOnClickListener(v -> {
+            drawerLayout.open();
+            setAnimation();
+        });
 
         preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
         boolean locationget = preferences.getBoolean(SettingFragment.LOCATIOON_SETTINNG,false);
@@ -150,14 +154,9 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         seeAllOper.setOnClickListener(v -> replaceFragment(new LastOperFragment(1)));
 
-        imageFavGarage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(new FavoriteGarageFragment());
-            }
-        });
+        imageFavGarage.setOnClickListener(v -> replaceFragment(new FavoriteGarageFragment()));
         //Gover item
-        governorateAdapter = new GovernorateAdapter(this::onGoverListener , getContext());
+        governorateAdapter = new GovernorateAdapter(this::onGoverListener);
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         recyclerGover.setAdapter(governorateAdapter);
 
@@ -179,11 +178,9 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
     private void initViews(View v){
         seeAllOper = v.findViewById(R.id.see_all_last_oper);
-        layoutlast = v.findViewById(R.id.layout_last);
         recyclerGover = v.findViewById(R.id.recycle_gover);
         locationGet = v.findViewById(R.id.get_location);
         govetLocation = v.findViewById(R.id.txt_govet_location);
-        fragmentContainer = v.findViewById(R.id.fragmentContainerMap);
         imageNaveDrawer = v.findViewById(R.id.opne_nave);
         imageFavGarage = v.findViewById(R.id.image_fav_garage);
     }
@@ -201,6 +198,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         locationRequest.setMaxWaitTime(2000);
         locationRequest.setNumUpdates(5);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -213,12 +211,12 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
                 @Override
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     super.onLocationResult(locationResult);
-                    if(locationResult.getLocations().size() > 0){
+                    if(!locationResult.getLocations().isEmpty()){
                         int i = locationResult.getLocations().size()-1;
                         double longitude = locationResult.getLocations().get(i).getLongitude();
                         double latitude = locationResult.getLocations().get(i).getLatitude();
-                        curentLocation = new LatLng(latitude,longitude);
-                        if(curentLocation!=null)setLocation.onMapSetLocation(curentLocation);
+                       // curentLocation = new LatLng(latitude,longitude);
+                        setLocation.onMapSetLocation(new LatLng(latitude,longitude));
                         try {
                             List<Address> addresses = geocoder.getFromLocation(latitude,longitude,1);
                             Address address = addresses.get(0);
@@ -238,4 +236,11 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         void onMapSetLocation(LatLng latLng);
     }
 
+    private void setAnimation(){
+        Animation animationImage = AnimationUtils.loadAnimation(getContext(), R.anim.bounce_animation);
+        NavigationView navigationView = getActivity().findViewById(R.id.main_nave_view);
+        View viewHeaderView = navigationView.getHeaderView(0);
+        ImageView imageProfile = viewHeaderView.findViewById(R.id.img_profile);
+        imageProfile.setAnimation(animationImage);
+    }
 }

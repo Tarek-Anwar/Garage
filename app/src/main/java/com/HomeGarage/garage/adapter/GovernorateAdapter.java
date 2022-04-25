@@ -1,8 +1,8 @@
-package com.HomeGarage.garage.Adapter;
+package com.HomeGarage.garage.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +29,7 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
     ArrayList<GovernorateModule> listGoverEn = new ArrayList<>();
     GoverListener goverListener;
 
-    public GovernorateAdapter(GoverListener goverListener , Context context){
+    public GovernorateAdapter(GoverListener goverListener){
         this.goverListener = goverListener;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Governorate");
         reference.addValueEventListener(new ValueEventListener() {
@@ -42,11 +42,11 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
                         listGoverEn.add(model);
                         notifyItemChanged(listGoverEn.size()-1);
                     }
-                    notifyDataSetChanged();
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 
@@ -59,7 +59,7 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull GovernorateViewHolder holder, int position) {
-        holder.BulidUI(listGoverEn.get(position));
+        holder.bulidUI(listGoverEn.get(position));
     }
 
     @Override
@@ -82,20 +82,21 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
             imageView  = itemView.findViewById(R.id.image_gover);
         }
 
-        public void BulidUI(GovernorateModule model){
+        public void bulidUI(GovernorateModule model){
+            showImage(model.getImage_url());
             nameGaver.setText(Locale.getDefault().getLanguage().equals("en") ? model.getGovernorate_name_en() : model.getGovernorate_name_ar());
             layouGover.setOnClickListener(v -> goverListener.onGoverListener(getLayoutPosition() , model.getGovernorate_name_en()));
-            if(model.getImage_url()!=null){
-                showImage(model.getImage_url());
-            }
+
         }
-        private void showImage(String url) {
-            if (url != null && url.isEmpty() == false) {
+
+        public void showImage(String url) {
+            if (url != null ) {
+                Log.i("sdfrweqrqweer" ,url);
                 int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-                Picasso.get().load(url).resize(width, width)
+                Picasso.get().load(url).resize(width,width)
                         .centerCrop()
                         .into(imageView);
-            }
+            }else Log.i("sdfrweqrqweer" ,"not Url");
         }
     }
 }

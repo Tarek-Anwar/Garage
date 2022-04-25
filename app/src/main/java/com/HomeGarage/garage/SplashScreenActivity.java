@@ -41,6 +41,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         FirebaseUtil.getInstence();
+
         cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         preferences =  getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
@@ -74,13 +75,17 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        checkLogin(isFind -> {
+            Class activity = isFind ? HomeActivity.class : MainActivity.class;
+            startHomeActivity(activity);
+        });
+    }
+
+    @Override
     public void onNetworkChange(boolean isConnected) {
-        if(isConnected){
-            checkLogin(isFind -> {
-                Class activity = isFind ? HomeActivity.class : MainActivity.class;
-                startHomeActivity(activity);
-            });
-        }else showSnackBar(isConnected ,imageSplash , getApplicationContext() , Snackbar.LENGTH_INDEFINITE);
+        if(!isConnected) showSnackBar(isConnected ,imageSplash , getApplicationContext() , Snackbar.LENGTH_INDEFINITE);
     }
 
     public void broadcastIntent() {
@@ -125,6 +130,5 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
     private  void checkLogin(OnInfoArriveCallback callback) {
         callback.infoArriveCallback(cruuentUser!=null ? true : false);
     }
-
 
 }

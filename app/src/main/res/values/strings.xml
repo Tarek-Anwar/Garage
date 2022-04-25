@@ -139,6 +139,7 @@
     <string name="negative_money">Negative money cannot be entered</string>
     <string name="max_deposit">Max Deposit 10,000</string>
     <string name="your_favorite_arages">Your Favorite Garages</string>
+    <string name="garage">Garage</string>
 
 
 </resources>

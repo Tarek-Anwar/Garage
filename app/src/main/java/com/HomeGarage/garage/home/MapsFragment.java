@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.Adapter.CustomInfoWindowAdpter;
+import com.HomeGarage.garage.adapter.CustomInfoWindowAdpter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GarageInfoModule;

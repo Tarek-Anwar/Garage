@@ -3,7 +3,6 @@ package com.HomeGarage.garage.location;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.Adapter.CityAdapter;
+import com.HomeGarage.garage.adapter.CityAdapter;
 import com.HomeGarage.garage.modules.CityModule;
 import com.HomeGarage.garage.navfragment.SettingFragment;
 import com.google.firebase.database.DataSnapshot;

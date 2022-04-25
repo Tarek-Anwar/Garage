@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.Adapter;
+package com.HomeGarage.garage.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,16 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.PurchaseModule;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;

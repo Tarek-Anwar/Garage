@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.Adapter.BalanceAdapter;
+import com.HomeGarage.garage.adapter.BalanceAdapter;
 import com.HomeGarage.garage.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.PurchaseModule;

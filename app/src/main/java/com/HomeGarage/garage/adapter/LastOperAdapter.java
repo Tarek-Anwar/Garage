@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.Adapter;
+package com.HomeGarage.garage.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import com.HomeGarage.garage.modules.OpreationModule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
