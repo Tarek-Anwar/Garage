@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".home.LastOperFragment">
+    tools:context=".ui.home.LastOperFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/operaion_latout"
@@ -103,7 +103,7 @@
         <ProgressBar
             android:id="@+id/progress_bar_last_oper"
             style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_20sdp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

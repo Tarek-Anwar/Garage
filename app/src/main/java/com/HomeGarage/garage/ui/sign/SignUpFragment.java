@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.sign;
+package com.HomeGarage.garage.ui.sign;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.ui.home.HomeActivity;
 import com.HomeGarage.garage.modules.CarInfoModule;
-import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.navfragment.SettingFragment;
+import com.HomeGarage.garage.service.OnSwipeTouchListener;
+import com.HomeGarage.garage.ui.navfragment.SettingFragment;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;

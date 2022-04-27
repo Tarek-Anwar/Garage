@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home;
+package com.HomeGarage.garage.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.OpreationModule;
 

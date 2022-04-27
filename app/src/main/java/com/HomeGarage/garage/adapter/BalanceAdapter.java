@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.PurchaseModule;
 
@@ -65,12 +65,11 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalaceVi
 
         public void bulidUI(PurchaseModule model){
 
-            model.setValue(model.getType().equals("2") ? model.getValue() : model.getValue() * -1);
+            model.setValue(model.getType().equals("1") ? model.getValue()*-1 : model.getValue());
 
             textType.setText(FirebaseUtil.paylist.get(Integer.parseInt(model.getType())-1));
             TextToName.setText(model.getToName());
             textValue.setText(String.format("%+.2f %s",model.getValue() , poundEg));
-
             try {
                 dateLong = formatterLong.parse(model.getDate());
                 TextDate.setText(formatterData.format(dateLong));

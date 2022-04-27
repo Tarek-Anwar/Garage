@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home;
+package com.HomeGarage.garage.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GarageInfoModule;
-import com.HomeGarage.garage.reservation.ConfarmResrerFragment;
+import com.HomeGarage.garage.ui.reservation.ConfarmResrerFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

@@ -1,12 +1,13 @@
-package com.HomeGarage.garage;
+package com.HomeGarage.garage.util;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.CarInfoModule;
 import com.HomeGarage.garage.modules.GarageInfoModule;
+import com.HomeGarage.garage.modules.GovernorateModule;
 import com.HomeGarage.garage.modules.OpreationModule;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +42,7 @@ public class FirebaseUtil {
     public static ArrayList<CarInfoModule> carInfoModuleLogin;
     public static ArrayList<GarageInfoModule> allGarage;
     public static LinkedList<OpreationModule> opreationModuleEndList;
+    public static ArrayList<GovernorateModule> governorateModuleList;
     public static ArrayList<Integer> stateList;
     public static ArrayList<Integer> typeList;
     public static ArrayList<Integer> paylist;
@@ -79,6 +81,7 @@ public class FirebaseUtil {
         carInfoModuleLogin = new ArrayList<>();
         allGarage = new ArrayList<>();
         opreationModuleEndList = new LinkedList<>();
+        governorateModuleList = new ArrayList<>();
         databaseReference = firebaseDatabase.getReference().child("CarInfo");
         referenceOperattion = firebaseDatabase.getReference().child("Operation");
         referenceGarage = firebaseDatabase.getReference().child("GaragerOnwerInfo");

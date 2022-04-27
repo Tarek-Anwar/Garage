@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.sign;
+package com.HomeGarage.garage.ui.sign;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.HomeGarage.garage.FirebaseUtil;
-import com.HomeGarage.garage.MainActivity;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.ui.home.HomeActivity;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;

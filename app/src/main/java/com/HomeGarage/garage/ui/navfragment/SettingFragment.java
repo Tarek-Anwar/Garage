@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.navfragment;
+package com.HomeGarage.garage.ui.navfragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import android.widget.Switch;
 import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.ui.home.HomeActivity;
 
 import java.util.Locale;
 

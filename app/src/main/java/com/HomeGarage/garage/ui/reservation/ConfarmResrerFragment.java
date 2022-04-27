@@ -1,8 +1,7 @@
-package com.HomeGarage.garage.reservation;
+package com.HomeGarage.garage.ui.reservation;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.HomeGarage.garage.modules.OpreationModule;

@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.navfragment;
+package com.HomeGarage.garage.ui.navfragment;
 
 import android.os.Bundle;
 
@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.HomeGarage.garage.adapter.GarageInCityAdapter;
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.GarageViewFragment;
+import com.HomeGarage.garage.ui.home.GarageViewFragment;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

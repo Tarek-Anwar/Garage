@@ -10,7 +10,7 @@
     app:cardElevation="@dimen/_8sdp"
     app:cardCornerRadius="@dimen/_8sdp"
     app:layoutDescription="@xml/fragment_operations_scene"
-    tools:context=".home.OperationsFragment">
+    tools:context=".ui.home.OperationsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

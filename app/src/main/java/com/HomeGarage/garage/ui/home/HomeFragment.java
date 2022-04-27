@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home;
+package com.HomeGarage.garage.ui.home;
 
 import android.Manifest;
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,19 +28,18 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.adapter.GovernorateAdapter;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.location.GoverGarageFragment;
-import com.HomeGarage.garage.location.LocationGetFragment;
+import com.HomeGarage.garage.ui.location.GoverGarageFragment;
+import com.HomeGarage.garage.ui.location.LocationGetFragment;
 import com.HomeGarage.garage.modules.GarageInfoModule;
-import com.HomeGarage.garage.navfragment.FavoriteGarageFragment;
-import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.navfragment.SettingFragment;
+import com.HomeGarage.garage.ui.navfragment.FavoriteGarageFragment;
+import com.HomeGarage.garage.service.OnSwipeTouchListener;
+import com.HomeGarage.garage.ui.navfragment.SettingFragment;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -69,6 +68,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     private SharedPreferences preferences ;
     private ActivityResultLauncher<Object> launcher;
     private Geocoder geocoder;
+    private ProgressBar progressBarGover;
 
     public HomeFragment(){ }
 
@@ -156,7 +156,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         imageFavGarage.setOnClickListener(v -> replaceFragment(new FavoriteGarageFragment()));
         //Gover item
-        governorateAdapter = new GovernorateAdapter(this::onGoverListener);
+        governorateAdapter = new GovernorateAdapter(this::onGoverListener,progressBarGover);
         recyclerGover.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         recyclerGover.setAdapter(governorateAdapter);
 
@@ -183,6 +183,7 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
         govetLocation = v.findViewById(R.id.txt_govet_location);
         imageNaveDrawer = v.findViewById(R.id.opne_nave);
         imageFavGarage = v.findViewById(R.id.image_fav_garage);
+        progressBarGover = v.findViewById(R.id.progress_bar_gover);
     }
 
     private void enableLoaction(){
@@ -237,10 +238,14 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     }
 
     private void setAnimation(){
-        Animation animationImage = AnimationUtils.loadAnimation(getContext(), R.anim.bounce_animation);
+        Animation animationImage = AnimationUtils.loadAnimation(getContext(), R.anim.slide_down);
+        Animation animationView = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
         NavigationView navigationView = getActivity().findViewById(R.id.main_nave_view);
         View viewHeaderView = navigationView.getHeaderView(0);
         ImageView imageProfile = viewHeaderView.findViewById(R.id.img_profile);
+        View allHeader = navigationView.findViewById(R.id.all_header);
         imageProfile.setAnimation(animationImage);
+        allHeader.setAnimation(animationView);
+
     }
 }

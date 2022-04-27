@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.HomeFragment">
+    tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerMap"
-                android:name="com.HomeGarage.garage.home.MapsFragment"
+                android:name="com.HomeGarage.garage.ui.home.MapsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -89,17 +89,30 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             tools:itemCount="1"
-            tools:listitem="@layout/layout_governorate_row" />
+            tools:listitem="@layout/layout_governorate_row" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_gover"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/recycle_gover"
+            app:layout_constraintEnd_toEndOf="@+id/recycle_gover"
+            app:layout_constraintStart_toStartOf="@+id/recycle_gover"
+            app:layout_constraintTop_toTopOf="@+id/recycle_gover" />
 
         <LinearLayout
             android:id="@+id/layout_last"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
             android:orientation="vertical"
@@ -109,7 +122,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerLastOper"
-                android:name="com.HomeGarage.garage.home.LastOperFragment"
+                android:name="com.HomeGarage.garage.ui.home.LastOperFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

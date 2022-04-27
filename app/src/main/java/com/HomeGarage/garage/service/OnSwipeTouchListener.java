@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.navfragment;
+package com.HomeGarage.garage.service;
 
 import android.content.Context;
 import android.view.GestureDetector;

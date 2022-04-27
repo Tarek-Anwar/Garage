@@ -18,9 +18,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.navfragment.SettingFragment;
+import com.HomeGarage.garage.ui.home.HomeActivity;
+import com.HomeGarage.garage.ui.navfragment.SettingFragment;
 import com.HomeGarage.garage.service.ConnectionReceiver;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 

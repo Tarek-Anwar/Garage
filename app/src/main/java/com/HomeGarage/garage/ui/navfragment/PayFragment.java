@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.navfragment;
+package com.HomeGarage.garage.ui.navfragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;

@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.adapter.SearchAdapter;
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.GarageViewFragment;
+import com.HomeGarage.garage.ui.home.GarageViewFragment;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+// unuse until
 public class SearchFragment extends Fragment implements SearchAdapter.SearchListener {
 
     private final String TAG="search tag";

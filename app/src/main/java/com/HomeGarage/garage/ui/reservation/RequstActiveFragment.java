@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.reservation;
+package com.HomeGarage.garage.ui.reservation;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,11 +14,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.databinding.FragmentRequstActiveBinding;
 import com.HomeGarage.garage.dialog.DialogPay;
-import com.HomeGarage.garage.home.HomeFragment;
+import com.HomeGarage.garage.ui.home.HomeFragment;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.HomeGarage.garage.modules.OpreationModule;
 import com.HomeGarage.garage.service.FcmNotificationsSender;

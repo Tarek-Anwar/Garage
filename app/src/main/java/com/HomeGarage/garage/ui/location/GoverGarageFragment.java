@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.location;
+package com.HomeGarage.garage.ui.location;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.adapter.CityAdapter;
 import com.HomeGarage.garage.modules.CityModule;
-import com.HomeGarage.garage.navfragment.SettingFragment;
+import com.HomeGarage.garage.ui.navfragment.SettingFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

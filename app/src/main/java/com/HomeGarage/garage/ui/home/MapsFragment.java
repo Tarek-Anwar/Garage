@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home;
+package com.HomeGarage.garage.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.HomeGarage.garage.adapter.CustomInfoWindowAdpter;
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.google.android.gms.maps.CameraUpdateFactory;

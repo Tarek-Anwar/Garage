@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".sign.NewPasswordActivity"
+            android:name=".ui.sign.NewPasswordActivity"
             android:exported="false" />
 
         <meta-data
@@ -54,10 +54,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".home.UserInfoActivity"
+            android:name=".ui.home.UserInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true"></activity>
         <activity
             android:name=".MainActivity"

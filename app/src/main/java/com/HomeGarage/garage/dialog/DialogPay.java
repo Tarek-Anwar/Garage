@@ -15,14 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeFragment;
+import com.HomeGarage.garage.ui.home.HomeFragment;
 import com.HomeGarage.garage.modules.CarInfoModule;
 import com.HomeGarage.garage.modules.GarageInfoModule;
 import com.HomeGarage.garage.modules.BalanceAppModule;
 import com.HomeGarage.garage.modules.PurchaseModule;
-import com.HomeGarage.garage.navfragment.PayFragment;
+import com.HomeGarage.garage.ui.navfragment.PayFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

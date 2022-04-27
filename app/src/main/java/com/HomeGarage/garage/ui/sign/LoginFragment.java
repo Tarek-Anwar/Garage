@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.sign;
+package com.HomeGarage.garage.ui.sign;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +14,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
-import com.HomeGarage.garage.navfragment.OnSwipeTouchListener;
-import com.HomeGarage.garage.navfragment.SettingFragment;
+import com.HomeGarage.garage.ui.home.HomeActivity;
+import com.HomeGarage.garage.service.OnSwipeTouchListener;
+import com.HomeGarage.garage.ui.navfragment.SettingFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 

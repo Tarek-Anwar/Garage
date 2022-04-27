@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.home;
+package com.HomeGarage.garage.ui.home;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,10 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.HomeGarage.garage.FirebaseUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.databinding.ActivityUserInfoBinding;
 import com.HomeGarage.garage.modules.CarInfoModule;
-import com.HomeGarage.garage.sign.NewPasswordActivity;
+import com.HomeGarage.garage.ui.sign.NewPasswordActivity;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;

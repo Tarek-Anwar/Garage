@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.location;
+package com.HomeGarage.garage.ui.location;
 
 import android.Manifest;
 import android.content.Context;
@@ -28,7 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeFragment;
+import com.HomeGarage.garage.ui.home.HomeFragment;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;

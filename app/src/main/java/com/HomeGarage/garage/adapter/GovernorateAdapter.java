@@ -2,11 +2,11 @@ package com.HomeGarage.garage.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GovernorateModule;
+import com.HomeGarage.garage.util.FirebaseUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -26,10 +28,10 @@ import java.util.Locale;
 
 public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.GovernorateViewHolder> {
 
-    ArrayList<GovernorateModule> listGoverEn = new ArrayList<>();
+    ArrayList<GovernorateModule> listGoverEn = FirebaseUtil.governorateModuleList;
     GoverListener goverListener;
 
-    public GovernorateAdapter(GoverListener goverListener){
+    public GovernorateAdapter(GoverListener goverListener , ProgressBar progressBarGover){
         this.goverListener = goverListener;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Governorate");
         reference.addValueEventListener(new ValueEventListener() {
@@ -40,12 +42,16 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
                     for (DataSnapshot item : snapshot.getChildren()){
                         GovernorateModule model = item.getValue(GovernorateModule.class);
                         listGoverEn.add(model);
+                        progressBarGover.setVisibility(View.VISIBLE);
                         notifyItemChanged(listGoverEn.size()-1);
                     }
+                    progressBarGover.setVisibility(View.GONE);
                 }
             }
+            @SuppressLint("RestrictedApi")
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                throw new DatabaseException(error.getMessage());
             }
         });
     }
@@ -67,9 +73,7 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
         return listGoverEn.size();
     }
 
-    public interface GoverListener{
-        void onGoverListener(int pos , String s);
-    }
+    public interface GoverListener{ void onGoverListener(int pos , String s);}
 
     protected class GovernorateViewHolder extends RecyclerView.ViewHolder {
         TextView nameGaver;
@@ -86,17 +90,15 @@ public class GovernorateAdapter extends RecyclerView.Adapter<GovernorateAdapter.
             showImage(model.getImage_url());
             nameGaver.setText(Locale.getDefault().getLanguage().equals("en") ? model.getGovernorate_name_en() : model.getGovernorate_name_ar());
             layouGover.setOnClickListener(v -> goverListener.onGoverListener(getLayoutPosition() , model.getGovernorate_name_en()));
-
         }
 
         public void showImage(String url) {
             if (url != null ) {
-                Log.i("sdfrweqrqweer" ,url);
                 int width = Resources.getSystem().getDisplayMetrics().widthPixels;
                 Picasso.get().load(url).resize(width,width)
                         .centerCrop()
                         .into(imageView);
-            }else Log.i("sdfrweqrqweer" ,"not Url");
+            }
         }
     }
 }
