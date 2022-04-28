@@ -1,4 +1,4 @@
-package com.HomeGarage.garage.service;
+package com.HomeGarage.garage.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

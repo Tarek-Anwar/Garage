@@ -1,10 +1,12 @@
 package com.HomeGarage.garage.dialog;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,20 +16,24 @@ import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class RateDialog extends DialogFragment {
 
 
-    com.chaek.android.RatingBar ratingBar;
-    TextView rateText , skip;
-    float currnt_rate = -1;
-    float rateSum;
-    String idGarage , idOperation;
-    DatabaseReference garageReference,opreationReference;
+    private com.chaek.android.RatingBar ratingBar;
+    private TextView rateText ;
+    private TextView skip;
+    private float currntRate = -1;
+    private float rateSum;
+    String idGarage ;
+    String idOperation;
+    private DatabaseReference garageReference;
+    private DatabaseReference opreationReference;
 
-    public RateDialog( String idOperation , String idGarage) {
+    public RateDialog(String idOperation ,String idGarage) {
         this.idGarage = idGarage;
         this.idOperation = idOperation;
         opreationReference = FirebaseUtil.referenceOperattion.child(idOperation);
@@ -41,14 +47,14 @@ public class RateDialog extends DialogFragment {
         View view =inflater.inflate(R.layout.rate_dialog,container,false);
         initViews(view);
 
-        ratingBar.setRatingBarListener(i -> currnt_rate = i);
-
-        if(currnt_rate<0) {
+        ratingBar.setRatingBarListener(i -> currntRate = i);
+        if(currntRate<0) {
             addRate((rate, num) -> rateText.setOnClickListener(view1 -> {
-                rateSum = rate + currnt_rate;
+                rateSum = rate + currntRate;
                 garageReference.child("rate").setValue(rateSum);
                 garageReference.child("numOfRatings").setValue(num + 1);
-                opreationReference.child("rate").setValue(currnt_rate);
+                opreationReference.child("rate").setValue(currntRate);
+                Toast.makeText(getContext(), "add rate done", Toast.LENGTH_SHORT).show();
                 dismiss();
             }));
         }
@@ -71,9 +77,13 @@ public class RateDialog extends DialogFragment {
                 int num=snapshot.child("numOfRatings").getValue(Integer.class);
                 rateOBJ.getRateAndNum(rateValue,num);
             }
+            @SuppressLint("RestrictedApi")
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+                throw new DatabaseException(error.getMessage());
+            }
         });
     }
+
     public interface Rate { void getRateAndNum(float rate,int num);}
 }

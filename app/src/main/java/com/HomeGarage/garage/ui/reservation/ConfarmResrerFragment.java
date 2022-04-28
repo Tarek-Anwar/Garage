@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.HomeGarage.garage.util.DateFormatUtil;
 import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.GarageInfoModule;
@@ -32,7 +33,6 @@ public class ConfarmResrerFragment extends Fragment {
 
     Button  btnRecer ,btnRecerNow ;
     SingleDateAndTimePicker singleDateAndTimePicker2;
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
     DatabaseReference reference;
     GarageInfoModule garageInfoModule;
     String allDate= null;
@@ -60,15 +60,15 @@ public class ConfarmResrerFragment extends Fragment {
 
         btnRecerNow.setOnClickListener(v -> {
             Date date = new Date(System.currentTimeMillis()+offset);
-            String dataModel = formatterLong.format(date);
+            String dataModel = DateFormatUtil.allDataFormat.format(date);
             singOperation(dataModel);
         });
 
         btnRecer.setOnClickListener(v -> {
-            if(singleDateAndTimePicker2.getDate()!=null){ allDate = formatterLong.format(singleDateAndTimePicker2.getDate()); }
+            if(singleDateAndTimePicker2.getDate()!=null){ allDate = DateFormatUtil.allDataFormat.format(singleDateAndTimePicker2.getDate()); }
             if(allDate != null) {
                 Date d1 = null;
-                try { d1 = formatterLong.parse(allDate);
+                try { d1 = DateFormatUtil.allDataFormat.parse(allDate);
                 } catch (ParseException e) { e.printStackTrace(); }
                 if (d1.getTime()>System.currentTimeMillis()+offset){
                     singOperation(allDate); }
@@ -99,7 +99,7 @@ public class ConfarmResrerFragment extends Fragment {
         transaction.commit();
     }
 
-    private void singOperation( String data){
+    private void singOperation(String data){
         OpreationModule model = new OpreationModule();
         model.setDate(data);
         model.setType("1");

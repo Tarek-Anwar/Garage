@@ -2,12 +2,14 @@ package com.HomeGarage.garage.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
@@ -37,6 +40,7 @@ public class GarageViewFragment extends Fragment {
     LikeButton likeButtonGarage;
     private TextView nameGarage , totalAddressGarage , phoneGarage , priceGarage , rateGarageNum;
     DatabaseReference referenceFav;
+    ImageView imageGarage;
 
     public GarageViewFragment(GarageInfoModule garageInfoModule) {
        this.garageInfoModule = garageInfoModule;
@@ -78,6 +82,7 @@ public class GarageViewFragment extends Fragment {
             phoneGarage.setText(grageInfo.getPhone());
             priceGarage.setText(grageInfo.getPriceForHour()+pound);
 
+            if(grageInfo.getImageGarage()!=null) showImage(grageInfo.getImageGarage(),imageGarage);
             if(grageInfo.getNumOfRatings()!=0) {
                 float ratting = grageInfo.getRate() /grageInfo.getNumOfRatings();
                 ratingBar.setScore((int) ratting);
@@ -135,6 +140,7 @@ public class GarageViewFragment extends Fragment {
         rateGarageNum = view.findViewById(R.id.rate_garage_view);
         cardPhoneView = view.findViewById(R.id.card_phone_view);
         cardAddressView = view.findViewById(R.id.card_address_view);
+        imageGarage = view.findViewById(R.id.img_profile_garage);
     }
 
     void getRate(Rate rate) {
@@ -181,5 +187,8 @@ public class GarageViewFragment extends Fragment {
                 + "?q=<" + latitude + ">,<" + longitude + ">,("
                 + garageInfoModule.getNameEn() + ")";
     }
-
+    private void showImage(String url , ImageView imageView) {
+        if (url != null && !url.isEmpty()) {
+            int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+            Picasso.get().load(url).resize(width, width).centerCrop().into(imageView); } }
 }

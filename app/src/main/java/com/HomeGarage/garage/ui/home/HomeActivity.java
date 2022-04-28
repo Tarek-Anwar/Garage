@@ -127,19 +127,9 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onNetworkChange(boolean isConnected) {
         if(!isConnected)
-            SplashScreenActivity.showSnackBar(isConnected,findViewById(R.id.fragmentContainerView),getApplicationContext(),Snackbar.LENGTH_SHORT);
+            SplashScreenActivity.showSnackBar(isConnected,findViewById(R.id.fragmentContainerView),getApplicationContext(),Snackbar.LENGTH_INDEFINITE);
     }
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})

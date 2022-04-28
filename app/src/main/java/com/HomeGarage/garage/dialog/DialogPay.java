@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.HomeGarage.garage.modules.OpreationModule;
+import com.HomeGarage.garage.util.DateFormatUtil;
 import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.ui.home.HomeFragment;
@@ -51,11 +54,10 @@ public class DialogPay extends DialogFragment {
     DatabaseReference refPushase = FirebaseUtil.referencePurchase;
     DatabaseReference referenceOperattion = FirebaseUtil.referenceOperattion;
     DatabaseReference appReference = FirebaseDatabase.getInstance().getReference().child("App");
-    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
     public DialogPay(GarageInfoModule garageInfoModule, float  costIN , String idLastOper) {
         this.garageInfoModule = garageInfoModule;
-        this.costIN =costIN;
+        this.costIN = costIN;
         this.idLastOper = idLastOper;
         garageReference = FirebaseUtil.referenceGarage.child(garageInfoModule.getId());
         referenceCar = FirebaseUtil.databaseReference.child(Objects.requireNonNull(FirebaseUtil.firebaseAuth.getUid()));
@@ -124,44 +126,24 @@ public class DialogPay extends DialogFragment {
                     appReference.child(garageInfoModule.getId()).child("totalBalance").setValue(modelMoney.getMoneyForGarage() - modelMoney.getAppPercent());
 
                     //creat opreation and save to last opreation list
-                    PurchaseModule opreation = new PurchaseModule();
-                    Date date = new Date(System.currentTimeMillis());
-                    String dateOpreation = formatterLong.format(date);
-                    opreation.setDate(dateOpreation);
-                    opreation.setType("1");
-                    opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
-                    opreation.setTo(carInfoModuleListener.getId());
-                    opreation.setValue(costIN);
-                    opreation.setFromName(FirebaseUtil.carInfoModuleLogin.get(0).getName());
-                    opreation.setToName(garageInfoModule.getNameEn());
-                    opreation.setId(refPushase.push().getKey());
-                    refPushase.child(opreation.getId()).setValue(opreation);
+                    pushPurchaseModule();
 
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
 
-                    RateDialog rateDialog = new RateDialog(idLastOper, garageInfoModule.getId());
-                    rateDialog.show(getParentFragmentManager(), "Rate");
+                    showRateDialog();
 
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainerView,new HomeFragment());
-                    transaction.commit();
+                    replaceFragmentWithoutBackStack(new HomeFragment());
                     toast.show();
-                    dismiss();
                 });
 
             }
         });
 
-        pruchese.setOnClickListener(v -> {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainerView, new PayFragment());
-            transaction.addToBackStack(null);
-            transaction.commit();
-            dismiss();
-        });
+        pruchese.setOnClickListener(v -> replaceFragmentWithBackStack(new PayFragment()));
 
         return root;
     }
+
 
     private void initViews(View root) {
         balance = root.findViewById(R.id.balanceTV);
@@ -172,7 +154,7 @@ public class DialogPay extends DialogFragment {
 
     void getCarInfo(OnBalanceReciveCallback callback){
         DatabaseReference reference  = appReference.child(garageInfoModule.getId());
-       reference.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -195,6 +177,43 @@ public class DialogPay extends DialogFragment {
             public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
+
+    private void pushPurchaseModule(){
+        PurchaseModule opreation = new PurchaseModule();
+        Date date = new Date(System.currentTimeMillis());
+        String dateOpreation = DateFormatUtil.allDataFormat.format(date);
+        opreation.setDate(dateOpreation);
+        opreation.setType("1");
+        opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
+        opreation.setTo(carInfoModuleListener.getId());
+        opreation.setValue(costIN);
+        opreation.setFromName(FirebaseUtil.carInfoModuleLogin.get(0).getName());
+        opreation.setToName(garageInfoModule.getNameEn());
+        opreation.setId(refPushase.push().getKey());
+        refPushase.child(opreation.getId()).setValue(opreation);
+    }
+
+    private  void showRateDialog(){
+        RateDialog rateDialog = new RateDialog(idLastOper, garageInfoModule.getId());
+        rateDialog.show(getParentFragmentManager(), "Rate");
+    }
+
+    private void  replaceFragmentWithBackStack(Fragment fragment){
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.commit();
+        dismiss();
+    }
+
+    private void  replaceFragmentWithoutBackStack(Fragment fragment){
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        dismiss();
+    }
+
+
 
     private interface OnBalanceReciveCallback{
         void OnBalanceRecive(CarInfoModule carInfoModule);

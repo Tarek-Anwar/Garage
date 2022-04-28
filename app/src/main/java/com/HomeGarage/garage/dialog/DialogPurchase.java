@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.HomeGarage.garage.util.DateFormatUtil;
 import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.PurchaseModule;
@@ -35,8 +36,6 @@ public class DialogPurchase extends DialogFragment {
     TextInputEditText amount;
     Button pushece;
     TextView balace;
-
-    SimpleDateFormat formatterLong = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa", new Locale("en"));
 
     DatabaseReference referencePurchase = FirebaseUtil.referencePurchase;
     DatabaseReference referenceCar = FirebaseUtil.databaseReference.child(FirebaseUtil.firebaseAuth.getUid());
@@ -71,22 +70,12 @@ public class DialogPurchase extends DialogFragment {
             balace.setText(String.format("%.2f %s",f , poungEg));
             pushece.setOnClickListener(v -> {
                 float amountF = Float.parseFloat(Objects.requireNonNull(amount.getText()).toString());
+
                 if(amountF<0) Toast.makeText(getContext(), negativeMoney, Toast.LENGTH_SHORT).show();
                 else if(amountF>10000) Toast.makeText(getContext(), maxDeposit, Toast.LENGTH_SHORT).show();
                 else{
-                    PurchaseModule opreation = new PurchaseModule();
-                    Date date = new Date(System.currentTimeMillis());
-                    String dateOpreation = formatterLong.format(date);
-                    opreation.setDate(dateOpreation);
-                    opreation.setType("2");
-                    opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
-                    opreation.setTo("app");
-                    opreation.setValue(amountF);
-                    opreation.setFromName(FirebaseUtil.carInfoModuleLogin.get(0).getName());
-                    opreation.setToName("app");
-                    opreation.setId(referencePurchase.push().getKey());
+                    setPurchase(amountF);
 
-                    referencePurchase.child(opreation.getId()).setValue(opreation);
                     referenceCar.child("balance").setValue(amountF + currntBalance);
                     referenceApp.child("Balance").setValue(balance+amountF);
 
@@ -102,6 +91,20 @@ public class DialogPurchase extends DialogFragment {
         return root;
     }
 
+    private void setPurchase(float amountF){
+        PurchaseModule opreation = new PurchaseModule();
+        Date date = new Date(System.currentTimeMillis());
+        String dateOpreation = DateFormatUtil.allDataFormat.format(date);
+        opreation.setDate(dateOpreation);
+        opreation.setType("2");
+        opreation.setFrom(FirebaseUtil.firebaseAuth.getUid());
+        opreation.setTo("app");
+        opreation.setValue(amountF);
+        opreation.setFromName(FirebaseUtil.carInfoModuleLogin.get(0).getName());
+        opreation.setToName("app");
+        opreation.setId(referencePurchase.push().getKey());
+        referencePurchase.child(opreation.getId()).setValue(opreation);
+    }
     private void initUI(View root) {
         amount = root.findViewById(R.id.amount_puchase);
         pushece = root.findViewById(R.id.btn_pushase_card);

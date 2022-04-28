@@ -8,9 +8,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.HomeGarage.garage.util.FirebaseUtil;
 import com.HomeGarage.garage.R;
 import com.HomeGarage.garage.modules.OpreationModule;
+import com.HomeGarage.garage.util.DateFormatUtil;
+import com.HomeGarage.garage.util.FirebaseUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,14 +21,12 @@ import java.util.Locale;
 
 public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOperViewHolder> {
 
-    SimpleDateFormat formatterLong =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa" , new Locale("en"));
-    SimpleDateFormat formatter =new SimpleDateFormat("dd MMM yyyy",new Locale("en"));
-    LinkedList<OpreationModule> lastOpereations ;
+
+    LinkedList<OpreationModule> lastOpereations;
     LastOperListener lastOperListener;
     private int numViewOper = 1;
 
-
-    public LastOperAdapter(LinkedList<OpreationModule> lastOpereations , int numViewOper, LastOperListener lastOperListener) {
+    public LastOperAdapter(LinkedList<OpreationModule> lastOpereations, int numViewOper, LastOperListener lastOperListener) {
         this.numViewOper = numViewOper;
         this.lastOperListener=lastOperListener;
         this.lastOpereations = lastOpereations;
@@ -42,7 +41,7 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
 
     @Override
     public void onBindViewHolder(@NonNull LastOperViewHolder holder, int position) {
-        holder.BulidUI(lastOpereations.get(position));
+        holder.bulidUI(lastOpereations.get(position));
     }
 
    @Override
@@ -62,9 +61,9 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
     }
 
     protected class LastOperViewHolder extends RecyclerView.ViewHolder{
-
        private  TextView textTypeOper,textWhoDoOper,textWhoToDoOper,textTimeOper ;
        private View layoutLastOper;
+       private Date date ;
 
        public LastOperViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,20 +74,16 @@ public class LastOperAdapter extends RecyclerView.Adapter<LastOperAdapter.LastOp
             layoutLastOper = itemView.findViewById(R.id.layout_last_oper);
         }
 
-        public void BulidUI(@NonNull OpreationModule opreationModule){
-
+        public void bulidUI(OpreationModule opreationModule){
             textWhoToDoOper.setText(opreationModule.getToName());
             textTypeOper.setText(FirebaseUtil.typeList.get(Integer.parseInt(opreationModule.getType())-1));
-
-            Date d1 = null;
-            try { d1 = formatterLong.parse(opreationModule.getDate());
-                textTimeOper.setText(formatter.format(d1));
-            } catch (ParseException e) { e.printStackTrace(); }
             textWhoDoOper.setText(opreationModule.getFromName());
+            layoutLastOper.setOnClickListener(v -> lastOperListener.LastOperListener(opreationModule));
+            try {
+                date = DateFormatUtil.allDataFormat.parse(opreationModule.getDate());
+                textTimeOper.setText(DateFormatUtil.dayFormatLast.format(date));
+            }catch (ParseException e) { e.printStackTrace(); }
 
-            layoutLastOper.setOnClickListener(v ->  {
-                lastOperListener.LastOperListener(opreationModule);
-            });
         }
     }
 }

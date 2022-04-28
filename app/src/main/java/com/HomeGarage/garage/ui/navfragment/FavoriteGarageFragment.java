@@ -69,6 +69,7 @@ public class FavoriteGarageFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    allFavGarage.clear();
                     for(DataSnapshot item : snapshot.getChildren()){
                         allFavGarage.add(item.getKey());
                     }
@@ -88,6 +89,7 @@ public class FavoriteGarageFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()) {
+                        garagresFav.clear();
                         for (DataSnapshot item : snapshot.getChildren()) {
                             GarageInfoModule model = item.getValue(GarageInfoModule.class);
                             garagresFav.add(model);
