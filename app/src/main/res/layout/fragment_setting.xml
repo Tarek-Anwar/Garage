@@ -5,59 +5,101 @@
     android:id="@+id/frameLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".setting.SettingFragment">
+    tools:context=".ui.navfragment.SettingFragment">
 
-    <Switch
-        android:id="@+id/location_automatic"
-        android:layout_width="0dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_loc"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:minHeight="48dp"
-        android:text="@string/get_location_automatic"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Switch
-        android:id="@+id/city_all_garage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:minHeight="48dp"
-        android:text="@string/cities_with_only_garages"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_automatic" />
-
-    <RadioGroup
-        android:id="@+id/lang_select"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_all_garage">
-
-        <RadioButton
-            android:id="@+id/arab_lang"
-            android:layout_width="wrap_content"
+        <Switch
+            android:id="@+id/location_automatic"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="32dp"
-            android:text="@string/arabic" />
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/get_location_automatic"
+            android:textColor="@color/orange" />
 
-        <RadioButton
-            android:id="@+id/eng_lang"
-            android:layout_width="wrap_content"
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/all_garage_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_loc">
+
+        <Switch
+            android:id="@+id/city_all_garage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/english"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="32dp" />
-    </RadioGroup>
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/cities_with_only_garages"
+            android:textColor="@color/orange" />
 
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_lang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:cardCornerRadius="@dimen/_12sdp"
+        app:cardElevation="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@+id/all_garage_card">
+
+        <RadioGroup
+            android:id="@+id/lang_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/all_garage_card">
+
+            <RadioButton
+                android:id="@+id/arab_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/arabic"
+                android:textColor="@color/orange"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/eng_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/english"
+                android:textColor="@color/orange"
+                android:textStyle="bold" />
+        </RadioGroup>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

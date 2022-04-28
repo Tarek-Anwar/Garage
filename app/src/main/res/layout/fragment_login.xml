@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".sign.LoginFragment">
+    tools:context=".ui.sign.LoginFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -47,66 +47,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView9"
                 app:layout_constraintStart_toStartOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/google_logn"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="75dp"
-                android:layout_marginTop="75dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/login_button"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/facebook_logn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:src="@drawable/google_logo" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/facebook_logn"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/google_logn"
-                app:layout_constraintEnd_toStartOf="@+id/tiwtter_logn"
-                app:layout_constraintStart_toEndOf="@+id/google_logn"
-                app:layout_constraintTop_toTopOf="@+id/google_logn"
-                app:layout_constraintVertical_bias="0.0">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:src="@drawable/logo_face"/>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/tiwtter_logn"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginEnd="75dp"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/facebook_logn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/facebook_logn"
-                app:layout_constraintTop_toTopOf="@+id/facebook_logn">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:src="@drawable/logo_twitter"/>
-            </com.google.android.material.card.MaterialCardView>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/coordinatorLayout"
@@ -265,6 +205,18 @@
                 </com.google.android.material.card.MaterialCardView>
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/forgot_password"
+                android:textColor="#DD2C00"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

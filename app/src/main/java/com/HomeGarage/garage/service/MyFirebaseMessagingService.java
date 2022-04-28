@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.HomeGarage.garage.R;
-import com.HomeGarage.garage.home.HomeActivity;
+import com.HomeGarage.garage.ui.home.HomeActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

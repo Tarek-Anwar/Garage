@@ -1,28 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="300dp"
-    android:layout_height="150dp"
-    android:background="#B5DDFF">
+    android:layout_width="wrap_content"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="10dp"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content">
 
-    <RatingBar
-        android:id="@+id/rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:stepSize=".5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/addRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rate"
-        app:layout_constraintStart_toStartOf="@id/rate"
-        app:layout_constraintTop_toBottomOf="@id/rate" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="@string/rate_reservation"
+            android:textColor="@color/orange"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.chaek.android.RatingBar
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Hello World!"
+            app:rating_flag="TEN"
+            app:rating_max_count="5"
+            app:rating_star_color="@color/orange"
+            app:rating_star_empty_color="#8e7d7d"
+            app:rating_star_height="25dp"
+            app:rating_star_margin="5dp"
+            app:rating_star_width="25dp"
+            app:rating_start_count="0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/addRate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-2dp"
+                android:layout_marginBottom="-2dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_rate"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/rate"
+                android:textAllCaps="true"
+                android:textColor="@color/orange"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/skip_rate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="-1dp"
+                android:layout_marginEnd="-2dp"
+                android:layout_marginBottom="-2dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/background_rate"
+                android:gravity="center"
+                android:text="@string/skip"
+                android:textAllCaps="true"
+                android:textColor="@color/orange"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

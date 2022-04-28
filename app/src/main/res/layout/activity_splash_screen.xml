@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:id="@+id/layout_splash"
+    android:gravity="center"
+    tools:context=".SplashScreenActivity">
+
+    <ImageView
+        android:id="@+id/image_splash"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginTop="32dp"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/logo_splash" />
+
+    <yanzhikai.textpath.AsyncTextPathView
+        android:id="@+id/home_car_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_weight="1"
+        app:duration="3500"
+        app:paintStrokeColor="@color/orange"
+        app:pathStrokeColor="@color/orange"
+        app:showPainter="true"
+        app:text="@string/app_name"
+        app:textInCenter="true"
+        app:textSize="@dimen/_43sdp" />
+
+
+</LinearLayout>

@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Garage</string>
-    <!-- Strings related to login -->
+    <string name="app_name">Home Car</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -8,14 +7,12 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">The password should contain at least 8 characters, including at least one lower case letter, one upper case letter, one number and one punctuation mark</string>
     <string name="login_failed">"Login failed"</string>
-    <!-- TODO: Remove or change this placeholder text -->
-
     <string name="join_us">Join Us</string>
     <string name="enter_your_email_adress">Enter Your Email Address</string>
     <string name="enter_your_password">Enter Your PassWord</string>
     <string name="log_in">LOG IN</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="or">or</string>
     <string name="creat_new_account">Creat new account</string>
     <string name="user_name">Name</string>
@@ -23,10 +20,7 @@
     <string name="password">Password</string>
     <string name="phone">Phone</string>
     <string name="register">Register</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">hello_blank_fragment</string>
-
-    <!-- Strings related to home -->
     <string name="new_offers">New Offers</string>
     <string name="nearest_garage">Nearest Garage</string>
     <string name="find_garage">Find Garage</string>
@@ -125,5 +119,27 @@
     <string name="get_location_automatic">get location automatic</string>
     <string name="cities_with_only_garages">Cities with only garages</string>
     <string name="Sorry_no_operations_yet">Sorry, you have no operations yet</string>
+    <string name="rate_reservation">Rate The Reservation</string>
+    <string name="skip">Skip</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="Password_Successfully_Modified">Password Successfully Modified</string>
+    <string name="something_went_wrong">Something went wrong. Please try again later</string>
+    <string name="old_pass_worng">The old password is wrong</string>
+    <string name="ake_sure_password">Make sure to enter the old password</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="deposit">Deposit</string>
+    <string name="connected_to_Internet">Connected to Internet</string>
+    <string name="not_connected_to_internet">Not Connected to Internet</string>
+    <string name="wifi_enabled">Wifi enabled</string>
+    <string name="mobile_data_enabled">Mobile data enabled</string>
+    <string name="goodbye">Goodbye 😢</string>
+    <string name="coom_soon">Coming Soon 🤞</string>
+    <string name="negative_money">Negative money cannot be entered</string>
+    <string name="max_deposit">Max Deposit 10,000</string>
+    <string name="your_favorite_arages">Your Favorite Garages</string>
+    <string name="garage">Garage</string>
+
 
 </resources>

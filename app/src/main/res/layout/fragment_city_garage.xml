@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".location.CityGarageFragment">
+    tools:context=".ui.location.CityGarageFragment">
 
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map_gover"
-        android:name="com.HomeGarage.garage.home.MapsFragment"
+        android:name="com.HomeGarage.garage.ui.home.MapsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="100dp"

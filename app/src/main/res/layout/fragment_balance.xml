@@ -5,12 +5,11 @@
     android:id="@+id/frameLayout11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navfragment.BalanceFragment">
+    tools:context=".ui.navfragment.BalanceFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ImageView
             android:id="@+id/imageView7"
@@ -140,12 +139,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_pay"
             android:layout_width="0dp"
+            tools:itemCount="4"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView7"
             tools:listitem="@layout/balance_row" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycle_pay" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

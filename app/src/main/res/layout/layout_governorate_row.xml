@@ -3,59 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_gover_listener"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="5dp">
+    android:layout_width="@dimen/_140sdp"
+    android:layout_height="@dimen/_108sdp"
+    android:layout_margin="@dimen/_7sdp"
+    app:cardCornerRadius="@dimen/_6sdp"
+    app:cardElevation="@dimen/_3sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/image_gover_card"
-            android:layout_width="120dp"
-            android:layout_height="90dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            app:cardCornerRadius="12dp"
-            app:layout_constraintBottom_toTopOf="@+id/txt_name_gover"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.054"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/image_gover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                tools:srcCompat="@drawable/car_profile" />
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <TextView
-            android:id="@+id/txt_name_gover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:fontFamily="@font/aclonica"
-            android:shadowColor="#FF6F00"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="5"
-            android:textColor="#FFFFFF"
-            android:textColorHighlight="#883636"
-            android:textColorHint="#B13333"
-            android:textSize="16sp"
+        <ImageView
+            android:id="@+id/image_gover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_gover_card"
-            tools:text="Cairo" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/car_profile" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/background_garage"
+            android:orientation="vertical"
+            android:gravity="bottom|center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/txt_name_gover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/aclonica"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="5"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:paddingBottom="15dp"
+                tools:text="Cairo" />
+        </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

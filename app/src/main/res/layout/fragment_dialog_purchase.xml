@@ -3,13 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout10"
-    android:layout_width="300dp"
-    android:layout_height="250dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
+    android:layout_gravity="center"
     android:maxWidth="300dp"
     android:maxHeight="350dp"
     android:orientation="vertical"
-    tools:context=".navfragment.DialogPurchase">
+    tools:context=".dialog.DialogPurchase">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/cover_pay">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_balance"
+            android:textSize="24sp"
+            android:textColor="@color/orange"/>
+
+        <TextView
+            android:id="@+id/balance_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="42sp"
+            android:textColor="@color/orange"
+            tools:text="500 EG" />
+
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/puchase_textfield"
@@ -31,19 +56,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/balance_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textColor="@color/orange"
-        tools:text="Balance 500 EG"
-        />
     <Button
         android:id="@+id/btn_pushase_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="10dp"
+        android:background="@drawable/login_button"
         android:text="@string/Purchase"/>
 
 </LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.GarageViewFragment">
+    tools:context=".ui.home.GarageViewFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,18 +14,33 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/img_profile_garage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="50dp"
             android:scaleType="centerCrop"
             android:src="@drawable/car_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_border_color="@color/white"
-            app:riv_border_width="4dp"
+            app:riv_border_color="@color/hed_color"
+            app:riv_border_width="@dimen/_2sdp"
             app:riv_oval="true"
             tools:ignore="MissingConstraints" />
+
+
+        <com.like.LikeButton
+            android:id="@+id/like_button_garage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:anim_scale_factor="10"
+            app:icon_size="@dimen/_8sdp"
+            app:icon_type="heart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/img_profile_garage"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name_garage_txt"
