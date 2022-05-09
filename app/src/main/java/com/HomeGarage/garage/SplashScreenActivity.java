@@ -31,11 +31,13 @@ import yanzhikai.textpath.AsyncTextPathView;
 
 public class SplashScreenActivity extends AppCompatActivity implements ConnectionReceiver.ReceiverListener {
 
-    AsyncTextPathView textHomeCar;
-    ImageView imageSplash;
-    SharedPreferences preferences;
+    private AsyncTextPathView textHomeCar;
+    private ImageView imageSplash;
+    private SharedPreferences preferences;
     private ConnectionReceiver myReceiver = null;
     private FirebaseUser cruuentUser;
+    private Animation mAnimationInScreen;
+    private Animation mAnimationZoomOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +55,11 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
         imageSplash = findViewById(R.id.image_splash);
         textHomeCar = findViewById(R.id.home_car_text);
 
-        Animation animationInScreen = AnimationUtils.loadAnimation(getApplicationContext() ,R.anim.in_screan);
-        Animation animationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_out);
+        mAnimationInScreen = AnimationUtils.loadAnimation(getApplicationContext() ,R.anim.in_screan);
+        mAnimationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_out);
 
-        imageSplash.startAnimation(animationInScreen);
-        textHomeCar.startAnimation(animationZoomOut);
+        imageSplash.startAnimation(mAnimationInScreen);
+        textHomeCar.startAnimation(mAnimationZoomOut);
 
         textHomeCar.setPathPainter((x, y, paintPath) -> paintPath.addCircle(x,y,6,Path.Direction.CCW));
         textHomeCar.setFillColor(true);
@@ -101,7 +103,8 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
             color = Color.GREEN;
         }else {
             message = context.getString(R.string.not_connected_to_internet);
-            color = Color.RED; }
+            color = Color.RED;
+        }
         Snackbar snackbar = Snackbar.make(view, message,timeSnackbar);
         View snackbarVeiw = snackbar.getView();
         TextView textView = snackbarVeiw.findViewById(R.id.snackbar_text);

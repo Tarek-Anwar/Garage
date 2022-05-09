@@ -69,12 +69,16 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
     private ActivityResultLauncher<Object> launcher;
     private Geocoder geocoder;
     private ProgressBar progressBarGover;
-
+    private boolean setAnimation;
+    boolean locationget;
     public HomeFragment(){ }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
+        locationget = preferences.getBoolean(SettingFragment.LOCATIOON_SETTINNG,false);
+        setAnimation = preferences.getBoolean(SettingFragment.REMOVE_ANIMATION,true);
     }
 
     @Override
@@ -91,16 +95,19 @@ public class HomeFragment extends Fragment implements GovernorateAdapter.GoverLi
 
         //swaip
         root.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() { drawerLayout.open();setAnimation(); } });
+            public void onSwipeRight() { drawerLayout.open();
+                if(!setAnimation)setAnimation();
+            }
+        });
 
 
         imageNaveDrawer.setOnClickListener(v -> {
             drawerLayout.open();
-            setAnimation();
+            if(!setAnimation)setAnimation();
         });
 
-        preferences = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
-        boolean locationget = preferences.getBoolean(SettingFragment.LOCATIOON_SETTINNG,false);
+
+
         if(locationget){
             locationGet.setVisibility(View.GONE);
             LocationManager manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);

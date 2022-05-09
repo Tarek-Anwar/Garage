@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.HomeGarage.garage.util.NetworkUtil;
 
+
 public class ConnectionReceiver extends BroadcastReceiver {
     public static ReceiverListener Listener;
 

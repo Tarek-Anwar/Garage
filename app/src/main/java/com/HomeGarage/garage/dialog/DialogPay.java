@@ -198,14 +198,14 @@ public class DialogPay extends DialogFragment {
         rateDialog.show(getParentFragmentManager(), "Rate");
     }
 
-    private void  replaceFragmentWithBackStack(Fragment fragment){
+    private void  replaceFragmentWithoutBackStack(Fragment fragment){
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, fragment);
         transaction.commit();
         dismiss();
     }
 
-    private void  replaceFragmentWithoutBackStack(Fragment fragment){
+    private void  replaceFragmentWithBackStack(Fragment fragment){
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainerView, fragment);
         transaction.addToBackStack(null);

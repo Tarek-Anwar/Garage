@@ -8,13 +8,6 @@ public class OpreationModule {
 
     public OpreationModule(){}
 
-    public OpreationModule(String type, String fromName, String toName, String date, float price) {
-        this.type = type;
-        this.fromName = fromName;
-        this.toName = toName;
-        this.date = date;
-        this.price = price;
-    }
 
     public String getId() {
         return id;

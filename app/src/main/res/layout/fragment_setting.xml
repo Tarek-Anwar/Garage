@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="@dimen/_12sdp"
-        app:cardCornerRadius="@dimen/_12sdp"
-        app:cardElevation="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:cardElevation="@dimen/_3sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView17">
 
         <Switch
             android:id="@+id/location_automatic"
@@ -30,6 +30,7 @@
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp"
             android:text="@string/get_location_automatic"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/orange" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -41,8 +42,8 @@
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
-        app:cardCornerRadius="@dimen/_12sdp"
-        app:cardElevation="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:cardElevation="@dimen/_3sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_loc">
@@ -57,6 +58,35 @@
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp"
             android:text="@string/cities_with_only_garages"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/orange" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/animation_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/all_garage_card">
+
+        <Switch
+            android:id="@+id/remove_animation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/remove_animation"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/orange" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -66,19 +96,21 @@
         android:id="@+id/card_lang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        app:cardCornerRadius="@dimen/_12sdp"
-        app:cardElevation="@dimen/_5sdp"
-        app:layout_constraintTop_toBottomOf="@+id/all_garage_card">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animation_card">
 
         <RadioGroup
             android:id="@+id/lang_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/all_garage_card">
 
             <RadioButton
@@ -88,6 +120,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="32dp"
                 android:text="@string/arabic"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/orange"
                 android:textStyle="bold" />
 
@@ -98,8 +131,26 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="32dp"
                 android:text="@string/english"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/orange"
                 android:textStyle="bold" />
         </RadioGroup>
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgtound_balace_covet"
+        android:gravity="center"
+        android:padding="5dp"
+        android:shadowColor="#4D000000"
+        android:shadowDx="5"
+        android:shadowRadius="10"
+        android:text="@string/setting"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

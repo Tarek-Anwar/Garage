@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -25,7 +26,8 @@ public class SettingFragment extends Fragment {
     public static final String LOCATIOON_SETTINNG = "LOCATIOON_SETTINNG";
     public static final String CITY_SETTINNG = "CITY_SETTINNG";
     public static final String LANG_APP = "LANG_APP";
-    Switch location , city;
+    public static final String REMOVE_ANIMATION = "com.HomeGarage.garage.ui.navfragment.REMOVE_ANIMATION";
+    Switch location , city , animation;
     RadioGroup radioGroup;
     SharedPreferences preferences;
     SharedPreferences.Editor editor ;
@@ -56,21 +58,17 @@ public class SettingFragment extends Fragment {
             editor.apply();
         });
 
-       arab.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               resterLang("ar");
-           }
-       });
-        eng.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resterLang("en");
-            }
+        animation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            editor.putBoolean(REMOVE_ANIMATION , isChecked);
+            editor.apply();
         });
+
+       arab.setOnClickListener(v -> resterLang("ar"));
+       eng.setOnClickListener(v -> resterLang("en"));
 
         boolean blLocation = preferences.getBoolean(LOCATIOON_SETTINNG,false);
         boolean blCity = preferences.getBoolean(CITY_SETTINNG,false);
+        boolean bAnimation = preferences.getBoolean(REMOVE_ANIMATION,false);
         String lang = preferences.getString(LANG_APP,"en");
 
         if(lang.equals("en")) eng.setChecked(true);
@@ -78,6 +76,8 @@ public class SettingFragment extends Fragment {
 
         location.setChecked(blLocation);
         city.setChecked(blCity);
+        animation.setChecked(bAnimation);
+
         return root;
     }
 
@@ -87,6 +87,7 @@ public class SettingFragment extends Fragment {
         radioGroup = view.findViewById(R.id.lang_select);
         arab = view.findViewById(R.id.arab_lang);
         eng = view.findViewById(R.id.eng_lang);
+        animation = view.findViewById(R.id.remove_animation);
     }
 
     private void resterLang(String lang){

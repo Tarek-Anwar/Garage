@@ -172,10 +172,10 @@ public class RequstActiveFragment extends Fragment {
                 }else if(System.currentTimeMillis() > start.getTime() && opreationModule.getState().equals("2")) {
                     if(binding.btnPayReser.getText().equals(finsh)) {
                         binding.btnPayReser.setOnClickListener(v -> {
+
                             Date date = new Date(System.currentTimeMillis()+offset);
-                            if (opreationModule.getDataEnd() == null) {
-                                opreationModule.setDataEnd(DateFormatUtil.allDataFormat.format(date));
-                            }
+                            if (opreationModule.getDataEnd() == null) opreationModule.setDataEnd(DateFormatUtil.allDataFormat.format(date));
+
                             opreationModule.setPrice(-1 * calPriceExpect(garageInfoModule.getPriceForHour(), opreationModule.getDate(), opreationModule.getDataEnd()));
                             opreationModule.setState("3");
                             opreationModule.setType("5");
@@ -209,10 +209,9 @@ public class RequstActiveFragment extends Fragment {
                 , body, idOperation , getContext());
         notificationsSender.SendNotifications();
     }
+
     private void setProgressBar(){
-
         start = DateFormatUtil.parseAllDataFormat(opreationModule.getDate());
-
         if(opreationModule.getDataEnd()==null) diff = System.currentTimeMillis()+offset - start.getTime();
         else diff = DateFormatUtil.differentTime(opreationModule.getDate(),opreationModule.getDataEnd());
 

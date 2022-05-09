@@ -41,7 +41,7 @@
     <string name="go_garage">"Go Garage"</string>
     <string name="open_menu">Open</string>
     <string name="close_menu">Close</string>
-    <string name="setting">Setting</string>
+    <string name="setting">Settings</string>
     <string name="log_out">Log out</string>
     <string name="file_info_user">FileInfoUser</string>
     <string name="edit">edit_icon</string>
@@ -140,6 +140,7 @@
     <string name="max_deposit">Max Deposit 10,000</string>
     <string name="your_favorite_arages">Your Favorite Garages</string>
     <string name="garage">Garage</string>
+    <string name="remove_animation">Remove Animation</string>
 
 
 </resources>
