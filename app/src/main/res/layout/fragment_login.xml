@@ -130,7 +130,7 @@
                             android:drawablePadding="10dp"
                             android:hint="@string/email_adress"
                             android:inputType="textEmailAddress"
-                            android:padding="15dp"
+                            android:padding="5dp"
                             android:textColorHint="#757575"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

@@ -1,0 +1,8 @@
+
+ä
+java:S1598"ÆThis file "CustomInfoWindowAdpter.java" should be located in "com\HomeGarage\garage\adapter" directory, not in "C:\Users\Tarek\Desktop\Garage\Garage\app\src\main\java\com\HomeGarage\garage\Adapter".(ÆõËº8²¹çœ0
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÆõËº
+u
+java:S4144."_Update this method so that its implementation is not identical to "getInfoContents" on line 39.(§ƒ–—
+G
+java:S1068"+Remove this unused "context" private field.(êİç8·ºçœ0

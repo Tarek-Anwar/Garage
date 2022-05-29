@@ -13,8 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/card_edge"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="10dp">
+
         <TextView
             android:id="@+id/name_garage_info"
             android:layout_width="wrap_content"
@@ -22,10 +24,10 @@
             android:layout_gravity="center_horizontal"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/orange"
-            android:textSize="14sp"
             android:textStyle="bold"
-            tools:text="Tarek Garage"/>
+            tools:text="Tarek Garage" />
 
         <TextView
             android:id="@+id/body_garage_info"
@@ -33,8 +35,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/hed_color"
-            android:textSize="12sp"
             tools:text="4.5 (20 rate)" />
 
     </LinearLayout>

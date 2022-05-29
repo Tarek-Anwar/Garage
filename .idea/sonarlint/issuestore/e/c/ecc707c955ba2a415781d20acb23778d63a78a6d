@@ -1,0 +1,6 @@
+
+’
+java:S1319"pThe type of "purchaseModules" should be an interface such as "List" rather than the implementation "LinkedList".(ÈÌèúÿÿÿÿ8³İÕ¿0
+Ü
+java:S1598"¾This file "BalanceAdapter.java" should be located in "com\HomeGarage\garage\adapter" directory, not in "C:\Users\Tarek\Desktop\Garage\Garage\app\src\main\java\com\HomeGarage\garage\Adapter".(ÆõËº8¶İÕ¿0
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÆõËº

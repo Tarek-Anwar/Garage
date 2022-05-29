@@ -1,0 +1,16 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÈˆÍ
+P
+java:S1118":Add a private constructor to hide the implicit public one.(ø×Ç
+N
+java:S1874"3Remove this use of "NetworkInfo"; it is deprecated.(Õ¥—ãùÿÿÿÿ
+W
+java:S1874"<Remove this use of "getActiveNetworkInfo"; it is deprecated.(Õ¥—ãùÿÿÿÿ
+J
+java:S1874"/Remove this use of "getType"; it is deprecated.(¡«¼½ÿÿÿÿÿ
+L
+java:S1874"1Remove this use of "TYPE_WIFI"; it is deprecated.(¡«¼½ÿÿÿÿÿ
+J
+java:S1874"/Remove this use of "getType"; it is deprecated.(ûÉ³íúÿÿÿÿ
+N
+java:S1874"3Remove this use of "TYPE_MOBILE"; it is deprecated.(ûÉ³íúÿÿÿÿ

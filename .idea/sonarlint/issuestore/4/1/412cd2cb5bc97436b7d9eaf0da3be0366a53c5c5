@@ -1,0 +1,10 @@
+
+v
+java:S1104"TMake Listener a static final constant or non-public and provide accessors if needed.(Â‡‘ÿÿÿÿÿ8™Áèê‡0
+P
+java:S1444".Make this "public static Listener" field final(Â‡‘ÿÿÿÿÿ8™Áèê‡0
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÄûĞF
+u
+java:S3008"SRename this field "Listener" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Â‡‘ÿÿÿÿÿ8­Áèê‡0
+d
+java:S1126"BReplace this if-then-else statement by a single method invocation.(Ä¤Õ úÿÿÿÿ8¿Áèê‡0

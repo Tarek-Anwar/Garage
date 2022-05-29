@@ -1,0 +1,11 @@
+
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ò«¾Üÿÿÿÿÿ
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÄûÐF
+h	java:S116"SRename this field "id_reser" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(þÔë€
+<
+java:S1170"!Make this final field static too.(Ç¨ï¥þÿÿÿÿ
+<
+java:S1170"!Make this final field static too.(âÆ§Šþÿÿÿÿ
+q
+java:S1450"[Remove the "requestQueue" field and declare it as a local variable in the relevant methods.(©¯Í€
+c	java:S100#"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤ÑÿÐ

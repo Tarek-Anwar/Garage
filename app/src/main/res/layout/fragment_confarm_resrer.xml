@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/reservation_scheduling"
-                android:textColor="@color/white"
-                android:textSize="30sp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/white" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -98,8 +98,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/or"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/white"
-            android:textSize="34sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_reser_now"
             app:layout_constraintEnd_toStartOf="@+id/divider9"
             app:layout_constraintStart_toEndOf="@+id/divider7"

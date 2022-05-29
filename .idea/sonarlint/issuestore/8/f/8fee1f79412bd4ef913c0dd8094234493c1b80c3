@@ -1,0 +1,9 @@
+
+f	java:S117#"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í¸Áñ
+f	java:S117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôè‹¹
+f	java:S117%"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´œÊÅ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŽÁ÷â
+_
+java:S1659"DDeclare "newPass" and all following declarations on a separate line.(÷ë…Œùÿÿÿÿ
+7
+java:S1116"Remove this empty statement.(é´…ïüÿÿÿÿ

@@ -134,8 +134,7 @@ public class LocationGetFragment extends Fragment {
                         try {
                             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
                             Address address = addresses.get(0);
-                            allLocation = location.getLatitude() + "," + location.getLongitude() +
-                                    getString(R.string.City)+ " : "+address.getLocality()
+                            allLocation = getString(R.string.City)+ " : "+address.getLocality()
                                     +"\n"+getString(R.string.governorate)+" : "+address.getAdminArea()+
                                     "\n"+ getString(R.string.country)+" : " +address.getCountryName();
                             String [] govers = address.getAdminArea().split(" ");

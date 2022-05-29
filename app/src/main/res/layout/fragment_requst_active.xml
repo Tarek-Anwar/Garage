@@ -12,10 +12,10 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView2"
-            android:layout_width="125dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/_105sdp"
+            android:layout_height="@dimen/_90sdp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="@dimen/_30sdp"
             app:cardCornerRadius="15dp"
             app:cardMaxElevation="5dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
-            android:textSize="22sp"
             app:layout_constraintBottom_toTopOf="@+id/rate_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/materialCardView2"
@@ -69,8 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/orange"
-                android:textSize="18sp"
                 android:textStyle="bold"
                 tools:text="4.9" />
 
@@ -79,8 +79,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/unuse_color"
-                android:textSize="14sp"
                 tools:text="(127 rateing)" />
 
         </LinearLayout>
@@ -111,8 +111,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/unuse_color"
-                android:textSize="14sp"
                 tools:text="(127 rateing)" />
 
         </LinearLayout>
@@ -142,20 +142,22 @@
             <TextView
                 android:id="@+id/round_time"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="55dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#FC6011"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Rounding : 1" />
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="#FC6011"
-                android:textSize="40sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -197,8 +199,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/state_requst"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/req_color"
-                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -214,6 +216,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_req"
                     android:padding="7dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
                     tools:text="@string/waiting_requst" />
 
@@ -260,8 +263,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/type_requst"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/req_color"
-                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -278,6 +281,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_req"
                     android:padding="7dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
                     tools:text="@string/requst_type" />
 
@@ -323,8 +327,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/total"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/req_color"
-                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -340,6 +344,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_req"
                     android:padding="7dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
                     tools:text="60 E.G." />
 
@@ -355,6 +360,7 @@
 
         <Button
             android:id="@+id/btn_pay_reser"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -362,6 +368,7 @@
             android:layout_marginEnd="32dp"
             android:background="@drawable/background_req"
             android:text="@string/pay_type"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_type" />

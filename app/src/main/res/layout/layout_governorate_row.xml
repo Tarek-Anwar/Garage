@@ -39,12 +39,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/aclonica"
+                android:paddingBottom="15dp"
                 android:shadowDx="2"
                 android:shadowDy="2"
                 android:shadowRadius="5"
-                android:textSize="18sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
-                android:paddingBottom="15dp"
                 tools:text="Cairo" />
         </LinearLayout>
 

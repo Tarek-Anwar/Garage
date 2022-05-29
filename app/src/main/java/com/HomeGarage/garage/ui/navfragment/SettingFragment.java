@@ -69,7 +69,7 @@ public class SettingFragment extends Fragment {
         boolean blLocation = preferences.getBoolean(LOCATIOON_SETTINNG,false);
         boolean blCity = preferences.getBoolean(CITY_SETTINNG,false);
         boolean bAnimation = preferences.getBoolean(REMOVE_ANIMATION,false);
-        String lang = preferences.getString(LANG_APP,"en");
+        String lang = preferences.getString(LANG_APP,Locale.getDefault().getLanguage());
 
         if(lang.equals("en")) eng.setChecked(true);
         else arab.setChecked(true);

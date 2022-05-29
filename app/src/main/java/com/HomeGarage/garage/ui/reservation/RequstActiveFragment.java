@@ -91,24 +91,28 @@ public class RequstActiveFragment extends Fragment {
 
         getGarageInfo(opreationModule.getTo(), new OnGrageReciveCallback() {
             @Override
-            public void OnGrageRecive(GarageInfoModule garageInfoModule) {
+            public void OnGrageRecive(GarageInfoModule module) {
                 String allAddress , name;
                 if(Locale.getDefault().getLanguage().equals("en")){
-                    allAddress = garageInfoModule.getGovernoateEn()+"\n"+ garageInfoModule.getCityEn()+"\n"+ garageInfoModule.getRestOfAddressEN();
-                    name = garageInfoModule.getNameEn();
+                    allAddress = module.getGovernoateEn()+"\n"+ module.getCityEn()+"\n"+ module.getRestOfAddressEN();
+                    name = module.getNameEn();
                 }else {
-                    allAddress = garageInfoModule.getGovernoateAR()+"\n"+ garageInfoModule.getCityAr()+"\n"+ garageInfoModule.getRestOfAddressAr();
-                    name = garageInfoModule.getNameAr();
+                    allAddress = module.getGovernoateAR()+"\n"+ module.getCityAr()+"\n"+ module.getRestOfAddressAr();
+                    name = module.getNameAr();
                 }
                 binding.addressReq.setText(allAddress);
                 binding.nameGarageReq.setText(name);
-                if(!garageInfoModule.getImageGarage().isEmpty()){
-                    showImage(garageInfoModule.getImageGarage(),binding.garageImageActive);
-                }
-                if(garageInfoModule.getNumOfRatings()!=0) {
-                    float ratting = garageInfoModule.getRate() / (2* garageInfoModule.getNumOfRatings());
+
+
+                showImage(module.getImageGarage(),binding.garageImageActive);
+
+                if(module.getNumOfRatings()!=0) {
+                    float ratting = module.getRate() / (2* module.getNumOfRatings());
                     binding.rateReq.setText(String.format("%.2f",ratting));
-                    binding.numRateReq.setText( " ( "+ garageInfoModule.getNumOfRatings() +ratings);
+                    binding.numRateReq.setText( " ( "+ module.getNumOfRatings() +ratings);
+                }else {
+                    String notRate = getContext().getString(R.string.not_rate);
+                    binding.rateReq.setText(notRate);
                 }
                if(opreationModule.getPrice()<0){
                     binding.dues.setVisibility(View.VISIBLE);

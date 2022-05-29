@@ -1,0 +1,106 @@
+
+
+java:S1319+"rThe type of "carInfoModuleLogin" should be an interface such as "List" rather than the implementation "ArrayList".(Å ©×üÿÿÿÿ
+„
+java:S1319,"iThe type of "allGarage" should be an interface such as "List" rather than the implementation "ArrayList".(·ûÛÉûÿÿÿÿ
+’
+java:S1319-"wThe type of "opreationModuleEndList" should be an interface such as "List" rather than the implementation "LinkedList".(˜ä€·şÿÿÿÿ
+‹
+java:S1319."uThe type of "governorateModuleList" should be an interface such as "List" rather than the implementation "ArrayList".(‹îİ
+„
+java:S1319/"iThe type of "stateList" should be an interface such as "List" rather than the implementation "ArrayList".(Ñä×Ñúÿÿÿÿ
+~
+java:S13190"hThe type of "typeList" should be an interface such as "List" rather than the implementation "ArrayList".(¶×©Å
+}
+java:S13191"gThe type of "paylist" should be an interface such as "List" rather than the implementation "ArrayList".(ù‘ì
+x
+java:S1104"]Make databaseReference a static final constant or non-public and provide accessors if needed.(øâãäüÿÿÿÿ
+u
+java:S1104"_Make referenceOperattion a static final constant or non-public and provide accessors if needed.(Ö¶ƒ§
+v
+java:S1104"[Make referenceGarage a static final constant or non-public and provide accessors if needed.(ÀüÃ—ÿÿÿÿÿ
+r
+java:S1104 "\Make storageReference a static final constant or non-public and provide accessors if needed.(÷¹ßÄ
+s
+java:S1104!"]Make referencePurchase a static final constant or non-public and provide accessors if needed.(—µüò
+w
+java:S1104#"\Make firebaseDatabase a static final constant or non-public and provide accessors if needed.(«´íúÿÿÿÿ
+s
+java:S1104$"XMake firebaseAuth a static final constant or non-public and provide accessors if needed.(˜°ñùÿÿÿÿ
+m
+java:S1104%"XMake firebaseUtil a static final constant or non-public and provide accessors if needed.(ıÚQ
+j
+java:S1104&"TMake listener a static final constant or non-public and provide accessors if needed.(¾ÂÖ‹
+v
+java:S1104'"[Make firebaseStorage a static final constant or non-public and provide accessors if needed.(Ë‡‹ıÿÿÿÿ
+k
+java:S1104)"VMake offsetTime a static final constant or non-public and provide accessors if needed.(á—£
+y
+java:S1104+"^Make carInfoModuleLogin a static final constant or non-public and provide accessors if needed.(Å ©×üÿÿÿÿ
+p
+java:S1104,"UMake allGarage a static final constant or non-public and provide accessors if needed.(·ûÛÉûÿÿÿÿ
+}
+java:S1104-"bMake opreationModuleEndList a static final constant or non-public and provide accessors if needed.(˜ä€·şÿÿÿÿ
+w
+java:S1104."aMake governorateModuleList a static final constant or non-public and provide accessors if needed.(‹îİ
+p
+java:S1104/"UMake stateList a static final constant or non-public and provide accessors if needed.(Ñä×Ñúÿÿÿÿ
+j
+java:S11040"TMake typeList a static final constant or non-public and provide accessors if needed.(¶×©Å
+i
+java:S11041"SMake paylist a static final constant or non-public and provide accessors if needed.(ù‘ì
+R
+java:S1444"7Make this "public static databaseReference" field final(øâãäüÿÿÿÿ
+O
+java:S1444"9Make this "public static referenceOperattion" field final(Ö¶ƒ§
+P
+java:S1444"5Make this "public static referenceGarage" field final(ÀüÃ—ÿÿÿÿÿ
+L
+java:S1444 "6Make this "public static storageReference" field final(÷¹ßÄ
+M
+java:S1444!"7Make this "public static referencePurchase" field final(—µüò
+Q
+java:S1444#"6Make this "public static firebaseDatabase" field final(«´íúÿÿÿÿ
+M
+java:S1444$"2Make this "public static firebaseAuth" field final(˜°ñùÿÿÿÿ
+G
+java:S1444%"2Make this "public static firebaseUtil" field final(ıÚQ
+D
+java:S1444&".Make this "public static listener" field final(¾ÂÖ‹
+P
+java:S1444'"5Make this "public static firebaseStorage" field final(Ë‡‹ıÿÿÿÿ
+E
+java:S1444)"0Make this "public static offsetTime" field final(á—£
+S
+java:S1444+"8Make this "public static carInfoModuleLogin" field final(Å ©×üÿÿÿÿ
+J
+java:S1444,"/Make this "public static allGarage" field final(·ûÛÉûÿÿÿÿ
+W
+java:S1444-"<Make this "public static opreationModuleEndList" field final(˜ä€·şÿÿÿÿ
+Q
+java:S1444.";Make this "public static governorateModuleList" field final(‹îİ
+J
+java:S1444/"/Make this "public static stateList" field final(Ñä×Ñúÿÿÿÿ
+D
+java:S14440".Make this "public static typeList" field final(¶×©Å
+C
+java:S14441"-Make this "public static paylist" field final(ù‘ì
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÈˆÍ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(²ÌùØüÿÿÿÿ
+?
+java:S2386A"$Make member "stateList" "protected".(ÆšıÚùÿÿÿÿ
+>
+java:S2386F"#Make member "typeList" "protected".(È«“ñıÿÿÿÿ
+=
+java:S2386M""Make member "paylist" "protected".(Äê§¡úÿÿÿÿ
+H
+java:S2386R"-Make member "carInfoModuleLogin" "protected".(ã£ç¬ÿÿÿÿÿ
+F
+java:S2386S"$Make member "allGarage" "protected".(í÷öŞÿÿÿÿÿ8¢©ıÙ‰0
+G
+java:S2386T"1Make member "opreationModuleEndList" "protected".(ÁÍ™¸
+F
+java:S2386U"0Make member "governorateModuleList" "protected".(³œ«Ä
+œ
+java:S1186k"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(óèøóşÿÿÿÿ

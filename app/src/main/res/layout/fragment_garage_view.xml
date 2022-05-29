@@ -14,9 +14,9 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/img_profile_garage"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_marginTop="50dp"
+            android:layout_width="@dimen/_125sdp"
+            android:layout_height="@dimen/_125sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/car_profile"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +46,8 @@
             android:id="@+id/name_garage_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/hed_color"
-            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/img_profile_garage"
             app:layout_constraintStart_toStartOf="@+id/img_profile_garage"
@@ -93,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="@string/mobil"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -101,8 +102,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
                     tools:text="01062345773" />
             </LinearLayout>
 
@@ -139,13 +140,15 @@
                         android:src="@drawable/ic_money_garage" />
 
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="@string/price_for_hour"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/price_garage_view"
@@ -154,8 +157,9 @@
                     android:layout_margin="3dp"
                     android:gravity="center"
                     android:lineSpacingExtra="2dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textStyle="bold"
                     tools:text="60 E.G" />
             </LinearLayout>
 
@@ -192,13 +196,16 @@
                         android:src="@drawable/ic_location_garage" />
 
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="@string/address"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/address_garage_view"
                     android:layout_width="wrap_content"
@@ -206,8 +213,8 @@
                     android:layout_margin="3dp"
                     android:gravity="center"
                     android:lineSpacingExtra="2dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
                     tools:text="-Garabia\n-El Mahalla el Khobra\n-street el bkhr betwee el center" />
             </LinearLayout>
 
@@ -235,8 +242,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rate"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <com.chaek.android.RatingBar
                     android:id="@+id/rate_garage"
@@ -259,6 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
                     android:text="@string/not_rate"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white" />
 
             </LinearLayout>

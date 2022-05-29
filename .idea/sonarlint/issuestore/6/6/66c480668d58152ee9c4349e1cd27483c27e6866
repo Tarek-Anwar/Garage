@@ -1,0 +1,17 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(íš£Æ
+l	java:S116$"XRename this field "SAVE_POSATION" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶¬£i
+i	java:S116%"TRename this field "SAVE_CITY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šîãç
+j	java:S116&"URename this field "SAVE_QUERY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®¤ŸÙ
+6
+java:S1170$"!Make this final field static too.(¶¬£i
+7
+java:S1170%"!Make this final field static too.(šîãç
+7
+java:S1170&"!Make this final field static too.(®¤ŸÙ
+>
+java:S1185<"(Remove this method to simply inherit it.(ßìê¯
+¤
+java:S1186’"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(óèøóşÿÿÿÿ8¸×€øŒ0
+D
+java:S1068&".Remove this unused "SAVE_QUERY" private field.(®¤ŸÙ

@@ -19,7 +19,7 @@
         android:shadowDy="5"
         android:shadowRadius="10"
         android:text="Thank You to pay"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/orange"
-        android:textSize="20sp"
         android:textStyle="bold" />
 </LinearLayout>

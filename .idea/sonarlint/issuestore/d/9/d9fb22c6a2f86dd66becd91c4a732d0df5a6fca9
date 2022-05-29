@@ -1,0 +1,13 @@
+
+
+java:S1319"pThe type of "lastOpereations" should be an interface such as "List" rather than the implementation "LinkedList".(úß²´8šæÖ¿0
+İ
+java:S1598"¿This file "LastOperAdapter.java" should be located in "com\HomeGarage\garage\adapter" directory, not in "C:\Users\Tarek\Desktop\Garage\Garage\app\src\main\java\com\HomeGarage\garage\Adapter".(ÆõËº8œæÖ¿0
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÆõËº
+n
+java:S1223<"LRename this method to prevent any misunderstanding or make it a constructor.(–ÙŸøÿÿÿÿ8æÖ¿0
+o	java:S100<"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–ÙŸøÿÿÿÿ8çæÖ¿0
+g
+java:S1659@"JDeclare "textWhoDoOper" and all following declarations on a separate line.(ƒùÎ8îæÖ¿0
+u
+java:S1450B"SRemove the "date" field and declare it as a local variable in the relevant methods.(§ó®Øıÿÿÿÿ8ïæÖ¿0

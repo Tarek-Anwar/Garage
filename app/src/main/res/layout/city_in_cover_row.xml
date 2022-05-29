@@ -78,16 +78,16 @@
                 android:id="@+id/txt_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/design_default_color_on_secondary"
-                android:textSize="22dp"
                 tools:text="@string/City" />
 
             <TextView
                 android:id="@+id/txtt_num_of_garage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/gray"
-                android:textSize="11dp"
                 tools:text="100 garage" />
 
         </LinearLayout>

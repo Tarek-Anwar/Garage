@@ -1,194 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/_8sdp"
-    app:cardElevation="@dimen/_8sdp"
-    app:cardCornerRadius="@dimen/_8sdp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layoutDescription="@xml/fragment_operations_scene"
     tools:context=".ui.home.OperationsFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/frameLayout4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_8sdp"
+        app:cardElevation="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        >
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/type_op" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/type_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="Accpet" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/type_op" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+                <TextView
+                    android:id="@+id/type_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="Accpet" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            </LinearLayout>
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/state_requst" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-        <TextView
-            android:id="@+id/state_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="Finshed" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/state_requst" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+                <TextView
+                    android:id="@+id/state_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="Finshed" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/from" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/from_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            android:text="@string/me" />
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/from" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/from_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    android:text="@string/me" />
+            </LinearLayout>
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/to" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-        <TextView
-            android:id="@+id/to_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="@string/app_name" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/to" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+                <TextView
+                    android:id="@+id/to_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="@string/app_name" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+            </LinearLayout>
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/time_start" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-        <TextView
-            android:id="@+id/time_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="3:00 PM 15-1-2022" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/time_start" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+                <TextView
+                    android:id="@+id/time_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="3:00 PM 15-1-2022" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+            </LinearLayout>
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/time_end" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-        <TextView
-            android:id="@+id/time_end_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="3:00 PM 15-1-2022" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/time_end" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+                <TextView
+                    android:id="@+id/time_end_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="3:00 PM 15-1-2022" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            </LinearLayout>
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/price" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-        <TextView
-            android:id="@+id/price_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="20.00 EG" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/price" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/hed_color" />
+                <TextView
+                    android:id="@+id/price_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="20.00 EG" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            </LinearLayout>
 
-        <TextView
-            style="@style/txt_detils_oper"
-            android:text="@string/rate" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/hed_color" />
 
-        <TextView
-            android:id="@+id/rate_oper_txt"
-            style="@style/txt_detils_oper"
-            android:layout_weight="2"
-            tools:text="5" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <TextView
+                    style="@style/txt_detils_oper"
+                    android:text="@string/rate" />
 
-    </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/rate_oper_txt"
+                    style="@style/txt_detils_oper"
+                    android:layout_weight="2"
+                    tools:text="5" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</ScrollView>

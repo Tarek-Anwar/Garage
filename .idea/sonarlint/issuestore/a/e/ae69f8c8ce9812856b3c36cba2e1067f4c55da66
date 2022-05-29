@@ -1,0 +1,12 @@
+
+f	java:S1170"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(å®é
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Á÷â
+g	java:S116"RRename this field "sign_in" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğï×°
+I
+java:S1659".Declare "passwordEditText" on a separate line.(ËßÓ€ıÿÿÿÿ
+>
+java:S1659"(Declare "forgetPass" on a separate line.(Ğï×°
+B
+java:S16020",Remove useless curly braces around statement(å®é
+?
+java:S19408")Use the opposite operator (">=") instead.(ÂùêÑ
