@@ -71,7 +71,7 @@ public class GarageInCityAdapter extends RecyclerView.Adapter<GarageInCityAdapte
             float ratting = info.getRate() / (2*info.getNumOfRatings());
 
             textName.setText(Locale.getDefault().getLanguage().equals("en") ? info.getNameEn() : info.getNameAr());
-            textNumOfRats.setText(String.format(" %.2f %s" , info.getPriceForHour() , egPoundText));
+            textPriceForHour.setText(String.format(" %.2f %s" , info.getPriceForHour() , egPoundText));
 
 
             if(info.getImageGarage()!=null){

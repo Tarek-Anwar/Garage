@@ -102,8 +102,7 @@ public class LastOperFragment extends Fragment {
     }
 
     private void getOperationMe(OnOperReciveCallback callback){
-        DatabaseReference reference =  FirebaseUtil.referenceOperattion;
-        Query query = reference.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
+        Query query = FirebaseUtil.referenceOperattion.orderByChild("from").equalTo(FirebaseUtil.firebaseAuth.getUid());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -3,7 +3,8 @@
     android:shape="rectangle">
 
     <gradient
-        android:angle="500"
+        android:angle="270"
+        android:type="linear"
         android:startColor="@color/end_bg_garage_color"
         android:centerColor="@color/center_bg_garage_colot"
         android:endColor="@color/start_bg_garage_color"/>

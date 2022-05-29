@@ -103,7 +103,6 @@ public class DialogPay extends DialogFragment {
             @Override
             public void OnBalanceAppRecive(BalanceAppModule modelMoney){
                 pay.setOnClickListener(v -> {
-
                     //calc app and grage balance
                     float appBalance = (float) (costIN * .1);
                     float grageBalance = costIN - appBalance;
@@ -112,7 +111,6 @@ public class DialogPay extends DialogFragment {
                     carInfoModuleListener.setBalance(carInfoModuleListener.getBalance() - costIN);
                     referenceCar.child("balance").setValue(carInfoModuleListener.getBalance());
                     balance.setText(yourBalance +" : " + String.format("%.2f", carInfoModuleListener.getBalance())+ eg);
-
 
                     //update balance for grage owner
                     garageInfoModule.setBalance(garageInfoModule.getBalance() + grageBalance);
@@ -127,9 +125,7 @@ public class DialogPay extends DialogFragment {
 
                     //creat opreation and save to last opreation list
                     pushPurchaseModule();
-
                     referenceOperattion.child(idLastOper).child("price").setValue(costIN);
-
                     showRateDialog();
 
                     replaceFragmentWithoutBackStack(new HomeFragment());

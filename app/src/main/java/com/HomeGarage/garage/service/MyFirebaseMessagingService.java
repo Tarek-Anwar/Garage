@@ -28,7 +28,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-
         String title = Objects.requireNonNull(remoteMessage.getNotification()).getTitle();
         String body = remoteMessage.getNotification().getBody();
         String tag = remoteMessage.getNotification().getTag();
@@ -39,13 +38,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent resultIntent = PendingIntent.getActivity(getApplicationContext(),0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent resultIntent =
+                PendingIntent.getActivity(getApplicationContext(),0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext(),default_notification_channel_id)
-                        .setContentTitle(title)
-                        .setContentText(body)
-                        .setSmallIcon(R.drawable.icon)
-                        .setContentIntent(resultIntent);
+                        .setContentTitle(title).setContentText(body)
+                        .setSmallIcon(R.drawable.icon).setContentIntent(resultIntent);
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
@@ -59,7 +57,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         assert mNotificationManager != null;
         mNotificationManager.notify(( int ) System. currentTimeMillis () ,
                 mBuilder.build()) ;
-
     }
 
 }

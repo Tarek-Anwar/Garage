@@ -32,7 +32,6 @@ import com.google.firebase.database.DatabaseReference;
 
 public class SignUpFragment extends Fragment {
 
-
     AwesomeValidation validation;
     CarInfoModule model = new CarInfoModule();
     TextView loginTxt;
@@ -51,8 +50,6 @@ public class SignUpFragment extends Fragment {
         View rootView= inflater.inflate(R.layout.fragment_sign, container, false);
         initViews(rootView);
 
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
-
         loginTxt.setOnClickListener(v -> opneLogin());
         rootView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
@@ -62,43 +59,41 @@ public class SignUpFragment extends Fragment {
 
         validatET();
         creatBTN.setOnClickListener(v-> {
-
             model.setName(userNameET.getText().toString());
             model.setEmail(emailET.getText().toString());
             model.setPhone(phoneET.getText().toString());
-            String userPass=passwordET.getText().toString();
-
+            String userPass = passwordET.getText().toString();
             if(validation.validate()) {
                FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
                  firebaseAuth.createUserWithEmailAndPassword(model.getEmail(),userPass).addOnCompleteListener(task -> {
                      if (task.isSuccessful()) {
-                         DatabaseReference databaseReference = FirebaseUtil.databaseReference;
                          FirebaseUser firebaseUser = task.getResult().getUser();
-                         DatabaseReference reference =databaseReference.child(firebaseUser.getUid());
+                         DatabaseReference reference = FirebaseUtil.databaseReference.child(firebaseUser.getUid());
 
                          model.setId(firebaseUser.getUid());
                          model.setBalance(0.0f);
-
                          reference.setValue(model);
 
-                         editor.putBoolean(SettingFragment.LOCATIOON_SETTINNG , false);
-                         editor.putBoolean(SettingFragment.CITY_SETTINNG , false);
-                         editor.apply();
-
-                         Toast.makeText(getContext(),"you have account now",Toast.LENGTH_SHORT).show();
                          Intent intent = new Intent(getActivity(), HomeActivity.class);
                          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                          startActivity(intent);
                         }
-                        else
-                        { Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show(); }
+                        else{ Toast.makeText(getContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show(); }
                     });
                 }
-            else { Toast.makeText(getContext(),"invalid register",Toast.LENGTH_SHORT).show(); }
+            else { Toast.makeText(getContext(),"Try Again",Toast.LENGTH_SHORT).show(); }
         });
+
         return rootView;
     }
 
+    private void validatET() {
+        validation.addValidation(userNameET, RegexTemplate.NOT_EMPTY,getString(R.string.invalid_username));
+        validation.addValidation(emailET, Patterns.EMAIL_ADDRESS,getString(R.string.invalid_email));
+        validation.addValidation(phoneET,"^01[0125][0-9]{8}$",getString(R.string.invalid_phone));
+        validation.addValidation(passwordET, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
+        validation.addValidation(confirmET,passwordET,getString(R.string.invalid_conform));
+    }
 
     private void opneLogin(){
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -119,11 +114,5 @@ public class SignUpFragment extends Fragment {
         loginTxt = rootView.findViewById(R.id.login_txt_sign);
     }
 
-    private void validatET() {
-        validation.addValidation(userNameET, RegexTemplate.NOT_EMPTY,getString(R.string.invalid_username));
-        validation.addValidation(emailET, Patterns.EMAIL_ADDRESS,getString(R.string.invalid_email));
-         validation.addValidation(phoneET,"^01[0125][0-9]{8}$",getString(R.string.invalid_phone));
-        validation.addValidation(passwordET, "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}",getString(R.string.invalid_password));
-        validation.addValidation(confirmET,passwordET,getString(R.string.invalid_conform));
-    }
+
 }

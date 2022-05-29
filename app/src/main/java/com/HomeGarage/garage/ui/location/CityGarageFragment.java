@@ -88,7 +88,6 @@ public class CityGarageFragment extends Fragment {
                 if (snapshot.exists()) {
                     garageInfoModules.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Log.i("wtyeuri",dataSnapshot.toString());
                         GarageInfoModule garage = dataSnapshot.getValue(GarageInfoModule.class);
                         garageInfoModules.add(garage);
                     }
@@ -101,7 +100,6 @@ public class CityGarageFragment extends Fragment {
                 throw new DatabaseException(error.getMessage());
             }
         });
-
 
     }
 

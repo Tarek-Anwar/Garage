@@ -33,9 +33,7 @@ public class PayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_pay, container, false);
-        initUI(root);
 
         LayoutInflater li = getLayoutInflater();
         View view = li.inflate(R.layout.castom_toast_layout,root.findViewById(R.id.custom_toast_thank_you));
@@ -43,6 +41,8 @@ public class PayFragment extends Fragment {
         toast.setGravity(Gravity.CENTER,0,0);
         toast.setView(view);
 
+        cardForm  = root.findViewById(R.id.card_form);
+        btn_pay = root.findViewById(R.id.btn_pay_card);
         cardForm.cardRequired(true)
                 .expirationRequired(true)
                 .cvvRequired(true)
@@ -51,7 +51,6 @@ public class PayFragment extends Fragment {
                 .mobileNumberRequired(true)
                 .actionLabel("Purchase")
                 .setup(getActivity());
-
         cardForm.getCardEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
 
         btn_pay.setOnClickListener(v -> {
@@ -59,15 +58,10 @@ public class PayFragment extends Fragment {
                 builder= new AlertDialog.Builder(getContext());
                 DialogPurchase dialogPurchase = new DialogPurchase();
                 dialogPurchase.show(getParentFragmentManager(),"Purchase");
-            }else {
-                Toast.makeText(getContext(), "Please complete the form", Toast.LENGTH_SHORT).show();
-            }
+            }else Toast.makeText(getContext(), "Please complete the form", Toast.LENGTH_SHORT).show();
         });
+
         return root;
     }
 
-    void initUI(View v){
-        cardForm  = v.findViewById(R.id.card_form);
-        btn_pay = v.findViewById(R.id.btn_pay_card);
-    }
 }

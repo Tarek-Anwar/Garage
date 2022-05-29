@@ -8,6 +8,8 @@
                 android:thickness="15dp"
                 android:useLevel="true">
                 <gradient
+                    android:angle="45"
+                    android:type="linear"
                     android:startColor="#FC6011"
                     android:endColor="#FC6011"
                     android:centerColor="@color/orange"/>
@@ -33,6 +35,8 @@
                     android:thickness="7.5dp"
                     android:useLevel="false">
                     <gradient
+                        android:angle="45"
+                        android:type="linear"
                         android:startColor="#FC6011"
                         android:endColor="#FC6011"
                         android:centerColor="@color/orange"/>

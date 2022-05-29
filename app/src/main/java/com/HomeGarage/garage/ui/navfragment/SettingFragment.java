@@ -23,9 +23,9 @@ import java.util.Locale;
 
 public class SettingFragment extends Fragment {
 
-    public static final String LOCATIOON_SETTINNG = "LOCATIOON_SETTINNG";
-    public static final String CITY_SETTINNG = "CITY_SETTINNG";
-    public static final String LANG_APP = "LANG_APP";
+    public static final String LOCATIOON_SETTINNG = "com.HomeGarage.garage.ui.navfragment.LOCATIOON_SETTINNG";
+    public static final String CITY_SETTINNG = "com.HomeGarage.garage.ui.navfragment.CITY_SETTINNG";
+    public static final String LANG_APP = "com.HomeGarage.garage.ui.navfragment.LANG_APP";
     public static final String REMOVE_ANIMATION = "com.HomeGarage.garage.ui.navfragment.REMOVE_ANIMATION";
     Switch location , city , animation;
     RadioGroup radioGroup;

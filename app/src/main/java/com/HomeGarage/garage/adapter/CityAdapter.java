@@ -22,13 +22,14 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
     List<CityModule> cityList;
     List<CityModule> cityFilter;
     CityListener cityListener;
+
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList<CityModule> filterlist = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filterlist.addAll(cityFilter);
-            } else {
+            }else {
                 for (CityModule city : cityFilter) {
                     if (city.getCity_name_en().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filterlist.add(city);
@@ -47,6 +48,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
             notifyDataSetChanged();
         }
     };
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
     public CityAdapter(List<CityModule> cityList, CityListener cityListener) {
         this.cityListener = cityListener;
@@ -73,14 +79,6 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
         return cityList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public interface CityListener {
-        void onCityListener(CityModule cityModule);
-    }
 
     public class CityViewHolder extends RecyclerView.ViewHolder {
         TextView cityName;
@@ -101,8 +99,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
             } else {
                 String garageText = itemView.getContext().getString(R.string.garage);
                 numOfGarage.setText(String.format("%d %s", cityModule.getNumberGarage(), garageText));
-                layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModule));
             }
+            layouCity.setOnClickListener(v -> cityListener.onCityListener(cityModule));
         }
     }
+
+    public interface CityListener {
+        void onCityListener(CityModule cityModule);
+    }
+
 }

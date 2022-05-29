@@ -48,7 +48,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Connectio
         cruuentUser = FirebaseUtil.firebaseAuth.getCurrentUser();
 
         preferences =  getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE);
-        String lang = preferences.getString(SettingFragment.LANG_APP,"en");
+        String lang = preferences.getString(SettingFragment.LANG_APP,Locale.getDefault().getLanguage());
         if(lang.equals("en")) setLangApp("en");
         else setLangApp("ar");
 

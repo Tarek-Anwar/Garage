@@ -1,5 +1,6 @@
 package com.HomeGarage.garage.ui.home;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,18 +37,25 @@ public class MapsFragment extends Fragment {
 
     SupportMapFragment mapFragment;
     private  ArrayList<GarageInfoModule> garageInfoModules;
-    private  LatLng locationMe = null;
+    private  Location locationMe = null;
     private  String gover;
     private  String title , snippet ;
     private  List<Marker> markers = new ArrayList<>();
     boolean  cityCheck = true;
+    Marker mMarker;
+    LatLng mLatLng;
     private final OnMapReadyCallback callback = googleMap -> {
 
         if (locationMe!=null && title!=null)  {
-            Marker me = googleMap.addMarker(new MarkerOptions().position(locationMe).title(title).snippet(snippet));
-            assert me != null;
-            me.setTag(-1);
-            markers.add(me);
+            mLatLng = new LatLng(locationMe.getLatitude(),locationMe.getLongitude());
+            mMarker = googleMap.addMarker(new MarkerOptions()
+                    .position(mLatLng)
+                    .title(title)
+                    .snippet(snippet)
+                   .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_icon)));
+            assert mMarker != null;
+            mMarker.setTag(-1);
+            //markers.add(mMarker);
             setMarkersOnMap(googleMap);
         }else if(gover!=null)setMarkersOnMap(googleMap);
 
@@ -61,7 +69,7 @@ public class MapsFragment extends Fragment {
         }
 
         if (locationMe != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationMe, 10));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 10));
             googleMap.setInfoWindowAdapter(new CustomInfoWindowAdpter(getContext()));
         }else if(gover!=null){
             for(Marker m : markers) {
@@ -95,11 +103,15 @@ public class MapsFragment extends Fragment {
         }
 
     }
-    public void setLocationMe(LatLng locationMe){
+    public void setLocationMe(Location locationMe){
         this.locationMe = locationMe;
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+    }
+
+    public void seCompass(float azimuth){
+       if(mMarker!=null) mMarker.setRotation(azimuth);
     }
     public void setGover(String gover){
         this.gover=gover;
@@ -109,6 +121,7 @@ public class MapsFragment extends Fragment {
         this.title = title;
         this.snippet = snippet;
     }
+
 
     @Nullable
     @Override
@@ -132,9 +145,9 @@ public class MapsFragment extends Fragment {
                 if(cityCheck){
                     double lat = garageInfoModules.get(i).getLatLngGarage().latitude;
                     double lon = garageInfoModules.get(i).getLatLngGarage().longitude;
-                    distentGarage = distance(locationMe.latitude,locationMe.longitude,lon,lat);
+                    distentGarage = distance(locationMe.getLatitude(),locationMe.getLongitude(),lon,lat);
                 }
-                if(distentGarage<13 || cityCheck==false){
+                if(distentGarage < 13 || !cityCheck){
                     int numOfRate = garageInfoModules.get(i).getNumOfRatings();
                     String name ;
                     if(Locale.getDefault().getLanguage().equals("en")) name = garageInfoModules.get(i).getNameEn();
@@ -144,7 +157,7 @@ public class MapsFragment extends Fragment {
                             .position(garageInfoModules.get(i).getLatLngGarage())
                             .title(name)
                             .snippet(snippet)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.garage_map_icon)));
                     assert marker != null;
                     marker.setTag(i);
                     markers.add(marker);

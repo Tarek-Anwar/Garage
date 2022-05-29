@@ -141,6 +141,13 @@
     <string name="your_favorite_arages">Your Favorite Garages</string>
     <string name="garage">Garage</string>
     <string name="remove_animation">Remove Animation</string>
-
+    <string name="sotw_north">N</string>
+    <string name="sotw_east">E</string>
+    <string name="sotw_south">S</string>
+    <string name="sotw_west">W</string>
+    <string name="sotw_northeast">NE</string>
+    <string name="sotw_northwest">NW</string>
+    <string name="sotw_southeast">SE</string>
+    <string name="sotw_southwest">SW</string>
 
 </resources>

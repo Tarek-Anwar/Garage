@@ -3,6 +3,7 @@ package com.HomeGarage.garage.ui.location;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class GoverGarageFragment extends Fragment {
         View root =  inflater.inflate(R.layout.fragment_gover_garage, container, false);
 
         initUI(root);
-        coomSoon = (String) getActivity().getText(R.string.coom_soon);
+        coomSoon = context.getString(R.string.coom_soon);
         if(savedInstanceState!=null){
             posationCity = savedInstanceState.getInt(SAVE_POSATION);
             city = savedInstanceState.getString(SAVE_CITY);
@@ -77,9 +78,12 @@ public class GoverGarageFragment extends Fragment {
 
         getAllCityInGover(citys -> {
             cityAdapter= new CityAdapter(citys, s -> {
-
-                if(s.getNumberGarage()>0) replaceFragment(new CityGarageFragment(s.getCity_name_en()));
-                else Toast.makeText(context,coomSoon, Toast.LENGTH_SHORT).show();
+                if(s.getNumberGarage()>0) {
+                    replaceFragment(new CityGarageFragment(s.getCity_name_en()));
+                }
+                else{
+                    Toast.makeText(context,context.getString(R.string.coom_soon), Toast.LENGTH_SHORT).show();
+                }
             });
             recyclerCity.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
             recyclerCity.setAdapter(cityAdapter);

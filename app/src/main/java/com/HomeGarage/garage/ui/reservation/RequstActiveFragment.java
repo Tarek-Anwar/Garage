@@ -151,7 +151,7 @@ public class RequstActiveFragment extends Fragment {
                             binding.chronometer.stop();
 
                             title = String.format("From %s",opreationModule.getFromName());
-                            body = String.format("sorry %s ,  i'm can't come in reservation");
+                            body = String.format("sorry %s ,  i'm can't come in reservation",opreationModule.getFromName());
                             sendNotifications(title,body,opreationModule.getId());
 
                             if(getActivity()!=null){
@@ -203,12 +203,6 @@ public class RequstActiveFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void sendNotifications(String title,String body,String idOperation){
-        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                garageInfoModule.getId(), title
-                , body, idOperation , getContext());
-        notificationsSender.SendNotifications();
-    }
 
     private void setProgressBar(){
         start = DateFormatUtil.parseAllDataFormat(opreationModule.getDate());
@@ -246,7 +240,7 @@ public class RequstActiveFragment extends Fragment {
                     }else{ handler.removeCallbacks(this); }}
             },5000);
 
-        }else if(con == false) {
+        }else if(!con) {
             binding.progressBar.setMax(countProgress);
             binding.chronometer.start();
             final Handler handler = new Handler();
@@ -296,9 +290,15 @@ public class RequstActiveFragment extends Fragment {
         });
     }
 
+    private void sendNotifications(String title,String body,String idOperation){
+        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                garageInfoModule.getId(), title
+                , body, idOperation , getContext());
+        notificationsSender.SendNotifications();
+    }
     private float calPriceExpect(float priceForHour ,String sTime ,String eTime){
-        long diff = DateFormatUtil.differentTime(sTime,eTime);
-        long diffMinets = diff / (60 * 1000) ;
+        long diffTime = DateFormatUtil.differentTime(sTime,eTime);
+        long diffMinets = diffTime / (60 * 1000) ;
         float total =   diffMinets * priceForHour / 60;
         if(total<10) return 10;
         else  return total ;

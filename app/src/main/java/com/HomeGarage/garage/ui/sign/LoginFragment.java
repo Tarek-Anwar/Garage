@@ -52,18 +52,11 @@ public class LoginFragment extends Fragment {
         login.setOnClickListener(v-> {
             String email=emailEditText.getText().toString();
             String pass= passwordEditText.getText().toString();
-
             if(!email.isEmpty()&&!pass.isEmpty()) {
                 if (!(pass.length()<6)) {
                     FirebaseAuth firebaseAuth= FirebaseUtil.firebaseAuth;
                     firebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
-                            SharedPreferences.Editor editor = getActivity().getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();
-                            editor.putBoolean(SettingFragment.LOCATIOON_SETTINNG , false);
-                            editor.putBoolean(SettingFragment.CITY_SETTINNG , false);
-                            editor.apply();
-
-                            Toast.makeText(getContext(),"Welcom!",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -75,12 +68,8 @@ public class LoginFragment extends Fragment {
             } else { Toast.makeText(getContext(), "please insert email and password", Toast.LENGTH_SHORT).show(); }
         });
 
-        forgetPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            opneSign(new ForgetPasswordFragment());
-            }
-        });
+        forgetPass.setOnClickListener(v -> opneSign(new ForgetPasswordFragment()));
+
         return rootView;
     }
 

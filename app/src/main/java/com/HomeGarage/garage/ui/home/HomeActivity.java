@@ -93,7 +93,6 @@ public class HomeActivity extends AppCompatActivity  implements ConnectionReceiv
         });
 
         String goodbye =  getString(R.string.goodbye);
-
         imageLogout.setOnClickListener(v12 -> {
             //clear Setting
             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.file_info_user), Context.MODE_PRIVATE).edit();

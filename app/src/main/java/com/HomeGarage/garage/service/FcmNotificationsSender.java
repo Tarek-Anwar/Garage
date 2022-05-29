@@ -33,7 +33,6 @@ public class FcmNotificationsSender  {
     }
 
     public void SendNotifications() {
-
         requestQueue = Volley.newRequestQueue(mContext);
         JSONObject mainObj = new JSONObject();
         try {
@@ -43,7 +42,6 @@ public class FcmNotificationsSender  {
             notiObject.put("body", body);
             notiObject.put("tag" , id_reser);
             mainObj.put("notification", notiObject);
-
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, postUrl, mainObj, response -> {
             }, error -> {
             }) {
@@ -56,8 +54,7 @@ public class FcmNotificationsSender  {
                 }
             };
             requestQueue.add(request);
-
-        } catch (JSONException e) {
+        }catch (JSONException e) {
             e.printStackTrace();
         }
 

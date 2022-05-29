@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/search_for_garage"
+            android:textColor="@color/orange"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/get_location"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="-30dp"
+            android:backgroundTint="#C9FFFFFF"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/card_map"
+            app:layout_constraintEnd_toEndOf="@+id/card_map"
+            app:layout_constraintStart_toStartOf="@+id/card_map">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="89dp"
+                android:layout_marginBottom="-20dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/buttons"
+                tools:ignore="ImageContrastCheck" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/txt_govet_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#3B000000"
+            android:shadowDx="2"
+            android:shadowRadius="5"
+            android:text="@string/governorate"
+            android:textColor="@color/orange"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/get_location"
+            app:layout_constraintStart_toStartOf="@+id/get_location"
+            app:layout_constraintTop_toBottomOf="@+id/get_location" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_map"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_3sdp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="60dp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_4sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recycle_gover"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerMap"
+                android:name="com.HomeGarage.garage.ui.home.MapsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle_gover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_last"
+            app:layout_constraintEnd_toStartOf="@+id/card_map"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            tools:itemCount="1"
+            tools:listitem="@layout/layout_governorate_row">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_gover"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/recycle_gover"
+            app:layout_constraintEnd_toEndOf="@+id/recycle_gover"
+            app:layout_constraintStart_toStartOf="@+id/recycle_gover"
+            app:layout_constraintTop_toTopOf="@+id/recycle_gover" />
+
+        <LinearLayout
+            android:id="@+id/layout_last"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/card_map"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycle_gover">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerLastOper"
+                android:name="com.HomeGarage.garage.ui.home.LastOperFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/see_all_last_oper"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_26sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:background="@drawable/card_edge"
+                android:gravity="center"
+                android:text="@string/see_all"
+                android:textSize="@dimen/_9sdp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:shadowColor="#51000000"
+            android:shadowDy="2"
+            android:shadowRadius="10"
+            android:text="@string/what_city"
+            android:textColor="@color/orange"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/card_map"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <ImageView
+            android:id="@+id/opne_nave"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_nave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/logo_app"
+            app:layout_constraintBottom_toBottomOf="@+id/opne_nave"
+            app:layout_constraintEnd_toStartOf="@+id/image_fav_garage"
+            app:layout_constraintStart_toEndOf="@+id/opne_nave"
+            app:layout_constraintTop_toTopOf="@+id/opne_nave"
+            tools:ignore="ImageContrastCheck" />
+
+        <ImageView
+            android:id="@+id/image_fav_garage"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView16"
+            app:layout_constraintTop_toTopOf="@+id/imageView16" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
